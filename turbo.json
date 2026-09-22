@@ -11,7 +11,8 @@
     },
     "lint": {},
     "test": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "env": ["GETLIB_TEST_DATABASE_URL"]
     },
     "dev": {
       "cache": false,

@@ -1,0 +1,34 @@
+{
+  "name": "@getlib/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "GetLib PostgreSQL + pgvector data-access layer (Drizzle). Client, migrations, transactions.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src",
+    "migrations",
+    "drizzle.config.ts"
+  ],
+  "scripts": {
+    "lint": "biome check src",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "build": "echo 'database: source-first, no build output (Phase 1)'",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
+  },
+  "dependencies": {
+    "drizzle-orm": "0.45.3",
+    "pg": "8.23.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "@types/pg": "^8.15.6",
+    "drizzle-kit": "0.31.11",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.1"
+  }
+}

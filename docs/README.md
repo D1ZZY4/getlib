@@ -11,6 +11,19 @@ Planning source of truth: Linear project **GetLib** (`P-ENG1-3`).
   - `packages/schemas` - shared Zod contracts
   - `packages/config` - validated runtime configuration
   - `packages/types` - small shared types
+  - `packages/database` - Drizzle client, migrations, transactions
+
+## Local database
+
+1. start PostgreSQL 16 + pgvector: `docker compose up -d postgres`
+2. generate migrations after schema changes:
+   `bun run --cwd packages/database db:generate`
+3. run integration tests:
+   `GETLIB_TEST_DATABASE_URL=postgres://getlib:getlib@localhost:5432/getlib \
+   bun run --cwd packages/database test`
+
+Without `GETLIB_TEST_DATABASE_URL`, DB integration tests skip and unit
+tests still run.
 
 Architecture overview: `AI Agents -> MCP`, `Dashboard -> API`, `CLI -> API/Core`,
 `MCP/API -> Core`, `Core -> Registry / Search / Ingestion`,

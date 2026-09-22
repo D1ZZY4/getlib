@@ -4,6 +4,7 @@
   "references": [
     { "path": "./packages/types" },
     { "path": "./packages/schemas" },
-    { "path": "./packages/config" }
+    { "path": "./packages/config" },
+    { "path": "./packages/database" }
   ]
 }

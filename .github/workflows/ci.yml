@@ -27,3 +27,35 @@ jobs:
 
       - name: Test (Turborepo)
         run: bun run test
+
+  database:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: getlib
+          POSTGRES_PASSWORD: getlib
+          POSTGRES_DB: getlib
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U getlib -d getlib"
+          --health-interval=5s
+          --health-timeout=3s
+          --health-retries=10
+    env:
+      GETLIB_TEST_DATABASE_URL: postgres://getlib:getlib@localhost:5432/getlib
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Database tests (live PostgreSQL + pgvector)
+        run: bun run --cwd packages/database test
