@@ -1,0 +1,50 @@
+node_modules/
+dist/
+coverage/
+*.js.map
+*.tsbuildinfo
+.vitest-stats.json
+.env
+.env.*
+.mcpregistry_*
+
+# Credentials — must never be committed
+.npmrc
+*.npmrc.tmp
+.npm-token
+credentials.json
+secrets.json
+
+# Private registry — full 422+ entry version, never commit
+docs/private/
+docs/private.bak-*/
+*.ts.pub
+
+# Plan artifacts and checkpoints
+docs/plans/
+docs/CHECKPOINT.json
+
+# Internal docs — publishing guide, handoffs, TODOs, analysis files, research
+docs/PUBLISHING.md
+docs/HANDOFF-*.md
+docs/TODO-*.md
+docs/GEO-ANALYSIS.md
+docs/senorit-*.json
+docs/research-*.md
+
+# local-only draft artifacts (never publish)
+docs/npm-gdpr-request-draft.md
+docs/*.png
+
+# Internal docs — local-only (purged from public history 2026-05-31)
+docs/
+
+# Claude Code - EXCLUDE EVERYTHING
+.claude/
+.claude
+CLAUDE.md
+CLAUDE*.md
+.claudeignore
+*.claude*
+.claude/*.local.md
+.claude/*.local.json
