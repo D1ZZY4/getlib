@@ -1,0 +1,94 @@
+# GroundTruth MCP Server
+
+> Self-hosted MCP server for live documentation, best practices, and code audits. Routes plain-text queries ("use gt mcp") to the right tool. Runs locally, no rate limits. Works with Claude Code, Cursor, VS Code, and Claude Desktop.
+
+GroundTruth is a Model Context Protocol (MCP) server that fetches documentation from official sources at query time. It tries llms.txt first, then Jina Reader for JS-rendered pages, then GitHub. It covers 598+ curated libraries and falls back to npm, PyPI, crates.io, and pkg.go.dev for any public package. Every topic-targeted answer is verified against the request before it is returned: when no fetched source actually covers the topic, GroundTruth says so and lists what it checked rather than substituting generic content. Unlike cloud-hosted documentation tools, GroundTruth runs on your machine. No rate limits. No API keys.
+
+v7.5.0 expands the registry to 598 libraries, repairs documentation URL joining (first-path reachability 71% to 99%), anchors evidence matching at word starts, and adds a 404 negative cache, per-host bulkheads, and full-jitter retry backoff. Earlier releases added the dispatch tool for plain-text intent routing, per-tool telemetry, an SSRF-hardened multi-source fetcher, atomic disk cache writes, and Unicode-homoglyph injection defenses.
+
+## Install
+
+One command for Claude Code:
+
+```
+claude mcp add gt -- npx -y @groundtruth-mcp/gt-mcp@latest
+```
+
+For Cursor, VS Code, or Claude Desktop, add to your MCP config:
+
+```json
+{
+  "mcpServers": {
+    "gt": {
+      "command": "npx",
+      "args": ["-y", "@groundtruth-mcp/gt-mcp@latest"]
+    }
+  }
+}
+```
+
+## Tools (14)
+
+- gt_dispatch. Routes a plain-text query to the right tool. Use it when the intent is ambiguous ("use gt mcp").
+- gt_resolve_library. Looks up a library name in the registry, then falls back to npm, PyPI, crates.io, and Go. Call this before gt_get_docs.
+- gt_get_docs. Fetches docs for a library. Optional topic filter, lockfile-aware version detection.
+- gt_best_practices. Patterns, anti-patterns, and config guidance for one library.
+- gt_auto_scan. Reads dependency manifests, detects lockfile versions, fetches best practices for every dep.
+- gt_search. Freeform search across OWASP, MDN, web.dev, W3C, AI provider docs. No library name required.
+- gt_audit. Scans source files. Returns issues at file:line with fixes from official specs.
+- gt_changelog. Recent release notes. Read this before upgrading.
+- gt_compat. Browser and runtime compatibility from MDN and caniuse.
+- gt_compare. Side-by-side comparison of two or three libraries.
+- gt_examples. GitHub usage examples for a library plus a pattern.
+- gt_migration. Migration guides, breaking changes, upgrade steps between versions.
+- gt_batch_resolve. Up to 20 names in one call.
+- gt_snippets. Pre-indexed code snippets per library and version. Context7-compatible.
+
+## Trigger phrases
+
+- "use gt" / "use gt mcp": gt_auto_scan on the current project.
+- "use gt for X" or a library name: gt_resolve_library, then gt_best_practices.
+- "find issues" / "audit": gt_audit.
+- "migrate X from N to M": gt_migration.
+- "what's new in X": gt_changelog.
+- "compare X vs Y": gt_compare.
+- "browser support for Y": gt_compat.
+- A pasted URL: gt_get_docs.
+
+## Key facts
+
+- Package: @groundtruth-mcp/gt-mcp on npm.
+- License: Elastic License 2.0.
+- Node.js 24 or later.
+- 598+ curated libraries, plus unlimited ecosystem fallbacks.
+- 107 code audit patterns across 18 categories.
+- 1394 tests across 167 files.
+- Evidence gate on every topic-targeted response: token coverage, occurrence depth, heading and code presence. An unverifiable answer is reported as a miss, never substituted.
+- Self-hosted. No cloud dependency. No rate limits.
+- Fetches from llms.txt, Jina Reader, GitHub, npm, PyPI, crates.io, pkg.go.dev.
+- Content integrity hashing (SHA-256) on every fetched document.
+- Lockfile version detection for targeted retrieval.
+- SSRF guard blocks RFC1918, loopback, link-local, ULA, and full-form IPv6 bypass attempts.
+- Injection guard strips zero-width and RTL-override chars and handles homoglyph variants.
+- Disk cache writes are atomic, with per-key locks. Crash-safe.
+- Per-tool telemetry: p50, p95, success rate, resolve rate. Exposed at /health.
+- Context7 alternative with broader coverage, code auditing, and a dispatch entry point.
+
+## Supported ecosystems
+
+- JavaScript / TypeScript: React, Next.js, Vue, Svelte, Angular, Node.js, Bun, Deno, Fastify, NestJS, Hono.
+- Python: FastAPI, Django, Flask, PyTorch, TensorFlow, LangChain, LlamaIndex, SQLAlchemy.
+- Rust: Axum, Actix Web, Tokio, sqlx, serde, clap, anyhow, thiserror, tonic.
+- Go: Gin, Fiber, GORM, chi, Cobra, Zap, sqlc, Bubble Tea.
+- AI / LLM: Claude API, OpenAI Agents SDK, Gemini, Vercel AI SDK, Google ADK, Open WebUI.
+- Databases: Prisma, Drizzle, Supabase, PostgreSQL, Redis, MongoDB.
+- Testing: Vitest, Playwright, Jest, Cypress.
+- Cloud: Vercel, Cloudflare Workers, AWS, Firebase, Google Cloud.
+- Observability: Prometheus, Grafana, Sentry, OpenTelemetry.
+
+## Links
+
+- Repository: https://github.com/rm-rf-prod/GroundTruth-MCP
+- npm: https://www.npmjs.com/package/@groundtruth-mcp/gt-mcp
+- Issues: https://github.com/rm-rf-prod/GroundTruth-MCP/issues
+- Changelog: https://github.com/rm-rf-prod/GroundTruth-MCP/blob/main/CHANGELOG.md
