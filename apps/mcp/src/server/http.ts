@@ -45,13 +45,13 @@ export async function startHttpServer(
   const http = await import("http");
   const crypto = await import("crypto");
 
-  if (!process.env.GT_AUTH_TOKEN) {
-    log({ level: "warn", msg: "GT_HTTP_PORT is set but GT_AUTH_TOKEN is unset -- /mcp, /health and /metrics are exposed without authentication" });
+  if (!process.env.GL_AUTH_TOKEN) {
+    log({ level: "warn", msg: "GL_HTTP_PORT is set but GL_AUTH_TOKEN is unset -- /mcp, /health and /metrics are exposed without authentication" });
   }
 
   // Stateless mode by default — GT tools are independent doc fetches, no per-session state needed.
-  // Set GT_HTTP_STATEFUL=1 to enable session-per-request via sessionIdGenerator.
-  const transport = process.env.GT_HTTP_STATEFUL === "1"
+  // Set GL_HTTP_STATEFUL=1 to enable session-per-request via sessionIdGenerator.
+  const transport = process.env.GL_HTTP_STATEFUL === "1"
     ? new StreamableHTTPServerTransport({ sessionIdGenerator: () => crypto.randomUUID() })
     : new StreamableHTTPServerTransport({});
   transport.onclose = () => {};
@@ -62,7 +62,7 @@ export async function startHttpServer(
   const httpServer = http.createServer(async (req, res) => {
     for (const [name, value] of Object.entries(SECURITY_HEADERS)) res.setHeader(name, value);
 
-    const authToken = process.env.GT_AUTH_TOKEN;
+    const authToken = process.env.GL_AUTH_TOKEN;
     if (authToken) {
       // Constant-time comparison — avoids leaking the token via a response-time
       // side channel (string !== short-circuits on the first differing byte).
@@ -95,7 +95,7 @@ export async function startHttpServer(
 
   const port = parseInt(httpPort, 10);
   if (!Number.isFinite(port) || port < 1 || port > 65535) {
-    log({ level: "error", msg: "Invalid GT_HTTP_PORT -- must be 1-65535", value: httpPort });
+    log({ level: "error", msg: "Invalid GL_HTTP_PORT -- must be 1-65535", value: httpPort });
     process.exit(1);
   }
   httpServer.listen(port, () => {

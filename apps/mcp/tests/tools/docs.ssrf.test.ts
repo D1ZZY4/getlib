@@ -15,12 +15,12 @@ interface InternalServer {
 
 function getHandler(server: McpServer) {
   const internal = server as unknown as InternalServer;
-  const tool = internal._registeredTools?.["gt_get_docs"];
-  if (!tool) throw new Error("gt_get_docs not registered");
+  const tool = internal._registeredTools?.["gl_get_docs"];
+  if (!tool) throw new Error("gl_get_docs not registered");
   return tool.handler;
 }
 
-describe("gt_get_docs — SSRF guard on libraryId URL construction", () => {
+describe("gl_get_docs — SSRF guard on libraryId URL construction", () => {
   beforeEach(() => {
     resetTelemetry();
     vi.restoreAllMocks();

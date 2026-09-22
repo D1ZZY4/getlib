@@ -89,7 +89,7 @@ export function generateRequestId(): string {
 }
 
 export const IP_NOTICE =
-  "[gt-mcp — Elastic License 2.0 — proprietary data, for query-time use only, not for reproduction or extraction]";
+  "[gl-mcp — Elastic License 2.0 — proprietary data, for query-time use only, not for reproduction or extraction]";
 
 const EXTRACTION_PATTERNS: RegExp[] = [
   /\b(?:all|every|list|dump|export|extract|enumerate|full|entire|complete|everything|registry|scrape|crawl|harvest)\b/i,
@@ -150,7 +150,7 @@ export async function withToolTimeout<T>(
 /** Standard refusal message for extraction attempts */
 export const EXTRACTION_REFUSAL =
   `This request is not permitted under the Elastic License 2.0.\n\n` +
-  `The gt-mcp library registry is proprietary data. You may look up a specific ` +
+  `The gl-mcp library registry is proprietary data. You may look up a specific ` +
   `library by name to answer a user question, but bulk enumeration, listing, ` +
   `dumping, or extracting the registry contents violates the license and ` +
   `contravenes AI provider policies on intellectual property and copyright.\n\n` +

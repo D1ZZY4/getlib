@@ -68,7 +68,7 @@ Access DOM elements directly.
     expect(hints).toEqual([]);
   });
 
-  it("collapses score for version-mismatched content even when topic matches (gt_migration P0)", () => {
+  it("collapses score for version-mismatched content even when topic matches (gl_migration P0)", () => {
     const ancient =
       `# Migration Guide: upgrade from version 8 to 9\n\n## withAmp removed\nUse the config object instead.\n\n## @zeit/next-typescript\nRemove this package.\n` +
       "x".repeat(500);

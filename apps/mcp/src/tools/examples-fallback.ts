@@ -10,7 +10,7 @@ export interface ExamplesResponse {
 }
 
 /**
- * GitHub code search is auth-only — without GT_GITHUB_TOKEN it always returns
+ * GitHub code search is auth-only — without GL_GITHUB_TOKEN it always returns
  * 401. Instead of dead-ending, serve ranked code examples from the library's
  * official documentation and say so.
  */
@@ -77,7 +77,7 @@ export async function docsFallbackResponse(params: {
     content: [{
       type: "text",
       text: emptyText
-        ?? `${reason} No documentation-based examples found either — try gt_snippets with a registry libraryId, or set GT_GITHUB_TOKEN.`,
+        ?? `${reason} No documentation-based examples found either — try gl_snippets with a registry libraryId, or set GL_GITHUB_TOKEN.`,
     }],
   };
 }

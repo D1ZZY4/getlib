@@ -111,7 +111,7 @@ beforeEach(async () => {
   docCache.clear();
   (diskDocCache as { clear: () => void }).clear();
   // Unset GitHub token env to avoid auth headers in tests
-  delete process.env.GT_GITHUB_TOKEN;
+  delete process.env.GL_GITHUB_TOKEN;
   resetAllCircuits();
   clearNegativeCache();
 });

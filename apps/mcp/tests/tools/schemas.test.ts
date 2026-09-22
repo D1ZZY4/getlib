@@ -85,9 +85,9 @@ describe("MCP tool schemas", () => {
     expect(server.tools.size).toBe(14);
   });
 
-  it("every tool name starts with gt_", () => {
+  it("every tool name starts with gl_", () => {
     for (const name of server.tools.keys()) {
-      expect(name.startsWith("gt_")).toBe(true);
+      expect(name.startsWith("gl_")).toBe(true);
     }
   });
 

@@ -1,16 +1,16 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.rm-rf-prod/groundtruth",
+  "name": "io.github.rm-rf-prod/getlib",
   "description": "Live docs MCP server. 598+ libraries, evidence-verified answers, code audit, snippets, dispatch.",
   "repository": {
-    "url": "https://github.com/rm-rf-prod/GroundTruth-MCP",
+    "url": "https://github.com/rm-rf-prod/GetLib-MCP",
     "source": "github"
   },
   "version": "7.5.0",
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "@groundtruth-mcp/gt-mcp",
+      "identifier": "@getlib/gl-mcp",
       "version": "7.5.0",
       "transport": {
         "type": "stdio"
@@ -21,7 +21,7 @@
           "isRequired": false,
           "format": "string",
           "isSecret": true,
-          "name": "GT_GITHUB_TOKEN"
+          "name": "GL_GITHUB_TOKEN"
         }
       ]
     }

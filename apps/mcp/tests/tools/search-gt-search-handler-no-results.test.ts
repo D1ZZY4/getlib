@@ -110,7 +110,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_search handler", () => {
+describe("gl_search handler", () => {
   describe("no results", () => {
     it("returns no-results message when nothing found", async () => {
       vi.mocked(fetchWithTimeout).mockRejectedValue(new Error("search failed"));

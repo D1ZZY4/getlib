@@ -3,7 +3,7 @@ import { log } from "../../utils/logger.js";
 
 /**
  * Global fetch semaphore — caps total concurrent outbound HTTP requests.
- * Prevents request storms from tools like gt_auto_scan (20 libs x 6 fetches each)
+ * Prevents request storms from tools like gl_auto_scan (20 libs x 6 fetches each)
  * that cause upstream 429s and MCP client 529 overloaded errors.
  */
 class FetchSemaphore {
@@ -54,7 +54,7 @@ export const fetchSemaphore = new FetchSemaphore(MAX_CONCURRENT_FETCHES);
 /**
  * Per-host bulkhead layered under the global cap. The global semaphore alone
  * let one slow-dripping domain hold most of the 12 slots during a fan-out
- * (gt_auto_scan probes many libraries at once), starving every other host.
+ * (gl_auto_scan probes many libraries at once), starving every other host.
  * Sized so no single host can take more than a third of the global budget.
  */
 const PER_HOST_LIMIT = Math.max(2, Math.floor(MAX_CONCURRENT_FETCHES / 3));

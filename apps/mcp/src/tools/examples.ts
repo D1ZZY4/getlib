@@ -21,14 +21,14 @@ const InputSchema = z.object({
 /** Returned when the whole pipeline exceeds the tool timeout — an actionable
  *  next step beats a hung call or an MCP-level timeout error. */
 const TIMEOUT_RESPONSE = {
-  content: [{ type: "text" as const, text: "Example search timed out. Retry, or call gt_get_docs with the same pattern as the topic." }],
+  content: [{ type: "text" as const, text: "Example search timed out. Retry, or call gl_get_docs with the same pattern as the topic." }],
 };
 
 function buildQuery(library: string, pattern: string | undefined, language: string | undefined): string {
   const parts = [pattern ? `${library} ${pattern}` : `import ${library}`];
   if (language) parts.push(`language:${language}`);
   parts.push("-path:test -path:__test__ -path:spec -path:node_modules -path:.next");
-  // Exclude documentation/markdown files — gt_examples is for real code, not
+  // Exclude documentation/markdown files — gl_examples is for real code, not
   // READMEs/API.md (which GitHub code search otherwise returns as top hits).
   parts.push("-extension:md -extension:mdx -extension:markdown -extension:rst -extension:txt");
   return parts.join(" ");
@@ -36,14 +36,14 @@ function buildQuery(library: string, pattern: string | undefined, language: stri
 
 export function registerExamplesTool(server: McpServer): void {
   server.registerTool(
-    "gt_examples",
+    "gl_examples",
     {
       title: "Find Real-World Code Examples",
       description: `Search GitHub for real-world usage examples of any library or pattern. Returns code snippets from popular open-source projects with repository attribution.
 
-Requires GT_GITHUB_TOKEN env var for higher rate limits (5000 req/hr vs 60 unauthenticated).
+Requires GL_GITHUB_TOKEN env var for higher rate limits (5000 req/hr vs 60 unauthenticated).
 
-Source: open-source GitHub repositories (not the library's own docs). Use this when you want to see how real projects use a library. For code snippets extracted from the library's own documentation, use gt_snippets instead.`,
+Source: open-source GitHub repositories (not the library's own docs). Use this when you want to see how real projects use a library. For code snippets extracted from the library's own documentation, use gl_snippets instead.`,
       inputSchema: InputSchema,
       annotations: {
         readOnlyHint: true,
@@ -53,7 +53,7 @@ Source: open-source GitHub repositories (not the library's own docs). Use this w
       },
     },
     async ({ library, pattern, language, maxResults }) => {
-      return withTelemetry("gt_examples", async (ctx) => {
+      return withTelemetry("gl_examples", async (ctx) => {
         ctx.resolved = true;
         return withToolTimeout(async () => {
           if (isExtractionAttempt(library)) {
@@ -82,8 +82,8 @@ Source: open-source GitHub repositories (not the library's own docs). Use this w
           // GitHub code search is authenticated-only: without a token the call
           // is a guaranteed 401/403. Skip straight to the docs-derived path
           // instead of spending a round trip to be told so.
-          if (!process.env.GT_GITHUB_TOKEN) {
-            return fallback("GitHub code search needs GT_GITHUB_TOKEN — showing documentation-derived examples instead.");
+          if (!process.env.GL_GITHUB_TOKEN) {
+            return fallback("GitHub code search needs GL_GITHUB_TOKEN — showing documentation-derived examples instead.");
           }
 
           try {
@@ -96,8 +96,8 @@ Source: open-source GitHub repositories (not the library's own docs). Use this w
             if (!res.ok) {
               return fallback(
                 res.status === 403 || res.status === 429
-                  ? "GitHub API rate limit reached (set GT_GITHUB_TOKEN for 5000 req/hr)."
-                  : `GitHub code search unavailable (HTTP ${res.status} — it requires GT_GITHUB_TOKEN).`,
+                  ? "GitHub API rate limit reached (set GL_GITHUB_TOKEN for 5000 req/hr)."
+                  : `GitHub code search unavailable (HTTP ${res.status} — it requires GL_GITHUB_TOKEN).`,
               );
             }
 
@@ -123,7 +123,7 @@ Source: open-source GitHub repositories (not the library's own docs). Use this w
           } catch {
             return fallback(
               "GitHub code search failed (network error).",
-              `Failed to search GitHub for "${library}" examples. Check network and GT_GITHUB_TOKEN.`,
+              `Failed to search GitHub for "${library}" examples. Check network and GL_GITHUB_TOKEN.`,
             );
           }
         }, TIMEOUT_RESPONSE);

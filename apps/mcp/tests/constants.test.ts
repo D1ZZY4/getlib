@@ -11,9 +11,9 @@ describe("DISK_CACHE_DIR", () => {
   });
 });
 
-// ── GT_CACHE_DIR system directory validation ───────────────────────────────────
+// ── GL_CACHE_DIR system directory validation ───────────────────────────────────
 
-describe("GT_CACHE_DIR system directory validation", () => {
+describe("GL_CACHE_DIR system directory validation", () => {
   afterEach(() => {
     vi.unstubAllEnvs();
     vi.resetModules();
@@ -33,29 +33,29 @@ describe("GT_CACHE_DIR system directory validation", () => {
     "/run",
   ];
 
-  it.each(BLOCKED_DIRS)("throws when GT_CACHE_DIR is set to blocked directory: %s", async (dir) => {
-    vi.stubEnv("GT_CACHE_DIR", dir);
+  it.each(BLOCKED_DIRS)("throws when GL_CACHE_DIR is set to blocked directory: %s", async (dir) => {
+    vi.stubEnv("GL_CACHE_DIR", dir);
     vi.resetModules();
-    await expect(import("../src/constants.js")).rejects.toThrow("GT_CACHE_DIR must not point to a system directory");
+    await expect(import("../src/constants.js")).rejects.toThrow("GL_CACHE_DIR must not point to a system directory");
   });
 
   it.each(BLOCKED_DIRS.map((d) => `${d}/subpath`))(
-    "throws when GT_CACHE_DIR starts with blocked directory: %s",
+    "throws when GL_CACHE_DIR starts with blocked directory: %s",
     async (dir) => {
-      vi.stubEnv("GT_CACHE_DIR", dir);
+      vi.stubEnv("GL_CACHE_DIR", dir);
       vi.resetModules();
-      await expect(import("../src/constants.js")).rejects.toThrow("GT_CACHE_DIR must not point to a system directory");
+      await expect(import("../src/constants.js")).rejects.toThrow("GL_CACHE_DIR must not point to a system directory");
     },
   );
 
   it("does not throw for a safe user-supplied cache directory", async () => {
-    vi.stubEnv("GT_CACHE_DIR", "/tmp/.my-custom-cache");
+    vi.stubEnv("GL_CACHE_DIR", "/tmp/.my-custom-cache");
     vi.resetModules();
     await expect(import("../src/constants.js")).resolves.toBeDefined();
   });
 
   it("does not throw for a home-relative cache directory", async () => {
-    vi.stubEnv("GT_CACHE_DIR", "/home/user/.gt-mcp-cache");
+    vi.stubEnv("GL_CACHE_DIR", "/home/user/.gl-mcp-cache");
     vi.resetModules();
     await expect(import("../src/constants.js")).resolves.toBeDefined();
   });

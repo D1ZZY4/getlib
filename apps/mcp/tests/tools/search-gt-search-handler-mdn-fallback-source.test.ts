@@ -110,7 +110,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_search handler", () => {
+describe("gl_search handler", () => {
   describe("MDN fallback source", () => {
     it("tries MDN search as last resort when nothing else works", async () => {
       vi.mocked(fetchWithTimeout).mockRejectedValue(new Error("search failed"));

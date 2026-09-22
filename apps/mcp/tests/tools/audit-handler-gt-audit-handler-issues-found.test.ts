@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — issues found", () => {
+describe("gl_audit handler — issues found", () => {
   it("generates a report when a pattern matches", async () => {
     await mockFiles([{ name: "app.ts", content: LINE_WITH_ISSUE }]);
     vi.mocked(fetchViaJina).mockResolvedValue("");

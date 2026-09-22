@@ -117,7 +117,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_best_practices handler", () => {
+describe("gl_best_practices handler", () => {
   describe("topic-relevance gate (FIX-7)", () => {
     it("defers known BP URLs when the topic matches none of them (tailwind v4 migration)", async () => {
       // tailwindlabs/tailwindcss has known BP URLs: utility-first, reusing-styles,

@@ -63,7 +63,7 @@ beforeEach(() => {
   vi.mocked(fetchAsMarkdownRace).mockReset().mockResolvedValue(null);
 });
 
-describe("buildIndex (gt_snippets) — FIX-9 GitHub README fallback", () => {
+describe("buildIndex (gl_snippets) — FIX-9 GitHub README fallback", () => {
   it("indexes snippets from docs and does NOT hit GitHub when docs have code", async () => {
     vi.mocked(fetchDocs).mockResolvedValue({
       content: DOCS_WITH_CODE,

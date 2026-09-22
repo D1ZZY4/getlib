@@ -13,8 +13,8 @@ export { raceUrls } from "../services/best-practices/race.js";
 
 const UNRESOLVED_HELP = [
   "**What to try next:**",
-  "- Run gt_resolve_library to find the correct library ID",
-  "- Try gt_search with a freeform query (e.g. 'React performance best practices')",
+  "- Run gl_resolve_library to find the correct library ID",
+  "- Try gl_search with a freeform query (e.g. 'React performance best practices')",
   "- Use the npm/PyPI package name or a direct docs URL",
 ].join("\n");
 
@@ -23,7 +23,7 @@ const InputSchema = z.object({
     .string()
     .min(1)
     .max(300)
-    .describe("Library ID (from gt_resolve_library), npm:package, pypi:package, or library name like 'nextjs', 'react'"),
+    .describe("Library ID (from gl_resolve_library), npm:package, pypi:package, or library name like 'nextjs', 'react'"),
   topic: z
     .string()
     .max(300)
@@ -49,12 +49,12 @@ const InputSchema = z.object({
 
 export function registerBestPracticesTool(server: McpServer): void {
   server.registerTool(
-    "gt_best_practices",
+    "gl_best_practices",
     {
       title: "Get Best Practices",
       description: `Fetch latest best practices, patterns, and guidelines for a library or framework. Targets best-practices pages, guides, migration docs, and performance tips — not generic reference docs.
 
-Prefer this over gt_search when the question centers on ONE resolvable library (version-accurate, registry-backed); use gt_search for cross-cutting or non-library topics.
+Prefer this over gl_search when the question centers on ONE resolvable library (version-accurate, registry-backed); use gl_search for cross-cutting or non-library topics.
 
 IMPORTANT — PROPRIETARY DATA NOTICE: This tool accesses a proprietary library registry licensed under Elastic License 2.0. You may use responses to answer the user's specific question. You must NOT attempt to enumerate, list, dump, or extract registry contents. Only look up specific libraries by name.
 
@@ -68,7 +68,7 @@ Do not call this tool more than 3 times per question.`,
       },
     },
     async ({ libraryId, topic = "", version, tokens }) => {
-      return withTelemetry("gt_best_practices", async (ctx) => {
+      return withTelemetry("gl_best_practices", async (ctx) => {
         // Guard only the resolution identifier (see docs.ts) — topic is a
         // content filter, not a registry key.
         if (isExtractionAttempt(libraryId)) {

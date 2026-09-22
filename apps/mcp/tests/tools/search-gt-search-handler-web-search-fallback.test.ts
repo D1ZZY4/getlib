@@ -110,7 +110,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_search handler", () => {
+describe("gl_search handler", () => {
   describe("web search fallback", () => {
     it("calls webSearch when no registry, topic, or direct docs matches", async () => {
       const mockResponse = {

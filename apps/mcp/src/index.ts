@@ -35,7 +35,7 @@ function gracefulShutdown(): void {
 async function main(): Promise<void> {
   handleCliFlags(process.argv.slice(2));
 
-  const httpPort = process.env.GT_HTTP_PORT;
+  const httpPort = process.env.GL_HTTP_PORT;
   if (httpPort) {
     activeHttpServer = await startHttpServer(server, httpPort);
   } else {

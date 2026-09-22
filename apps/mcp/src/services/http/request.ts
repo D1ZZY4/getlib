@@ -18,7 +18,7 @@ export function hashContent(content: string): string {
 }
 
 const USER_AGENT =
-  `GroundTruth/${SERVER_VERSION} (docs-fetcher; +https://github.com/rm-rf-prod/GroundTruth-MCP)`;
+  `GetLib/${SERVER_VERSION} (docs-fetcher; +https://github.com/rm-rf-prod/GetLib-MCP)`;
 /**
  * Write fetched documentation CONTENT to memory + disk cache, sanitizing once
  * before storage so poisoned upstream content is never persisted raw (SEC-009).
@@ -31,9 +31,9 @@ export function cacheDoc(cacheKey: string, content: string, ttl: number): void {
   void diskDocCache.set(cacheKey, clean, ttl);
 }
 
-/** Build Authorization header for GitHub API if GT_GITHUB_TOKEN is set */
+/** Build Authorization header for GitHub API if GL_GITHUB_TOKEN is set */
 export function githubAuthHeaders(): Record<string, string> {
-  const token = process.env.GT_GITHUB_TOKEN;
+  const token = process.env.GL_GITHUB_TOKEN;
   if (!token) return {};
   return { Authorization: `Bearer ${token}` };
 }

@@ -32,8 +32,8 @@ function buildFailureText(target: DocsTarget, entry: LibraryEntry | null, topic:
     .filter((u): u is string => typeof u === "string");
 
   const suggestions: string[] = [];
-  if (!entry) suggestions.push("- Run gt_resolve_library to verify the library ID is correct");
-  suggestions.push("- Try gt_search with your question as a freeform query");
+  if (!entry) suggestions.push("- Run gl_resolve_library to verify the library ID is correct");
+  suggestions.push("- Try gl_search with your question as a freeform query");
   if (!target.githubUrl) suggestions.push("- Provide a direct docs URL as the libraryId (e.g. 'https://docs.example.com')");
   if (topic) suggestions.push("- Try without a topic filter to get the main docs page");
 
@@ -86,8 +86,8 @@ export async function fetchDocsContent(
       `No documentation found for "${target.displayName}".`,
       "",
       "**What to try next:**",
-      "- Run gt_resolve_library to check if the library exists under a different name",
-      "- Try gt_search with a freeform query about what you need",
+      "- Run gl_resolve_library to check if the library exists under a different name",
+      "- Try gl_search with a freeform query about what you need",
       "- Provide a direct docs URL as the libraryId",
     ].join("\n"));
   }

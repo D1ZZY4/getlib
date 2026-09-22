@@ -12,7 +12,7 @@ describe("DiskCache", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
-    tmpDir = await mkdtemp(join(tmpdir(), "gt-mcp-diskcache-test-"));
+    tmpDir = await mkdtemp(join(tmpdir(), "gl-mcp-diskcache-test-"));
   });
 
   afterEach(async () => {
@@ -32,15 +32,15 @@ describe("DiskCache", () => {
     // it via the module internals by creating a new instance the same way the module does.
     // The cleanest approach: re-export via a test helper — but since we can't modify source,
     // we test through the exported diskDocCache after patching the env variable.
-    // Use DiskCache via dynamic module with patched GT_CACHE_DIR
-    process.env.GT_CACHE_DIR = dir;
+    // Use DiskCache via dynamic module with patched GL_CACHE_DIR
+    process.env.GL_CACHE_DIR = dir;
     vi.resetModules();
     const { diskDocCache: cache } = await import("../../src/services/cache.js");
     return cache;
   }
 
   afterEach(() => {
-    delete process.env.GT_CACHE_DIR;
+    delete process.env.GL_CACHE_DIR;
   });
 
   it("prune() deletes corrupt (malformed-but-parseable) cache files (TS-011)", async () => {
@@ -85,7 +85,7 @@ describe("DiskCache", () => {
 
   it("prune() returns 0 when cache dir does not exist", async () => {
     const nonexistentDir = join(tmpDir, "does-not-exist");
-    process.env.GT_CACHE_DIR = nonexistentDir;
+    process.env.GL_CACHE_DIR = nonexistentDir;
     vi.resetModules();
     const { diskDocCache: cache } = await import("../../src/services/cache.js");
     // prune should not throw and should return 0 when it cannot read the dir

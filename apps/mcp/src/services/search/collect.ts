@@ -39,7 +39,7 @@ function fetchAll(
 }
 
 /**
- * Sourcing pipeline for gt_search: registry docs, then curated topic URLs, then
+ * Sourcing pipeline for gl_search: registry docs, then curated topic URLs, then
  * progressively broader fallbacks. Every stage is gated on real extracted content,
  * so a weak early hit never blocks a better later one.
  */

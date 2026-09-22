@@ -92,7 +92,7 @@ describe("sanitizeContent", () => {
     expect(result).not.toMatch(/v2\.1\.0.*2024-01-15/);
   });
 
-  // Bug C-4 \u2014 gt_compare on prisma vs drizzle leaked raw HTML preamble.
+  // Bug C-4 \u2014 gl_compare on prisma vs drizzle leaked raw HTML preamble.
   // html-to-md fell through to body fallback that returned whole HTML.
   // sanitize.ts now strips structural HTML defense-in-depth.
   describe("Bug C-4: HTML structural preamble strip", () => {
@@ -136,7 +136,7 @@ describe("sanitizeContent", () => {
     });
 
     it("Bug C-4 repro: prisma-style leak collapses to clean markdown", () => {
-      // Original observed leak head from gt_compare prisma vs drizzle (truncated)
+      // Original observed leak head from gl_compare prisma vs drizzle (truncated)
       const leak = '## (overview)\n<!DOCTYPE html>[content removed]<html lang="en" class="inter_5901b7c6"><head><meta charSet="utf-8"/><title>Prisma</title></head><body><p>Prisma is the next-generation ORM.</p></body></html>';
       const result = sanitizeContent(leak);
       expect(result).not.toContain("DOCTYPE");

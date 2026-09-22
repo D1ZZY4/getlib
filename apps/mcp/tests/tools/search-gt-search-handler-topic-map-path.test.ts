@@ -110,7 +110,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_search handler", () => {
+describe("gl_search handler", () => {
   describe("topic map path", () => {
     it("uses topic map for OWASP query", async () => {
       vi.mocked(fetchAsMarkdownRace).mockResolvedValue(LONG_CONTENT);

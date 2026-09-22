@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("CORR-004: crates/go dedup guard", () => {
     it("does not push crates result when its id already exists in matches", async () => {
       // Setup: npm returns a result with id "crates:serde" — same id crates would return.

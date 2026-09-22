@@ -32,7 +32,7 @@ describe("decodeHtmlEntities", () => {
   });
 
   it("decodes the reserved five", () => {
-    expect(decodeHtmlEntities("a &amp; b &lt;div&gt; &quot;q&quot; &#39;s&apos;")).toBe(
+    expect(decodeHtmlEntities("a &amp; b &lt;div&gl; &quot;q&quot; &#39;s&apos;")).toBe(
       "a & b <div> \"q\" 's'",
     );
   });
@@ -58,7 +58,7 @@ describe("decodeHtmlEntities", () => {
   });
 
   it("is idempotent on already-decoded text", () => {
-    const once = decodeHtmlEntities("&lt;a&gt; &amp; &rarr;");
+    const once = decodeHtmlEntities("&lt;a&gl; &amp; &rarr;");
     expect(decodeHtmlEntities(once)).toBe(once);
   });
 

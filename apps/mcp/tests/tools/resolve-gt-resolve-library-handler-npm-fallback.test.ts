@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("npm fallback", () => {
     it("falls back to npm when registry has no matches", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(null);

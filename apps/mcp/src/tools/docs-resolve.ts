@@ -29,7 +29,7 @@ export function isValidPackageName(pkg: string): boolean {
 }
 
 /**
- * Turn a libraryId into the URLs gt_get_docs should fetch. Returns a plain
+ * Turn a libraryId into the URLs gl_get_docs should fetch. Returns a plain
  * message string when the identifier is unusable (invalid name, private target),
  * so the caller can surface it verbatim without throwing.
  */

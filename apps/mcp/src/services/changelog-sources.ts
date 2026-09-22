@@ -15,7 +15,7 @@ export async function resolveChangelogTarget(libraryId: string): Promise<Changel
     return { displayName: entry.name, githubUrl: entry.githubUrl, docsUrl: entry.docsUrl };
   }
   const resolved = await resolveDynamic(libraryId);
-  if (!resolved) return `Could not resolve "${libraryId}". Try gt_resolve_library first.`;
+  if (!resolved) return `Could not resolve "${libraryId}". Try gl_resolve_library first.`;
   return { displayName: resolved.displayName, githubUrl: resolved.githubUrl, docsUrl: resolved.docsUrl };
 }
 

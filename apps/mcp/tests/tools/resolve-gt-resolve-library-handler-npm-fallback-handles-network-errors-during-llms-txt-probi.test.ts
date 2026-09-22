@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("npm fallback", () => {
     it("handles network errors during llms.txt probing gracefully", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(undefined);

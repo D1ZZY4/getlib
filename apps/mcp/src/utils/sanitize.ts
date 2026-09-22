@@ -142,7 +142,7 @@ export function sanitizeContent(content: string): string {
   sanitized = sanitized.replace(/<(?:meta|link|base)\b[^>]*\/?>/gi, "");
 
   // Decode HTML entities LAST — after the surgical tag strips above. This order is
-  // mandatory: a doc that wrote `&lt;div&gt;` to SHOW a tag keeps `<div>` as faithful
+  // mandatory: a doc that wrote `&lt;div&gl;` to SHOW a tag keeps `<div>` as faithful
   // text (sanitize only strips script/style/structural tags, never generic ones),
   // while any real `<script>`/`<head>` revealed by decoding was already removed.
   // Jina Reader, llms.txt and GitHub-raw markdown bypass html-to-md, so this is the

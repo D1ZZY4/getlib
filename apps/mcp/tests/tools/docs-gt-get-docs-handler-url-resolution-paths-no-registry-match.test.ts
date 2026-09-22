@@ -123,7 +123,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_get_docs handler", () => {
+describe("gl_get_docs handler", () => {
   describe("URL resolution paths (no registry match)", () => {
     beforeEach(() => {
       vi.mocked(lookupById).mockReturnValue(null);

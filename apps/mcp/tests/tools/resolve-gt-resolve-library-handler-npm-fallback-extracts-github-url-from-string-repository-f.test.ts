@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("npm fallback", () => {
     it("extracts GitHub URL from string repository field", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(undefined);

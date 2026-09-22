@@ -141,7 +141,7 @@ describe("sliceVersionBand", () => {
     expect(out).not.toContain("future cache");
   });
 
-  it("excludes ancient sections for a forward migration (the gt_migration P0 bug)", () => {
+  it("excludes ancient sections for a forward migration (the gl_migration P0 bug)", () => {
     const doc = [
       "## Upgrading from version 10 to 11",
       "Remove withAmp and @zeit/next-typescript.",

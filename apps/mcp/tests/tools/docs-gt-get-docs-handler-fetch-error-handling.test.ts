@@ -123,7 +123,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_get_docs handler", () => {
+describe("gl_get_docs handler", () => {
   describe("fetch error handling", () => {
     it("falls back to GitHub README when fetchDocs throws and githubUrl is set", async () => {
       const entry = makeEntry();

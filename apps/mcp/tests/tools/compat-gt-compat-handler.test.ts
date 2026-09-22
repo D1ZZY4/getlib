@@ -84,7 +84,7 @@ beforeEach(() => {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_compat handler", () => {
+describe("gl_compat handler", () => {
   describe("extraction guard", () => {
     it("does not guard the feature field — it describes a web platform feature, not a registry key", async () => {
       // Pre-fix, phrasings like "full :has() selector list" were refused.

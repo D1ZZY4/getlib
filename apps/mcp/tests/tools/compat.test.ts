@@ -87,7 +87,7 @@ beforeEach(() => {
 describe("registerCompatTool", () => {
   it("registers the tool with the correct name", () => {
     expect(mockServer.registerTool).toHaveBeenCalledWith(
-      "gt_compat",
+      "gl_compat",
       expect.anything(),
       expect.any(Function),
     );

@@ -110,7 +110,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_search handler", () => {
+describe("gl_search handler", () => {
   describe("basic behavior", () => {
     it("returns results for valid queries", async () => {
       vi.mocked(docCache.get).mockReturnValue(LONG_CONTENT);

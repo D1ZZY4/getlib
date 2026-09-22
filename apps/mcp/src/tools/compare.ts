@@ -36,17 +36,17 @@ function resolveLibrary(name: string): LibraryEntry | null {
 /** Returned when the whole pipeline exceeds the tool timeout — an actionable
  *  next step beats a hung call or an MCP-level timeout error. */
 const TIMEOUT_RESPONSE = {
-  content: [{ type: "text" as const, text: "Comparison timed out. Retry with two libraries instead of three, or call gt_best_practices per library." }],
+  content: [{ type: "text" as const, text: "Comparison timed out. Retry with two libraries instead of three, or call gl_best_practices per library." }],
 };
 
 export function registerCompareTool(server: McpServer): void {
   server.registerTool(
-    "gt_compare",
+    "gl_compare",
     {
       title: "Compare Libraries Side-by-Side",
       description: `Compare 2–3 libraries side-by-side. Fetches live documentation for each and presents content relevant to the comparison criteria.
 
-Pass library NAMES (e.g. ['prisma', 'drizzle-orm']) — not registry IDs. The tool resolves them internally. Use for "X vs Y" or "which library should I choose" questions. For fetching docs about a single library, use gt_get_docs instead.`,
+Pass library NAMES (e.g. ['prisma', 'drizzle-orm']) — not registry IDs. The tool resolves them internally. Use for "X vs Y" or "which library should I choose" questions. For fetching docs about a single library, use gl_get_docs instead.`,
       inputSchema: InputSchema,
       annotations: {
         readOnlyHint: true,
@@ -56,7 +56,7 @@ Pass library NAMES (e.g. ['prisma', 'drizzle-orm']) — not registry IDs. The to
       },
     },
     async ({ libraries, criteria, tokens }) => {
-      return withTelemetry("gt_compare", async (ctx) => {
+      return withTelemetry("gl_compare", async (ctx) => {
         ctx.resolved = true;
         return withToolTimeout(async () => {
           // No extraction guard on `criteria` — it is a comparison angle, not a
@@ -71,7 +71,7 @@ Pass library NAMES (e.g. ['prisma', 'drizzle-orm']) — not registry IDs. The to
 
           if (entries.every(({ entry }) => entry === null)) {
             const text = withNotice(
-              `Could not resolve any of the requested libraries.\n\nTry using exact package names or registry IDs from \`gt_resolve_library\`.`,
+              `Could not resolve any of the requested libraries.\n\nTry using exact package names or registry IDs from \`gl_resolve_library\`.`,
             );
             return { content: [{ type: "text", text }] };
           }
@@ -131,7 +131,7 @@ Pass library NAMES (e.g. ['prisma', 'drizzle-orm']) — not registry IDs. The to
 
           if (sections.length === 0) {
             const text = withNotice(
-              `Could not resolve any of the requested libraries.\n\nTry using exact package names or registry IDs from \`gt_resolve_library\`.`,
+              `Could not resolve any of the requested libraries.\n\nTry using exact package names or registry IDs from \`gl_resolve_library\`.`,
             );
             return { content: [{ type: "text", text }] };
           }

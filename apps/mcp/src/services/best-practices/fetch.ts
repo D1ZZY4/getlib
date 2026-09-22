@@ -138,7 +138,7 @@ export async function fetchBestPracticesContent(
   }
 
   return {
-    text: `Could not find specific best practices for "${libraryId}". Try gt_get_docs with topic="best practices patterns".`,
+    text: `Could not find specific best practices for "${libraryId}". Try gl_get_docs with topic="best practices patterns".`,
     sourceUrl: docsUrl,
     truncated: false,
     extraSources: [],

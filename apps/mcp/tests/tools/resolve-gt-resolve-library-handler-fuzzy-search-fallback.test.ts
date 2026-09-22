@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("fuzzy search fallback", () => {
     it("returns fuzzy results with score 80 when no exact match", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(null);

@@ -37,10 +37,10 @@ export async function fetchGitHubContent(
     }
   }
 
-  // Fallback: GitHub REST API. Works unauthenticated (60 req/hr); GT_GITHUB_TOKEN
+  // Fallback: GitHub REST API. Works unauthenticated (60 req/hr); GL_GITHUB_TOKEN
   // raises the limit to 5000/hr. Previously gated entirely behind the token, which
   // disabled the fallback for the common no-token case.
-  const token = process.env.GT_GITHUB_TOKEN;
+  const token = process.env.GL_GITHUB_TOKEN;
   const apiHeaders: Record<string, string> = { Accept: "application/vnd.github.raw+json" };
   if (token) apiHeaders.Authorization = `Bearer ${token}`;
   for (const branch of ["main", "master"]) {
@@ -79,7 +79,7 @@ export async function fetchGitHubReleases(githubUrl: string): Promise<string | n
     // to ensure we see real stable releases.
     // ref: https://docs.github.com/en/rest/releases/releases#list-releases
     const apiUrl = `https://api.github.com/repos/${repoPath}/releases?per_page=30`;
-    // GT_GITHUB_TOKEN raises rate limit from 60/hr to 5000/hr
+    // GL_GITHUB_TOKEN raises rate limit from 60/hr to 5000/hr
     const res = await fetchWithTimeout(apiUrl, 10_000, githubAuthHeaders());
     // 403 = rate limit (unauthenticated: 60 req/hr), 429 = explicit rate limit
     if (res.status === 403 || res.status === 429 || !res.ok) return null;

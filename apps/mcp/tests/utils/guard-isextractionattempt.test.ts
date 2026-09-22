@@ -142,8 +142,8 @@ describe("IP_NOTICE", () => {
     expect(IP_NOTICE).toContain("Elastic License 2.0");
   });
 
-  it("mentions gt-mcp", () => {
-    expect(IP_NOTICE).toContain("gt-mcp");
+  it("mentions gl-mcp", () => {
+    expect(IP_NOTICE).toContain("gl-mcp");
   });
 });
 

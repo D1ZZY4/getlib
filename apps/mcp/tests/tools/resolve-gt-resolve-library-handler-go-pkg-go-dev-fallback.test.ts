@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("Go pkg.go.dev fallback", () => {
     it("falls back to pkg.go.dev when all others return null", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(null);
@@ -155,7 +155,7 @@ describe("gt_resolve_library handler", () => {
     });
 
     // Bug C-2 — pkg.go.dev returns HTTP 200 with body "Title: 404 Not Found - Go Packages"
-    // for unknown modules. Without detection, gt_resolve_library surfaced a fake
+    // for unknown modules. Without detection, gl_resolve_library surfaced a fake
     // "go:zzzz-foo" match with garbage description.
     it("Bug C-2: rejects pkg.go.dev 404 page body so unknown module returns no result", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(null);

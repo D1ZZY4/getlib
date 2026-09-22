@@ -39,17 +39,17 @@ const InputSchema = z.object({
 
 export function registerAutoScanTool(server: McpServer): void {
   server.registerTool(
-    "gt_auto_scan",
+    "gl_auto_scan",
     {
       // Claude Code swaps oversized tool results for a file reference; these two
       // tools legitimately return long reports, so raise their inline ceiling.
       _meta: { "anthropic/maxResultSizeChars": 200_000 },
       title: "Auto-Scan Project Dependencies",
-      description: `Automatically detect all dependencies in a project and fetch latest best practices for each. Say "use gt" to invoke.
+      description: `Automatically detect all dependencies in a project and fetch latest best practices for each. Say "use gl" to invoke.
 
 Reads: package.json, requirements.txt, pyproject.toml, Cargo.toml, go.mod, pom.xml, composer.json, build.gradle — whichever exist.
 
-Fetches best practices for your installed DEPENDENCIES — to scan your own source code for issues, use gt_audit instead. Unrecognized dependencies are listed separately, never fail the call.`,
+Fetches best practices for your installed DEPENDENCIES — to scan your own source code for issues, use gl_audit instead. Unrecognized dependencies are listed separately, never fail the call.`,
       inputSchema: InputSchema,
       annotations: {
         readOnlyHint: true,
@@ -59,7 +59,7 @@ Fetches best practices for your installed DEPENDENCIES — to scan your own sour
       },
     },
     async ({ projectPath, topic = "latest best practices", tokensPerLib }) => {
-      return withTelemetry("gt_auto_scan", async (ctx) => {
+      return withTelemetry("gl_auto_scan", async (ctx) => {
         let resolvedPath: string;
         try {
           resolvedPath = safeguardPath(projectPath ?? process.cwd());
@@ -75,7 +75,7 @@ Fetches best practices for your installed DEPENDENCIES — to scan your own sour
           return {
             content: [{
               type: "text",
-              text: `No dependency files found in: ${resolvedPath}\n\nLooked for: package.json, requirements.txt, pyproject.toml, Cargo.toml, go.mod\n\nTry providing the correct projectPath or use gt_get_docs / gt_best_practices directly.`,
+              text: `No dependency files found in: ${resolvedPath}\n\nLooked for: package.json, requirements.txt, pyproject.toml, Cargo.toml, go.mod\n\nTry providing the correct projectPath or use gl_get_docs / gl_best_practices directly.`,
             }],
           };
         }

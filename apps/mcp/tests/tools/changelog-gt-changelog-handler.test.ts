@@ -104,7 +104,7 @@ beforeEach(() => {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_changelog handler", () => {
+describe("gl_changelog handler", () => {
   describe("extraction guard", () => {
     it("returns EXTRACTION_REFUSAL when libraryId is extraction attempt", async () => {
       vi.mocked(isExtractionAttempt).mockReturnValueOnce(true);

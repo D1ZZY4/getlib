@@ -35,25 +35,25 @@ function capture(): { templates: string[]; handlers: Map<string, ReadHandler> } 
 describe("MCP resources", () => {
   it("registers the registry and docs resources", () => {
     const { templates } = capture();
-    expect(templates).toContain("gt://registry");
-    expect(templates.some((t) => t.startsWith("gt://docs/"))).toBe(true);
+    expect(templates).toContain("gl://registry");
+    expect(templates.some((t) => t.startsWith("gl://docs/"))).toBe(true);
   });
 
   /**
    * Every registry ID is "owner/name". A plain {libraryId} is RFC 6570 simple
-   * expansion, which stops at "/" — so gt://docs/facebook/react never matched
+   * expansion, which stops at "/" — so gl://docs/facebook/react never matched
    * the template and every registry ID was unreadable. Reserved expansion
    * ({+libraryId}) is what makes the resource usable at all.
    */
   it("uses reserved expansion so slashed registry IDs match the template", () => {
     const { templates } = capture();
-    expect(templates).toContain("gt://docs/{+libraryId}");
+    expect(templates).toContain("gl://docs/{+libraryId}");
   });
 
   it("serves docs for a slashed registry ID", async () => {
     const { handlers } = capture();
     const handler = handlers.get("library-docs")!;
-    const result = await handler(new URL("gt://docs/colinhacks/zod"), { libraryId: "colinhacks/zod" });
+    const result = await handler(new URL("gl://docs/colinhacks/zod"), { libraryId: "colinhacks/zod" });
     expect(result.contents[0]!.mimeType).toBe("text/markdown");
     expect(result.contents[0]!.text).toContain("Zod");
   });
@@ -61,14 +61,14 @@ describe("MCP resources", () => {
   it("serves docs for a bare alias", async () => {
     const { handlers } = capture();
     const handler = handlers.get("library-docs")!;
-    const result = await handler(new URL("gt://docs/zod"), { libraryId: "zod" });
+    const result = await handler(new URL("gl://docs/zod"), { libraryId: "zod" });
     expect(result.contents[0]!.text).toContain("Zod");
   });
 
   it("reports an unknown library instead of throwing", async () => {
     const { handlers } = capture();
     const handler = handlers.get("library-docs")!;
-    const result = await handler(new URL("gt://docs/not-a-real-lib"), { libraryId: "not-a-real-lib" });
+    const result = await handler(new URL("gl://docs/not-a-real-lib"), { libraryId: "not-a-real-lib" });
     expect(result.contents[0]!.text).toContain("Library not found");
   });
 });

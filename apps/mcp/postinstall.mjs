@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * GroundTruth MCP — post-install hook
+ * GetLib MCP — post-install hook
  *
  * Generates a persistent install ID used for invisible response watermarking.
- * The ID is stored at ~/.gt-mcp-install.key and is unique per machine.
+ * The ID is stored at ~/.gl-mcp-install.key and is unique per machine.
  *
  * License: Elastic License 2.0 (ELv2)
  *   Free for personal and internal use.
  *   Commercial redistribution or hosting as a service requires a commercial license.
- *   See: https://github.com/rm-rf-prod/GroundTruth-MCP/blob/main/LICENSE
+ *   See: https://github.com/rm-rf-prod/GetLib-MCP/blob/main/LICENSE
  */
 
 import { readFileSync, writeFileSync, existsSync } from "fs";
@@ -16,7 +16,7 @@ import { join } from "path";
 import { homedir } from "os";
 import { randomBytes } from "crypto";
 
-const KEY_FILE = join(homedir(), ".gt-mcp-install.key");
+const KEY_FILE = join(homedir(), ".gl-mcp-install.key");
 
 function getOrCreateKey() {
   if (existsSync(KEY_FILE)) {
@@ -35,12 +35,12 @@ function getOrCreateKey() {
 const id = getOrCreateKey();
 
 console.log(`
-  @groundtruth-mcp/gt-mcp installed successfully.
+  @getlib/gl-mcp installed successfully.
 
   Install ID : ${id}
   License    : Elastic License 2.0 (ELv2)
 
   Free for personal and internal use.
   Commercial redistribution or use as a hosted service requires a commercial license.
-  https://github.com/rm-rf-prod/GroundTruth-MCP/blob/main/LICENSE
+  https://github.com/rm-rf-prod/GetLib-MCP/blob/main/LICENSE
 `);

@@ -117,7 +117,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_best_practices handler", () => {
+describe("gl_best_practices handler", () => {
   describe("known best-practices URLs (raceUrls path)", () => {
     it("uses fetchAsMarkdownRace for known BP URLs and returns first hit", async () => {
       // Use a library with known BP URLs in BEST_PRACTICES_URLS

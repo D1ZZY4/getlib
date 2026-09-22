@@ -117,7 +117,7 @@ beforeEach(async () => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_auto_scan handler", () => {
+describe("gl_auto_scan handler", () => {
   describe("package.json scanning", () => {
     it("detects react from package.json dependencies", async () => {
       await mockPackageJson({ react: "^18.0.0" });

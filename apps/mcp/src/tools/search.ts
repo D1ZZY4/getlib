@@ -7,7 +7,7 @@ import { withTelemetry } from "../services/telemetry.js";
 import { collectSearchSources } from "../services/search/collect.js";
 import { addWebSearchSources } from "../services/search/fetch-topic.js";
 
-// Re-exported so callers that reason about search sourcing (gt_compat, gt_migration)
+// Re-exported so callers that reason about search sourcing (gl_compat, gl_migration)
 // and the existing test mocks keep a single stable import path.
 export { findTopicUrls } from "../services/search/topic-match.js";
 export { searchMDN, webSearch } from "../services/search/engines.js";
@@ -34,14 +34,14 @@ const NO_RESULTS_HELP = [
   "**What to try next:**",
   "- Be more specific (e.g. 'React hooks best practices' instead of 'React')",
   "- Include the library name + topic (e.g. 'Next.js middleware authentication')",
-  "- Try gt_resolve_library to find a specific library, then gt_get_docs",
-  "- Try gt_get_docs with a direct URL as the libraryId",
+  "- Try gl_resolve_library to find a specific library, then gl_get_docs",
+  "- Try gl_get_docs with a direct URL as the libraryId",
 ].join("\n");
 
 export function registerSearchTool(server: McpServer): void {
   const currentYear = new Date().getFullYear();
   server.registerTool(
-    "gt_search",
+    "gl_search",
     {
       title: "Search Any Topic",
       description: `Search for latest best practices, docs, or guidance on ANY topic — no library name needed.
@@ -59,16 +59,16 @@ Works for:
 - Infrastructure: "Docker best practices", "GitHub Actions CI/CD"
 - Anything else: just ask
 
-If the query names ONE specific library, prefer gt_resolve_library + gt_get_docs/gt_best_practices for version-accurate, registry-backed results — use gt_search for standards, cross-cutting topics, or when no library applies. For browser/runtime feature support use gt_compat; for GitHub code examples use gt_examples.
+If the query names ONE specific library, prefer gl_resolve_library + gl_get_docs/gl_best_practices for version-accurate, registry-backed results — use gl_search for standards, cross-cutting topics, or when no library applies. For browser/runtime feature support use gl_compat; for GitHub code examples use gl_examples.
 
-Say "use gt" or "gt search [topic]" to invoke.
+Say "use gl" or "gl search [topic]" to invoke.
 
 Examples:
-- gt_search({ query: "latest best practices" }) — auto-detects from project context
-- gt_search({ query: "WCAG 2.2 keyboard navigation" })
-- gt_search({ query: "SQL injection prevention ${currentYear}" })
-- gt_search({ query: "CSS container queries browser support" })
-- gt_search({ query: "React Server Components patterns" })`,
+- gl_search({ query: "latest best practices" }) — auto-detects from project context
+- gl_search({ query: "WCAG 2.2 keyboard navigation" })
+- gl_search({ query: "SQL injection prevention ${currentYear}" })
+- gl_search({ query: "CSS container queries browser support" })
+- gl_search({ query: "React Server Components patterns" })`,
       inputSchema: InputSchema,
       annotations: {
         readOnlyHint: true,
@@ -78,7 +78,7 @@ Examples:
       },
     },
     async ({ query: rawQuery, tokens }) => {
-      return withTelemetry("gt_search", async (ctx) => {
+      return withTelemetry("gl_search", async (ctx) => {
         const query = normalizeQueryYear(rawQuery);
         const { results, webSearched } = await collectSearchSources(query, tokens);
 

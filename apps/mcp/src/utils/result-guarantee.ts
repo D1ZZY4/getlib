@@ -1,5 +1,5 @@
 /**
- * Result guarantee — every gt_* tool invocation MUST return useful text to
+ * Result guarantee — every gl_* tool invocation MUST return useful text to
  * the LLM client. This module formats the "we couldn't fetch X, here's what
  * to try next" fallback so the LLM is never stuck with an empty result.
  *
@@ -51,8 +51,8 @@ export function buildFallbackResponse(ctx: FallbackContext): string {
 
 function defaultSuggestions(): string[] {
   return [
-    "Call `gt_resolve_library({ libraryName })` to verify the library ID",
-    "Call `gt_search({ query })` for a freeform topic lookup that does not require a registry entry",
+    "Call `gl_resolve_library({ libraryName })` to verify the library ID",
+    "Call `gl_search({ query })` for a freeform topic lookup that does not require a registry entry",
     "Provide a direct docs URL as the `libraryId` (e.g. `https://docs.example.com`)",
     "Drop the `topic` filter and try again to get the broader main docs page",
   ];

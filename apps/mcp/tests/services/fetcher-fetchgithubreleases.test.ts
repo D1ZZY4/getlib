@@ -111,7 +111,7 @@ beforeEach(async () => {
   docCache.clear();
   (diskDocCache as { clear: () => void }).clear();
   // Unset GitHub token env to avoid auth headers in tests
-  delete process.env.GT_GITHUB_TOKEN;
+  delete process.env.GL_GITHUB_TOKEN;
   resetAllCircuits();
   clearNegativeCache();
 });
@@ -172,15 +172,15 @@ describe("fetchGitHubReleases", () => {
     expect(result).toContain("v1.0.0");
   });
 
-  it("uses GT_GITHUB_TOKEN for Authorization header when set", async () => {
-    process.env.GT_GITHUB_TOKEN = "test-token-abc";
+  it("uses GL_GITHUB_TOKEN for Authorization header when set", async () => {
+    process.env.GL_GITHUB_TOKEN = "test-token-abc";
     mockFetch.mockResolvedValueOnce(makeRes(JSON.stringify([
       { tag_name: "v1.0.0", body: "Release", published_at: "2024-01-01T00:00:00Z", prerelease: false },
     ])));
     await fetchGitHubReleases("https://github.com/org/repo");
     const [, options] = mockFetch.mock.calls[0]!;
     expect((options as RequestInit).headers).toMatchObject({ Authorization: "Bearer test-token-abc" });
-    delete process.env.GT_GITHUB_TOKEN;
+    delete process.env.GL_GITHUB_TOKEN;
   });
 
   it("strips .git suffix from repo URL", async () => {

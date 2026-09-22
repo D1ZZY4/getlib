@@ -110,8 +110,8 @@ describe("embedWatermark", () => {
     expect(stripInvisible(result)).toBe("\n");
   });
 
-  it("returns text unchanged with no invisible chars when GT_NO_WATERMARK=1", () => {
-    vi.stubEnv("GT_NO_WATERMARK", "1");
+  it("returns text unchanged with no invisible chars when GL_NO_WATERMARK=1", () => {
+    vi.stubEnv("GL_NO_WATERMARK", "1");
     const input = "hello\nworld";
     const result = embedWatermark(input);
     expect(result).toBe(input);

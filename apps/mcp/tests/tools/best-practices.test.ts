@@ -120,7 +120,7 @@ beforeEach(() => {
 describe("registerBestPracticesTool", () => {
   it("registers the tool with the correct name", () => {
     expect(mockServer.registerTool).toHaveBeenCalledWith(
-      "gt_best_practices",
+      "gl_best_practices",
       expect.anything(),
       expect.any(Function),
     );

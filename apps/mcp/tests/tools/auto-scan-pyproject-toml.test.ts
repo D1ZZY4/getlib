@@ -9,7 +9,7 @@ async function withTempDir(
   files: Record<string, string>,
   fn: (dir: string) => Promise<void>,
 ): Promise<void> {
-  const dir = await mkdtemp(join(tmpdir(), "gt-mcp-test-"));
+  const dir = await mkdtemp(join(tmpdir(), "gl-mcp-test-"));
   try {
     for (const [name, content] of Object.entries(files)) {
       await writeFile(join(dir, name), content, "utf-8");

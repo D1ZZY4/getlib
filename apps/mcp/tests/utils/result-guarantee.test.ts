@@ -7,7 +7,7 @@ describe("result-guarantee", () => {
       const text = buildFallbackResponse({ displayName: "FakeLib" });
       expect(text).toContain("FakeLib");
       expect(text).toContain("What to do next");
-      expect(text).toContain("gt_resolve_library");
+      expect(text).toContain("gl_resolve_library");
     });
 
     it("includes attempted sources when provided", () => {
@@ -26,7 +26,7 @@ describe("result-guarantee", () => {
       });
       expect(text).toContain("custom suggestion A");
       expect(text).toContain("custom suggestion B");
-      expect(text).not.toContain("gt_resolve_library");
+      expect(text).not.toContain("gl_resolve_library");
     });
 
     it("includes IP notice header (via withNotice)", () => {

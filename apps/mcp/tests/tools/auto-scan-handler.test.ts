@@ -120,7 +120,7 @@ beforeEach(async () => {
 describe("registerAutoScanTool", () => {
   it("registers the tool with the correct name", () => {
     expect(mockServer.registerTool).toHaveBeenCalledWith(
-      "gt_auto_scan",
+      "gl_auto_scan",
       expect.anything(),
       expect.any(Function),
     );

@@ -36,7 +36,7 @@ async function checkUrl(url, timeout = 10000) {
         method,
         signal: controller.signal,
         redirect: "follow",
-        headers: { "User-Agent": "GroundTruth-URLCheck/1.0" },
+        headers: { "User-Agent": "GetLib-URLCheck/1.0" },
       });
       clearTimeout(id);
       if (res.ok) return { url, status: res.status, ok: true };

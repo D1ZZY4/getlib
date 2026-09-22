@@ -13,7 +13,7 @@ export interface LibraryResult {
 
 /** Server-wide FetchSemaphore caps at 12, so 8 leaves headroom for other tools. */
 function concurrency(): number {
-  const raw = parseInt(process.env.GT_CONCURRENCY ?? "8", 10);
+  const raw = parseInt(process.env.GL_CONCURRENCY ?? "8", 10);
   return Number.isFinite(raw) && raw > 0 ? Math.min(raw, 12) : 8;
 }
 

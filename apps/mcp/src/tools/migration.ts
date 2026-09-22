@@ -25,7 +25,7 @@ const InputSchema = z.object({
     .string()
     .min(1)
     .max(300)
-    .describe("Library ID from gt_resolve_library (e.g. 'vercel/next.js')"),
+    .describe("Library ID from gl_resolve_library (e.g. 'vercel/next.js')"),
   fromVersion: z
     .string()
     .max(50)
@@ -48,19 +48,19 @@ const InputSchema = z.object({
 /** Returned when the whole pipeline exceeds the tool timeout — an actionable
  *  next step beats a hung call or an MCP-level timeout error. */
 const TIMEOUT_RESPONSE = {
-  content: [{ type: "text" as const, text: "Migration lookup timed out. Retry with explicit fromVersion/toVersion, or call gt_changelog instead." }],
+  content: [{ type: "text" as const, text: "Migration lookup timed out. Retry with explicit fromVersion/toVersion, or call gl_changelog instead." }],
 };
 
 export function registerMigrationTool(server: McpServer): void {
   server.registerTool(
-    "gt_migration",
+    "gl_migration",
     {
       title: "Get Migration Guide",
       description: `Fetch migration guides, breaking changes, and upgrade instructions for a library. Targets MIGRATION.md, UPGRADING.md, CHANGELOG, release notes, and upgrade docs.
 
-Call gt_resolve_library first to get the libraryId.
+Call gl_resolve_library first to get the libraryId.
 
-Use this when the user asks HOW to upgrade their code from one version to another (step-by-step migration instructions, breaking changes, code transforms needed). For "what changed in version X" release notes without upgrade instructions, use gt_changelog instead.`,
+Use this when the user asks HOW to upgrade their code from one version to another (step-by-step migration instructions, breaking changes, code transforms needed). For "what changed in version X" release notes without upgrade instructions, use gl_changelog instead.`,
       inputSchema: InputSchema,
       annotations: {
         readOnlyHint: true,
@@ -70,7 +70,7 @@ Use this when the user asks HOW to upgrade their code from one version to anothe
       },
     },
     async ({ libraryId, fromVersion, toVersion, tokens }) => {
-      return withTelemetry("gt_migration", async (ctx) => {
+      return withTelemetry("gl_migration", async (ctx) => {
         ctx.resolved = true;
         return withToolTimeout(async () => {
           if (isExtractionAttempt(libraryId)) {
@@ -87,7 +87,7 @@ Use this when the user asks HOW to upgrade their code from one version to anothe
             return {
               content: [{
                 type: "text",
-                text: `Could not resolve "${libraryId}". Try gt_resolve_library first to find the correct ID.`,
+                text: `Could not resolve "${libraryId}". Try gl_resolve_library first to find the correct ID.`,
               }],
             };
           }
@@ -125,7 +125,7 @@ Use this when the user asks HOW to upgrade their code from one version to anothe
             return {
               content: [{
                 type: "text",
-                text: `No migration guides found for "${displayName}". Try gt_changelog for release notes, or gt_get_docs with topic "migration".`,
+                text: `No migration guides found for "${displayName}". Try gl_changelog for release notes, or gl_get_docs with topic "migration".`,
               }],
             };
           }

@@ -84,7 +84,7 @@ beforeEach(() => {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_compat handler", () => {
+describe("gl_compat handler", () => {
   describe("caches result", () => {
     it("sets cache after successful fetch", async () => {
       vi.mocked(fetchAsMarkdownRace).mockResolvedValue(MDN_CONTENT);

@@ -117,7 +117,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_best_practices handler", () => {
+describe("gl_best_practices handler", () => {
   describe("response format", () => {
     it("stores combined effectiveTopic in structuredContent when topic and version provided", async () => {
       const entry = makeEntry();

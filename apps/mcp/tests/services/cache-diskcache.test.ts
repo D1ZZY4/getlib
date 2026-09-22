@@ -12,7 +12,7 @@ describe("DiskCache", () => {
   let tmpDir: string;
 
   beforeEach(async () => {
-    tmpDir = await mkdtemp(join(tmpdir(), "gt-mcp-diskcache-test-"));
+    tmpDir = await mkdtemp(join(tmpdir(), "gl-mcp-diskcache-test-"));
   });
 
   afterEach(async () => {
@@ -32,15 +32,15 @@ describe("DiskCache", () => {
     // it via the module internals by creating a new instance the same way the module does.
     // The cleanest approach: re-export via a test helper — but since we can't modify source,
     // we test through the exported diskDocCache after patching the env variable.
-    // Use DiskCache via dynamic module with patched GT_CACHE_DIR
-    process.env.GT_CACHE_DIR = dir;
+    // Use DiskCache via dynamic module with patched GL_CACHE_DIR
+    process.env.GL_CACHE_DIR = dir;
     vi.resetModules();
     const { diskDocCache: cache } = await import("../../src/services/cache.js");
     return cache;
   }
 
   afterEach(() => {
-    delete process.env.GT_CACHE_DIR;
+    delete process.env.GL_CACHE_DIR;
   });
 
   it("stores and retrieves a string value", async () => {
@@ -109,7 +109,7 @@ describe("DiskCache", () => {
 
     // Simulate a new session by re-importing
     vi.resetModules();
-    process.env.GT_CACHE_DIR = tmpDir;
+    process.env.GL_CACHE_DIR = tmpDir;
     const { diskDocCache: c2 } = await import("../../src/services/cache.js");
     const result = await c2.get("persisted");
     expect(result).toBe("cross-session value");

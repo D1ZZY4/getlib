@@ -79,14 +79,14 @@ beforeEach(() => {
   vi.mocked(isExtractionAttempt).mockReturnValue(false);
   // GitHub code search is token-only; the handler now skips the call entirely
   // without one, so the GitHub-path tests must supply a token.
-  process.env.GT_GITHUB_TOKEN = "test-token";
+  process.env.GL_GITHUB_TOKEN = "test-token";
 });
 
 afterEach(() => {
-  delete process.env.GT_GITHUB_TOKEN;
+  delete process.env.GL_GITHUB_TOKEN;
 });
 
-describe("gt_examples docs fallback (GitHub code search is auth-only)", () => {
+describe("gl_examples docs fallback (GitHub code search is auth-only)", () => {
   it("serves official-docs snippets when GitHub returns 401", async () => {
     const { buildIndex } = await import("../../src/tools/snippets.js");
     vi.mocked(buildIndex).mockResolvedValueOnce({
@@ -112,6 +112,6 @@ describe("gt_examples docs fallback (GitHub code search is auth-only)", () => {
   it("keeps the honest error when no docs fallback exists either", async () => {
     mockFetchWithTimeout.mockResolvedValue(makeRes("", 401));
     const result = await handler({ library: "totally-unknown-lib-xyz", maxResults: 5 });
-    expect(result.content[0]!.text).toContain("GT_GITHUB_TOKEN");
+    expect(result.content[0]!.text).toContain("GL_GITHUB_TOKEN");
   });
 });

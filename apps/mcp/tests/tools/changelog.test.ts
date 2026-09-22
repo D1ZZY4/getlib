@@ -107,7 +107,7 @@ beforeEach(() => {
 describe("registerChangelogTool", () => {
   it("registers the tool with the correct name", () => {
     expect(mockServer.registerTool).toHaveBeenCalledWith(
-      "gt_changelog",
+      "gl_changelog",
       expect.anything(),
       expect.any(Function),
     );

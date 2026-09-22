@@ -117,7 +117,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_best_practices handler", () => {
+describe("gl_best_practices handler", () => {
   describe("GitHub fallback chain", () => {
     it("tries fetchGitHubExamples when fetchDocs throws", async () => {
       const entry = makeEntry({ id: "test/github-fallback" });

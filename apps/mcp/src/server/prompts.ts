@@ -9,7 +9,7 @@ export function registerPrompts(server: McpServer): void {
     () => ({
       messages: [{
         role: "user",
-        content: { type: "text", text: "Please use gt_audit to scan this project for all code issues (layout, performance, accessibility, security, React, Next.js, TypeScript, Node.js, Python). For each issue type found, fetch live best-practice fixes and show me what to change at each file:line location." },
+        content: { type: "text", text: "Please use gl_audit to scan this project for all code issues (layout, performance, accessibility, security, React, Next.js, TypeScript, Node.js, Python). For each issue type found, fetch live best-practice fixes and show me what to change at each file:line location." },
       }],
     }),
   );
@@ -21,7 +21,7 @@ export function registerPrompts(server: McpServer): void {
     ({ library }) => ({
       messages: [{
         role: "user",
-        content: { type: "text", text: `Use gt_changelog to fetch the recent release notes for ${library}. Summarize what changed, highlight any breaking changes, and list migration steps if available.` },
+        content: { type: "text", text: `Use gl_changelog to fetch the recent release notes for ${library}. Summarize what changed, highlight any breaking changes, and list migration steps if available.` },
       }],
     }),
   );
@@ -32,7 +32,7 @@ export function registerPrompts(server: McpServer): void {
     () => ({
       messages: [{
         role: "user",
-        content: { type: "text", text: "Use gt_auto_scan to detect all dependencies in this project and fetch the latest best practices for each one. Highlight any patterns we should update." },
+        content: { type: "text", text: "Use gl_auto_scan to detect all dependencies in this project and fetch the latest best practices for each one. Highlight any patterns we should update." },
       }],
     }),
   );
@@ -44,7 +44,7 @@ export function registerPrompts(server: McpServer): void {
     ({ libraries }) => ({
       messages: [{
         role: "user",
-        content: { type: "text", text: `Use gt_compare to compare these libraries side-by-side: ${libraries}. Show their key differences, tradeoffs, and which use cases each one fits best.` },
+        content: { type: "text", text: `Use gl_compare to compare these libraries side-by-side: ${libraries}. Show their key differences, tradeoffs, and which use cases each one fits best.` },
       }],
     }),
   );
@@ -56,7 +56,7 @@ export function registerPrompts(server: McpServer): void {
     ({ topic }) => ({
       messages: [{
         role: "user",
-        content: { type: "text", text: `Use gt_search to find the latest OWASP guidance and security best practices for: ${topic}. Include prevention techniques, code examples if available, and any relevant CVEs or spec references.` },
+        content: { type: "text", text: `Use gl_search to find the latest OWASP guidance and security best practices for: ${topic}. Include prevention techniques, code examples if available, and any relevant CVEs or spec references.` },
       }],
     }),
   );
@@ -74,7 +74,7 @@ export function registerPrompts(server: McpServer): void {
         role: "user",
         content: {
           type: "text",
-          text: `Use gt_changelog and gt_get_docs to find the migration guide for ${library}${fromVersion ? ` from v${fromVersion}` : ""}${toVersion ? ` to v${toVersion}` : ""}. List all breaking changes, required code modifications, and step-by-step upgrade instructions.`,
+          text: `Use gl_changelog and gl_get_docs to find the migration guide for ${library}${fromVersion ? ` from v${fromVersion}` : ""}${toVersion ? ` to v${toVersion}` : ""}. List all breaking changes, required code modifications, and step-by-step upgrade instructions.`,
         },
       }],
     }),
@@ -92,7 +92,7 @@ export function registerPrompts(server: McpServer): void {
         role: "user",
         content: {
           type: "text",
-          text: `Use gt_examples to find real-world code examples of "${pattern}" using ${library}. Show the most relevant examples with context and explain the patterns used.`,
+          text: `Use gl_examples to find real-world code examples of "${pattern}" using ${library}. Show the most relevant examples with context and explain the patterns used.`,
         },
       }],
     }),
@@ -106,7 +106,7 @@ export function registerPrompts(server: McpServer): void {
         role: "user",
         content: {
           type: "text",
-          text: "Use gt_auto_scan to detect all dependencies in this project, then for each one check if we're using any deprecated patterns. Flag outdated code and fetch the current recommended approach from official docs.",
+          text: "Use gl_auto_scan to detect all dependencies in this project, then for each one check if we're using any deprecated patterns. Flag outdated code and fetch the current recommended approach from official docs.",
         },
       }],
     }),

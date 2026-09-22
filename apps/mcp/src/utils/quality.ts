@@ -99,7 +99,7 @@ export function computeQualityScore(
     codeDensityBonus +
     listBonus;
 
-  // When the caller asks about specific versions (gt_migration 15 -> 16),
+  // When the caller asks about specific versions (gl_migration 15 -> 16),
   // content that never names the target version is almost always the wrong
   // band — multiply the score down rather than reporting a misleading high one.
   const versionFactor =
@@ -113,8 +113,8 @@ export function computeQualityScore(
     hints.push("Content does not reference the requested version -- it may be from a different release; verify against the official upgrade guide");
   }
   if (topicCoverage < 0.5) hints.push("Try a more specific topic");
-  if (sourceScore < 0.6) hints.push("Try gt_resolve_library for a more accurate library ID");
-  if (lengthScore < 0.5) hints.push("Content is sparse -- try gt_search for alternative sources");
+  if (sourceScore < 0.6) hints.push("Try gl_resolve_library for a more accurate library ID");
+  if (lengthScore < 0.5) hints.push("Content is sparse -- try gl_search for alternative sources");
   if (hasStructure < 0.6) hints.push("Content lacks structure -- may be a README, try the official docs URL directly");
 
   return { score: Math.round(Math.min(score, 1) * 100) / 100, hints };

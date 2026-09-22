@@ -10,11 +10,11 @@
 </td></tr></table>
 </div>
 
-<h3 align="center">Your AI assistant just mass-produced deprecated code again.<br/>You merged it because the formatting was clean.<br/><br/>GroundTruth fixes that.</h3>
+<h3 align="center">Your AI assistant just mass-produced deprecated code again.<br/>You merged it because the formatting was clean.<br/><br/>GetLib fixes that.</h3>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@groundtruth-mcp/gt-mcp"><img src="https://img.shields.io/npm/v/@groundtruth-mcp/gt-mcp?color=00d4aa&label=npm" alt="npm version" /></a>
-  <a href="https://github.com/rm-rf-prod/GroundTruth-MCP/actions/workflows/ci.yml"><img src="https://github.com/rm-rf-prod/GroundTruth-MCP/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://www.npmjs.com/package/@getlib/gl-mcp"><img src="https://img.shields.io/npm/v/@getlib/gl-mcp?color=00d4aa&label=npm" alt="npm version" /></a>
+  <a href="https://github.com/rm-rf-prod/GetLib-MCP/actions/workflows/ci.yml"><img src="https://github.com/rm-rf-prod/GetLib-MCP/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-ELv2-orange" alt="Elastic License 2.0" /></a>
   <img src="https://img.shields.io/badge/libraries-598%2B-teal" alt="598+ curated libraries" />
   <img src="https://img.shields.io/badge/audit_patterns-107%2B-red" alt="107+ audit patterns" />
@@ -23,7 +23,7 @@
   <img src="https://img.shields.io/badge/node-%3E%3D24-green" alt="Node 24+" />
 </p>
 
-<h4 align="center">Self-hosted MCP server. 598+ libraries. 14 tools. A dispatch tool routes "use gt mcp" to the right call.<br/>Every answer is checked against your question before you get it — no generic filler.<br/>SSRF and Unicode-injection hardened. Per-tool telemetry. Atomic disk cache. No rate limits, no API keys.</h4>
+<h4 align="center">Self-hosted MCP server. 598+ libraries. 14 tools. A dispatch tool routes "use gl mcp" to the right call.<br/>Every answer is checked against your question before you get it — no generic filler.<br/>SSRF and Unicode-injection hardened. Per-tool telemetry. Atomic disk cache. No rate limits, no API keys.</h4>
 
 ---
 
@@ -31,12 +31,12 @@
 
 Your model doesn't know that React 19 killed `forwardRef`, that Next.js made `cookies()` async, or that Tailwind v4 nuked `@tailwind` directives. It writes deprecated patterns with full confidence. It hands you SQL injection dressed up as a query builder and uses `any` in TypeScript like it's a feature.
 
-**GroundTruth runs on your machine.** Fetches docs from the source — `llms.txt`, Jina Reader, GitHub — right when you ask. 598+ curated libraries, plus npm, PyPI, crates.io, and pkg.go.dev as fallback. The audit tool reads your actual files, finds issues at exact `file:line` locations, and fetches the current fix from the real spec.
+**GetLib runs on your machine.** Fetches docs from the source — `llms.txt`, Jina Reader, GitHub — right when you ask. 598+ curated libraries, plus npm, PyPI, crates.io, and pkg.go.dev as fallback. The audit tool reads your actual files, finds issues at exact `file:line` locations, and fetches the current fix from the real spec.
 
 ---
 
 <p align="center">
-  <img src="./diagram.webp" alt="GroundTruth architecture — library nodes connected to a central hub, code audit panel, live documentation fetch" width="100%" />
+  <img src="./diagram.webp" alt="GetLib architecture — library nodes connected to a central hub, code audit panel, live documentation fetch" width="100%" />
 </p>
 
 ---
@@ -46,7 +46,7 @@ Your model doesn't know that React 19 killed `forwardRef`, that Next.js made `co
 ### Claude Code
 
 ```bash
-claude mcp add gt -- npx -y @groundtruth-mcp/gt-mcp@latest
+claude mcp add gl -- npx -y @getlib/gl-mcp@latest
 ```
 
 ### Cursor / Claude Desktop / VS Code
@@ -56,9 +56,9 @@ Add to your MCP config (`claude_desktop_config.json`, `.cursor/mcp.json`, or `.v
 ```json
 {
   "mcpServers": {
-    "gt": {
+    "gl": {
       "command": "npx",
-      "args": ["-y", "@groundtruth-mcp/gt-mcp@latest"]
+      "args": ["-y", "@getlib/gl-mcp@latest"]
     }
   }
 }
@@ -68,14 +68,14 @@ No build step. No config file. Node.js 24+. Using `@latest` means npx pulls the 
 
 ### Optional: GitHub token
 
-GroundTruth fetches README files, release notes, migration guides, and code examples from GitHub. Unauthenticated requests are limited to 60/hr. A token with no extra scopes takes it to 5,000/hr.
+GetLib fetches README files, release notes, migration guides, and code examples from GitHub. Unauthenticated requests are limited to 60/hr. A token with no extra scopes takes it to 5,000/hr.
 
 ```bash
 # Claude Code
-claude mcp add gt -e GT_GITHUB_TOKEN=ghp_yourtoken -- npx -y @groundtruth-mcp/gt-mcp@latest
+claude mcp add gl -e GL_GITHUB_TOKEN=ghp_yourtoken -- npx -y @getlib/gl-mcp@latest
 
 # Cursor / Claude Desktop / VS Code — add env to your config:
-"env": { "GT_GITHUB_TOKEN": "ghp_yourtoken" }
+"env": { "GL_GITHUB_TOKEN": "ghp_yourtoken" }
 ```
 
 ---
@@ -86,20 +86,20 @@ Fourteen tools. Each does one thing.
 
 | Tool | What it does |
 |---|---|
-| `gt_resolve_library` | Find a library by name. Falls back to npm, PyPI, crates.io, pkg.go.dev |
-| `gt_get_docs` | Fetch live docs for a specific topic |
-| `gt_best_practices` | Patterns, anti-patterns, and config guidance for any library |
-| `gt_auto_scan` | Read your manifest, fetch best practices for every dependency |
-| `gt_search` | Search OWASP, MDN, web.dev, W3C, AI provider docs, Google APIs |
-| `gt_audit` | Scan source files — issues at exact `file:line` with live fixes |
-| `gt_changelog` | Release notes before you upgrade |
-| `gt_compat` | Browser and runtime compatibility via MDN + caniuse |
-| `gt_compare` | Compare 2-3 libraries side-by-side |
-| `gt_examples` | Real-world code examples from GitHub |
-| `gt_migration` | Migration guides and breaking changes |
-| `gt_batch_resolve` | Resolve up to 20 libraries in one call |
-| `gt_snippets` | Pre-indexed, ranked code snippets per library and version, cached on disk |
-| `gt_dispatch` | Routes a plain-text query ("use gt mcp") to the right tool with args |
+| `gl_resolve_library` | Find a library by name. Falls back to npm, PyPI, crates.io, pkg.go.dev |
+| `gl_get_docs` | Fetch live docs for a specific topic |
+| `gl_best_practices` | Patterns, anti-patterns, and config guidance for any library |
+| `gl_auto_scan` | Read your manifest, fetch best practices for every dependency |
+| `gl_search` | Search OWASP, MDN, web.dev, W3C, AI provider docs, Google APIs |
+| `gl_audit` | Scan source files — issues at exact `file:line` with live fixes |
+| `gl_changelog` | Release notes before you upgrade |
+| `gl_compat` | Browser and runtime compatibility via MDN + caniuse |
+| `gl_compare` | Compare 2-3 libraries side-by-side |
+| `gl_examples` | Real-world code examples from GitHub |
+| `gl_migration` | Migration guides and breaking changes |
+| `gl_batch_resolve` | Resolve up to 20 libraries in one call |
+| `gl_snippets` | Pre-indexed, ranked code snippets per library and version, cached on disk |
+| `gl_dispatch` | Routes a plain-text query ("use gl mcp") to the right tool with args |
 
 ---
 
@@ -108,43 +108,43 @@ Fourteen tools. Each does one thing.
 You don't need to memorize tool names. Just talk to your AI assistant.
 
 ```
-use gt for nextjs
-use gt for drizzle migrations
-gt audit
-use gt to check WCAG focus indicators
-use gt for OpenTelemetry setup
-find all issues and fix with gt
-use gt for Google Gemini API
-use gt for Claude tool use
+use gl for nextjs
+use gl for drizzle migrations
+gl audit
+use gl to check WCAG focus indicators
+use gl for OpenTelemetry setup
+find all issues and fix with gl
+use gl for Google Gemini API
+use gl for Claude tool use
 ```
 
 Or call tools directly:
 
 ```typescript
-gt_resolve_library({ libraryName: "nestjs" })
-gt_get_docs({ libraryId: "nestjs/nest", topic: "guards" })
-gt_best_practices({ libraryId: "vercel/next.js", topic: "caching" })
-gt_auto_scan({ projectPath: "." })
-gt_search({ query: "OWASP SQL injection prevention" })
-gt_audit({ projectPath: ".", categories: ["security", "accessibility"] })
-gt_changelog({ libraryId: "vercel/next.js", version: "15" })
-gt_compat({ feature: "CSS container queries", environments: ["safari"] })
-gt_compare({ libraries: ["prisma", "drizzle-orm"], criteria: "TypeScript support" })
-gt_examples({ library: "hono", pattern: "middleware" })
+gl_resolve_library({ libraryName: "nestjs" })
+gl_get_docs({ libraryId: "nestjs/nest", topic: "guards" })
+gl_best_practices({ libraryId: "vercel/next.js", topic: "caching" })
+gl_auto_scan({ projectPath: "." })
+gl_search({ query: "OWASP SQL injection prevention" })
+gl_audit({ projectPath: ".", categories: ["security", "accessibility"] })
+gl_changelog({ libraryId: "vercel/next.js", version: "15" })
+gl_compat({ feature: "CSS container queries", environments: ["safari"] })
+gl_compare({ libraries: ["prisma", "drizzle-orm"], criteria: "TypeScript support" })
+gl_examples({ library: "hono", pattern: "middleware" })
 ```
 
 ---
 
-## `gt_audit` — the one that finds what you missed
+## `gl_audit` — the one that finds what you missed
 
 Walks your project, runs 107+ patterns across 18 categories, pinpoints issues at `file:line`, then fetches fix guidance from the authoritative source.
 
 ```
-gt_audit({ categories: ["all"] })                      // all 18 categories
-gt_audit({ categories: ["security", "node"] })         // OWASP + Node.js
-gt_audit({ categories: ["python", "security"] })       // Python OWASP scan
-gt_audit({ categories: ["accessibility"] })            // WCAG AA
-gt_audit({ categories: ["typescript", "react"] })      // type safety + React rules
+gl_audit({ categories: ["all"] })                      // all 18 categories
+gl_audit({ categories: ["security", "node"] })         // OWASP + Node.js
+gl_audit({ categories: ["python", "security"] })       // Python OWASP scan
+gl_audit({ categories: ["accessibility"] })            // WCAG AA
+gl_audit({ categories: ["typescript", "react"] })      // type safety + React rules
 ```
 
 | Category | What it checks |
@@ -176,29 +176,29 @@ Live fix: OWASP SQL Injection Prevention Cheat Sheet
 
 ---
 
-## `gt_auto_scan` — best practices for your whole stack
+## `gl_auto_scan` — best practices for your whole stack
 
 Point it at your project root. It reads the manifest, figures out what you're using, and pulls best practices for each dependency.
 
 ```
-gt_auto_scan({ projectPath: "." })
+gl_auto_scan({ projectPath: "." })
 ```
 
 Supports `package.json`, `requirements.txt`, `pyproject.toml`, `Cargo.toml`, `go.mod`, `pom.xml`, `build.gradle`, and `composer.json`.
 
 ---
 
-## `gt_search` — anything that isn't a specific library
+## `gl_search` — anything that isn't a specific library
 
 Covers security, accessibility, performance, web APIs, CSS, HTTP, AI providers, Google APIs, infrastructure, databases, and more.
 
 ```
-gt_search({ query: "WCAG 2.2 focus indicators" })
-gt_search({ query: "Core Web Vitals LCP optimization" })
-gt_search({ query: "Claude tool use best practices" })
-gt_search({ query: "Google Gemini API function calling" })
-gt_search({ query: "JWT vs session cookies" })
-gt_search({ query: "gRPC vs REST tradeoffs" })
+gl_search({ query: "WCAG 2.2 focus indicators" })
+gl_search({ query: "Core Web Vitals LCP optimization" })
+gl_search({ query: "Claude tool use best practices" })
+gl_search({ query: "Google Gemini API function calling" })
+gl_search({ query: "JWT vs session cookies" })
+gl_search({ query: "gRPC vs REST tradeoffs" })
 ```
 
 | Area | Topics |
@@ -215,12 +215,12 @@ gt_search({ query: "gRPC vs REST tradeoffs" })
 ---
 
 <p align="center">
-  <img src="./network.webp" alt="GroundTruth — documentation source network: llms.txt, OWASP, MDN, GitHub, npm" width="100%" />
+  <img src="./network.webp" alt="GetLib — documentation source network: llms.txt, OWASP, MDN, GitHub, npm" width="100%" />
 </p>
 
 ## How docs are fetched
 
-For every request, GroundTruth tries sources in order and stops at the first one that returns useful content:
+For every request, GetLib tries sources in order and stops at the first one that returns useful content:
 
 1. **`llms.txt` / `llms-full.txt`** — context files published by maintainers for LLM consumption
 2. **Jina Reader** — converts docs pages to clean markdown, handles JS-rendered sites
@@ -233,7 +233,7 @@ For every request, GroundTruth tries sources in order and stops at the first one
 
 The failure mode of every docs tool is the confident non-answer: you ask about row-level security, the tool hands back the Postgres landing page, and your model writes something plausible from it.
 
-GroundTruth checks the content it fetched against the question you asked before returning it. The check measures how many of your topic's terms appear, how often, and whether they show up in a heading or inside a code block. Link targets and URL query strings don't count — a 404 page whose nav links happen to contain your topic doesn't pass.
+GetLib checks the content it fetched against the question you asked before returning it. The check measures how many of your topic's terms appear, how often, and whether they show up in a heading or inside a code block. Link targets and URL query strings don't count — a 404 page whose nav links happen to contain your topic doesn't pass.
 
 Three things follow from that:
 
@@ -273,7 +273,7 @@ The full curated list is the registry source itself: [`src/sources/registry.ts`]
 
 Context7 is solid. Here's why I reach for this instead.
 
-| | GroundTruth | Context7 |
+| | GetLib | Context7 |
 |---|---|---|
 | Hosting | Self-hosted (stdio) + HTTP mode | Cloud backend, local MCP client |
 | Rate limits | None | 1,000 free/month ($10/seat for 5,000) |
@@ -289,7 +289,7 @@ Context7 is solid. Here's why I reach for this instead.
 | Libraries | 598+ curated + npm/PyPI/crates.io/Go fallback | Undisclosed (claims "thousands") |
 | API key required | No | No |
 
-Context7 indexes docs into a vector database — fast lookups, but with indexing lag on new releases. GroundTruth fetches from the source at query time, prioritizes `llms.txt`, and scores content quality so your model knows when to retry.
+Context7 indexes docs into a vector database — fast lookups, but with indexing lag on new releases. GetLib fetches from the source at query time, prioritizes `llms.txt`, and scores content quality so your model knows when to retry.
 
 ---
 
@@ -299,12 +299,12 @@ All optional. Works out of the box with zero configuration.
 
 | Variable | Purpose | Default |
 |---|---|---|
-| `GT_GITHUB_TOKEN` | GitHub API auth — raises rate limit from 60 to 5,000 req/hr | none |
-| `GT_CACHE_DIR` | Disk cache location for persistent cross-session caching | `~/.gt-mcp-cache` |
-| `GT_CONCURRENCY` | Parallel fetch limit in `gt_auto_scan` | `8` |
-| `GT_AUTH_TOKEN` | Bearer token required for HTTP transport endpoints | none |
-| `GT_HTTP_PORT` | Port to enable HTTP transport (otherwise stdio) | none |
-| `GT_HTTP_STATEFUL` | Set `=1` for session-per-request HTTP mode | `0` (stateless) |
+| `GL_GITHUB_TOKEN` | GitHub API auth — raises rate limit from 60 to 5,000 req/hr | none |
+| `GL_CACHE_DIR` | Disk cache location for persistent cross-session caching | `~/.gl-mcp-cache` |
+| `GL_CONCURRENCY` | Parallel fetch limit in `gl_auto_scan` | `8` |
+| `GL_AUTH_TOKEN` | Bearer token required for HTTP transport endpoints | none |
+| `GL_HTTP_PORT` | Port to enable HTTP transport (otherwise stdio) | none |
+| `GL_HTTP_STATEFUL` | Set `=1` for session-per-request HTTP mode | `0` (stateless) |
 
 ---
 
@@ -312,43 +312,43 @@ All optional. Works out of the box with zero configuration.
 
 The public registry lives in `src/sources/registry.ts`. Adding a library is a PR with `id`, `name`, `docsUrl`, and `llmsTxtUrl` if the project publishes one.
 
-Issues and requests: [github.com/rm-rf-prod/GroundTruth-MCP/issues](https://github.com/rm-rf-prod/GroundTruth-MCP/issues)
+Issues and requests: [github.com/rm-rf-prod/GetLib-MCP/issues](https://github.com/rm-rf-prod/GetLib-MCP/issues)
 
 ---
 
 ## Active development
 
-GroundTruth is under active development. New curated registry entries, audit patterns, search topics, and features are added regularly. The registry covers 598+ libraries with 100% bestPracticesPaths and urlPatterns coverage. Automatic fallback to npm, PyPI, crates.io, and pkg.go.dev means any public package is resolvable out of the box.
+GetLib is under active development. New curated registry entries, audit patterns, search topics, and features are added regularly. The registry covers 598+ libraries with 100% bestPracticesPaths and urlPatterns coverage. Automatic fallback to npm, PyPI, crates.io, and pkg.go.dev means any public package is resolvable out of the box.
 
 To stay updated:
-- **Star and watch** the [GitHub repo](https://github.com/rm-rf-prod/GroundTruth-MCP) for release notifications
+- **Star and watch** the [GitHub repo](https://github.com/rm-rf-prod/GetLib-MCP) for release notifications
 - **Use `@latest`** in your MCP config (the default install command) — npx fetches the newest version automatically
-- **Check tool responses** — GroundTruth appends an update notice when a newer version is available
+- **Check tool responses** — GetLib appends an update notice when a newer version is available
 
 ---
 
 ## Reference
 
-Every tool ships its own full schema and description — your MCP client lists them, and `gt_dispatch` explains which one it would pick for a given phrasing and why.
+Every tool ships its own full schema and description — your MCP client lists them, and `gl_dispatch` explains which one it would pick for a given phrasing and why.
 
 | What | Where |
 |---|---|
 | Tool schemas and parameter docs | `tools/list` in any MCP client, or [`src/tools/`](./src/tools/) |
 | Complete library list | [`src/sources/registry.ts`](./src/sources/registry.ts) |
 | Audit rules — 107 patterns, 18 categories | [`src/sources/audit-patterns.ts`](./src/sources/audit-patterns.ts) |
-| Routing table | `npx @groundtruth-mcp/gt-mcp --routing-table` |
-| Health, telemetry, circuit-breaker state | `npx @groundtruth-mcp/gt-mcp --health`, or `/health` in HTTP mode |
+| Routing table | `npx @getlib/gl-mcp --routing-table` |
+| Health, telemetry, circuit-breaker state | `npx @getlib/gl-mcp --health`, or `/health` in HTTP mode |
 | Release history | [CHANGELOG.md](./CHANGELOG.md) |
 
 ---
 
 ## Star history
 
-<a href="https://star-history.com/#rm-rf-prod/GroundTruth-MCP&Date">
+<a href="https://star-history.com/#rm-rf-prod/GetLib-MCP&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rm-rf-prod/GroundTruth-MCP&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rm-rf-prod/GroundTruth-MCP&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=rm-rf-prod/GroundTruth-MCP&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rm-rf-prod/GetLib-MCP&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rm-rf-prod/GetLib-MCP&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=rm-rf-prod/GetLib-MCP&type=Date" />
   </picture>
 </a>
 

@@ -33,7 +33,7 @@ function headingVersions(heading: string): number[] {
  * include state of the preceding versioned heading, so nested content under an
  * in-band heading survives and content under an out-of-band heading is dropped.
  *
- * This is the core fix for the gt_migration P0: without it, a "Next.js 15 -> 16"
+ * This is the core fix for the gl_migration P0: without it, a "Next.js 15 -> 16"
  * query returned v8-v11 ancient sections because every historical "Upgrading..."
  * heading scored well on a version-blind BM25 pass. When neither bound is given,
  * or no versioned heading matches the band, the original content is returned

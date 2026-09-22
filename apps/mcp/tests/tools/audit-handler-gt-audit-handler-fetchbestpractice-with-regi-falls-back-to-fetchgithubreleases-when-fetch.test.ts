@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — fetchBestPractice with registry match", () => {
+describe("gl_audit handler — fetchBestPractice with registry match", () => {
   it("falls back to fetchGitHubReleases when fetchDocs rejects (catch-and-fallback path)", async () => {
     // Same react-forwardRef setup as the test above, but fetchDocs rejects this time —
     // exercises the try/catch around fetchDocs in fetchBestPractice (audit.ts ~1618) that

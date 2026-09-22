@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("pypi fallback", () => {
     it("builds correct docsUrl from home_page", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(null);

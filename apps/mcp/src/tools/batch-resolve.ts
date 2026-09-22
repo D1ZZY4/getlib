@@ -15,17 +15,17 @@ const InputSchema = z.object({
 /** Returned when the whole pipeline exceeds the tool timeout — an actionable
  *  next step beats a hung call or an MCP-level timeout error. */
 const TIMEOUT_RESPONSE = {
-  content: [{ type: "text" as const, text: "Library resolution timed out. Retry with fewer names, or call gt_resolve_library one name at a time." }],
+  content: [{ type: "text" as const, text: "Library resolution timed out. Retry with fewer names, or call gl_resolve_library one name at a time." }],
 };
 
 export function registerBatchResolveTool(server: McpServer): void {
   server.registerTool(
-    "gt_batch_resolve",
+    "gl_batch_resolve",
     {
       title: "Batch Resolve Libraries",
       description: `Resolve multiple library names to IDs and docs URLs in a single call. Returns results for each library. Max 20 per call.
 
-Use this when you already have a list of library names and need to batch-resolve them to IDs efficiently (e.g. before calling gt_get_docs for each). Registry-only lookup — no external npm/PyPI/crates fallback. For a single library with external fallback, use gt_resolve_library instead. For scanning a project's actual dependency files and fetching best practices, use gt_auto_scan instead.`,
+Use this when you already have a list of library names and need to batch-resolve them to IDs efficiently (e.g. before calling gl_get_docs for each). Registry-only lookup — no external npm/PyPI/crates fallback. For a single library with external fallback, use gl_resolve_library instead. For scanning a project's actual dependency files and fetching best practices, use gl_auto_scan instead.`,
       inputSchema: InputSchema,
       annotations: {
         readOnlyHint: true,
@@ -35,7 +35,7 @@ Use this when you already have a list of library names and need to batch-resolve
       },
     },
     async ({ libraryNames }) => {
-      return withTelemetry("gt_batch_resolve", async (ctx) => {
+      return withTelemetry("gl_batch_resolve", async (ctx) => {
         ctx.resolved = true;
         return withToolTimeout(async () => {
           const results = await Promise.all(

@@ -117,7 +117,7 @@ beforeEach(async () => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_auto_scan handler", () => {
+describe("gl_auto_scan handler", () => {
   describe("requirements.txt scanning", () => {
     it("detects Python packages from requirements.txt", async () => {
       await mockRequirementsTxt("flask==2.0.1\nrequests>=2.28.0\n# comment\n");

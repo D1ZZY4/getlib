@@ -88,80 +88,80 @@ describe("config defaults", () => {
 });
 
 describe("env var overrides", () => {
-  it("GT_TOKEN_LIMIT overrides tokenLimit", async () => {
-    vi.stubEnv("GT_TOKEN_LIMIT", "5000");
+  it("GL_TOKEN_LIMIT overrides tokenLimit", async () => {
+    vi.stubEnv("GL_TOKEN_LIMIT", "5000");
     const cfg = await loadConfig();
     expect(cfg.tokenLimit).toBe(5000);
   });
 
-  it("GT_MAX_TOKEN_LIMIT overrides maxTokenLimit", async () => {
-    vi.stubEnv("GT_MAX_TOKEN_LIMIT", "10000");
+  it("GL_MAX_TOKEN_LIMIT overrides maxTokenLimit", async () => {
+    vi.stubEnv("GL_MAX_TOKEN_LIMIT", "10000");
     const cfg = await loadConfig();
     expect(cfg.maxTokenLimit).toBe(10000);
   });
 
-  it("GT_CACHE_TTL_MS overrides cacheTtlMs", async () => {
-    vi.stubEnv("GT_CACHE_TTL_MS", "60000");
+  it("GL_CACHE_TTL_MS overrides cacheTtlMs", async () => {
+    vi.stubEnv("GL_CACHE_TTL_MS", "60000");
     const cfg = await loadConfig();
     expect(cfg.cacheTtlMs).toBe(60000);
   });
 
-  it("GT_FETCH_TIMEOUT_MS overrides fetchTimeoutMs", async () => {
-    vi.stubEnv("GT_FETCH_TIMEOUT_MS", "30000");
+  it("GL_FETCH_TIMEOUT_MS overrides fetchTimeoutMs", async () => {
+    vi.stubEnv("GL_FETCH_TIMEOUT_MS", "30000");
     const cfg = await loadConfig();
     expect(cfg.fetchTimeoutMs).toBe(30000);
   });
 
-  it("GT_DEEP_FETCH_MAX_PAGES overrides deepFetchMaxPages", async () => {
-    vi.stubEnv("GT_DEEP_FETCH_MAX_PAGES", "4");
+  it("GL_DEEP_FETCH_MAX_PAGES overrides deepFetchMaxPages", async () => {
+    vi.stubEnv("GL_DEEP_FETCH_MAX_PAGES", "4");
     const cfg = await loadConfig();
     expect(cfg.deepFetchMaxPages).toBe(4);
   });
 
-  it("GT_LOG_FORMAT=json overrides logFormat", async () => {
-    vi.stubEnv("GT_LOG_FORMAT", "json");
+  it("GL_LOG_FORMAT=json overrides logFormat", async () => {
+    vi.stubEnv("GL_LOG_FORMAT", "json");
     const cfg = await loadConfig();
     expect(cfg.logFormat).toBe("json");
   });
 
-  it("GT_LOG_LEVEL=debug overrides logLevel", async () => {
-    vi.stubEnv("GT_LOG_LEVEL", "debug");
+  it("GL_LOG_LEVEL=debug overrides logLevel", async () => {
+    vi.stubEnv("GL_LOG_LEVEL", "debug");
     const cfg = await loadConfig();
     expect(cfg.logLevel).toBe("debug");
   });
 
-  it("GT_LOG_LEVEL=warn overrides logLevel", async () => {
-    vi.stubEnv("GT_LOG_LEVEL", "warn");
+  it("GL_LOG_LEVEL=warn overrides logLevel", async () => {
+    vi.stubEnv("GL_LOG_LEVEL", "warn");
     const cfg = await loadConfig();
     expect(cfg.logLevel).toBe("warn");
   });
 
-  it("GT_LOG_LEVEL=error overrides logLevel", async () => {
-    vi.stubEnv("GT_LOG_LEVEL", "error");
+  it("GL_LOG_LEVEL=error overrides logLevel", async () => {
+    vi.stubEnv("GL_LOG_LEVEL", "error");
     const cfg = await loadConfig();
     expect(cfg.logLevel).toBe("error");
   });
 
-  it("GT_HTTP_PORT overrides httpPort", async () => {
-    vi.stubEnv("GT_HTTP_PORT", "8080");
+  it("GL_HTTP_PORT overrides httpPort", async () => {
+    vi.stubEnv("GL_HTTP_PORT", "8080");
     const cfg = await loadConfig();
     expect(cfg.httpPort).toBe("8080");
   });
 
-  it("GT_CIRCUIT_BREAKER_THRESHOLD overrides circuitBreakerThreshold", async () => {
-    vi.stubEnv("GT_CIRCUIT_BREAKER_THRESHOLD", "5");
+  it("GL_CIRCUIT_BREAKER_THRESHOLD overrides circuitBreakerThreshold", async () => {
+    vi.stubEnv("GL_CIRCUIT_BREAKER_THRESHOLD", "5");
     const cfg = await loadConfig();
     expect(cfg.circuitBreakerThreshold).toBe(5);
   });
 
-  it("GT_MAX_CONCURRENT_FETCHES overrides maxConcurrentFetches", async () => {
-    vi.stubEnv("GT_MAX_CONCURRENT_FETCHES", "6");
+  it("GL_MAX_CONCURRENT_FETCHES overrides maxConcurrentFetches", async () => {
+    vi.stubEnv("GL_MAX_CONCURRENT_FETCHES", "6");
     const cfg = await loadConfig();
     expect(cfg.maxConcurrentFetches).toBe(6);
   });
 
-  it("GT_TOKEN_LIMIT=0 is accepted (zero is valid)", async () => {
-    vi.stubEnv("GT_TOKEN_LIMIT", "0");
+  it("GL_TOKEN_LIMIT=0 is accepted (zero is valid)", async () => {
+    vi.stubEnv("GL_TOKEN_LIMIT", "0");
     const cfg = await loadConfig();
     expect(cfg.tokenLimit).toBe(0);
   });

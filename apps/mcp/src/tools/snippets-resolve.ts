@@ -16,7 +16,7 @@ export function resolveLibraryEntry(libraryId: string) {
 }
 
 /**
- * Resolve a libraryId to the sources gt_snippets should index. Returns a plain
+ * Resolve a libraryId to the sources gl_snippets should index. Returns a plain
  * message string when the identifier is unusable, so the caller surfaces it verbatim.
  */
 export function resolveSnippetTarget(libraryId: string): SnippetTarget | string {
@@ -35,7 +35,7 @@ export function resolveSnippetTarget(libraryId: string): SnippetTarget | string 
   const bare = { llmsTxtUrl: undefined, llmsFullTxtUrl: undefined, githubUrl: undefined };
 
   // npm:/pypi: IDs are documented in this tool's own schema — resolve
-  // them the same way gt_get_docs does instead of refusing.
+  // them the same way gl_get_docs does instead of refusing.
   if (libraryId.startsWith("npm:")) {
     const pkg = libraryId.slice(4);
     if (!isValidPackageName(pkg)) return `Invalid npm package name: "${pkg}".`;
@@ -57,5 +57,5 @@ export function resolveSnippetTarget(libraryId: string): SnippetTarget | string 
     return { ...bare, library: libraryId, docsUrl: libraryId, displayName: new URL(libraryId).hostname };
   }
 
-  return `Could not resolve "${libraryId}". Run gt_resolve_library first.`;
+  return `Could not resolve "${libraryId}". Run gl_resolve_library first.`;
 }

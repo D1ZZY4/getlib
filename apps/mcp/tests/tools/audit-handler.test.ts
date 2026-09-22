@@ -144,16 +144,16 @@ async function mockFiles(
 // ── Tests ────────────────────────────────────────────────────────────────────
 
 describe("registerAuditTool", () => {
-  it("registers with the name gt_audit", () => {
+  it("registers with the name gl_audit", () => {
     expect(mockServer.registerTool).toHaveBeenCalledWith(
-      "gt_audit",
+      "gl_audit",
       expect.anything(),
       expect.any(Function),
     );
   });
 });
 
-describe("gt_audit handler — unreadable project", () => {
+describe("gl_audit handler — unreadable project", () => {
   it("returns no-source-files when readdir throws (walk swallows the error)", async () => {
     // walk()'s inner try/catch silently swallows readdir errors → files stays empty →
     // the handler hits the files.length === 0 branch instead of the outer catch.
@@ -172,7 +172,7 @@ describe("gt_audit handler — unreadable project", () => {
   });
 });
 
-describe("gt_audit handler — empty project", () => {
+describe("gl_audit handler — empty project", () => {
   it("returns no-source-files message when directory is empty", async () => {
     const result = await handler({ ...DEFAULTS, projectPath: PROJECT_PATH });
     expect(result.content[0]!.text).toContain("No source files found");

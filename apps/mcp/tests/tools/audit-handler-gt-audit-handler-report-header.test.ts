@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — report header", () => {
+describe("gl_audit handler — report header", () => {
   it("includes path in report header", async () => {
     await mockFiles([{ name: "app.ts", content: LINE_WITH_ISSUE }]);
     vi.mocked(fetchViaJina).mockResolvedValue("");
@@ -170,7 +170,7 @@ describe("gt_audit handler — report header", () => {
   });
 });
 
-describe("gt_audit handler — parameterized: issue categories from line content", () => {
+describe("gl_audit handler — parameterized: issue categories from line content", () => {
   it.each([
     ["layout", `<img src="test.jpg">`, "layout"],
     ["security", `element.innerHTML = userInput;`, "security"],

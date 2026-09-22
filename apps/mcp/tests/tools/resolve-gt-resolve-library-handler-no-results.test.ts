@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("no results", () => {
     it("returns no-results message when nothing found", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(null);

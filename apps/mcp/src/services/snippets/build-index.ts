@@ -51,7 +51,7 @@ export async function buildIndex(
   // Reliability fallback: landing-page-only docs (e.g. expressjs.com) carry no
   // fenced code, so the index comes back empty. The GitHub README almost always
   // has usage examples — retry there before giving up, unless it was already the
-  // source. This is why gt_snippets("expressjs/express") returned "No snippets".
+  // source. This is why gl_snippets("expressjs/express") returned "No snippets".
   if (snippets.length === 0 && githubUrl && fetchResult.sourceType !== "github-readme") {
     const gh = await fetchGitHubContent(githubUrl).catch(() => null);
     if (gh?.content) {
@@ -65,7 +65,7 @@ export async function buildIndex(
 
   // Framework docs are often a link index (llms.txt/TOC) with zero fenced
   // code — the snippets live one level down. Traverse the most topic-relevant
-  // child pages and index those too. This is why gt_snippets("vercel/next.js")
+  // child pages and index those too. This is why gl_snippets("vercel/next.js")
   // used to return "No snippets indexed". Topic-aware: a landing page full of
   // install commands must not satisfy a "shared value" query.
   if (topicMatches(snippets, topic) < 3) {

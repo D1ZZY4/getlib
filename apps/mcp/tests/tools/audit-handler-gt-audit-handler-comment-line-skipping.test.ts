@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — comment line skipping", () => {
+describe("gl_audit handler — comment line skipping", () => {
   it("does not report issues on commented-out lines (// prefix)", async () => {
     await mockFiles([{ name: "app.ts", content: LINE_COMMENTED }]);
     const result = await handler({ ...DEFAULTS, projectPath: PROJECT_PATH });
@@ -158,7 +158,7 @@ describe("gt_audit handler — comment line skipping", () => {
   });
 });
 
-describe("gt_audit handler — test file skipping (SKIP_FILE_RE)", () => {
+describe("gl_audit handler — test file skipping (SKIP_FILE_RE)", () => {
   it("skips .test.ts files from pattern matching (SKIP_FILE_RE in runPatterns)", async () => {
     // readProjectFiles collects the file; SKIP_FILE_RE is applied inside runPatterns.
     // Result: file is scanned but produces zero issues → "No issues found".

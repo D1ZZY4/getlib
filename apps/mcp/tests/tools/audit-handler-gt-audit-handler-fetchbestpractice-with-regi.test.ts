@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — fetchBestPractice with registry match", () => {
+describe("gl_audit handler — fetchBestPractice with registry match", () => {
   it("calls fetchDocs when issue docsQuery matches a known library keyword", async () => {
     // Use a React pattern that triggers the keyword→library lookup in fetchBestPractice
     // The react patterns include "useFormState" → title containing "react"

@@ -123,7 +123,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_get_docs handler", () => {
+describe("gl_get_docs handler", () => {
   describe("version param", () => {
     it("falls through to fetchDocs when both version fetches return short content", async () => {
       vi.mocked(lookupById).mockReturnValue(makeEntry());

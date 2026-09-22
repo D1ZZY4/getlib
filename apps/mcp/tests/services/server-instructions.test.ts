@@ -12,9 +12,9 @@ describe("buildServerInstructions", () => {
   it("keeps every tool name inside the budgeted window", () => {
     const result = buildServerInstructions(14).slice(0, INSTRUCTIONS_BYTE_BUDGET);
     for (const tool of [
-      "gt_dispatch", "gt_resolve_library", "gt_get_docs", "gt_best_practices",
-      "gt_auto_scan", "gt_search", "gt_audit", "gt_changelog", "gt_compat",
-      "gt_compare", "gt_examples", "gt_migration", "gt_batch_resolve", "gt_snippets",
+      "gl_dispatch", "gl_resolve_library", "gl_get_docs", "gl_best_practices",
+      "gl_auto_scan", "gl_search", "gl_audit", "gl_changelog", "gl_compat",
+      "gl_compare", "gl_examples", "gl_migration", "gl_batch_resolve", "gl_snippets",
     ]) {
       expect(result, `${tool} truncated away`).toContain(tool);
     }
@@ -30,60 +30,60 @@ describe("buildServerInstructions", () => {
     expect(result).not.toContain("${TOOL_COUNT}");
   });
 
-  it("includes gt_dispatch", () => {
-    expect(buildServerInstructions(14)).toContain("gt_dispatch");
+  it("includes gl_dispatch", () => {
+    expect(buildServerInstructions(14)).toContain("gl_dispatch");
   });
 
-  it("includes gt_resolve_library", () => {
-    expect(buildServerInstructions(14)).toContain("gt_resolve_library");
+  it("includes gl_resolve_library", () => {
+    expect(buildServerInstructions(14)).toContain("gl_resolve_library");
   });
 
-  it("includes gt_get_docs", () => {
-    expect(buildServerInstructions(14)).toContain("gt_get_docs");
+  it("includes gl_get_docs", () => {
+    expect(buildServerInstructions(14)).toContain("gl_get_docs");
   });
 
-  it("includes gt_best_practices", () => {
-    expect(buildServerInstructions(14)).toContain("gt_best_practices");
+  it("includes gl_best_practices", () => {
+    expect(buildServerInstructions(14)).toContain("gl_best_practices");
   });
 
-  it("includes gt_auto_scan", () => {
-    expect(buildServerInstructions(14)).toContain("gt_auto_scan");
+  it("includes gl_auto_scan", () => {
+    expect(buildServerInstructions(14)).toContain("gl_auto_scan");
   });
 
-  it("includes gt_search", () => {
-    expect(buildServerInstructions(14)).toContain("gt_search");
+  it("includes gl_search", () => {
+    expect(buildServerInstructions(14)).toContain("gl_search");
   });
 
-  it("includes gt_audit", () => {
-    expect(buildServerInstructions(14)).toContain("gt_audit");
+  it("includes gl_audit", () => {
+    expect(buildServerInstructions(14)).toContain("gl_audit");
   });
 
-  it("includes gt_changelog", () => {
-    expect(buildServerInstructions(14)).toContain("gt_changelog");
+  it("includes gl_changelog", () => {
+    expect(buildServerInstructions(14)).toContain("gl_changelog");
   });
 
-  it("includes gt_compat", () => {
-    expect(buildServerInstructions(14)).toContain("gt_compat");
+  it("includes gl_compat", () => {
+    expect(buildServerInstructions(14)).toContain("gl_compat");
   });
 
-  it("includes gt_compare", () => {
-    expect(buildServerInstructions(14)).toContain("gt_compare");
+  it("includes gl_compare", () => {
+    expect(buildServerInstructions(14)).toContain("gl_compare");
   });
 
-  it("includes gt_examples", () => {
-    expect(buildServerInstructions(14)).toContain("gt_examples");
+  it("includes gl_examples", () => {
+    expect(buildServerInstructions(14)).toContain("gl_examples");
   });
 
-  it("includes gt_migration", () => {
-    expect(buildServerInstructions(14)).toContain("gt_migration");
+  it("includes gl_migration", () => {
+    expect(buildServerInstructions(14)).toContain("gl_migration");
   });
 
-  it("includes gt_batch_resolve", () => {
-    expect(buildServerInstructions(14)).toContain("gt_batch_resolve");
+  it("includes gl_batch_resolve", () => {
+    expect(buildServerInstructions(14)).toContain("gl_batch_resolve");
   });
 
-  it("includes gt_snippets", () => {
-    expect(buildServerInstructions(14)).toContain("gt_snippets");
+  it("includes gl_snippets", () => {
+    expect(buildServerInstructions(14)).toContain("gl_snippets");
   });
 
   it("interpolates a different toolCount correctly", () => {

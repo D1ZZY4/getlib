@@ -133,8 +133,8 @@ describe("index.ts bootstrap", () => {
       expect(call?.[1]).toHaveProperty("instructions");
     });
 
-    it("SERVER_NAME is GroundTruth", () => {
-      expect(SERVER_NAME).toBe("GroundTruth");
+    it("SERVER_NAME is GetLib", () => {
+      expect(SERVER_NAME).toBe("GetLib");
     });
   });
 

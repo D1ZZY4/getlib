@@ -32,15 +32,15 @@ import { formatResults } from "./resolve-format.js";
 
 export function registerResolveTool(server: McpServer): void {
   server.registerTool(
-    "gt_resolve_library",
+    "gl_resolve_library",
     {
       title: "Resolve Library",
       description: `Resolve a package/product name to a Context7-compatible library ID and returns matching libraries.
 
-You MUST call this function before gt_get_docs to obtain a valid Context7-compatible library ID UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query. For 2-20 libraries at once, use gt_batch_resolve instead.
+You MUST call this function before gl_get_docs to obtain a valid Context7-compatible library ID UNLESS the user explicitly provides a library ID in the format '/org/project' or '/org/project/version' in their query. For 2-20 libraries at once, use gl_batch_resolve instead.
 
 Each result includes:
-- id: the library ID to pass to gt_get_docs (e.g. 'vercel/next.js', 'npm:express')
+- id: the library ID to pass to gl_get_docs (e.g. 'vercel/next.js', 'npm:express')
 - name: library or package name
 - description: short summary
 - docsUrl: official documentation URL
@@ -52,12 +52,12 @@ Each result includes:
 Selection Process:
 1. Analyze the query to understand which library/package the user wants
 2. Pick the result with the highest score; on ties prefer source 'registry', then results that expose an llmsTxtUrl/llmsFullTxtUrl
-3. Pass that result's id to gt_get_docs
+3. Pass that result's id to gl_get_docs
 
 Response Format:
 - Return the selected library ID in a clearly marked section
 - If multiple good matches exist, acknowledge this but proceed with the highest-scored one
-- If no good matches exist, say so and suggest gt_search or providing a direct docs URL
+- If no good matches exist, say so and suggest gl_search or providing a direct docs URL
 
 For ambiguous queries, request clarification before proceeding with a best-guess match.
 
@@ -73,7 +73,7 @@ IMPORTANT — PROPRIETARY DATA NOTICE: This tool accesses a proprietary library 
       },
     },
     async ({ libraryName, query }) => {
-     return withTelemetry("gt_resolve_library", async (ctx) => {
+     return withTelemetry("gl_resolve_library", async (ctx) => {
       const name = libraryName.trim();
 
       if (isExtractionAttempt(name) || (query !== undefined && isExtractionAttempt(query))) {

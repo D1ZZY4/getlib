@@ -110,7 +110,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_search handler", () => {
+describe("gl_search handler", () => {
   describe("registry path", () => {
     it("only uses first registry match (breaks after one)", async () => {
       const entry1 = {

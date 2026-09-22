@@ -27,7 +27,7 @@ const sectionRe = new RegExp(
 const match = changelog.match(sectionRe);
 const notes = match ? match[1].trim().replace(/\n---\s*$/, "").trim() : `Release ${tag}`;
 
-const notesFile = join(tmpdir(), `gt-release-${Date.now()}.txt`);
+const notesFile = join(tmpdir(), `gl-release-${Date.now()}.txt`);
 writeFileSync(notesFile, notes, "utf-8");
 try {
   execFileSync("gh", ["release", "create", tag, "--title", tag, "--notes-file", notesFile], {

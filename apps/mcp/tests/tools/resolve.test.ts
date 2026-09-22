@@ -93,7 +93,7 @@ beforeEach(() => {
 describe("registerResolveTool", () => {
   it("registers the tool with the correct name", () => {
     expect(mockServer.registerTool).toHaveBeenCalledWith(
-      "gt_resolve_library",
+      "gl_resolve_library",
       expect.anything(),
       expect.any(Function),
     );

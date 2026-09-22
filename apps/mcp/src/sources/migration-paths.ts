@@ -3,7 +3,7 @@
  *
  * NOTE: CHANGELOG.md is intentionally excluded — it is a monolithic all-history
  * release log that floods extraction with version-irrelevant entries. Use
- * gt_changelog for release notes instead.
+ * gl_changelog for release notes instead.
  */
 export const MIGRATION_PATHS = [
   "MIGRATION.md",

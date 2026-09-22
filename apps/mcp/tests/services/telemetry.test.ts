@@ -23,28 +23,28 @@ describe("telemetry", () => {
   });
 
   it("startCall returns a context with unique requestId", () => {
-    const a = startCall("gt_test");
-    const b = startCall("gt_test");
-    expect(a.tool).toBe("gt_test");
+    const a = startCall("gl_test");
+    const b = startCall("gl_test");
+    expect(a.tool).toBe("gl_test");
     expect(a.requestId).not.toBe(b.requestId);
     expect(a.cacheHit).toBe(false);
     expect(a.resolved).toBe(false);
   });
 
   it("endCallSuccess records a successful outcome", () => {
-    const ctx = startCall("gt_test");
+    const ctx = startCall("gl_test");
     ctx.resolved = true;
     const result = endCallSuccess(ctx);
     expect(result.success).toBe(true);
     expect(result.resolved).toBe(true);
     const outcomes = getRecentOutcomes();
     expect(outcomes.length).toBe(1);
-    expect(outcomes[0]?.tool).toBe("gt_test");
+    expect(outcomes[0]?.tool).toBe("gl_test");
     expect(outcomes[0]?.success).toBe(true);
   });
 
   it("endCallError records a failure with the error message", () => {
-    const ctx = startCall("gt_test");
+    const ctx = startCall("gl_test");
     const result = endCallError(ctx, new Error("boom"));
     expect(result.success).toBe(false);
     expect(result.error).toBe("boom");
@@ -53,41 +53,41 @@ describe("telemetry", () => {
   });
 
   it("getInvocationSummary computes successRate and per-tool stats", () => {
-    const c1 = startCall("gt_a");
+    const c1 = startCall("gl_a");
     c1.resolved = true;
     endCallSuccess(c1);
 
-    const c2 = startCall("gt_a");
+    const c2 = startCall("gl_a");
     endCallError(c2, new Error("fail"));
 
-    const c3 = startCall("gt_b");
+    const c3 = startCall("gl_b");
     c3.resolved = true;
     endCallSuccess(c3);
 
     const summary = getInvocationSummary();
     expect(summary.totalCalls).toBe(3);
     expect(summary.successRate).toBeCloseTo(2 / 3, 2);
-    expect(summary.byTool["gt_a"]?.calls).toBe(2);
-    expect(summary.byTool["gt_a"]?.successRate).toBeCloseTo(0.5, 2);
-    expect(summary.byTool["gt_b"]?.successRate).toBe(1);
+    expect(summary.byTool["gl_a"]?.calls).toBe(2);
+    expect(summary.byTool["gl_a"]?.successRate).toBeCloseTo(0.5, 2);
+    expect(summary.byTool["gl_b"]?.successRate).toBe(1);
   });
 
   it("withTelemetry wraps handler and records success", async () => {
-    const out = await withTelemetry("gt_wrap", async (ctx) => {
+    const out = await withTelemetry("gl_wrap", async (ctx) => {
       ctx.resolved = true;
       return "ok";
     });
     expect(out).toBe("ok");
     const outcomes = getRecentOutcomes();
     expect(outcomes.length).toBe(1);
-    expect(outcomes[0]?.tool).toBe("gt_wrap");
+    expect(outcomes[0]?.tool).toBe("gl_wrap");
     expect(outcomes[0]?.success).toBe(true);
     expect(outcomes[0]?.resolved).toBe(true);
   });
 
   it("withTelemetry records failure on throw and re-throws", async () => {
     await expect(
-      withTelemetry("gt_wrap_fail", async () => {
+      withTelemetry("gl_wrap_fail", async () => {
         throw new Error("kaboom");
       }),
     ).rejects.toThrow("kaboom");
@@ -98,7 +98,7 @@ describe("telemetry", () => {
 
   it("trims recent outcomes to the cap (200)", () => {
     for (let i = 0; i < 250; i++) {
-      const c = startCall("gt_fill");
+      const c = startCall("gl_fill");
       c.resolved = true;
       endCallSuccess(c);
     }

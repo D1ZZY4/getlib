@@ -123,7 +123,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_get_docs handler", () => {
+describe("gl_get_docs handler", () => {
   describe("deep-fetch integration", () => {
     it("calls deepFetchForTopic when topic is provided", async () => {
       vi.mocked(lookupById).mockReturnValue(makeEntry());

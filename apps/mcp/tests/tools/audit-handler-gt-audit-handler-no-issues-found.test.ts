@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — no issues found", () => {
+describe("gl_audit handler — no issues found", () => {
   it("returns no-issues header when files exist but no patterns match", async () => {
     await mockFiles([{ name: "app.ts", content: LINE_CLEAN }]);
     const result = await handler({ ...DEFAULTS, projectPath: PROJECT_PATH });

@@ -79,15 +79,15 @@ beforeEach(() => {
   vi.mocked(isExtractionAttempt).mockReturnValue(false);
   // GitHub code search is token-only; the handler now skips the call entirely
   // without one, so the GitHub-path tests must supply a token.
-  process.env.GT_GITHUB_TOKEN = "test-token";
+  process.env.GL_GITHUB_TOKEN = "test-token";
 });
 
 afterEach(() => {
-  delete process.env.GT_GITHUB_TOKEN;
+  delete process.env.GL_GITHUB_TOKEN;
 });
 
-describe("gt_examples handler", () => {
-  it("includes Authorization header when GT_GITHUB_TOKEN is set", async () => {
+describe("gl_examples handler", () => {
+  it("includes Authorization header when GL_GITHUB_TOKEN is set", async () => {
     vi.mocked(githubAuthHeaders).mockReturnValueOnce({ Authorization: "Bearer ghp_test123" });
     mockFetchWithTimeout.mockResolvedValueOnce(
       makeRes(JSON.stringify({ total_count: 0, items: [] }), 200),

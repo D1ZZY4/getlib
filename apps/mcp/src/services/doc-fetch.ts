@@ -12,7 +12,7 @@ import { isGarbageContent } from "./content-guards.js";
  * Single-flight wrapper around the docs pipeline.
  *
  * Every other fetch entry point already dedups via `inFlightRequests`; this one
- * did not, so two concurrent gt_get_docs / gt_auto_scan calls for the same
+ * did not, so two concurrent gl_get_docs / gl_auto_scan calls for the same
  * library each ran the full llms.txt -> discovery -> Jina -> GitHub chain.
  */
 const inFlightDocs = new Map<string, Promise<FetchResult>>();

@@ -11,7 +11,7 @@
  *
  * Ordering contract (important):
  *  - In html-to-md, decode runs AFTER the generic `<[^>]+>` tag strip, so an
- *    author who wrote `&lt;b&gt;` to SHOW a tag keeps `<b>` as visible text.
+ *    author who wrote `&lt;b&gl;` to SHOW a tag keeps `<b>` as visible text.
  *  - In sanitize, decode runs BEFORE the SURGICAL strips (script/style/structural
  *    only). Revealed real `<script>`/`<html>` get stripped; `<div>`/`<b>` survive.
  *    Decoding before the injection scan also closes the `&#73;gnore` bypass.
@@ -21,7 +21,7 @@
 // Unicode glyph (faithful content) — `&nbsp;` maps to a normal space on purpose so
 // downstream whitespace collapse and trim work without a U+00A0 special case.
 const NAMED_ENTITIES: Record<string, string> = {
-  amp: "&", lt: "<", gt: ">", quot: '"', apos: "'",
+  amp: "&", lt: "<", gl: ">", quot: '"', apos: "'",
   nbsp: " ", ensp: " ", emsp: " ", thinsp: " ", zwnj: "", zwj: "", shy: "",
   copy: "©", reg: "®", trade: "™",
   mdash: "—", ndash: "–", minus: "−",

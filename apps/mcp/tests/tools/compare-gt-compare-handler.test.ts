@@ -108,7 +108,7 @@ beforeEach(() => {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_compare handler", () => {
+describe("gl_compare handler", () => {
   describe("extraction guard", () => {
     it("treats a flagged first library as unresolvable but still compares the sibling", async () => {
       vi.mocked(isExtractionAttempt).mockReturnValueOnce(true);

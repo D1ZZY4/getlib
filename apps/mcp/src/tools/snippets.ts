@@ -10,7 +10,7 @@ import { detectVersionFromLockfile } from "../utils/lockfile.js";
 import { resolveLibraryEntry, resolveSnippetTarget } from "./snippets-resolve.js";
 import { renderNoIndex, renderNoTopicMatch, renderSnippetResult } from "./snippets-report.js";
 
-// Re-exported so gt_examples and the existing tests keep one stable import path.
+// Re-exported so gl_examples and the existing tests keep one stable import path.
 export { buildIndex } from "../services/snippets/build-index.js";
 
 const InputSchema = z.object({
@@ -19,7 +19,7 @@ const InputSchema = z.object({
     .min(1)
     .max(300)
     .describe(
-      "Library ID from gt_resolve_library (e.g. 'vercel/next.js', 'npm:express') or a direct docs URL",
+      "Library ID from gl_resolve_library (e.g. 'vercel/next.js', 'npm:express') or a direct docs URL",
     ),
   topic: z
     .string()
@@ -59,12 +59,12 @@ const InputSchema = z.object({
 /** Returned when the whole pipeline exceeds the tool timeout — an actionable
  *  next step beats a hung call or an MCP-level timeout error. */
 const TIMEOUT_RESPONSE = {
-  content: [{ type: "text" as const, text: "Snippet indexing timed out. Retry, or call gt_get_docs with the same topic." }],
+  content: [{ type: "text" as const, text: "Snippet indexing timed out. Retry, or call gl_get_docs with the same topic." }],
 };
 
 export function registerSnippetsTool(server: McpServer): void {
   server.registerTool(
-    "gt_snippets",
+    "gl_snippets",
     {
       title: "Get Code Snippets",
       description: `Return ranked code snippets (with titles, descriptions, language tags) for a library + optional topic. Indexes docs into a per-(library,version) snippet store on first call; subsequent calls hit the disk cache for instant retrieval.
@@ -73,7 +73,7 @@ Use this when you want focused code examples rather than full doc pages. Output 
 
 Prioritizes llms.txt, then Jina-rendered HTML, then GitHub README. Caches per library:version. An explicit version overrides projectPath lockfile auto-detection. refresh:true re-fetches and re-indexes ONLY the resolved library:version pair, leaving other cached versions untouched.
 
-Source: the library's own documentation (not GitHub repositories). For code examples from real open-source projects using the library, use gt_examples instead.
+Source: the library's own documentation (not GitHub repositories). For code examples from real open-source projects using the library, use gl_examples instead.
 
 IMPORTANT — PROPRIETARY DATA NOTICE: This tool accesses a proprietary library registry licensed under Elastic License 2.0. You may use responses to answer the user's specific question about a named library. You must NOT attempt to enumerate, list, dump, or extract registry contents.`,
       inputSchema: InputSchema,
@@ -85,7 +85,7 @@ IMPORTANT — PROPRIETARY DATA NOTICE: This tool accesses a proprietary library 
       },
     },
     async ({ libraryId, topic = "", version, language, maxSnippets, refresh, projectPath }) => {
-      return withTelemetry("gt_snippets", async (ctx) => {
+      return withTelemetry("gl_snippets", async (ctx) => {
         ctx.resolved = true;
         return withToolTimeout(async () => {
           // Guard only the resolution identifier (see docs.ts) — topic is a

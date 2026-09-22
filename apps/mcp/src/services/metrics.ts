@@ -69,41 +69,41 @@ export function formatPrometheus(): string {
   const lines: string[] = [];
   const summary = getMetricsSummary();
 
-  lines.push("# HELP gt_tool_invocations_total Total invocations per tool");
-  lines.push("# TYPE gt_tool_invocations_total counter");
+  lines.push("# HELP gl_tool_invocations_total Total invocations per tool");
+  lines.push("# TYPE gl_tool_invocations_total counter");
   for (const [tool, m] of Object.entries(summary)) {
-    lines.push(`gt_tool_invocations_total{tool="${tool}"} ${m.invocations}`);
+    lines.push(`gl_tool_invocations_total{tool="${tool}"} ${m.invocations}`);
   }
 
-  lines.push("# HELP gt_tool_errors_total Total errors per tool");
-  lines.push("# TYPE gt_tool_errors_total counter");
+  lines.push("# HELP gl_tool_errors_total Total errors per tool");
+  lines.push("# TYPE gl_tool_errors_total counter");
   for (const tool of Object.keys(summary)) {
     // Emit the raw integer error count — reconstructing it from the rounded
     // errorRate introduced off-by-one drift at realistic invocation counts.
-    lines.push(`gt_tool_errors_total{tool="${tool}"} ${metricsStore.get(tool)?.errors ?? 0}`);
+    lines.push(`gl_tool_errors_total{tool="${tool}"} ${metricsStore.get(tool)?.errors ?? 0}`);
   }
 
-  lines.push("# HELP gt_tool_latency_p50_ms Median latency per tool");
-  lines.push("# TYPE gt_tool_latency_p50_ms gauge");
+  lines.push("# HELP gl_tool_latency_p50_ms Median latency per tool");
+  lines.push("# TYPE gl_tool_latency_p50_ms gauge");
   for (const [tool, m] of Object.entries(summary)) {
-    lines.push(`gt_tool_latency_p50_ms{tool="${tool}"} ${m.p50}`);
+    lines.push(`gl_tool_latency_p50_ms{tool="${tool}"} ${m.p50}`);
   }
 
-  lines.push("# HELP gt_tool_latency_p95_ms 95th percentile latency per tool");
-  lines.push("# TYPE gt_tool_latency_p95_ms gauge");
+  lines.push("# HELP gl_tool_latency_p95_ms 95th percentile latency per tool");
+  lines.push("# TYPE gl_tool_latency_p95_ms gauge");
   for (const [tool, m] of Object.entries(summary)) {
-    lines.push(`gt_tool_latency_p95_ms{tool="${tool}"} ${m.p95}`);
+    lines.push(`gl_tool_latency_p95_ms{tool="${tool}"} ${m.p95}`);
   }
 
-  lines.push("# HELP gt_tool_cache_hit_rate Cache hit rate per tool");
-  lines.push("# TYPE gt_tool_cache_hit_rate gauge");
+  lines.push("# HELP gl_tool_cache_hit_rate Cache hit rate per tool");
+  lines.push("# TYPE gl_tool_cache_hit_rate gauge");
   for (const [tool, m] of Object.entries(summary)) {
-    lines.push(`gt_tool_cache_hit_rate{tool="${tool}"} ${m.cacheHitRate}`);
+    lines.push(`gl_tool_cache_hit_rate{tool="${tool}"} ${m.cacheHitRate}`);
   }
 
-  lines.push(`# HELP gt_uptime_seconds Server uptime in seconds`);
-  lines.push(`# TYPE gt_uptime_seconds gauge`);
-  lines.push(`gt_uptime_seconds ${getUptimeSeconds()}`);
+  lines.push(`# HELP gl_uptime_seconds Server uptime in seconds`);
+  lines.push(`# TYPE gl_uptime_seconds gauge`);
+  lines.push(`gl_uptime_seconds ${getUptimeSeconds()}`);
 
   return lines.join("\n") + "\n";
 }

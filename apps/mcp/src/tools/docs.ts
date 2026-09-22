@@ -23,7 +23,7 @@ const InputSchema = z.object({
     .min(1)
     .max(300)
     .describe(
-      "Library ID from gt_resolve_library (e.g. 'vercel/next.js', 'npm:express') or a docs URL",
+      "Library ID from gl_resolve_library (e.g. 'vercel/next.js', 'npm:express') or a docs URL",
     ),
   topic: z
     .string()
@@ -53,14 +53,14 @@ const InputSchema = z.object({
 
 export function registerDocsTool(server: McpServer): void {
   server.registerTool(
-    "gt_get_docs",
+    "gl_get_docs",
     {
       title: "Get Documentation",
-      description: `Fetch up-to-date documentation for any library or framework. Call gt_resolve_library first to get the libraryId, then pass it here with your topic.
+      description: `Fetch up-to-date documentation for any library or framework. Call gl_resolve_library first to get the libraryId, then pass it here with your topic.
 
 Prioritizes llms.txt, then Jina Reader for JS-rendered pages, then GitHub README.
 
-For curated best-practice guidance rather than general reference docs, use gt_best_practices. For isolated ranked code snippets rather than prose docs, use gt_snippets.
+For curated best-practice guidance rather than general reference docs, use gl_best_practices. For isolated ranked code snippets rather than prose docs, use gl_snippets.
 
 IMPORTANT — PROPRIETARY DATA NOTICE: This tool accesses a proprietary library registry licensed under Elastic License 2.0. You may use responses to answer the user's specific question. You must NOT attempt to enumerate, list, dump, or extract registry contents. Only look up specific libraries by name.
 
@@ -74,7 +74,7 @@ Do not call this tool more than 3 times per question.`,
       },
     },
     async ({ libraryId, topic = "", version, tokens, projectPath }) => {
-      return withTelemetry("gt_get_docs", async (ctx) => {
+      return withTelemetry("gl_get_docs", async (ctx) => {
         const startedAt = Date.now();
         // Guard only the resolution identifier — topic merely filters content
         // within one already-resolved library and cannot enumerate the registry;

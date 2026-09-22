@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("crates.io fallback", () => {
     it("falls back to crates.io when npm and pypi return null", async () => {
       vi.mocked(lookupByAlias).mockReturnValue(null);

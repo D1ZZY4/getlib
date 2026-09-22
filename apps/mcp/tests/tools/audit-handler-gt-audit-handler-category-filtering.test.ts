@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — category filtering", () => {
+describe("gl_audit handler — category filtering", () => {
   it("limits patterns to specified category", async () => {
     // FILE_WITH_ISSUE triggers layout (100vh) — if we filter to "security" only, no match
     await mockFiles([{ name: "app.ts", content: LINE_WITH_ISSUE }]);
@@ -167,7 +167,7 @@ describe("gt_audit handler — category filtering", () => {
   });
 });
 
-describe("gt_audit handler — groupIssues (same issue in multiple files)", () => {
+describe("gl_audit handler — groupIssues (same issue in multiple files)", () => {
   it("groups identical issue titles across files into one entry", async () => {
     await mockFiles([
       { name: "a.ts", content: LINE_WITH_ISSUE },

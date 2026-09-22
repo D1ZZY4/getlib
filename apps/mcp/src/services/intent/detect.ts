@@ -59,7 +59,7 @@ export function detectLibrary(text: string): { id: string; name: string; alias: 
   return null;
 }
 
-/** True if the query looks like a project-level "use gt" call (no library) */
+/** True if the query looks like a project-level "use gl" call (no library) */
 export function isProjectLevelInvocation(query: string): boolean {
   const cleaned = stripNoise(query);
   if (cleaned.length === 0) return true;

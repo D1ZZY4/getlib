@@ -110,7 +110,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_search handler", () => {
+describe("gl_search handler", () => {
   describe("registry path", () => {
     it("calls fuzzySearch with the query and limit 3", async () => {
       vi.mocked(fetchDocs).mockResolvedValue(makeFetchResult());

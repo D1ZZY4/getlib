@@ -108,7 +108,7 @@ beforeEach(() => {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_compare handler", () => {
+describe("gl_compare handler", () => {
   describe("library not found", () => {
     it("shows not-found placeholder for unresolvable library", async () => {
       const known = makeEntry("prisma/prisma", "Prisma");

@@ -104,7 +104,7 @@ beforeEach(() => {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_changelog handler", () => {
+describe("gl_changelog handler", () => {
   describe("Jina fallback", () => {
     it("falls back to fetchAsMarkdownRace when both GitHub fetches fail", async () => {
       vi.mocked(lookupById).mockReturnValue(makeEntry());

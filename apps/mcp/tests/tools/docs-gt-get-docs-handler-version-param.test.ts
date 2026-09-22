@@ -123,7 +123,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_get_docs handler", () => {
+describe("gl_get_docs handler", () => {
   describe("version param", () => {
     it("prepends v to version when not already prefixed", async () => {
       vi.mocked(lookupById).mockReturnValue(makeEntry());

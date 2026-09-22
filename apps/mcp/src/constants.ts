@@ -1,6 +1,6 @@
 import { config } from "./config.js";
 
-export const SERVER_NAME = "GroundTruth";
+export const SERVER_NAME = "GetLib";
 export const SERVER_VERSION = "7.5.0";
 
 // Known size of the full private registry (updated with each release that adds entries)
@@ -15,11 +15,11 @@ export const CHARS_PER_TOKEN = 3.8;
 
 // Disk cache directory for persistent cross-invocation caching
 const _rawCacheDir =
-  process.env.GT_CACHE_DIR ??
-  (process.env.HOME ? `${process.env.HOME}/.gt-mcp-cache` : "/tmp/.gt-mcp-cache");
+  process.env.GL_CACHE_DIR ??
+  (process.env.HOME ? `${process.env.HOME}/.gl-mcp-cache` : "/tmp/.gl-mcp-cache");
 const _SYSTEM_DIRS = ["/etc", "/proc", "/sys", "/dev", "/boot", "/root", "/bin", "/sbin", "/usr", "/var/run", "/run", "/var/log"];
 if (_SYSTEM_DIRS.some((d) => _rawCacheDir === d || _rawCacheDir.startsWith(d + "/"))) {
-  throw new Error(`GT_CACHE_DIR must not point to a system directory: ${_rawCacheDir}`);
+  throw new Error(`GL_CACHE_DIR must not point to a system directory: ${_rawCacheDir}`);
 }
 export const DISK_CACHE_DIR = _rawCacheDir;
 export const DEFAULT_TOKEN_LIMIT = config.tokenLimit;

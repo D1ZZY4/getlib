@@ -1,20 +1,20 @@
 /**
- * gt_dispatch — the smart entry point.
+ * gl_dispatch — the smart entry point.
  *
- * Most MCP clients will call individual gt_* tools directly because the
+ * Most MCP clients will call individual gl_* tools directly because the
  * server.instructions block tells them exactly which tool to use for which
  * trigger phrase. But some clients (or some user inputs) are ambiguous, so
- * `gt_dispatch` is the safety net: take a plain-text user query, route it
+ * `gl_dispatch` is the safety net: take a plain-text user query, route it
  * to the most appropriate underlying tool, and return either:
  *   1. A structured "use this tool with these args" guidance block so the
  *      LLM can immediately make the next tool call (the common, low-latency
  *      path), or
- *   2. An inline executed result for the most common case (gt_auto_scan
+ *   2. An inline executed result for the most common case (gl_auto_scan
  *      with the current cwd, no extra args needed), so a single round-trip
  *      is enough.
  *
  * This is the "never disappoint" tool — even if the user just types
- * "use gt mcp" with no further context, the dispatch returns *something*
+ * "use gl mcp" with no further context, the dispatch returns *something*
  * useful (typically: scanned project dependencies + best practices).
  */
 
@@ -31,7 +31,7 @@ const InputSchema = z.object({
     .min(1)
     .max(2000)
     .describe(
-      "Plain-text user intent. Examples: 'use gt for react', 'find issues', 'migrate next from 14 to 15', 'best practices for fastapi'.",
+      "Plain-text user intent. Examples: 'use gl for react', 'find issues', 'migrate next from 14 to 15', 'best practices for fastapi'.",
     ),
   projectPath: z
     .string()
@@ -42,21 +42,21 @@ const InputSchema = z.object({
     ),
 });
 
-const TOOL_DESCRIPTION = `Routes a plain-text user query to the correct gt_* tool with the right arguments. Examples: "use gt", "use gt for react", "find issues in this codebase", "migrate next from 14 to 15".
+const TOOL_DESCRIPTION = `Routes a plain-text user query to the correct gl_* tool with the right arguments. Examples: "use gl", "use gl for react", "find issues in this codebase", "migrate next from 14 to 15".
 
-WHEN TO USE: the user's intent is ambiguous, they invoked gt without specifying a tool ("use gt mcp"), or you want a single entry point that always returns something actionable.
+WHEN TO USE: the user's intent is ambiguous, they invoked gl without specifying a tool ("use gl mcp"), or you want a single entry point that always returns something actionable.
 
-WHEN NOT TO USE: you already know which gt_* tool fits. Call it directly to save one round-trip.
+WHEN NOT TO USE: you already know which gl_* tool fits. Call it directly to save one round-trip.
 
 OUTPUT: a routing decision with tool name, args, reason, and a 0-to-1 confidence score. The response text also embeds the routing table and a recommended JSON call so you can make the next tool call without another lookup.
 
-Use it for "use gt mcp" in any phrasing.`;
+Use it for "use gl mcp" in any phrasing.`;
 
 export function registerDispatchTool(server: McpServer): void {
   server.registerTool(
-    "gt_dispatch",
+    "gl_dispatch",
     {
-      title: "GroundTruth Dispatch",
+      title: "GetLib Dispatch",
       description: TOOL_DESCRIPTION,
       inputSchema: InputSchema,
       annotations: {
@@ -67,7 +67,7 @@ export function registerDispatchTool(server: McpServer): void {
       },
     },
     async ({ query, projectPath }) => {
-      return withTelemetry("gt_dispatch", async (ctx) => {
+      return withTelemetry("gl_dispatch", async (ctx) => {
         const intent = detectIntent({
           query,
           ...(projectPath !== undefined ? { projectPath } : {}),
@@ -76,8 +76,8 @@ export function registerDispatchTool(server: McpServer): void {
         // Resolve project path for project-level tools
         let resolvedPath: string | undefined;
         if (
-          intent.tool === "gt_auto_scan" ||
-          intent.tool === "gt_audit"
+          intent.tool === "gl_auto_scan" ||
+          intent.tool === "gl_audit"
         ) {
           try {
             const rawPath = intent.args["projectPath"];
@@ -114,7 +114,7 @@ export function registerDispatchTool(server: McpServer): void {
         lines.push("");
         lines.push("## Next step");
         lines.push(
-          `Invoke the recommended tool with the args above. The arguments are checked against the target tool's required fields. If the routing looks wrong, fall back to \`gt_search({ query: "${query.replace(/"/g, '\\"')}" })\` — it never fails to return *something* useful.`,
+          `Invoke the recommended tool with the args above. The arguments are checked against the target tool's required fields. If the routing looks wrong, fall back to \`gl_search({ query: "${query.replace(/"/g, '\\"')}" })\` — it never fails to return *something* useful.`,
         );
         lines.push("");
         lines.push("---");

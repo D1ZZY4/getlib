@@ -31,7 +31,7 @@ function htmlToMarkdown(html: string): string {
       const lang = langMatch?.[1] ?? "";
       // No per-element entity decode — the single global pass at the end of
       // htmlToMarkdown handles it; decoding here AND there turned doubly-
-      // escaped example text (&amp;lt;div&amp;gt;) into live tags.
+      // escaped example text (&amp;lt;div&amp;gl;) into live tags.
       return `\n\`\`\`${lang}\n${code.trim()}\n\`\`\`\n`;
     },
   );

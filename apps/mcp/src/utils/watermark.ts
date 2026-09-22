@@ -35,7 +35,7 @@ const BIT0 = "\u2061"; // FUNCTION APPLICATION
 const BIT1 = "\u2062"; // INVISIBLE TIMES
 
 // Persistent installation key file — created once per server instance
-const INSTALL_KEY_FILE = join(homedir(), ".gt-mcp-install.key");
+const INSTALL_KEY_FILE = join(homedir(), ".gl-mcp-install.key");
 
 let _cachedInstallId: string | undefined;
 
@@ -84,7 +84,7 @@ function hexToInvisible(hex: string): string {
 export function embedWatermark(text: string): string {
   // Privacy opt-out for air-gapped / multi-tenant installs — skip the install
   // fingerprint entirely, before any file I/O to read the install key.
-  if (process.env["GT_NO_WATERMARK"] === "1") return text;
+  if (process.env["GL_NO_WATERMARK"] === "1") return text;
   const installId = getInstallId();
   const nonce = randomBytes(4).toString("hex");
   const invisible = hexToInvisible(installId) + hexToInvisible(nonce);
@@ -104,7 +104,7 @@ export function embedWatermark(text: string): string {
  *   nonce     — 8-char hex per-request nonce (proves distinct origin per response)
  *
  * Usage for forensic detection:
- *   import { detectWatermark } from "@groundtruth-mcp/gt-mcp/dist/utils/watermark.js";
+ *   import { detectWatermark } from "@getlib/gl-mcp/dist/utils/watermark.js";
  *   const result = detectWatermark(suspectedLeakedText);
  *   if (result.found) console.log("Originated from install:", result.installId);
  */

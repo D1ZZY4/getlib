@@ -10,7 +10,7 @@ export async function getLatestVersion(): Promise<string | null> {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), Math.min(5_000, FETCH_TIMEOUT_MS));
-    const res = await fetch(`${NPM_REGISTRY_URL}/@groundtruth-mcp/gt-mcp/latest`, {
+    const res = await fetch(`${NPM_REGISTRY_URL}/@getlib/gl-mcp/latest`, {
       signal: controller.signal,
       redirect: "manual",
       headers: { Accept: "application/json" },
@@ -55,9 +55,9 @@ export function setPendingUpdate(version: string): void {
 
 export function getUpdateNoticeForResponse(): string {
   if (!pendingUpdateVersion) return "";
-  return `\n\n---\n> [UPDATE AVAILABLE] GroundTruth v${pendingUpdateVersion} is out (you have v${SERVER_VERSION}). Restart your MCP client to get the latest version automatically via npx.`;
+  return `\n\n---\n> [UPDATE AVAILABLE] GetLib v${pendingUpdateVersion} is out (you have v${SERVER_VERSION}). Restart your MCP client to get the latest version automatically via npx.`;
 }
 
 export function formatUpdateNotice(latestVersion: string): string {
-  return `[UPDATE AVAILABLE] GroundTruth v${latestVersion} is out (you have v${SERVER_VERSION}). Run: npx @groundtruth-mcp/gt-mcp@latest`;
+  return `[UPDATE AVAILABLE] GetLib v${latestVersion} is out (you have v${SERVER_VERSION}). Run: npx @getlib/gl-mcp@latest`;
 }

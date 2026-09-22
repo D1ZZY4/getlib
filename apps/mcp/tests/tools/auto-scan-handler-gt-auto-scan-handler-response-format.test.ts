@@ -117,7 +117,7 @@ beforeEach(async () => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_auto_scan handler", () => {
+describe("gl_auto_scan handler", () => {
   describe("response format", () => {
     it("wraps response in withNotice", async () => {
       await mockPackageJson({ react: "^18.0.0" });
@@ -181,11 +181,11 @@ describe("gt_auto_scan handler", () => {
       expect(fetchDocs.mock.calls.length).toBeLessThanOrEqual(20);
     });
 
-    it("mentions unmatched packages via gt_resolve_library when present", async () => {
+    it("mentions unmatched packages via gl_resolve_library when present", async () => {
       await mockPackageJson({ "unknown-xyz-private-pkg": "^1.0.0" });
       vi.mocked(fetchDocs).mockResolvedValue(makeFetchResult());
       const result = await handler({});
-      expect(result.content[0]!.text).toContain("gt_resolve_library");
+      expect(result.content[0]!.text).toContain("gl_resolve_library");
     });
   });
 

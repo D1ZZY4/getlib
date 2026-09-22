@@ -79,30 +79,30 @@ beforeEach(() => {
   vi.mocked(isExtractionAttempt).mockReturnValue(false);
   // GitHub code search is token-only; the handler now skips the call entirely
   // without one, so the GitHub-path tests must supply a token.
-  process.env.GT_GITHUB_TOKEN = "test-token";
+  process.env.GL_GITHUB_TOKEN = "test-token";
 });
 
 afterEach(() => {
-  delete process.env.GT_GITHUB_TOKEN;
+  delete process.env.GL_GITHUB_TOKEN;
 });
 
-describe("no GT_GITHUB_TOKEN", () => {
+describe("no GL_GITHUB_TOKEN", () => {
   it("skips the guaranteed-401 GitHub call and says so", async () => {
-    delete process.env.GT_GITHUB_TOKEN;
+    delete process.env.GL_GITHUB_TOKEN;
     const result = await handler({ library: "react", pattern: "hooks" });
     expect(mockFetchWithTimeout).not.toHaveBeenCalledWith(
       expect.stringContaining("api.github.com/search/code"),
       expect.anything(),
       expect.anything(),
     );
-    expect(result.content[0]!.text).toContain("GT_GITHUB_TOKEN");
+    expect(result.content[0]!.text).toContain("GL_GITHUB_TOKEN");
   });
 });
 
 describe("registerExamplesTool", () => {
-  it("registers gt_examples tool", () => {
+  it("registers gl_examples tool", () => {
     expect(mockServer.registerTool).toHaveBeenCalledWith(
-      "gt_examples",
+      "gl_examples",
       expect.anything(),
       expect.any(Function),
     );

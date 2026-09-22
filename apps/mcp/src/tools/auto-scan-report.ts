@@ -37,10 +37,10 @@ export function renderScanReport(input: ScanReportInput): ScanReport {
     filesList,
     "",
     topMatched.length < matchedCount
-      ? `> Note: Showing top ${topMatched.length} of ${matchedCount} matched libraries (capped at 20). Use gt_best_practices for individual deep-dives.`
+      ? `> Note: Showing top ${topMatched.length} of ${matchedCount} matched libraries (capped at 20). Use gl_best_practices for individual deep-dives.`
       : "",
     unmatched.length > 0
-      ? `> Unresolved: ${unmatched.slice(0, 10).join(", ")}${unmatched.length > 10 ? ` +${unmatched.length - 10} more` : ""} — use gt_resolve_library for these.`
+      ? `> Unresolved: ${unmatched.slice(0, 10).join(", ")}${unmatched.length > 10 ? ` +${unmatched.length - 10} more` : ""} — use gl_resolve_library for these.`
       : "",
     "",
     "---",

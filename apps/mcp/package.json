@@ -1,13 +1,13 @@
 {
-  "name": "@groundtruth-mcp/gt-mcp",
-  "mcpName": "io.github.rm-rf-prod/groundtruth",
+  "name": "@getlib/gl-mcp",
+  "mcpName": "io.github.rm-rf-prod/getlib",
   "version": "7.5.0",
-  "description": "Enterprise-grade MCP server for live docs, best practices, code audit. Context7 alternative — 598+ libraries, evidence-verified answers (never generic), smart dispatch (use gt mcp), plain-text intent routing, telemetry, SSRF-hardened multi-source fetcher, atomic disk cache, IPv6 + Unicode-homoglyph defenses.",
+  "description": "Enterprise-grade MCP server for live docs, best practices, code audit. Context7 alternative — 598+ libraries, evidence-verified answers (never generic), smart dispatch (use gl mcp), plain-text intent routing, telemetry, SSRF-hardened multi-source fetcher, atomic disk cache, IPv6 + Unicode-homoglyph defenses.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "@groundtruth-mcp/gt-mcp": "dist/index.js",
-    "gt-mcp": "dist/index.js"
+    "@getlib/gl-mcp": "dist/index.js",
+    "gl-mcp": "dist/index.js"
   },
   "files": [
     "dist",
@@ -58,11 +58,11 @@
   "license": "Elastic-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rm-rf-prod/GroundTruth-MCP.git"
+    "url": "git+https://github.com/rm-rf-prod/GetLib-MCP.git"
   },
-  "homepage": "https://github.com/rm-rf-prod/GroundTruth-MCP#readme",
+  "homepage": "https://github.com/rm-rf-prod/GetLib-MCP#readme",
   "bugs": {
-    "url": "https://github.com/rm-rf-prod/GroundTruth-MCP/issues"
+    "url": "https://github.com/rm-rf-prod/GetLib-MCP/issues"
   },
   "publishConfig": {
     "access": "public",

@@ -104,7 +104,7 @@ beforeEach(() => {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_changelog handler", () => {
+describe("gl_changelog handler", () => {
   describe("cache writing", () => {
     it("caches successful response", async () => {
       vi.mocked(lookupById).mockReturnValue(makeEntry());

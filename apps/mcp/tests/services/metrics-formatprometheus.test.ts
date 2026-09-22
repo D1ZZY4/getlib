@@ -28,45 +28,45 @@ describe("formatPrometheus", () => {
   it("includes HELP and TYPE lines for invocations counter", () => {
     recordToolCall("resolve", 50, false, false);
     const output = formatPrometheus();
-    expect(output).toContain("# HELP gt_tool_invocations_total");
-    expect(output).toContain("# TYPE gt_tool_invocations_total counter");
+    expect(output).toContain("# HELP gl_tool_invocations_total");
+    expect(output).toContain("# TYPE gl_tool_invocations_total counter");
   });
 
   it("includes invocation count for recorded tool", () => {
     recordToolCall("docs", 100, false, false);
     recordToolCall("docs", 200, false, false);
     const output = formatPrometheus();
-    expect(output).toContain('gt_tool_invocations_total{tool="docs"} 2');
+    expect(output).toContain('gl_tool_invocations_total{tool="docs"} 2');
   });
 
   it("includes p50 gauge line for recorded tool", () => {
     recordToolCall("resolve", 100, false, false);
     const output = formatPrometheus();
-    expect(output).toContain("# HELP gt_tool_latency_p50_ms");
-    expect(output).toContain("# TYPE gt_tool_latency_p50_ms gauge");
-    expect(output).toContain('gt_tool_latency_p50_ms{tool="resolve"}');
+    expect(output).toContain("# HELP gl_tool_latency_p50_ms");
+    expect(output).toContain("# TYPE gl_tool_latency_p50_ms gauge");
+    expect(output).toContain('gl_tool_latency_p50_ms{tool="resolve"}');
   });
 
   it("includes p95 gauge line for recorded tool", () => {
     recordToolCall("resolve", 100, false, false);
     const output = formatPrometheus();
-    expect(output).toContain("# HELP gt_tool_latency_p95_ms");
-    expect(output).toContain('gt_tool_latency_p95_ms{tool="resolve"}');
+    expect(output).toContain("# HELP gl_tool_latency_p95_ms");
+    expect(output).toContain('gl_tool_latency_p95_ms{tool="resolve"}');
   });
 
   it("includes cache hit rate gauge", () => {
     recordToolCall("search", 80, true, false);
     const output = formatPrometheus();
-    expect(output).toContain("# HELP gt_tool_cache_hit_rate");
-    expect(output).toContain("# TYPE gt_tool_cache_hit_rate gauge");
-    expect(output).toContain('gt_tool_cache_hit_rate{tool="search"}');
+    expect(output).toContain("# HELP gl_tool_cache_hit_rate");
+    expect(output).toContain("# TYPE gl_tool_cache_hit_rate gauge");
+    expect(output).toContain('gl_tool_cache_hit_rate{tool="search"}');
   });
 
   it("includes uptime gauge", () => {
     const output = formatPrometheus();
-    expect(output).toContain("# HELP gt_uptime_seconds");
-    expect(output).toContain("# TYPE gt_uptime_seconds gauge");
-    expect(output).toContain("gt_uptime_seconds ");
+    expect(output).toContain("# HELP gl_uptime_seconds");
+    expect(output).toContain("# TYPE gl_uptime_seconds gauge");
+    expect(output).toContain("gl_uptime_seconds ");
   });
 
   it("produces valid Prometheus metric lines (no label syntax errors)", () => {
@@ -83,8 +83,8 @@ describe("formatPrometheus", () => {
   it("includes errors counter section", () => {
     recordToolCall("resolve", 50, false, true);
     const output = formatPrometheus();
-    expect(output).toContain("# HELP gt_tool_errors_total");
-    expect(output).toContain("# TYPE gt_tool_errors_total counter");
+    expect(output).toContain("# HELP gl_tool_errors_total");
+    expect(output).toContain("# TYPE gl_tool_errors_total counter");
   });
 
   it("multiple tools all appear in output", () => {

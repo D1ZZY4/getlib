@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — issues found", () => {
+describe("gl_audit handler — issues found", () => {
   it("filesScanned reflects actual scanned count", async () => {
     await mockFiles([
       { name: "a.ts", content: LINE_CLEAN },

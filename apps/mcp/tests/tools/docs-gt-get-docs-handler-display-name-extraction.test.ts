@@ -123,7 +123,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_get_docs handler", () => {
+describe("gl_get_docs handler", () => {
   describe("display name extraction", () => {
     it("uses hostname for direct http URL", async () => {
       vi.mocked(lookupById).mockReturnValue(null);

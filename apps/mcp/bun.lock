@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "@groundtruth-mcp/gt-mcp",
+      "name": "@getlib/gl-mcp",
       "dependencies": {
         "@modelcontextprotocol/sdk": "^1.30.0",
         "undici": "^8.11.0",

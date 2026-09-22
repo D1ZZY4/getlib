@@ -90,7 +90,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_resolve_library handler", () => {
+describe("gl_resolve_library handler", () => {
   describe("extraction guard", () => {
     it("returns EXTRACTION_REFUSAL when libraryName is an extraction attempt", async () => {
       vi.mocked(isExtractionAttempt).mockReturnValueOnce(true);

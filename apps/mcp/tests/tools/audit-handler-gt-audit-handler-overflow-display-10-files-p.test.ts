@@ -143,7 +143,7 @@ async function mockFiles(
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_audit handler — overflow display (>10 files per issue)", () => {
+describe("gl_audit handler — overflow display (>10 files per issue)", () => {
   it("includes overflow indicator when same issue appears in >10 files", async () => {
     const files = Array.from({ length: 12 }, (_, i) => ({
       name: `module${i}.ts`,
@@ -169,7 +169,7 @@ describe("gt_audit handler — overflow display (>10 files per issue)", () => {
   });
 });
 
-describe("gt_audit handler — file too large", () => {
+describe("gl_audit handler — file too large", () => {
   it("skips files exceeding 200KB", async () => {
     const fsp = await import("fs/promises");
     const entries = [makeFileEntry("huge.ts")];
@@ -184,7 +184,7 @@ describe("gt_audit handler — file too large", () => {
   });
 });
 
-describe("gt_audit handler — maxFiles limit", () => {
+describe("gl_audit handler — maxFiles limit", () => {
   it("respects maxFiles limit", async () => {
     const files = Array.from({ length: 10 }, (_, i) => ({
       name: `m${i}.ts`,

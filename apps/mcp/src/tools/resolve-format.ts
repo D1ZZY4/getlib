@@ -8,8 +8,8 @@ export function formatResults(matches: LibraryMatch[]): string {
       "",
       "**What to try next:**",
       "- Check spelling and try common aliases (e.g. 'nextjs' instead of 'next.js')",
-      "- Use gt_search for a freeform query (works for any topic, not just libraries)",
-      "- Provide a direct docs URL to gt_get_docs (e.g. 'https://docs.example.com')",
+      "- Use gl_search for a freeform query (works for any topic, not just libraries)",
+      "- Provide a direct docs URL to gl_get_docs (e.g. 'https://docs.example.com')",
       "- Try the npm/PyPI package name if this is a less-known library",
     ].join("\n");
   }
@@ -17,7 +17,7 @@ export function formatResults(matches: LibraryMatch[]): string {
   const lines: string[] = [
     `Found ${matches.length} result${matches.length > 1 ? "s" : ""}.`,
     "",
-    "Use the ID from one of these results with gt_get_docs.",
+    "Use the ID from one of these results with gl_get_docs.",
     "",
   ];
 

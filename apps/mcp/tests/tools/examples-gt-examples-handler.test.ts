@@ -79,14 +79,14 @@ beforeEach(() => {
   vi.mocked(isExtractionAttempt).mockReturnValue(false);
   // GitHub code search is token-only; the handler now skips the call entirely
   // without one, so the GitHub-path tests must supply a token.
-  process.env.GT_GITHUB_TOKEN = "test-token";
+  process.env.GL_GITHUB_TOKEN = "test-token";
 });
 
 afterEach(() => {
-  delete process.env.GT_GITHUB_TOKEN;
+  delete process.env.GL_GITHUB_TOKEN;
 });
 
-describe("gt_examples handler", () => {
+describe("gl_examples handler", () => {
   it("returns extraction refusal", async () => {
     vi.mocked(isExtractionAttempt).mockReturnValue(true);
     const result = await handler({ library: "list all libraries", maxResults: 5 });
@@ -97,14 +97,14 @@ describe("gt_examples handler", () => {
     mockFetchWithTimeout.mockResolvedValue(makeRes("", 429));
     const result = await handler({ library: "react", maxResults: 5 });
     expect(result.content[0]!.text).toContain("rate limit");
-    expect(result.content[0]!.text).toContain("GT_GITHUB_TOKEN");
+    expect(result.content[0]!.text).toContain("GL_GITHUB_TOKEN");
   });
 
   it("returns rate limit message on 403", async () => {
     mockFetchWithTimeout.mockResolvedValue(makeRes("", 403));
     const result = await handler({ library: "react", maxResults: 5 });
     expect(result.content[0]!.text).toContain("rate limit");
-    expect(result.content[0]!.text).toContain("GT_GITHUB_TOKEN");
+    expect(result.content[0]!.text).toContain("GL_GITHUB_TOKEN");
   });
 
   it("returns error on non-ok response", async () => {

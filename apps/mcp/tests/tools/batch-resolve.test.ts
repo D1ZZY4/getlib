@@ -49,7 +49,7 @@ beforeEach(() => {
   vi.mocked(isExtractionAttempt).mockReset().mockReturnValue(false);
 });
 
-describe("gt_batch_resolve handler", () => {
+describe("gl_batch_resolve handler", () => {
   it("resolves known names via alias lookup", async () => {
     vi.mocked(lookupByAlias).mockReturnValue(ENTRY);
     const result = await handler({ libraryNames: ["react"] });

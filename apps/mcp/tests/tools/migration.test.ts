@@ -89,7 +89,7 @@ const makeEntry = (overrides: Record<string, unknown> = {}) => ({
 
 const MIGRATION_CONTENT = "# Migration Guide\n\n## Breaking Changes\n\nVersion 14 to 15 requires async params. ".repeat(5);
 
-describe("gt_migration", () => {
+describe("gl_migration", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (isExtractionAttempt as ReturnType<typeof vi.fn>).mockReturnValue(false);

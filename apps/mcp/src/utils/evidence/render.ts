@@ -96,8 +96,8 @@ export function buildHonestMiss(opts: {
 
   const steps = nextSteps ?? [
     `Re-run with a broader or differently-worded topic`,
-    `Try gt_search with a freeform query combining the library name and "${topic}"`,
-    `Try gt_snippets for code-level examples`,
+    `Try gl_search with a freeform query combining the library name and "${topic}"`,
+    `Try gl_snippets for code-level examples`,
   ];
   lines.push("", "**What to try next:**", ...steps.map((s) => `- ${s}`));
 

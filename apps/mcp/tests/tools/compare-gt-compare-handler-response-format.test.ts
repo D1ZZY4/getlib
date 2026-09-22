@@ -108,7 +108,7 @@ beforeEach(() => {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe("gt_compare handler", () => {
+describe("gl_compare handler", () => {
   describe("response format", () => {
     it("wraps response in withNotice", async () => {
       const lib = makeEntry("prisma/prisma", "Prisma");

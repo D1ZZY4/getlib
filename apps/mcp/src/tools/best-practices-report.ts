@@ -43,8 +43,8 @@ function renderMiss(input: ReportInput): ToolResponse {
     outline: extractHeadingOutline(text),
     nextSteps: [
       "Re-run with a broader or differently-worded topic",
-      `Try gt_search with "${displayName} ${topic}" as a freeform query`,
-      "Try gt_get_docs with the same topic for reference documentation",
+      `Try gl_search with "${displayName} ${topic}" as a freeform query`,
+      "Try gl_get_docs with the same topic for reference documentation",
     ],
   });
   return {

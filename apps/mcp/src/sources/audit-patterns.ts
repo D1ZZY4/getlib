@@ -1,5 +1,5 @@
 /**
- * Audit pattern table: the 18-category rule set gt_audit runs over source files.
+ * Audit pattern table: the 18-category rule set gl_audit runs over source files.
  *
  * Data table, not logic — exempt from the 200-line source convention for the
  * same reason the library registry is.

@@ -60,19 +60,19 @@ const InputSchema = z.object({
 
 export function registerAuditTool(server: McpServer): void {
   server.registerTool(
-    "gt_audit",
+    "gl_audit",
     {
       // Claude Code swaps oversized tool results for a file reference; these two
       // tools legitimately return long reports, so raise their inline ceiling.
       _meta: { "anthropic/maxResultSizeChars": 200_000 },
       title: "Audit Project Code",
-      description: `Scan source files for code issues across 18 categories, then fetch live best-practice fixes from official docs. Returns file:line locations. Unlike gt_auto_scan (best practices for your dependencies), this audits YOUR OWN source code.
+      description: `Scan source files for code issues across 18 categories, then fetch live best-practice fixes from official docs. Returns file:line locations. Unlike gl_auto_scan (best practices for your dependencies), this audits YOUR OWN source code.
 
 Categories: layout, performance, accessibility, security, react, nextjs, typescript, node, python, vue, svelte, angular, testing, mobile, api, css, seo, i18n — or "all" (default).
 
 For broad questions like "what can be improved" or "find all issues", use categories: ["all"]. For mobile apps (React Native/Expo), use ["mobile", "react", "typescript", "accessibility", "performance", "security"]. For web apps, use ["react", "nextjs", "typescript", "security", "accessibility", "performance", "layout", "css", "seo"].
 
-If doc fetches fail with empty results, the user likely needs to set GT_GITHUB_TOKEN for higher GitHub API rate limits. The audit patterns themselves always run locally — only the fix guidance fetch requires network.`,
+If doc fetches fail with empty results, the user likely needs to set GL_GITHUB_TOKEN for higher GitHub API rate limits. The audit patterns themselves always run locally — only the fix guidance fetch requires network.`,
       inputSchema: InputSchema,
       annotations: {
         readOnlyHint: true,
@@ -82,7 +82,7 @@ If doc fetches fail with empty results, the user likely needs to set GT_GITHUB_T
       },
     },
     async ({ projectPath, categories, tokens, maxFiles }) => {
-      return withTelemetry("gt_audit", async (ctx) => {
+      return withTelemetry("gl_audit", async (ctx) => {
         let resolvedPath: string;
         try {
           resolvedPath = safeguardPath(projectPath ?? process.cwd());

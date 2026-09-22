@@ -113,7 +113,7 @@ beforeEach(() => {
 describe("registerSearchTool", () => {
   it("registers the tool with the correct name", () => {
     expect(mockServer.registerTool).toHaveBeenCalledWith(
-      "gt_search",
+      "gl_search",
       expect.anything(),
       expect.any(Function),
     );

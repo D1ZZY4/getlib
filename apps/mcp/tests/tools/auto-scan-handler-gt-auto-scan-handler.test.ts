@@ -117,7 +117,7 @@ beforeEach(async () => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_auto_scan handler", () => {
+describe("gl_auto_scan handler", () => {
   describe("extraction guard", () => {
     it("does not guard the topic field — it scopes lookups per detected dependency", async () => {
       // Pre-fix, ordinary topics like "complete migration checklist" were refused.
@@ -141,10 +141,10 @@ describe("gt_auto_scan handler", () => {
       expect(result.content[0]!.text).toContain("/custom/path");
     });
 
-    it("suggests gt_get_docs in no-manifests message", async () => {
+    it("suggests gl_get_docs in no-manifests message", async () => {
       await mockNoFiles();
       const result = await handler({});
-      expect(result.content[0]!.text).toContain("gt_get_docs");
+      expect(result.content[0]!.text).toContain("gl_get_docs");
     });
 
     it("uses process.cwd() when projectPath is not provided", async () => {

@@ -17,7 +17,7 @@ export function countMatches(content, re) {
 }
 
 // .github excluded: workflows pin their own action versions (e.g. upload-artifact
-// @v7.0.0) which the version sweep must not rewrite to the gt-mcp version.
+// @v7.0.0) which the version sweep must not rewrite to the gl-mcp version.
 const SCAN_SKIP_DIRS = new Set(["node_modules", "dist", "coverage", ".git", ".github", "scripts"]);
 const SCAN_EXTENSIONS = new Set([".ts", ".mts", ".mjs", ".js", ".json", ".md", ".yml", ".yaml", ".txt"]);
 const SCAN_SKIP_FILES = new Set(["package-lock.json", "CHANGELOG.md"]);

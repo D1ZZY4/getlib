@@ -123,7 +123,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_get_docs handler", () => {
+describe("gl_get_docs handler", () => {
   describe("response building", () => {
     it("wraps response in withNotice", async () => {
       vi.mocked(lookupById).mockReturnValue(makeEntry());

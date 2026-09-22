@@ -15,7 +15,7 @@ const InputSchema = z.object({
     .string()
     .min(1)
     .max(200)
-    .describe("Library ID from gt_resolve_library, e.g. 'vercel/next.js'"),
+    .describe("Library ID from gl_resolve_library, e.g. 'vercel/next.js'"),
   version: z
     .string()
     .max(50)
@@ -38,12 +38,12 @@ const TIMEOUT_RESPONSE = {
 
 export function registerChangelogTool(server: McpServer): void {
   server.registerTool(
-    "gt_changelog",
+    "gl_changelog",
     {
       title: "Fetch Library Changelog",
       description: `Fetch recent release notes and changelog for a library. Reads GitHub Releases API first, then CHANGELOG.md, then the docs site. Use before upgrading.
 
-Use this for "what changed in version X" questions. For "how do I upgrade my code from vA to vB" — use gt_migration instead (it targets MIGRATION.md, UPGRADING.md, and upgrade guides with step-by-step instructions).`,
+Use this for "what changed in version X" questions. For "how do I upgrade my code from vA to vB" — use gl_migration instead (it targets MIGRATION.md, UPGRADING.md, and upgrade guides with step-by-step instructions).`,
       inputSchema: InputSchema,
       annotations: {
         readOnlyHint: true,
@@ -53,7 +53,7 @@ Use this for "what changed in version X" questions. For "how do I upgrade my cod
       },
     },
     async ({ libraryId, version, tokens }) => {
-      return withTelemetry("gt_changelog", async (ctx) => {
+      return withTelemetry("gl_changelog", async (ctx) => {
         ctx.resolved = true;
         return withToolTimeout(async () => {
           if (isExtractionAttempt(libraryId)) {

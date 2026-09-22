@@ -14,7 +14,7 @@ import { registerBatchResolveTool } from "../tools/batch-resolve.js";
 import { registerSnippetsTool } from "../tools/snippets.js";
 import { registerDispatchTool } from "../tools/dispatch.js";
 
-/** Register every gt_* tool on the server, dispatch first. */
+/** Register every gl_* tool on the server, dispatch first. */
 export function registerAllTools(server: McpServer): void {
   registerDispatchTool(server);
   registerResolveTool(server);

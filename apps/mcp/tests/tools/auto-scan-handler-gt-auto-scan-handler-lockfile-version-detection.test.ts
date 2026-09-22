@@ -117,7 +117,7 @@ beforeEach(async () => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_auto_scan handler", () => {
+describe("gl_auto_scan handler", () => {
   describe("lockfile version detection", () => {
     it("includes detected versions in header when lockfile versions present", async () => {
       await mockPackageJson({ react: "^18.0.0" });
@@ -136,21 +136,21 @@ describe("gt_auto_scan handler", () => {
     });
   });
 
-  describe("GT_CONCURRENCY env var", () => {
-    it("respects GT_CONCURRENCY=1 and still processes all matches", async () => {
-      process.env.GT_CONCURRENCY = "1";
+  describe("GL_CONCURRENCY env var", () => {
+    it("respects GL_CONCURRENCY=1 and still processes all matches", async () => {
+      process.env.GL_CONCURRENCY = "1";
       try {
         await mockPackageJson({ react: "^18.0.0", next: "^15.2.0" });
         vi.mocked(fetchDocs).mockResolvedValue(makeFetchResult());
         const result = await handler({});
         expect(result.structuredContent?.matched.length).toBeGreaterThanOrEqual(1);
       } finally {
-        delete process.env.GT_CONCURRENCY;
+        delete process.env.GL_CONCURRENCY;
       }
     });
 
-    it("defaults concurrency to 6 when GT_CONCURRENCY is not set", async () => {
-      delete process.env.GT_CONCURRENCY;
+    it("defaults concurrency to 6 when GL_CONCURRENCY is not set", async () => {
+      delete process.env.GL_CONCURRENCY;
       await mockPackageJson({ react: "^18.0.0" });
       vi.mocked(fetchDocs).mockResolvedValue(makeFetchResult());
       await expect(handler({})).resolves.toBeDefined();

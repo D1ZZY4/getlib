@@ -9,7 +9,7 @@
  * - Structured log entry
  * - Stored last-failure for /health diagnostics
  *
- * The goal: every "use gt mcp" invocation produces an observable trace so we
+ * The goal: every "use gl mcp" invocation produces an observable trace so we
  * can prove 100% success rate (or diagnose exactly why it dropped).
  */
 

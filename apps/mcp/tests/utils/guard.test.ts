@@ -59,7 +59,7 @@ describe("safeguardPath", () => {
 
   // SEC-007: symlink following (CWE-61)
   it("blocks symlink pointing into /etc via an allowed directory", () => {
-    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "gt-guard-test-"));
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "gl-guard-test-"));
     const symlinkPath = path.join(tmpDir, "evil");
     fs.symlinkSync("/etc", symlinkPath);
     try {

@@ -117,7 +117,7 @@ beforeEach(() => {
 
 // ── Tests ───────────────────────────────────────────────────────────────────
 
-describe("gt_best_practices handler", () => {
+describe("gl_best_practices handler", () => {
   describe("response format", () => {
     it("strips leading v from version in effectiveTopic to avoid vv prefix", async () => {
       const entry = makeEntry();

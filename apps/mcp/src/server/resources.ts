@@ -11,11 +11,11 @@ import { DEFAULT_TOKEN_LIMIT } from "../constants.js";
 export function registerResources(server: McpServer): void {
   server.registerResource(
     "library-registry",
-    "gt://registry",
+    "gl://registry",
     { description: "List of all supported libraries with IDs and docs URLs" },
     async () => ({
       contents: [{
-        uri: "gt://registry",
+        uri: "gl://registry",
         mimeType: "application/json",
         text: JSON.stringify(
           LIBRARY_REGISTRY.map((e) => ({ id: e.id, name: e.name, docsUrl: e.docsUrl })),
@@ -29,9 +29,9 @@ export function registerResources(server: McpServer): void {
   server.registerResource(
     "library-docs",
     // Reserved expansion ({+var}) — every registry ID is "owner/name", and a
-    // plain {var} stops at the slash, so gt://docs/facebook/react never matched
+    // plain {var} stops at the slash, so gl://docs/facebook/react never matched
     // the template and every registry ID was unreadable through this resource.
-    new ResourceTemplate("gt://docs/{+libraryId}", { list: undefined }),
+    new ResourceTemplate("gl://docs/{+libraryId}", { list: undefined }),
     { description: "Fetch documentation for a library by its registry ID or alias" },
     async (uri, { libraryId }) => {
       const id = Array.isArray(libraryId) ? libraryId[0] ?? "" : libraryId ?? "";

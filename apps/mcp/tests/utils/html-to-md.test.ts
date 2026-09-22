@@ -55,7 +55,7 @@ describe("convertHtmlToMarkdown", () => {
   });
 
   it("decodes HTML entities", () => {
-    const html = `<html><body><h1>Entities Test</h1><p>Use &amp; for ampersand, &lt;div&gt; for tags, and &quot;quotes&quot; in your code. This paragraph is long enough for the minimum content requirements that are needed.</p></body></html>`;
+    const html = `<html><body><h1>Entities Test</h1><p>Use &amp; for ampersand, &lt;div&gl; for tags, and &quot;quotes&quot; in your code. This paragraph is long enough for the minimum content requirements that are needed.</p></body></html>`;
     const result = convertHtmlToMarkdown(html);
     expect(result).toContain("Use & for ampersand");
     expect(result).toContain("<div>");
