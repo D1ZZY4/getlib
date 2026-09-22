@@ -23,6 +23,9 @@ dist-ssr/
 *.swo
 *~
 
+# Agent tooling
+.agents/
+
 # OS generated files
 .DS_Store
 .DS_Store?
