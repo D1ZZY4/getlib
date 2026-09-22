@@ -1,16 +1,26 @@
 {
-  "name": "shadcn-dashboard-landing-template",
+  "name": "getlib",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "description": "Open-source self-hosted developer knowledge platform - version-aware, provenance-aware.",
+  "packageManager": "bun@1.4.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "bun run --cwd apps/dashboard dev",
-    "build": "bun run --cwd apps/dashboard build",
-    "lint": "bun run --cwd apps/dashboard lint",
-    "preview": "bun run --cwd apps/dashboard preview"
+    "build": "turbo run build",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "ci": "bun run lint && bun run typecheck && bun run test"
   },
-  "workspaces": [
-    "apps/dashboard",
-    "apps/dashboard/docs"
-  ]
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "turbo": "^2.11.2",
+    "typescript": "^6.0.3"
+  }
 }

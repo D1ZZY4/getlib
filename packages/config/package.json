@@ -1,0 +1,26 @@
+{
+  "name": "@getlib/config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "GetLib validated runtime configuration (Zod, fail-fast, no secrets in logs).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome check src",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "build": "echo 'config: source-first, no build output (Phase 1)'"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.1"
+  }
+}

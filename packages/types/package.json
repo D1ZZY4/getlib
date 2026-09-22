@@ -1,0 +1,22 @@
+{
+  "name": "@getlib/types",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "GetLib small shared type definitions and result helpers.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "biome check src",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "build": "tsc -p tsconfig.json --emitDeclarationOnly false --noEmit false --outDir dist --rootDir src || true"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.1"
+  }
+}

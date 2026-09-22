@@ -1,0 +1,25 @@
+# GetLib local services (Phase 1 baseline).
+# PostgreSQL is the system of record. pgvector provides semantic retrieval.
+# No Redis / Kafka / Elasticsearch per architectural constraints.
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: getlib-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: getlib
+      POSTGRES_PASSWORD: getlib
+      POSTGRES_DB: getlib
+    ports:
+      - "5432:5432"
+    volumes:
+      - getlib-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U getlib -d getlib"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  getlib-pgdata:
