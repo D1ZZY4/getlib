@@ -1,0 +1,16 @@
+{
+  "name": "shadcn-dashboard-landing-template",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --cwd apps/dashboard dev",
+    "build": "bun run --cwd apps/dashboard build",
+    "lint": "bun run --cwd apps/dashboard lint",
+    "preview": "bun run --cwd apps/dashboard preview"
+  },
+  "workspaces": [
+    "apps/dashboard",
+    "apps/dashboard/docs"
+  ]
+}

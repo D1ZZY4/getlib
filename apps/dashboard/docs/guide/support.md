@@ -14,7 +14,7 @@ Get help with the Shadcn Dashboard template.
 
 **Build Errors**
 - Check Node.js version (18+ required)
-- Clear `node_modules` and reinstall: `rm -rf node_modules pnpm-lock.yaml && pnpm install`
+- Clear `node_modules` and reinstall: `rm -rf node_modules bun.lock && bun install`
 - Verify TypeScript configuration
 
 **Theme Not Working**
@@ -133,13 +133,13 @@ A: Use Tailwind CSS responsive prefixes:
 
 **Q: How do I deploy the Vite version?**
 A: 
-1. Run `pnpm build`
+1. Run `bun run build`
 2. Deploy the `dist/` folder to any static hosting
 3. Recommended: Netlify, Vercel, or AWS S3
 
 **Q: How do I deploy the Next.js version?**
 A:
-1. Run `pnpm build`
+1. Run `bun run build`
 2. Deploy to Vercel (recommended) or any Node.js hosting
 3. Set environment variables as needed
 
@@ -151,7 +151,7 @@ A: Yes, for the Vite version. Configure the base path in `vite.config.ts` for Gi
 **Q: I'm getting TypeScript errors**
 A: 
 1. Check Node.js version (18+)
-2. Run `pnpm install` to ensure dependencies
+2. Run `bun install` to ensure dependencies
 3. Restart TypeScript server in your editor
 4. Check for missing type definitions
 

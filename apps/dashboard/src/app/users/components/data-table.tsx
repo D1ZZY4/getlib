@@ -2,17 +2,12 @@
 
 import { useState } from "react"
 import {
-  type ColumnDef,
+  createColumnHelper,
   type ColumnFiltersState,
+  type ColumnVisibilityState,
   type SortingState,
-  type VisibilityState,
-  type Row,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
+  useTable,
 } from "@tanstack/react-table"
 import {
   ChevronDown,
@@ -23,6 +18,8 @@ import {
   Download,
   Search,
 } from "lucide-react"
+
+import { features, type RowInstance } from "@/lib/table-features"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -87,7 +84,7 @@ interface DataTableProps {
 export function DataTable({ users, onDeleteUser, onEditUser, onAddUser }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState("")
 
@@ -123,11 +120,13 @@ export function DataTable({ users, onDeleteUser, onEditUser, onAddUser }: DataTa
     }
   }
 
-  const exactFilter = (row: Row<User>, columnId: string, value: string) => {
+  const exactFilter = (row: RowInstance<User>, columnId: string, value: string) => {
     return row.getValue(columnId) === value
   }
 
-  const columns: ColumnDef<User>[] = [
+  const columnHelper = createColumnHelper<typeof features, User>()
+
+  const columns = columnHelper.columns([
     {
       id: "select",
       header: ({ table }) => (
@@ -153,7 +152,6 @@ export function DataTable({ users, onDeleteUser, onEditUser, onAddUser }: DataTa
       ),
       enableSorting: false,
       enableHiding: false,
-      size: 50,
     },
     {
       accessorKey: "name",
@@ -270,17 +268,14 @@ export function DataTable({ users, onDeleteUser, onEditUser, onAddUser }: DataTa
         )
       },
     },
-  ]
+  ])
 
-  const table = useReactTable({
+  const table = useTable({
+    features,
     data: users,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setGlobalFilter,
@@ -479,13 +474,13 @@ export function DataTable({ users, onDeleteUser, onEditUser, onAddUser }: DataTa
             Show
           </Label>
           <Select
-            value={`${table.getState().pagination.pageSize}`}
+            value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {
               table.setPageSize(Number(value))
             }}
           >
             <SelectTrigger className="w-20 cursor-pointer" id="page-size">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
+              <SelectValue placeholder={table.state.pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
               {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -504,7 +499,7 @@ export function DataTable({ users, onDeleteUser, onEditUser, onAddUser }: DataTa
           <div className="flex items-center space-x-2 hidden sm:flex">
             <p className="text-sm font-medium">Page</p>
             <strong className="text-sm">
-              {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.state.pagination.pageIndex + 1} of{" "}
               {table.getPageCount()}
             </strong>
           </div>

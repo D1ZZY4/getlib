@@ -1,6 +1,6 @@
 "use client"
 
-import type { Table } from "@tanstack/react-table"
+import type { RowData } from "@tanstack/react-table"
 import { RefreshCcw } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -12,22 +12,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import type { TableInstance } from "@/lib/table-features"
 import { DataTableViewOptions } from "@/app/tasks/components/data-table-view-options"
 import { AddTaskModal } from "./add-task-modal"
 
 import { categories, priorities, statuses } from "../data/data"
 import type { Task } from "../data/schema"
 
-interface DataTableToolbarProps<TData> {
-  table: Table<TData>
+interface DataTableToolbarProps<TData extends RowData> {
+  table: TableInstance<TData>
   onAddTask?: (task: Task) => void
 }
 
-export function DataTableToolbar<TData>({
+export function DataTableToolbar<TData extends RowData>({
   table,
   onAddTask,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = table.state.columnFilters.length > 0
 
   const handleStatusChange = (value: string) => {
     const column = table.getColumn("status")

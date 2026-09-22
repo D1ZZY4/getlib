@@ -25,12 +25,13 @@ outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "pnpm dev"
+args = "bun dev"
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["pnpm", "start"]
+run = ["bun", "run", "dev"]
 
 [[ports]]
 localPort = 5173
 externalPort = 80
+exposeLocalhost = true

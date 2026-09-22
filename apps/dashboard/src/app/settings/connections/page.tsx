@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
-import { Github, Slack, Twitter, Zap, Globe, Database, Apple, Chrome, Facebook, Instagram, Dribbble } from "lucide-react"
+import { Zap, Globe, Database, Apple } from "lucide-react"
+import { Github, Slack, Twitter, Chrome, Facebook, Instagram, Dribbble } from "@/components/brand-icons"
 import { useState } from "react"
 
 

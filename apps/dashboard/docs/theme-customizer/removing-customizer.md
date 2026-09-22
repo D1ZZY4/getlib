@@ -83,13 +83,13 @@ Remove theme customizer related dependencies:
 
 ```bash
 # Remove tweakcn and related packages
-pnpm remove tweakcn
-pnpm remove @tweakcn/core
-pnpm remove colord
+bun remove tweakcn
+bun remove @tweakcn/core
+bun remove colord
 
 # Remove other customizer-specific dependencies
-pnpm remove react-colorful
-pnpm remove color2k
+bun remove react-colorful
+bun remove color2k
 ```
 
 ### Step 4: Clean Up Imports
@@ -168,17 +168,17 @@ After removing the theme customizer, verify everything works:
 
 ```bash
 # Test build in both versions
-cd vite-version && pnpm build
-cd nextjs-version && pnpm build
+cd vite-version && bun run build
+cd nextjs-version && bun run build
 ```
 
 ### 2. Runtime Test
 
 ```bash
 # Start development server
-cd vite-version && pnpm dev
+cd vite-version && bun run dev
 # or
-cd nextjs-version && pnpm dev
+cd nextjs-version && bun run dev
 ```
 
 ### 3. Check for Errors
@@ -576,7 +576,7 @@ If you want to keep custom themes without the customizer:
 If you need to restore the theme customizer:
 
 1. **Restore from git** using `git checkout HEAD~1 -- src/components/theme-customizer/`
-2. **Reinstall dependencies** with `pnpm install tweakcn @tweakcn/core`
+2. **Reinstall dependencies** with `bun add tweakcn @tweakcn/core`
 3. **Re-add component imports** to your layouts
 4. **Restore navigation links** and settings pages
 
@@ -584,4 +584,4 @@ If you need to restore the theme customizer:
 
 - **[Installation Guide](/guide/installation)** - Set up a fresh installation without customizer
 - **[Theme Customizer](/theme-customizer/)** - Learn about the customizer before removing
-- **[Customization Guide](/customization/)** - Alternative customization approaches
+- **[Theme System](/guide/theme-system)** - Alternative customization approaches

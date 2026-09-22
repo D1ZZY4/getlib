@@ -4,7 +4,7 @@ Get the template running in under 2 minutes. Choose between Vite (SPA) or Next.j
 
 ## Prerequisites
 
-- Node.js 18+ and pnpm (recommended)
+- Node.js 18+ and bun (recommended)
 - Git for cloning
 
 ## Quick Setup
@@ -14,8 +14,8 @@ Get the template running in under 2 minutes. Choose between Vite (SPA) or Next.j
 ```bash
 git clone https://github.com/silicondeck/shadcn-dashboard-landing-template.git
 cd shadcn-dashboard-landing-template/vite-version
-pnpm install
-pnpm dev
+bun install
+bun run dev
 ```
 
 Open `http://localhost:5173`
@@ -25,8 +25,8 @@ Open `http://localhost:5173`
 ```bash
 git clone https://github.com/silicondeck/shadcn-dashboard-landing-template.git
 cd shadcn-dashboard-landing-template/nextjs-version
-pnpm install
-pnpm dev
+bun install
+bun run dev
 ```
 
 Open `http://localhost:3000`
@@ -35,16 +35,16 @@ Open `http://localhost:3000`
 
 **Development:**
 ```bash
-pnpm dev          # Start development server
-pnpm build        # Build for production
-pnpm preview      # Preview build (Vite)
-pnpm start        # Start production server (Next.js)
+bun run dev          # Start development server
+bun run build        # Build for production
+bun run preview      # Preview build (Vite)
+bun run start        # Start production server (Next.js)
 ```
 
 **Code Quality:**
 ```bash
-pnpm lint         # Check for issues
-pnpm type-check   # TypeScript validation
+bun run lint         # Check for issues
+bun run type-check   # TypeScript validation
 ```
 
 ## Troubleshooting
@@ -52,8 +52,8 @@ pnpm type-check   # TypeScript validation
 **Common Issues:**
 
 - **Node version**: Ensure Node.js 18+
-- **Port in use**: Use `pnpm dev -- --port 5174` (Vite) or `pnpm dev -p 3001` (Next.js)
-- **TypeScript errors**: Run `pnpm install` and restart your editor
+- **Port in use**: Use `bun run dev --port 5174` (Vite) or `bun run dev -p 3001` (Next.js)
+- **TypeScript errors**: Run `bun install` and restart your editor
 
 **Need help?** Check the [support guide](/guide/support) or join our [Discord](https://discord.com/invite/XEQhPc9a6p).
 
@@ -61,4 +61,4 @@ pnpm type-check   # TypeScript validation
 
 - **[Choose Framework](/guide/choosing-framework)** - Understand the differences
 - **[Explore Features](/guide/features)** - See what's included
-- **[Framework Guide](/vite/)** - Dive into Vite or [Next.js](/nextjs/)
+- **[Framework Guide](/vite/)** - Dive into the Vite guide

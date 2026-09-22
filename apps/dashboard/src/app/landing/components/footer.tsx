@@ -14,7 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Logo } from '@/components/logo'
-import { Github, Twitter, Linkedin, Youtube, Heart } from 'lucide-react'
+import { Heart } from 'lucide-react'
+import { Github, Twitter, Linkedin, Youtube } from '@/components/brand-icons'
 
 const newsletterSchema = z.object({
   email: z.string().email({

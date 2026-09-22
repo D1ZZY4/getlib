@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import type { Column } from "@tanstack/react-table"
+import type { RowData } from "@tanstack/react-table"
 import { PlusCircle } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
@@ -22,9 +22,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
+import type { ColumnInstance } from "@/lib/table-features"
 
-interface DataTableFacetedFilterProps<TData, TValue> {
-  column?: Column<TData, TValue>
+interface DataTableFacetedFilterProps<TData extends RowData, TValue> {
+  column?: ColumnInstance<TData, TValue>
   title?: string
   options: {
     label: string
@@ -33,7 +34,7 @@ interface DataTableFacetedFilterProps<TData, TValue> {
   }[]
 }
 
-export function DataTableFacetedFilter<TData, TValue>({
+export function DataTableFacetedFilter<TData extends RowData, TValue>({
   column,
   title,
   options,

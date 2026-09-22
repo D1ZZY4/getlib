@@ -1,17 +1,20 @@
 "use client"
 
-import type { ColumnDef } from "@tanstack/react-table"
+import { createColumnHelper } from "@tanstack/react-table"
 
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
+import { features } from "@/lib/table-features"
 
 import { categories, priorities, statuses } from "../data/data"
 import type { Task } from "../data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 
-export const columns: ColumnDef<Task>[] = [
+const columnHelper = createColumnHelper<typeof features, Task>()
+
+export const columns = columnHelper.columns([
   {
     id: "select",
     header: ({ table }) => (
@@ -157,4 +160,4 @@ export const columns: ColumnDef<Task>[] = [
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
-]
+])

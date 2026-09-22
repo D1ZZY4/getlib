@@ -13,32 +13,30 @@ The documentation is organized into framework-specific sections to provide targe
 
 ### 🔧 Framework-Specific Guides
 - **[Vite Version](./vite/)** - React + Vite + React Router DOM
-- **[Next.js Version](./nextjs/)** - Next.js 15 + App Router
 
 ### 🎨 Component System
 - **[Component Library](./components/)** - shadcn/ui v3 integration
 - **[Theme Customizer](./theme-customizer/)** - Real-time theme editing
-- **[Layouts](./layouts/)** - Layout system and navigation
 
 ### 🚀 Advanced Topics
-- **[Deployment](./deployment/)** - Production deployment guides
-- **[Customization](./customization/)** - Styling and customization
-- **[Migration](./migration/)** - Framework and version migration
+- **[Build & Deploy](./vite/build-deploy.md)** - Production deployment guides
+- **[Theme System](./guide/theme-system.md)** - Styling and customization
+- **[Choosing Framework](./guide/choosing-framework.md)** - Framework comparison and migration guidance
 
 ## 🛠️ Development
 
 ### Prerequisites
 - Node.js (v18.0.0 or higher)
-- pnpm (recommended) or npm/yarn
+- bun (recommended) or npm/yarn
 
 ### Local Development
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Start development server
-pnpm dev
+bun run dev
 # or use the convenience script
 ./dev.sh
 
@@ -49,10 +47,10 @@ pnpm dev
 
 ```bash
 # Build for production
-pnpm build
+bun run build
 
 # Preview production build
-pnpm preview
+bun run preview
 ```
 
 ## 📖 Documentation Philosophy
@@ -91,7 +89,7 @@ The documentation includes:
 To improve the documentation:
 
 1. **Edit Markdown files** in the appropriate directories
-2. **Test locally** with `pnpm dev`
+2. **Test locally** with `bun run dev`
 3. **Follow the style guide** for consistency
 4. **Update navigation** in `.vitepress/config.ts` if needed
 
@@ -112,15 +110,8 @@ docs/
 │   └── theme/             # Custom theme components
 ├── guide/                 # Getting started guides
 ├── vite/                  # Vite-specific documentation
-├── nextjs/                # Next.js-specific documentation
 ├── components/            # Component library docs
-├── theme-customizer/      # Theme customization guides
-├── layouts/              # Layout system docs
-├── deployment/           # Deployment guides
-├── customization/        # Customization guides
-├── migration/            # Migration guides
-├── api/                  # API reference
-└── examples/             # Usage examples
+└── theme-customizer/      # Theme customization guides
 ```
 
 ## 🚀 Deployment
@@ -137,7 +128,7 @@ vercel
 
 ### Netlify
 ```bash
-# Build command: pnpm build
+# Build command: bun run build
 # Publish directory: .vitepress/dist
 ```
 

@@ -16,7 +16,7 @@ Developed by [ShadcnStore](https://shadcnstore.com) to accelerate your developme
 1. **[Install](/guide/installation)** - Choose Vite or Next.js and get running in 2 minutes
 2. **[Pick Framework](/guide/choosing-framework)** - Understand the differences
 3. **[Explore Features](/guide/features)** - See what's available
-4. **Start Building** - Jump into the [Vite](/vite/) or [Next.js](/nextjs/) guides
+4. **Start Building** - Jump into the [Vite](/vite/) guide
 
 ## Documentation
 
@@ -31,7 +31,6 @@ Developed by [ShadcnStore](https://shadcnstore.com) to accelerate your developme
 
 ### Framework Guides
 - **[Vite Version](/vite/)** - SPA development with React Router
-- **[Next.js Version](/nextjs/)** - SSR/SSG with App Router
 
 ### Customization
 - **[Components](/components/)** - UI component library

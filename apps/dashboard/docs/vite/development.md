@@ -15,13 +15,13 @@ The Vite development server provides:
 
 ```bash
 # Start development server
-pnpm dev
+bun run dev
 
 # Start with custom port
-pnpm dev --port 3001
+bun run dev --port 3001
 
 # Start with network access
-pnpm dev --host
+bun run dev --host
 ```
 
 ### File Watching
@@ -417,7 +417,7 @@ Analyze your bundle size:
 
 ```bash
 # Install bundle analyzer
-pnpm add -D rollup-plugin-visualizer
+bun add -d rollup-plugin-visualizer
 
 # Add to vite.config.ts
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -433,7 +433,7 @@ export default defineConfig({
 })
 
 # Build and analyze
-pnpm build
+bun run build
 ```
 
 ### Optimization Tips
@@ -472,7 +472,7 @@ describe('Button', () => {
 
 ```bash
 # Install testing dependencies
-pnpm add -D vitest @testing-library/react @testing-library/jest-dom
+bun add -d vitest @testing-library/react @testing-library/jest-dom
 
 # Add to vite.config.ts
 export default defineConfig({
@@ -500,10 +500,10 @@ Vite provides helpful debugging features:
 
 ```bash
 # Enable debug mode
-DEBUG=vite:* pnpm dev
+DEBUG=vite:* bun run dev
 
 # Verbose logging
-pnpm dev --debug
+bun run dev --debug
 
 # Force optimize dependencies
 pnmp dev --force

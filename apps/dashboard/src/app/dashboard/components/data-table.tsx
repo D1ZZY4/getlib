@@ -35,19 +35,13 @@ import {
   TrendingUp,
 } from "lucide-react"
 import {
-  type ColumnDef,
+  createColumnHelper,
   type ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type Row,
+  type ColumnVisibilityState,
   type SortingState,
-  useReactTable,
-  type VisibilityState,
+  flexRender,
+  type ReactTable,
+  useTable,
 } from "@tanstack/react-table"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import { toast } from "sonner"
@@ -55,6 +49,7 @@ import { z } from "zod"
 
 import { schema } from "../schemas/task-schema"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { features, type RowInstance } from "@/lib/table-features"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -127,7 +122,9 @@ function DragHandle({ id }: { id: number }) {
   )
 }
 
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columnHelper = createColumnHelper<typeof features, z.infer<typeof schema>>()
+
+const columns = columnHelper.columns([
   {
     id: "drag",
     header: () => null,
@@ -300,9 +297,9 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       </DropdownMenu>
     ),
   },
-]
+])
 
-function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
+function DraggableRow({ row }: { row: RowInstance<z.infer<typeof schema>> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.id,
   })
@@ -327,214 +324,22 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   )
 }
 
-export function DataTable({
-  data: initialData,
-  pastPerformanceData = [],
-  keyPersonnelData = [],
-  focusDocumentsData = [],
-}: {
-  data: z.infer<typeof schema>[]
-  pastPerformanceData?: z.infer<typeof schema>[]
-  keyPersonnelData?: z.infer<typeof schema>[]
-  focusDocumentsData?: z.infer<typeof schema>[]
-}) {
-  const [data, setData] = React.useState(() => initialData)
-  const [pastPerformance, setPastPerformance] = React.useState(() => pastPerformanceData)
-  const [keyPersonnel, setKeyPersonnel] = React.useState(() => keyPersonnelData)
-  const [focusDocuments, setFocusDocuments] = React.useState(() => focusDocumentsData)
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [pagination, setPagination] = React.useState({
-    pageIndex: 0,
-    pageSize: 10,
-  })
-  const sortableId = React.useId()
-  const sensors = useSensors(
-    useSensor(MouseSensor, {}),
-    useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {})
-  )
+interface TableContentProps {
+  currentTable: ReactTable<typeof features, z.infer<typeof schema>>
+  currentDataIds: UniqueIdentifier[]
+  handleCurrentDragEnd: (event: DragEndEvent) => void
+  sensors: ReturnType<typeof useSensors>
+  sortableId: string
+}
 
-  const dataIds = React.useMemo<UniqueIdentifier[]>(
-    () => data?.map(({ id }) => id) || [],
-    [data]
-  )
-
-  // Create separate table instances for each tab
-  const pastPerformanceIds = React.useMemo<UniqueIdentifier[]>(
-    () => pastPerformance?.map(({ id }) => id) || [],
-    [pastPerformance]
-  )
-
-  const keyPersonnelIds = React.useMemo<UniqueIdentifier[]>(
-    () => keyPersonnel?.map(({ id }) => id) || [],
-    [keyPersonnel]
-  )
-
-  const focusDocumentsIds = React.useMemo<UniqueIdentifier[]>(
-    () => focusDocuments?.map(({ id }) => id) || [],
-    [focusDocuments]
-  )
-
-  const pastPerformanceTable = useReactTable({
-    data: pastPerformance,
-    columns,
-    state: {
-      sorting,
-      columnVisibility,
-      rowSelection,
-      columnFilters,
-      pagination,
-    },
-    getRowId: (row) => row.id.toString(),
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-  })
-
-  const keyPersonnelTable = useReactTable({
-    data: keyPersonnel,
-    columns,
-    state: {
-      sorting,
-      columnVisibility,
-      rowSelection,
-      columnFilters,
-      pagination,
-    },
-    getRowId: (row) => row.id.toString(),
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-  })
-
-  const focusDocumentsTable = useReactTable({
-    data: focusDocuments,
-    columns,
-    state: {
-      sorting,
-      columnVisibility,
-      rowSelection,
-      columnFilters,
-      pagination,
-    },
-    getRowId: (row) => row.id.toString(),
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-  })
-
-  const table = useReactTable({
-    data,
-    columns,
-    state: {
-      sorting,
-      columnVisibility,
-      rowSelection,
-      columnFilters,
-      pagination,
-    },
-    getRowId: (row) => row.id.toString(),
-    enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onPaginationChange: setPagination,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-  })
-
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event
-    if (active && over && active.id !== over.id) {
-      setData((data) => {
-        const oldIndex = dataIds.indexOf(active.id)
-        const newIndex = dataIds.indexOf(over.id)
-        return arrayMove(data, oldIndex, newIndex)
-      })
-    }
-  }
-
-  function handlePastPerformanceDragEnd(event: DragEndEvent) {
-    const { active, over } = event
-    if (active && over && active.id !== over.id) {
-      setPastPerformance((data) => {
-        const oldIndex = pastPerformanceIds.indexOf(active.id)
-        const newIndex = pastPerformanceIds.indexOf(over.id)
-        return arrayMove(data, oldIndex, newIndex)
-      })
-    }
-  }
-
-  function handleKeyPersonnelDragEnd(event: DragEndEvent) {
-    const { active, over } = event
-    if (active && over && active.id !== over.id) {
-      setKeyPersonnel((data) => {
-        const oldIndex = keyPersonnelIds.indexOf(active.id)
-        const newIndex = keyPersonnelIds.indexOf(over.id)
-        return arrayMove(data, oldIndex, newIndex)
-      })
-    }
-  }
-
-  function handleFocusDocumentsDragEnd(event: DragEndEvent) {
-    const { active, over } = event
-    if (active && over && active.id !== over.id) {
-      setFocusDocuments((data) => {
-        const oldIndex = focusDocumentsIds.indexOf(active.id)
-        const newIndex = focusDocumentsIds.indexOf(over.id)
-        return arrayMove(data, oldIndex, newIndex)
-      })
-    }
-  }
-
-  // Component for rendering table content
-  const TableContent = ({ 
-    currentTable, 
-    currentDataIds, 
-    handleCurrentDragEnd 
-  }: { 
-    currentTable: ReturnType<typeof useReactTable<z.infer<typeof schema>>>, 
-    currentDataIds: UniqueIdentifier[], 
-    handleCurrentDragEnd: (event: DragEndEvent) => void 
-  }) => (
+function TableContent({
+  currentTable,
+  currentDataIds,
+  handleCurrentDragEnd,
+  sensors,
+  sortableId,
+}: TableContentProps) {
+  return (
     <>
       <div className="overflow-hidden rounded-lg border">
         <DndContext
@@ -598,14 +403,14 @@ export function DataTable({
               Rows per page
             </Label>
             <Select
-              value={`${currentTable.getState().pagination.pageSize}`}
+              value={`${currentTable.state.pagination.pageSize}`}
               onValueChange={(value) => {
                 currentTable.setPageSize(Number(value))
               }}
             >
               <SelectTrigger size="sm" className="w-20 cursor-pointer" id="rows-per-page">
                 <SelectValue
-                  placeholder={currentTable.getState().pagination.pageSize}
+                  placeholder={currentTable.state.pagination.pageSize}
                 />
               </SelectTrigger>
               <SelectContent side="top">
@@ -618,7 +423,7 @@ export function DataTable({
             </Select>
           </div>
           <div className="flex w-fit items-center justify-center text-sm font-medium">
-            Page {currentTable.getState().pagination.pageIndex + 1} of{" "}
+            Page {currentTable.state.pagination.pageIndex + 1} of{" "}
             {currentTable.getPageCount()}
           </div>
           <div className="ml-auto flex items-center gap-2 lg:ml-0">
@@ -666,6 +471,187 @@ export function DataTable({
       </div>
     </>
   )
+}
+
+
+export function DataTable({
+  data: initialData,
+  pastPerformanceData = [],
+  keyPersonnelData = [],
+  focusDocumentsData = [],
+}: {
+  data: z.infer<typeof schema>[]
+  pastPerformanceData?: z.infer<typeof schema>[]
+  keyPersonnelData?: z.infer<typeof schema>[]
+  focusDocumentsData?: z.infer<typeof schema>[]
+}) {
+  const [data, setData] = React.useState(() => initialData)
+  const [pastPerformance, setPastPerformance] = React.useState(() => pastPerformanceData)
+  const [keyPersonnel, setKeyPersonnel] = React.useState(() => keyPersonnelData)
+  const [focusDocuments, setFocusDocuments] = React.useState(() => focusDocumentsData)
+  const [rowSelection, setRowSelection] = React.useState({})
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<ColumnVisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 10,
+  })
+  const sortableId = React.useId()
+  const sensors = useSensors(
+    useSensor(MouseSensor, {}),
+    useSensor(TouchSensor, {}),
+    useSensor(KeyboardSensor, {})
+  )
+
+  const dataIds = React.useMemo<UniqueIdentifier[]>(
+    () => data?.map(({ id }) => id) || [],
+    [data]
+  )
+
+  // Create separate table instances for each tab
+  const pastPerformanceIds = React.useMemo<UniqueIdentifier[]>(
+    () => pastPerformance?.map(({ id }) => id) || [],
+    [pastPerformance]
+  )
+
+  const keyPersonnelIds = React.useMemo<UniqueIdentifier[]>(
+    () => keyPersonnel?.map(({ id }) => id) || [],
+    [keyPersonnel]
+  )
+
+  const focusDocumentsIds = React.useMemo<UniqueIdentifier[]>(
+    () => focusDocuments?.map(({ id }) => id) || [],
+    [focusDocuments]
+  )
+
+  const pastPerformanceTable = useTable({
+    features,
+    data: pastPerformance,
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+      pagination,
+    },
+    getRowId: (row) => row.id.toString(),
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
+  })
+
+  const keyPersonnelTable = useTable({
+    features,
+    data: keyPersonnel,
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+      pagination,
+    },
+    getRowId: (row) => row.id.toString(),
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
+  })
+
+  const focusDocumentsTable = useTable({
+    features,
+    data: focusDocuments,
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+      pagination,
+    },
+    getRowId: (row) => row.id.toString(),
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
+  })
+
+  const table = useTable({
+    features,
+    data,
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+      pagination,
+    },
+    getRowId: (row) => row.id.toString(),
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
+  })
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event
+    if (active && over && active.id !== over.id) {
+      setData((data) => {
+        const oldIndex = dataIds.indexOf(active.id)
+        const newIndex = dataIds.indexOf(over.id)
+        return arrayMove(data, oldIndex, newIndex)
+      })
+    }
+  }
+
+  function handlePastPerformanceDragEnd(event: DragEndEvent) {
+    const { active, over } = event
+    if (active && over && active.id !== over.id) {
+      setPastPerformance((data) => {
+        const oldIndex = pastPerformanceIds.indexOf(active.id)
+        const newIndex = pastPerformanceIds.indexOf(over.id)
+        return arrayMove(data, oldIndex, newIndex)
+      })
+    }
+  }
+
+  function handleKeyPersonnelDragEnd(event: DragEndEvent) {
+    const { active, over } = event
+    if (active && over && active.id !== over.id) {
+      setKeyPersonnel((data) => {
+        const oldIndex = keyPersonnelIds.indexOf(active.id)
+        const newIndex = keyPersonnelIds.indexOf(over.id)
+        return arrayMove(data, oldIndex, newIndex)
+      })
+    }
+  }
+
+  function handleFocusDocumentsDragEnd(event: DragEndEvent) {
+    const { active, over } = event
+    if (active && over && active.id !== over.id) {
+      setFocusDocuments((data) => {
+        const oldIndex = focusDocumentsIds.indexOf(active.id)
+        const newIndex = focusDocumentsIds.indexOf(over.id)
+        return arrayMove(data, oldIndex, newIndex)
+      })
+    }
+  }
+
 
   return (
     <Tabs
@@ -807,14 +793,14 @@ export function DataTable({
                 Rows per page
               </Label>
               <Select
-                value={`${table.getState().pagination.pageSize}`}
+                value={`${table.state.pagination.pageSize}`}
                 onValueChange={(value) => {
                   table.setPageSize(Number(value))
                 }}
               >
                 <SelectTrigger size="sm" className="w-20 cursor-pointer" id="rows-per-page">
                   <SelectValue
-                    placeholder={table.getState().pagination.pageSize}
+                    placeholder={table.state.pagination.pageSize}
                   />
                 </SelectTrigger>
                 <SelectContent side="top">
@@ -827,7 +813,7 @@ export function DataTable({
               </Select>
             </div>
             <div className="flex w-fit items-center justify-center text-sm font-medium">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              Page {table.state.pagination.pageIndex + 1} of{" "}
               {table.getPageCount()}
             </div>
             <div className="ml-auto flex items-center gap-2 lg:ml-0">
@@ -882,6 +868,8 @@ export function DataTable({
           currentTable={pastPerformanceTable}
           currentDataIds={pastPerformanceIds}
           handleCurrentDragEnd={handlePastPerformanceDragEnd}
+          sensors={sensors}
+          sortableId={sortableId}
         />
       </TabsContent>
       <TabsContent 
@@ -892,6 +880,8 @@ export function DataTable({
           currentTable={keyPersonnelTable}
           currentDataIds={keyPersonnelIds}
           handleCurrentDragEnd={handleKeyPersonnelDragEnd}
+          sensors={sensors}
+          sortableId={sortableId}
         />
       </TabsContent>
       <TabsContent
@@ -902,6 +892,8 @@ export function DataTable({
           currentTable={focusDocumentsTable}
           currentDataIds={focusDocumentsIds}
           handleCurrentDragEnd={handleFocusDocumentsDragEnd}
+          sensors={sensors}
+          sortableId={sortableId}
         />
       </TabsContent>
     </Tabs>

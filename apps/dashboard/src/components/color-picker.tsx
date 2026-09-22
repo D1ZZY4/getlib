@@ -15,9 +15,14 @@ interface ColorPickerProps {
 export function ColorPicker({ label, cssVar, value, onChange }: ColorPickerProps) {
   const [localValue, setLocalValue] = React.useState(value)
 
-  React.useEffect(() => {
+  // Keep the local input in sync with the external `value` prop without
+  // calling setState inside an effect: adjust state during render when the
+  // prop changes (React re-renders the component immediately).
+  const [prevValue, setPrevValue] = React.useState(value)
+  if (prevValue !== value) {
+    setPrevValue(value)
     setLocalValue(value)
-  }, [value])
+  }
 
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = e.target.value

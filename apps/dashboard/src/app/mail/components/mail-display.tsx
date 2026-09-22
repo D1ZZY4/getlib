@@ -95,10 +95,9 @@ export function MailDisplay({ mail }: MailDisplayProps) {
                   selected={selectedDate}
                   onSelect={setSelectedDate}
                   classNames={{ 
-                    today: "bg-none",
+                    today: "bg-none cursor-pointer",
                     day: "cursor-pointer",
-                    day_selected: "cursor-pointer",
-                    day_today: "cursor-pointer"
+                    selected: "cursor-pointer"
                   }}
                   required
                 />

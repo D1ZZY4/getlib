@@ -16,7 +16,7 @@ fi
 # Check if node_modules exists
 if [ ! -d "node_modules" ]; then
     echo "📦 Installing dependencies..."
-    pnpm install
+    bun install
     echo ""
 fi
 
@@ -27,4 +27,4 @@ echo "Press Ctrl+C to stop the server"
 echo ""
 
 # Start the development server
-pnpm dev
+bun dev

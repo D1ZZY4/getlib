@@ -6,7 +6,7 @@ Help improve the Shadcn Dashboard template.
 
 1. **Fork** the repository
 2. **Clone** your fork locally
-3. **Install** dependencies: `pnpm install`
+3. **Install** dependencies: `bun install`
 4. **Create** a feature branch
 5. **Make** your changes
 6. **Test** in both Vite and Next.js versions
@@ -20,11 +20,11 @@ git clone https://github.com/your-username/shadcn-dashboard-template.git
 cd shadcn-dashboard-template
 
 # Install dependencies for both versions
-cd vite-version && pnpm install
-cd ../nextjs-version && pnpm install
+cd vite-version && bun install
+cd ../nextjs-version && bun install
 
 # Start development servers
-pnpm dev  # In each version directory
+bun run dev  # In each version directory
 ```
 
 ## Contribution Guidelines
@@ -97,7 +97,7 @@ Thank you for contributing! Every improvement helps the community.
 
 **Prerequisites**
 - Node.js 18+ installed
-- pnpm package manager (recommended)
+- bun package manager (recommended)
 - Git for version control
 - Code editor (VS Code recommended)
 
@@ -115,21 +115,21 @@ git remote add upstream https://github.com/silicondeck/shadcn-dashboard-landing-
 **Install Dependencies**
 ```bash
 # Install dependencies for both versions
-cd vite-version && pnpm install
-cd ../nextjs-version && pnpm install
-cd ../docs && pnpm install
+cd vite-version && bun install
+cd ../nextjs-version && bun install
+cd ../docs && bun install
 ```
 
 **Start Development**
 ```bash
 # Vite version
-cd vite-version && pnpm dev
+cd vite-version && bun run dev
 
 # Next.js version
-cd nextjs-version && pnpm dev
+cd nextjs-version && bun run dev
 
 # Documentation
-cd docs && pnpm dev
+cd docs && bun run dev
 ```
 
 ## Development Workflow
@@ -198,11 +198,11 @@ export function Button({ variant = 'default', size = 'md', children, onClick }: 
 **Code Formatting**
 ```bash
 # Run formatting before commits
-pnpm lint
-pnpm format
+bun run lint
+bun run format
 
 # Auto-fix issues where possible
-pnpm lint:fix
+bun run lint:fix
 ```
 
 ### Dual-Version Requirements
@@ -252,11 +252,11 @@ import { useState } from 'react'  // Will break in Next.js without "use client"
 ```bash
 # Test Vite build
 cd vite-version
-pnpm build && pnpm preview
+bun run build && bun run preview
 
 # Test Next.js build
 cd nextjs-version
-pnpm build && pnpm start
+bun run build && bun run start
 ```
 
 **Browser Testing**
@@ -326,11 +326,11 @@ perf(charts): optimize chart rendering
 **Before Submitting**
 ```bash
 # Ensure code quality
-pnpm lint
-pnpm type-check
+bun run lint
+bun run type-check
 
 # Test builds
-pnpm build
+bun run build
 
 # Update documentation if needed
 ```

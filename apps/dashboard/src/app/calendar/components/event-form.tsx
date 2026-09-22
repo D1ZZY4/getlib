@@ -191,7 +191,7 @@ export function EventForm({ event, open, onOpenChange, onSave, onDelete }: Event
                         setShowCalendar(false)
                       }
                     }}
-                    initialFocus
+                    autoFocus
                   />
                 </PopoverContent>
               </Popover>

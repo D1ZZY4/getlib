@@ -69,4 +69,4 @@ dashboard/
 
 ---
 
-For framework-specific details, see [Vite](/vite/) or [Next.js](/nextjs/) guides.
+For framework-specific details, see the [Vite](/vite/) guide.

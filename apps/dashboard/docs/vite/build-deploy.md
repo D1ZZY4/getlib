@@ -10,7 +10,7 @@ Create an optimized production build:
 
 ```bash
 # Build for production
-pnpm build
+bun run build
 
 # Output will be in the dist/ directory
 ```
@@ -82,9 +82,9 @@ Vercel provides zero-configuration deployment for Vite applications:
 2. **Configure Project:**
    ```bash
    # Vercel will auto-detect Vite configuration
-   # Build Command: pnpm build
+   # Build Command: bun run build
    # Output Directory: dist
-   # Install Command: pnpm install
+   # Install Command: bun install
    ```
 
 3. **Environment Variables:**
@@ -115,7 +115,7 @@ Deploy to Netlify with drag-and-drop or Git integration:
 
 ```bash
 # Build command
-pnpm build
+bun run build
 
 # Publish directory
 dist
@@ -130,7 +130,7 @@ Create `netlify.toml` for advanced configuration:
 
 ```toml
 [build]
-  command = "pnpm build"
+  command = "bun run build"
   publish = "dist"
 
 [[redirects]]
@@ -165,21 +165,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Setup bun
+      uses: oven-sh/setup-bun@v2
       with:
-        node-version: '18'
-        cache: 'pnpm'
+        bun-version: latest
         
-    - name: Install pnpm
-      run: npm install -g pnpm
-      
     - name: Install dependencies
-      run: pnpm install
+      run: bun install
       working-directory: ./vite-version
       
     - name: Build
-      run: pnpm build
+      run: bun run build
       working-directory: ./vite-version
       
     - name: Deploy to GitHub Pages
@@ -252,16 +248,16 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 # Copy package files
-COPY package*.json pnpm-lock.yaml ./
+COPY package*.json bun.lock ./
 
-# Install pnpm and dependencies
-RUN npm install -g pnpm && pnpm install
+# Install bun and dependencies
+RUN npm install -g bun && bun install
 
 # Copy source code
 COPY . .
 
 # Build application
-RUN pnpm build
+RUN bun run build
 
 # Production stage
 FROM nginx:alpine
@@ -356,7 +352,7 @@ const config = {
 
 ```bash
 # Install bundle analyzer
-pnpm add -D rollup-plugin-visualizer
+bun add -d rollup-plugin-visualizer
 
 # Add to vite.config.ts
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -492,10 +488,10 @@ Track build performance:
 
 ```bash
 # Build with timing information
-pnpm build --reporter verbose
+bun run build --reporter verbose
 
 # Analyze bundle size
-pnpm build && npx vite-bundle-analyzer
+bun run build && npx vite-bundle-analyzer
 ```
 
 ### Performance Monitoring
@@ -517,20 +513,20 @@ window.addEventListener('load', () => {
 **Module not found errors:**
 ```bash
 # Clear node_modules and reinstall
-rm -rf node_modules pnpm-lock.yaml
-pnpm install
+rm -rf node_modules bun.lock
+bun install
 ```
 
 **Build memory issues:**
 ```bash
 # Increase Node.js memory limit
-NODE_OPTIONS="--max-old-space-size=4096" pnpm build
+NODE_OPTIONS="--max-old-space-size=4096" bun run build
 ```
 
 **TypeScript errors:**
 ```bash
 # Run type checking separately
-pnpm type-check
+bun run type-check
 ```
 
 ### Deployment Issues

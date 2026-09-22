@@ -12,13 +12,13 @@ Common issues and solutions when working with the Vite version of Shadcn Dashboa
 
 ```bash
 # Use a different port
-pnpm dev --port 3001
+bun run dev --port 3001
 
 # Find and kill the process using the port
 lsof -ti:5173 | xargs kill -9
 
 # Or use a specific port range
-pnpm dev --port 5174
+bun run dev --port 5174
 ```
 
 ### Slow Development Server
@@ -30,12 +30,12 @@ pnpm dev --port 5174
 1. **Clear Vite cache:**
    ```bash
    rm -rf node_modules/.vite
-   pnpm dev
+   bun run dev
    ```
 
 2. **Optimize dependencies:**
    ```bash
-   pnpm dev --force
+   bun run dev --force
    ```
 
 3. **Check large dependencies:**
@@ -153,13 +153,13 @@ pnpm dev --port 5174
 
 1. **Run type checking separately:**
    ```bash
-   pnpm type-check
+   bun run type-check
    ```
 
 2. **Common type issues:**
    ```typescript
    // Fix missing types
-   npm install @types/react @types/react-dom
+   bun add -D @types/react @types/react-dom
    
    // Fix import type issues
    import type { ComponentProps } from 'react' // ✅
@@ -189,7 +189,7 @@ pnpm dev --port 5174
 
 1. **Analyze bundle:**
    ```bash
-   pnpm add -D rollup-plugin-visualizer
+   bun add -d rollup-plugin-visualizer
    
    # Add to vite.config.ts
    import { visualizer } from 'rollup-plugin-visualizer'
@@ -200,7 +200,7 @@ pnpm dev --port 5174
      ]
    })
    
-   pnpm build
+   bun run build
    ```
 
 2. **Implement code splitting:**
@@ -246,7 +246,7 @@ pnpm dev --port 5174
 
 ```bash
 # Increase Node.js memory limit
-NODE_OPTIONS="--max-old-space-size=4096" pnpm build
+NODE_OPTIONS="--max-old-space-size=4096" bun run build
 
 # Or set in package.json
 {
@@ -545,8 +545,8 @@ NODE_OPTIONS="--max-old-space-size=4096" pnpm build
 
 1. **Test production build locally:**
    ```bash
-   pnpm build
-   pnpm preview
+   bun run build
+   bun run preview
    ```
 
 2. **Check for development-only code:**
@@ -579,10 +579,10 @@ NODE_OPTIONS="--max-old-space-size=4096" pnpm build
 2. **Vite DevTools:**
    ```bash
    # Enable verbose logging
-   DEBUG=vite:* pnpm dev
+   DEBUG=vite:* bun run dev
    
    # Enable HMR debugging
-   DEBUG=vite:hmr pnpm dev
+   DEBUG=vite:hmr bun run dev
    ```
 
 3. **Network tab:**
@@ -627,14 +627,14 @@ When reporting issues, include:
 ```bash
 # System information
 node --version
-pnpm --version
+bun --version
 vite --version
 
 # Project information
-pnpm list --depth=0
+bun pm ls --depth=0
 
 # Build/error logs
-pnpm build 2>&1 | tee build.log
+bun run build 2>&1 | tee build.log
 ```
 
 ## Next Steps

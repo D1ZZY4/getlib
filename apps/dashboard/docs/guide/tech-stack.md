@@ -45,7 +45,7 @@ The modern technologies powering the template.
 
 ## Package Manager
 
-- **pnpm** (recommended) for fast, efficient installs
+- **bun** (recommended) for fast, efficient installs
 - npm and yarn also supported
 
 ---

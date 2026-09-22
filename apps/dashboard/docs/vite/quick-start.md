@@ -7,7 +7,7 @@ Get up and running with the Vite version of Shadcn Dashboard + Landing Page Temp
 Before getting started, ensure you have:
 
 - **Node.js** (v18.0.0 or higher)
-- **pnpm** (recommended) or npm/yarn
+- **bun** (recommended) or npm/yarn
 - **Git** for cloning the repository
 
 ## Installation
@@ -31,14 +31,14 @@ cd vite-version
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 ```
 
 ### Step 4: Start Development Server
 
 ```bash
 # Start development server
-pnpm dev
+bun run dev
 
 # Server will be available at http://localhost:5173
 ```
@@ -74,11 +74,11 @@ vite-version/
 
 ```bash
 # Development
-pnpm dev          # Start development server
-pnpm build        # Build for production
-pnpm preview      # Preview production build
-pnpm lint         # Run ESLint
-pnpm type-check   # TypeScript type checking
+bun run dev          # Start development server
+bun run build        # Build for production
+bun run preview      # Preview production build
+bun run lint         # Run ESLint
+bun run type-check   # TypeScript type checking
 ```
 
 ## First Steps
@@ -122,7 +122,7 @@ Check out various page templates:
 If port 5173 is occupied:
 
 ```bash
-pnpm dev --port 3001
+bun run dev --port 3001
 ```
 
 ### Missing Dependencies
@@ -130,8 +130,8 @@ pnpm dev --port 3001
 If you encounter missing dependencies:
 
 ```bash
-rm -rf node_modules pnpm-lock.yaml
-pnpm install
+rm -rf node_modules bun.lock
+bun install
 ```
 
 ### TypeScript Errors
@@ -139,7 +139,7 @@ pnpm install
 For TypeScript issues:
 
 ```bash
-pnpm type-check
+bun run type-check
 # Fix any reported errors
 ```
 

@@ -16,7 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Mail, MessageCircle, Github, BookOpen } from 'lucide-react'
+import { Mail, MessageCircle, BookOpen } from 'lucide-react'
+import { Github } from '@/components/brand-icons'
 
 const contactFormSchema = z.object({
   firstName: z.string().min(2, {

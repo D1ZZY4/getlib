@@ -1,6 +1,6 @@
 "use client"
 
-import type { Row } from "@tanstack/react-table"
+import type { RowData } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -14,15 +14,17 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { taskSchema } from "../data/schema"
+import type { RowInstance } from "@/lib/table-features"
 
-interface DataTableRowActionsProps<TData> {
-  row: Row<TData>
+interface DataTableRowActionsProps<TData extends RowData> {
+  row: RowInstance<TData>
 }
 
-export function DataTableRowActions<TData>({
+export function DataTableRowActions<TData extends RowData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original)
+  // Validate the row data (throws at runtime on malformed data)
+  taskSchema.parse(row.original)
 
   return (
     <DropdownMenu>

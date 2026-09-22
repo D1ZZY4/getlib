@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { CardDecorator } from '@/components/ui/card-decorator'
-import { Github, Linkedin, Globe } from 'lucide-react'
+import { Globe } from 'lucide-react'
+import { Github, Linkedin } from '@/components/brand-icons'
 
 
 const team = [

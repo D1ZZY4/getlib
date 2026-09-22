@@ -152,7 +152,7 @@ import { usePathname } from 'next/navigation'
 ### Vite Deployment
 ```bash
 # Build for production
-pnpm build
+bun run build
 
 # Deploy to static hosting
 # Vercel, Netlify, GitHub Pages, etc.
@@ -168,7 +168,7 @@ pnpm build
 ### Next.js Deployment
 ```bash
 # Build for production
-pnpm build
+bun run build
 
 # Deploy with SSR capabilities
 # Vercel, Railway, DigitalOcean, etc.
@@ -217,23 +217,21 @@ Once you've chosen your framework:
 ### For Vite Version:
 ```bash
 cd vite-version
-pnpm install
-pnpm dev
+bun install
+bun run dev
 ```
 
 ### For Next.js Version:
 ```bash
 cd nextjs-version
-pnpm install
-pnpm dev
+bun install
+bun run dev
 ```
 
 ## Next Steps
 
 - **[Vite Quick Start](/vite/quick-start)** - Get started with Vite version
-- **[Next.js Quick Start](/nextjs/quick-start)** - Get started with Next.js version
 - **[Vite Documentation](/vite/)** - Vite-specific guides
-- **[Next.js Documentation](/nextjs/)** - Next.js-specific guides
 - **[Theme Customizer](/theme-customizer/)** - Start customizing your theme
 
 Still unsure? Start with the **Vite version** for faster development, then migrate to Next.js later if you need SSR/SEO capabilities.
