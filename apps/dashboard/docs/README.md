@@ -26,8 +26,8 @@ The documentation is organized into framework-specific sections to provide targe
 ## 🛠️ Development
 
 ### Prerequisites
-- Node.js (v18.0.0 or higher)
-- bun (recommended) or npm/yarn
+- Bun 1.4+ (required — this repo uses Bun workspaces with `bun.lock`)
+- Node.js 20.19+ (optional — only needed if you run the tooling with Node.js)
 
 ### Local Development
 

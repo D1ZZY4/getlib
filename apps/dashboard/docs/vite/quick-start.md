@@ -6,8 +6,8 @@ Get up and running with the Vite version of Shadcn Dashboard + Landing Page Temp
 
 Before getting started, ensure you have:
 
-- **Node.js** (v18.0.0 or higher)
-- **bun** (recommended) or npm/yarn
+- **Bun** v1.4+ (required — this repo uses Bun workspaces with `bun.lock`)
+- **Node.js** v20.19+ (optional — only needed if you run the tooling with Node.js)
 - **Git** for cloning the repository
 
 ## Installation

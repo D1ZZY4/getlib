@@ -88,7 +88,7 @@ A: Choose based on your project needs:
 A: No, choose one version. Both provide identical UI components and features but different architectures.
 
 **Q: What Node.js version is required?**
-A: Node.js 18+ is required. Node.js 20+ is recommended for best performance.
+A: Bun 1.4+ is required — the repo uses Bun workspaces with `bun.lock` and all scripts run with Bun. If you run the tooling with Node.js instead, Node.js 20.19+ is required (Vite 8 / ESLint 10).
 
 ### Development
 
@@ -114,8 +114,8 @@ A: Yes, see [Removing Customizer](/theme-customizer/removing-customizer) guide f
 **Q: How do I add new shadcn/ui components?**
 A: Use the shadcn/ui CLI:
 ```bash
-npx shadcn@latest add button
-npx shadcn@latest add card
+bunx --bun shadcn@latest add button
+bunx --bun shadcn@latest add card
 ```
 
 **Q: How do I customize component styles?**

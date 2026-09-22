@@ -8,12 +8,12 @@ The template has shadcn/ui v3 already configured. To add new components:
 
 ```bash
 # Add individual components
-npx shadcn@latest add button
-npx shadcn@latest add card
-npx shadcn@latest add data-table
+bunx --bun shadcn@latest add button
+bunx --bun shadcn@latest add card
+bunx --bun shadcn@latest add data-table
 
 # Add multiple components
-npx shadcn@latest add button card input
+bunx --bun shadcn@latest add button card input
 ```
 
 ## Configuration

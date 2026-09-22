@@ -4,7 +4,7 @@ Get the template running in under 2 minutes. Choose between Vite (SPA) or Next.j
 
 ## Prerequisites
 
-- Node.js 18+ and bun (recommended)
+- Bun 1.4+ (required — Bun workspaces with `bun.lock`; Node.js 20.19+ only if you run the tooling with Node.js)
 - Git for cloning
 
 ## Quick Setup
@@ -51,7 +51,7 @@ bun run type-check   # TypeScript validation
 
 **Common Issues:**
 
-- **Node version**: Ensure Node.js 18+
+- **Node version**: Node.js 20.19+ is only required if you run the tooling with Node.js; the build and lint scripts run on Bun 1.4+
 - **Port in use**: Use `bun run dev --port 5174` (Vite) or `bun run dev -p 3001` (Next.js)
 - **TypeScript errors**: Run `bun install` and restart your editor
 

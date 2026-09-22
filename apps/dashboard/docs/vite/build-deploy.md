@@ -98,7 +98,7 @@ Vercel provides zero-configuration deployment for Vite applications:
 
 ```bash
 # Install Vercel CLI
-npm i -g vercel
+bun add -g vercel
 
 # Deploy from command line
 vercel
@@ -139,7 +139,8 @@ Create `netlify.toml` for advanced configuration:
   status = 200
 
 [build.environment]
-  NODE_VERSION = "18"
+  # Netlify's build image ships Bun 1.x; pin the major version here
+  BUN_VERSION = "1"
 ```
 
 ### GitHub Pages
@@ -243,15 +244,15 @@ Containerize your application for deployment:
 
 ```dockerfile
 # Multi-stage build for optimized image
-FROM node:18-alpine AS build
+FROM oven/bun:1 AS build
 
 WORKDIR /app
 
 # Copy package files
-COPY package*.json bun.lock ./
+COPY package.json bun.lock ./
 
-# Install bun and dependencies
-RUN npm install -g bun && bun install
+# Install dependencies
+RUN bun install --frozen-lockfile
 
 # Copy source code
 COPY . .
@@ -491,7 +492,7 @@ Track build performance:
 bun run build --reporter verbose
 
 # Analyze bundle size
-bun run build && npx vite-bundle-analyzer
+bun run build && bunx --bun vite-bundle-analyzer
 ```
 
 ### Performance Monitoring

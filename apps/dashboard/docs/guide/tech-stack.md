@@ -5,18 +5,18 @@ The modern technologies powering the template.
 ## Core Technologies
 
 **Frontend**
-- React 19 with TypeScript 5.x
-- Vite or Next.js 15 for building
+- React 19 with TypeScript 7
+- Vite 8 or Next.js 15 for building
 - shadcn/ui v3 with Radix UI primitives
 - Tailwind CSS v4 for styling
 
 **State & Data**
 - Zustand for state management
 - React Hook Form with Zod validation
-- TanStack Table for data tables
+- TanStack Table v9 for data tables
 
 **Charts & Icons**
-- Recharts for chart components
+- Recharts 3 for chart components
 - Lucide React for icons
 
 **Theme System**
@@ -45,8 +45,8 @@ The modern technologies powering the template.
 
 ## Package Manager
 
-- **bun** (recommended) for fast, efficient installs
-- npm and yarn also supported
+- **Bun** 1.4+ — the package manager and runtime (Bun workspaces with `bun.lock`)
+- Install with `bun install` and run scripts with `bun run <script>`; npm and yarn are not officially supported
 
 ---
 

@@ -96,8 +96,7 @@ Thank you for contributing! Every improvement helps the community.
 ### Development Environment
 
 **Prerequisites**
-- Node.js 18+ installed
-- bun package manager (recommended)
+- Bun 1.4+ installed (required — this repo uses Bun workspaces with `bun.lock`)
 - Git for version control
 - Code editor (VS Code recommended)
 
