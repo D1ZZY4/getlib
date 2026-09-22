@@ -25,6 +25,8 @@ dist-ssr/
 
 # Agent tooling
 .agents/
+skills-lock.json
+opencode.jsonc
 
 # OS generated files
 .DS_Store
