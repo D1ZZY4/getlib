@@ -1,22 +1,15 @@
 "use client";
 
-import { flexRender, useTable } from "@tanstack/react-table";
+import { useTable } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import {
   ColumnVisibility,
+  DataTableView,
   FilterSelect,
   TablePagination,
   TableSearch,
   useTableState,
 } from "@/components/data-table";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import type { IndexJob } from "@/fixtures/indexing";
 import { features } from "@/lib/table-features";
 import { createJobColumns } from "./data-table-columns";
@@ -106,54 +99,11 @@ export function DataTable({ jobs, onRetry, onCancel }: DataTableProps) {
         <ColumnVisibility table={table} />
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTableView
+        table={table}
+        columnsLength={columns.length}
+        emptyMessage="No results."
+      />
 
       <TablePagination table={table} />
       <JobInspector job={inspected} onClose={() => setInspected(null)} />

@@ -33,11 +33,11 @@ export default function UsersPage() {
   const [users, setUsers] = useState<User[]>(initialUsersData);
 
   const generateAvatar = (name: string) => {
-    const names = name.split(" ");
-    if (names.length >= 2) {
-      return `${names[0][0]}${names[1][0]}`.toUpperCase();
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase();
     }
-    return name.substring(0, 2).toUpperCase();
+    return name.trim().substring(0, 2).toUpperCase();
   };
 
   const handleAddUser = (userData: UserFormValues) => {

@@ -2,6 +2,7 @@
 
 import { createColumnHelper } from "@tanstack/react-table";
 import { EllipsisVertical, Eye, Pencil, Trash2 } from "lucide-react";
+import { exactMatchFilter } from "@/components/data-table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { features, RowInstance } from "@/lib/table-features";
+import type { features } from "@/lib/table-features";
 
 export interface User {
   id: number;
@@ -56,14 +57,6 @@ export function getRoleColor(role: string): string {
     default:
       return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20";
   }
-}
-
-export function exactUserFilter(
-  row: RowInstance<User>,
-  columnId: string,
-  value: string,
-): boolean {
-  return row.getValue(columnId) === value;
 }
 
 const columnHelper = createColumnHelper<typeof features, User>();
@@ -136,7 +129,7 @@ export function createUserColumns(actions: UserColumnActions) {
           </Badge>
         );
       },
-      filterFn: exactUserFilter,
+      filterFn: exactMatchFilter,
     },
     {
       accessorKey: "plan",
@@ -144,7 +137,7 @@ export function createUserColumns(actions: UserColumnActions) {
       cell: ({ row }) => (
         <span className="font-medium">{row.getValue("plan")}</span>
       ),
-      filterFn: exactUserFilter,
+      filterFn: exactMatchFilter,
     },
     {
       accessorKey: "billing",
@@ -164,7 +157,7 @@ export function createUserColumns(actions: UserColumnActions) {
           </Badge>
         );
       },
-      filterFn: exactUserFilter,
+      filterFn: exactMatchFilter,
     },
     {
       id: "actions",

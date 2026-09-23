@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { TableCell, TableRow } from "@/components/ui/table";
 
 export function FilterSelect({
   id,
@@ -54,10 +55,10 @@ export function TableEmpty({
   children?: ReactNode;
 }) {
   return (
-    <tr className="border-b transition-colors">
-      <td colSpan={colSpan} className="h-24 text-center text-sm">
+    <TableRow>
+      <TableCell colSpan={colSpan} className="h-24 text-center text-sm">
         {children}
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 }

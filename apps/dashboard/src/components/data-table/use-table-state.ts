@@ -5,23 +5,13 @@ import type {
 } from "@tanstack/react-table";
 import { useState } from "react";
 
-export interface TableStateOptions {
-  initialPageSize?: number;
-}
-
-export function useTableState({
-  initialPageSize = 10,
-}: TableStateOptions = {}) {
+export function useTableState() {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] =
     useState<ColumnVisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState("");
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: initialPageSize,
-  });
 
   return {
     sorting,
@@ -34,8 +24,6 @@ export function useTableState({
     setRowSelection,
     globalFilter,
     setGlobalFilter,
-    pagination,
-    setPagination,
   };
 }
 

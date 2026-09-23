@@ -2,6 +2,7 @@
 
 import { createColumnHelper } from "@tanstack/react-table";
 import { Ban, EllipsisVertical, Eye, RotateCcw } from "lucide-react";
+import { exactMatchFilter } from "@/components/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 import type { IndexJob } from "@/fixtures/indexing";
-import type { features, RowInstance } from "@/lib/table-features";
+import type { features } from "@/lib/table-features";
 
 export function stateVariant(
   state: IndexJob["state"],
@@ -36,14 +37,6 @@ export function getStateColor(state: IndexJob["state"]): string {
     return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20";
   }
   return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20";
-}
-
-export function exactJobFilter(
-  row: RowInstance<IndexJob>,
-  columnId: string,
-  value: string,
-): boolean {
-  return row.getValue(columnId) === value;
 }
 
 const columnHelper = createColumnHelper<typeof features, IndexJob>();
@@ -117,7 +110,7 @@ export function createJobColumns(actions: JobColumnActions) {
           </Badge>
         );
       },
-      filterFn: exactJobFilter,
+      filterFn: exactMatchFilter,
     },
     {
       accessorKey: "progress",

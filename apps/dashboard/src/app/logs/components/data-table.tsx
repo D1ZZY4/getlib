@@ -1,24 +1,17 @@
 "use client";
 
-import { flexRender, useTable } from "@tanstack/react-table";
+import { useTable } from "@tanstack/react-table";
 import { Download } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
   ColumnVisibility,
+  DataTableView,
   FilterSelect,
   TablePagination,
   TableSearch,
   useTableState,
 } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { features } from "@/lib/table-features";
 import { createLogColumns, type LogEntry } from "./data-table-columns";
 import { LogFormDialog } from "./log-form-dialog";
@@ -156,54 +149,11 @@ export function DataTable({
         <ColumnVisibility table={table} />
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTableView
+        table={table}
+        columnsLength={columns.length}
+        emptyMessage="No results."
+      />
 
       <TablePagination table={table} />
       <LogInspector entry={inspected} onClose={() => setInspected(null)} />

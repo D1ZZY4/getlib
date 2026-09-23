@@ -1,24 +1,18 @@
 "use client";
 
-import { flexRender, useTable } from "@tanstack/react-table";
+import { useTable } from "@tanstack/react-table";
 import { Download } from "lucide-react";
 import { useMemo } from "react";
 import {
   ColumnVisibility,
+  DataTableView,
   FilterSelect,
   TablePagination,
   TableSearch,
   useTableState,
 } from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { downloadCsv, toCsv } from "@/lib/download";
 import { features } from "@/lib/table-features";
 import { createUserColumns, type User } from "./data-table-columns";
 import { UserFormDialog } from "./user-form-dialog";
@@ -104,6 +98,38 @@ export function DataTable({
   const setFilter = (column: string) => (value: string) =>
     table.getColumn(column)?.setFilterValue(value === "all" ? "" : value);
 
+  const handleExportAll = () => {
+    downloadCsv(
+      "getlib-users.csv",
+      toCsv(
+        [
+          "id",
+          "name",
+          "email",
+          "role",
+          "plan",
+          "billing",
+          "status",
+          "joinedDate",
+          "lastLogin",
+        ],
+        table
+          .getFilteredRowModel()
+          .rows.map((row) => [
+            row.original.id,
+            row.original.name,
+            row.original.email,
+            row.original.role,
+            row.original.plan,
+            row.original.billing,
+            row.original.status,
+            row.original.joinedDate,
+            row.original.lastLogin,
+          ]),
+      ),
+    );
+  };
+
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -116,7 +142,11 @@ export function DataTable({
           />
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" className="cursor-pointer">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleExportAll}
+          >
             <Download className="mr-2 size-4" />
             Export
           </Button>
@@ -124,7 +154,7 @@ export function DataTable({
         </div>
       </div>
 
-      <div className="grid gap-2 sm:grid-cols-3 sm:gap-4">
+      <div className="grid gap-2 sm:grid-cols-4 sm:gap-4">
         <FilterSelect
           id="role-filter"
           label="Role"
@@ -149,60 +179,14 @@ export function DataTable({
           options={STATUS_OPTIONS}
           onChange={setFilter("status")}
         />
-      </div>
-
-      <div className="grid gap-2 sm:gap-4">
         <ColumnVisibility table={table} />
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTableView
+        table={table}
+        columnsLength={columns.length}
+        emptyMessage="No results."
+      />
 
       <TablePagination table={table} />
     </div>
