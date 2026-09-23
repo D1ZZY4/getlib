@@ -4,7 +4,6 @@ import * as React from "react"
 import {
   LayoutPanelLeft,
   LayoutDashboard,
-  Mail,
   CheckSquare,
   MessageCircle,
   Calendar,
@@ -56,11 +55,6 @@ const data = {
     {
       label: "Apps",
       items: [
-        {
-          title: "Mail",
-          url: "/mail",
-          icon: Mail,
-        },
         {
           title: "Tasks",
           url: "/tasks",
