@@ -1,15 +1,8 @@
 "use client";
 
-import {
-  DndContext,
-  type DragEndEvent,
-  DragOverlay,
-  useDraggable,
-  useDroppable,
-} from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import { Ban, Eye, RotateCcw } from "lucide-react";
 import { useState } from "react";
+import { KanbanBoard, type KanbanDragHandle } from "@/components/kanban";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,18 +17,40 @@ import {
 } from "@/components/ui/drawer";
 import { Progress } from "@/components/ui/progress";
 import type { IndexJob } from "@/fixtures/indexing";
+import { getStateColor } from "./data-table-columns";
 
 type BoardColumn = "queued" | "running" | "attention" | "done";
 
-const COLUMNS: { key: BoardColumn; title: string; description: string }[] = [
-  { key: "queued", title: "Queued", description: "Waiting for worker" },
-  { key: "running", title: "Running", description: "Executing now" },
+const COLUMNS: {
+  key: BoardColumn;
+  title: string;
+  description: string;
+  accentClassName: string;
+}[] = [
+  {
+    key: "queued",
+    title: "Queued",
+    description: "Waiting for worker",
+    accentClassName: "bg-gray-400",
+  },
+  {
+    key: "running",
+    title: "Running",
+    description: "Executing now",
+    accentClassName: "bg-blue-500",
+  },
   {
     key: "attention",
     title: "Needs Attention",
     description: "Retrying or failed",
+    accentClassName: "bg-amber-500",
   },
-  { key: "done", title: "Done", description: "Completed or canceled" },
+  {
+    key: "done",
+    title: "Done",
+    description: "Completed or canceled",
+    accentClassName: "bg-green-500",
+  },
 ];
 
 function columnFor(job: IndexJob): BoardColumn {
@@ -45,19 +60,19 @@ function columnFor(job: IndexJob): BoardColumn {
   return "attention";
 }
 
-function DraggableJobCard({
+function JobCard({
   job,
+  drag,
   onInspect,
   onRetry,
   onCancel,
 }: {
   job: IndexJob;
+  drag: KanbanDragHandle;
   onInspect: () => void;
   onRetry: () => void;
   onCancel: () => void;
 }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({ id: job.id, data: { job } });
   const retryable =
     job.state === "failed" ||
     job.state === "retrying" ||
@@ -68,11 +83,9 @@ function DraggableJobCard({
     job.state === "retrying";
   return (
     <Card
-      ref={setNodeRef}
-      style={
-        transform ? { transform: CSS.Translate.toString(transform) } : undefined
-      }
-      className={`gap-0 py-4 ${isDragging ? "opacity-50" : ""}`}
+      className={`gap-0 py-4 transition-shadow duration-200 hover:shadow-md ${
+        drag.isDragging ? "rotate-2 shadow-xl" : ""
+      }`}
     >
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between gap-2">
@@ -85,8 +98,8 @@ function DraggableJobCard({
           type="button"
           aria-label={`Drag ${job.id}`}
           className="cursor-grab touch-none text-left active:cursor-grabbing"
-          {...listeners}
-          {...attributes}
+          {...drag.listeners}
+          {...drag.attributes}
         >
           <p className="text-sm font-medium">
             {job.library}
@@ -147,50 +160,8 @@ function DraggableJobCard({
   );
 }
 
-function DroppableColumn({
-  column,
-  count,
-  children,
-}: {
-  column: BoardColumn;
-  count: number;
-  children: React.ReactNode;
-}) {
-  const { setNodeRef, isOver } = useDroppable({ id: column });
-  return (
-    <div
-      ref={setNodeRef}
-      className={`space-y-3 rounded-xl p-1 transition-colors ${
-        isOver ? "bg-muted/60" : ""
-      }`}
-    >
-      <div className="flex items-center justify-between px-1">
-        <div>
-          <h3 className="text-sm font-semibold">
-            {column === "queued" && "Queued"}
-            {column === "running" && "Running"}
-            {column === "attention" && "Needs Attention"}
-            {column === "done" && "Done"}
-          </h3>
-        </div>
-        <Badge variant="outline">{count}</Badge>
-      </div>
-      {children}
-    </div>
-  );
-}
-
 function stateClassName(state: IndexJob["state"]): string {
-  if (state === "completed") {
-    return "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20";
-  }
-  if (state === "failed") {
-    return "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20";
-  }
-  if (state === "canceled" || state === "queued") {
-    return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20";
-  }
-  return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20";
+  return getStateColor(state);
 }
 
 export function JobBoard({
@@ -205,72 +176,34 @@ export function JobBoard({
   onMove: (id: string, column: BoardColumn) => void;
 }) {
   const [inspected, setInspected] = useState<IndexJob | null>(null);
-  const [activeJob, setActiveJob] = useState<IndexJob | null>(null);
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    setActiveJob(null);
-    const { active, over } = event;
-    if (!over) return;
-    const target = over.id as BoardColumn;
-    if (target === columnFor(active.data.current?.job as IndexJob)) return;
-    onMove(String(active.id), target);
-  };
 
   return (
     <>
-      <DndContext
-        onDragStart={(event) => {
-          setActiveJob(event.active.data.current?.job as IndexJob);
-        }}
-        onDragEnd={handleDragEnd}
-        onDragCancel={() => setActiveJob(null)}
-      >
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {COLUMNS.map((column) => {
-            const columnJobs = jobs.filter(
-              (job) => columnFor(job) === column.key,
-            );
-            return (
-              <DroppableColumn
-                key={column.key}
-                column={column.key}
-                count={columnJobs.length}
-              >
-                <p className="text-muted-foreground px-1 text-xs">
-                  {column.description}
-                </p>
-                {columnJobs.length === 0 ? (
-                  <div className="rounded-xl border border-dashed p-6 text-center text-sm text-muted-foreground">
-                    Drop jobs here
-                  </div>
-                ) : (
-                  columnJobs.map((job) => (
-                    <DraggableJobCard
-                      key={job.id}
-                      job={job}
-                      onInspect={() => setInspected(job)}
-                      onRetry={() => onRetry(job.id)}
-                      onCancel={() => onCancel(job.id)}
-                    />
-                  ))
-                )}
-              </DroppableColumn>
-            );
-          })}
-        </div>
-        <DragOverlay dropAnimation={null}>
-          {activeJob ? (
-            <Card className="gap-0 py-4 opacity-90 shadow-lg">
-              <CardHeader className="pb-2">
-                <CardTitle className="font-mono text-xs">
-                  {activeJob.id}
-                </CardTitle>
-                <p className="text-sm font-medium">{activeJob.library}</p>
-              </CardHeader>
-            </Card>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
+      <KanbanBoard
+        columns={COLUMNS}
+        items={jobs}
+        getItemId={(job) => job.id}
+        columnFor={columnFor}
+        onMove={onMove}
+        renderCard={(job, drag) => (
+          <JobCard
+            job={job}
+            drag={drag}
+            onInspect={() => setInspected(job)}
+            onRetry={() => onRetry(job.id)}
+            onCancel={() => onCancel(job.id)}
+          />
+        )}
+        renderOverlay={(job) => (
+          <Card className="gap-0 py-4 opacity-90 shadow-xl rotate-3 cursor-grabbing">
+            <CardHeader className="pb-2">
+              <CardTitle className="font-mono text-xs">{job.id}</CardTitle>
+              <p className="text-sm font-medium">{job.library}</p>
+            </CardHeader>
+          </Card>
+        )}
+        emptyText="Drop jobs here"
+      />
       <Drawer
         open={inspected !== null}
         onOpenChange={(open) => {
