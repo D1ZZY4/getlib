@@ -12,8 +12,7 @@
   "scripts": {
     "lint": "biome check src",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "vitest run",
-    "build": "echo 'config: source-first, no build output (Phase 1)'"
+    "test": "vitest run"
   },
   "dependencies": {
     "zod": "^4.6.5"

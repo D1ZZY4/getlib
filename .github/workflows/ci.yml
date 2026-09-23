@@ -28,6 +28,9 @@ jobs:
       - name: Test (Turborepo)
         run: bun run test
 
+      - name: Build (Turborepo)
+        run: bun run build
+
   database:
     runs-on: ubuntu-latest
     services:

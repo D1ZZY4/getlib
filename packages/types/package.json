@@ -12,8 +12,7 @@
   "scripts": {
     "lint": "biome check src",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "vitest run",
-    "build": "tsc -p tsconfig.json --emitDeclarationOnly false --noEmit false --outDir dist --rootDir src || true"
+    "test": "vitest run"
   },
   "devDependencies": {
     "typescript": "^6.0.3",
