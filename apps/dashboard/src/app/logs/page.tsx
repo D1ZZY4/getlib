@@ -73,11 +73,11 @@ export default function LogsPage() {
   })();
 
   const generateAvatar = (message: string) => {
-    const words = message.split(" ");
-    if (words.length >= 2) {
-      return `${words[0]?.[0] ?? ""}${words[1]?.[0] ?? ""}`.toUpperCase();
+    const parts = message.trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase();
     }
-    return message.substring(0, 2).toUpperCase();
+    return message.trim().substring(0, 2).toUpperCase();
   };
 
   const handleAddLog = (logData: LogFormValues) => {
@@ -99,12 +99,6 @@ export default function LogsPage() {
 
   const handleDeleteLog = (id: string) => {
     setEntries((prev) => prev.filter((entry) => entry.id !== id));
-  };
-
-  const handleEditLog = (entry: LogEntry) => {
-    // For now, just log the entry to edit
-    // In a real app, you'd open an edit dialog
-    console.log("Edit log entry:", entry);
   };
 
   const handleCopyLog = (entry: LogEntry) => {
@@ -142,7 +136,6 @@ export default function LogsPage() {
           <DataTable
             entries={entries}
             onDeleteLog={handleDeleteLog}
-            onEditLog={handleEditLog}
             onAddLog={handleAddLog}
             onCopyLog={handleCopyLog}
             onExport={handleExportLogs}

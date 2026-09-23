@@ -27,12 +27,14 @@ interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<Features, TData>[];
   data: TData[];
   onAddTask?: (task: Task) => void;
+  existingIds?: string[];
 }
 
 export function DataTable<TData extends RowData>({
   columns,
   data,
   onAddTask,
+  existingIds = [],
 }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -61,7 +63,11 @@ export function DataTable<TData extends RowData>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} onAddTask={onAddTask} />
+      <DataTableToolbar
+        table={table}
+        onAddTask={onAddTask}
+        existingIds={existingIds}
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

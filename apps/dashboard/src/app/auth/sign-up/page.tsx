@@ -11,7 +11,7 @@ export default function SignUpPage() {
             <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-md">
               <Logo size={24} />
             </div>
-            ShadcnStore
+            GetLib
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-center">
@@ -21,11 +21,9 @@ export default function SignUpPage() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
-          src="https://ui.shadcn.com/placeholder.svg"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.95] dark:invert"
-        />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Logo size={96} className="text-muted-foreground" />
+        </div>
       </div>
     </div>
   );

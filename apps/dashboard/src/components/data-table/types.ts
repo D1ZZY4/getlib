@@ -7,10 +7,6 @@ import type {
 
 export type { ColumnInstance, RowInstance, TableInstance };
 
-export interface DataTableState<TData extends RowData> {
-  table: TableInstance<TData>;
-}
-
 export function exactMatchFilter<TData extends RowData>(
   row: RowInstance<TData>,
   columnId: string,

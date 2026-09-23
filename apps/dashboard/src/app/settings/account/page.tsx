@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { loadSetting, saveSetting } from "@/lib/settings-storage";
 
 const accountFormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -35,23 +36,31 @@ const accountFormSchema = z.object({
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
+const ACCOUNT_STORAGE_KEY = "getlib-account";
+
+const DEFAULT_ACCOUNT_VALUES: AccountFormValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  username: "",
+  currentPassword: "",
+  newPassword: "",
+  confirmPassword: "",
+};
+
 export default function AccountSettings() {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      username: "",
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    },
+    defaultValues: loadSetting(
+      ACCOUNT_STORAGE_KEY,
+      accountFormSchema,
+      DEFAULT_ACCOUNT_VALUES,
+    ),
   });
 
   function onSubmit(data: AccountFormValues) {
-    console.log("Form submitted:", data);
-    // Here you would typically save the data
+    saveSetting(ACCOUNT_STORAGE_KEY, data);
+    toast.success("Account settings saved");
   }
 
   return (
@@ -201,33 +210,6 @@ export default function AccountSettings() {
                     </FormItem>
                   )}
                 />
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Danger Zone</CardTitle>
-                <CardDescription>
-                  Irreversible and destructive actions.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Separator />
-                <div className="flex flex-wrap gap-2 items-center justify-between">
-                  <div>
-                    <h4 className="font-semibold">Delete Account</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Permanently delete your account and all associated data.
-                    </p>
-                  </div>
-                  <Button
-                    variant="destructive"
-                    type="button"
-                    className="cursor-pointer"
-                  >
-                    Delete Account
-                  </Button>
-                </div>
               </CardContent>
             </Card>
 

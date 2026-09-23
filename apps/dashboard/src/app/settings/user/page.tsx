@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { Button } from "@/components/ui/button";
@@ -30,6 +31,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { loadSetting, saveSetting } from "@/lib/settings-storage";
 import { ProfileAvatar, useProfileAvatar } from "./profile-avatar";
 
 const userFormSchema = z.object({
@@ -48,29 +50,37 @@ const userFormSchema = z.object({
 
 type UserFormValues = z.infer<typeof userFormSchema>;
 
+const USER_STORAGE_KEY = "getlib-user-settings";
+
+const DEFAULT_USER_VALUES: UserFormValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  website: "",
+  location: "",
+  role: "",
+  bio: "",
+  company: "",
+  timezone: "",
+  language: "",
+};
+
 export default function UserSettingsPage() {
   const avatar = useProfileAvatar();
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      website: "",
-      location: "",
-      role: "",
-      bio: "",
-      company: "",
-      timezone: "",
-      language: "",
-    },
+    defaultValues: loadSetting(
+      USER_STORAGE_KEY,
+      userFormSchema,
+      DEFAULT_USER_VALUES,
+    ),
   });
 
   function onSubmit(data: UserFormValues) {
-    console.log("Form submitted:", data);
-    // Here you would typically save the data
+    saveSetting(USER_STORAGE_KEY, data);
+    toast.success("Profile settings saved");
   }
 
   return (

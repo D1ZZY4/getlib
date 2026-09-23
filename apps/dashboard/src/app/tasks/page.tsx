@@ -201,6 +201,7 @@ export default function TaskPage() {
               data={tasks}
               columns={columns}
               onAddTask={handleAddTask}
+              existingIds={tasks.map((task) => task.id)}
             />
           </CardContent>
         </Card>

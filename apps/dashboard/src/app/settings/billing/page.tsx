@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { toast } from "sonner";
+import { z } from "zod";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { PricingPlans } from "@/components/pricing-plans";
 import {
@@ -9,16 +12,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { loadSetting, saveSetting } from "@/lib/settings-storage";
 import { BillingHistoryCard } from "./components/billing-history-card";
 import { CurrentPlanCard } from "./components/current-plan-card";
 import billingHistoryData from "./data/billing-history.json";
 // Import data
 import currentPlanData from "./data/current-plan.json";
 
+const BILLING_PLAN_STORAGE_KEY = "getlib-billing-plan";
+const BillingPlanSchema = z.object({ planId: z.string().min(1) });
+
 export default function BillingSettings() {
+  const [currentPlanId, setCurrentPlanId] = useState(
+    () =>
+      loadSetting(BILLING_PLAN_STORAGE_KEY, BillingPlanSchema, {
+        planId: "professional",
+      }).planId,
+  );
+
   const handlePlanSelect = (planId: string) => {
-    console.log("Plan selected:", planId);
-    // Handle plan selection logic here
+    setCurrentPlanId(planId);
+    saveSetting(BILLING_PLAN_STORAGE_KEY, { planId });
+    toast.success("Billing plan saved");
   };
 
   return (
@@ -47,7 +62,7 @@ export default function BillingSettings() {
             <CardContent>
               <PricingPlans
                 mode="billing"
-                currentPlanId="professional"
+                currentPlanId={currentPlanId}
                 onPlanSelect={handlePlanSelect}
               />
             </CardContent>

@@ -26,5 +26,3 @@ export function useTableState() {
     setGlobalFilter,
   };
 }
-
-export type TableState = ReturnType<typeof useTableState>;

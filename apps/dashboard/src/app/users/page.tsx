@@ -1,9 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { DataTable } from "./components/data-table";
 import { StatCards } from "./components/stat-cards";
+import {
+  UserEditDialog,
+  type UserFormValues,
+} from "./components/user-form-dialog";
 
 import initialUsersData from "./data.json";
 
@@ -20,17 +25,9 @@ interface User {
   lastLogin: string;
 }
 
-interface UserFormValues {
-  name: string;
-  email: string;
-  role: string;
-  plan: string;
-  billing: string;
-  status: string;
-}
-
 export default function UsersPage() {
   const [users, setUsers] = useState<User[]>(initialUsersData);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
 
   const generateAvatar = (name: string) => {
     const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -63,9 +60,20 @@ export default function UsersPage() {
   };
 
   const handleEditUser = (user: User) => {
-    // For now, just log the user to edit
-    // In a real app, you'd open an edit dialog
-    console.log("Edit user:", user);
+    setEditingUser(user);
+  };
+
+  const handleSaveEdit = (values: UserFormValues) => {
+    if (!editingUser) return;
+    setUsers((prev) =>
+      prev.map((user) =>
+        user.id === editingUser.id
+          ? { ...user, ...values, avatar: generateAvatar(values.name) }
+          : user,
+      ),
+    );
+    setEditingUser(null);
+    toast.success("User updated");
   };
 
   return (
@@ -75,7 +83,7 @@ export default function UsersPage() {
     >
       <div className="flex flex-col gap-4">
         <div className="@container/main px-4 lg:px-6">
-          <StatCards />
+          <StatCards users={users} />
         </div>
 
         <div className="@container/main px-4 lg:px-6 mt-8 lg:mt-12">
@@ -85,6 +93,14 @@ export default function UsersPage() {
             onEditUser={handleEditUser}
             onAddUser={handleAddUser}
           />
+          {editingUser && (
+            <UserEditDialog
+              key={editingUser.id}
+              user={editingUser}
+              onClose={() => setEditingUser(null)}
+              onSave={handleSaveEdit}
+            />
+          )}
         </div>
       </div>
     </BaseLayout>

@@ -71,7 +71,8 @@ export function LibrariesTable({
         <ColumnVisibility table={table} />
         <div className="flex items-center space-x-2">
           <span className="text-muted-foreground text-sm">
-            {entries.length} libraries
+            {table.getFilteredRowModel().rows.length} of {entries.length}{" "}
+            libraries
           </span>
           <Button
             variant="outline"

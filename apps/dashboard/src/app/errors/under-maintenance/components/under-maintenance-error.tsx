@@ -1,6 +1,7 @@
 "use client";
 
 import { useNavigate } from "react-router-dom";
+import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 
 export function UnderMaintenanceError() {
@@ -8,11 +9,9 @@ export function UnderMaintenanceError() {
 
   return (
     <div className="mx-auto flex min-h-dvh flex-col items-center justify-center gap-8 p-8 md:gap-12 md:p-16">
-      <img
-        src="https://ui.shadcn.com/placeholder.svg"
-        alt=""
-        className="aspect-video w-240 rounded-xl object-cover dark:brightness-[0.95] dark:invert"
-      />
+      <div className="flex aspect-video w-240 items-center justify-center rounded-xl border bg-muted">
+        <Logo size={96} className="text-muted-foreground" />
+      </div>
       <div className="text-center">
         <h1 className="mb-4 text-3xl font-bold">503</h1>
         <h2 className="mb-3 text-2xl font-semibold">Under Maintenance</h2>
@@ -23,13 +22,6 @@ export function UnderMaintenanceError() {
             onClick={() => navigate("/overview")}
           >
             Go Back Home
-          </Button>
-          <Button
-            variant="outline"
-            className="flex cursor-pointer items-center gap-1"
-            onClick={() => navigate("#")}
-          >
-            Contact Us
           </Button>
         </div>
       </div>

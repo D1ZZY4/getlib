@@ -29,7 +29,6 @@ interface LogFormValues {
 interface DataTableProps {
   entries: LogEntry[];
   onDeleteLog: (id: string) => void;
-  onEditLog: (entry: LogEntry) => void;
   onAddLog: (logData: LogFormValues) => void;
   onCopyLog: (entry: LogEntry) => void;
   onExport: (entries: LogEntry[]) => void;
@@ -55,7 +54,6 @@ const SERVICE_OPTIONS = [
 export function DataTable({
   entries,
   onDeleteLog,
-  onEditLog,
   onAddLog,
   onCopyLog,
   onExport,
@@ -67,12 +65,11 @@ export function DataTable({
     () =>
       createLogColumns({
         onDeleteLog,
-        onEditLog,
         onCopyLog,
         onExportRow: (entry) => onExport([entry]),
         onInspect: setInspected,
       }),
-    [onDeleteLog, onEditLog, onCopyLog, onExport],
+    [onDeleteLog, onCopyLog, onExport],
   );
 
   const table = useTable({

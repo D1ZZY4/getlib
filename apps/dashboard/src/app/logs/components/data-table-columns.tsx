@@ -1,7 +1,7 @@
 "use client";
 
 import { createColumnHelper } from "@tanstack/react-table";
-import { EllipsisVertical, Eye, Pencil, Trash2 } from "lucide-react";
+import { EllipsisVertical, Eye, Trash2 } from "lucide-react";
 import { exactMatchFilter } from "@/components/data-table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -61,7 +61,6 @@ const columnHelper = createColumnHelper<typeof features, LogEntry>();
 
 export interface LogColumnActions {
   onDeleteLog: (id: string) => void;
-  onEditLog: (entry: LogEntry) => void;
   onCopyLog: (entry: LogEntry) => void;
   onExportRow: (entry: LogEntry) => void;
   onInspect: (entry: LogEntry) => void;
@@ -138,7 +137,6 @@ export function createLogColumns(actions: LogColumnActions) {
       cell: ({ row }) => (
         <span className="font-medium">{row.getValue("time")}</span>
       ),
-      filterFn: exactMatchFilter,
     },
     {
       accessorKey: "request",
@@ -175,15 +173,6 @@ export function createLogColumns(actions: LogColumnActions) {
             >
               <Eye className="size-4" />
               <span className="sr-only">View log entry</span>
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 cursor-pointer"
-              onClick={() => actions.onEditLog(entry)}
-            >
-              <Pencil className="size-4" />
-              <span className="sr-only">Inspect log entry</span>
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

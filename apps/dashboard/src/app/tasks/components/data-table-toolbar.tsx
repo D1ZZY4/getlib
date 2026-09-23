@@ -20,11 +20,13 @@ import { AddTaskModal } from "./add-task-modal";
 interface DataTableToolbarProps<TData extends RowData> {
   table: TableInstance<TData>;
   onAddTask?: (task: Task) => void;
+  existingIds?: string[];
 }
 
 export function DataTableToolbar<TData extends RowData>({
   table,
   onAddTask,
+  existingIds = [],
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.state.columnFilters.length > 0;
 
@@ -177,7 +179,7 @@ export function DataTableToolbar<TData extends RowData>({
         </div>
         <div className="flex items-center space-x-2">
           <DataTableViewOptions table={table} />
-          <AddTaskModal onAddTask={onAddTask} />
+          <AddTaskModal onAddTask={onAddTask} existingIds={existingIds} />
         </div>
       </div>
     </div>

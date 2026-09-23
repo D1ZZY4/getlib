@@ -5,5 +5,4 @@ export { TablePagination } from "./pagination";
 export { TableSearch } from "./search-input";
 export type { ColumnInstance, RowInstance, TableInstance } from "./types";
 export { exactMatchFilter } from "./types";
-export type { TableState } from "./use-table-state";
 export { useTableState } from "./use-table-state";

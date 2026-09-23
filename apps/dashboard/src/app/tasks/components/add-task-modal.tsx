@@ -39,12 +39,32 @@ const taskFormSchema = z.object({
 
 type TaskFormData = z.infer<typeof taskFormSchema>;
 
+/**
+ * Next sequential task id derived from ids already in use, so locally
+ * created tasks never collide and stay in the fixture's TASK-nnnn shape.
+ * Pure helper (no randomness) so it stays unit-testable.
+ */
+export function nextTaskId(existingIds: string[]): string {
+  let max = 0;
+  for (const id of existingIds) {
+    const match = /(\d+)\s*$/.exec(id);
+    const parsed = match?.[1] ? Number.parseInt(match[1], 10) : Number.NaN;
+    if (Number.isFinite(parsed) && parsed > max) max = parsed;
+  }
+  return `TASK-${max + 1}`;
+}
+
 interface AddTaskModalProps {
   onAddTask?: (task: Task) => void;
   trigger?: React.ReactNode;
+  existingIds?: string[];
 }
 
-export function AddTaskModal({ onAddTask, trigger }: AddTaskModalProps) {
+export function AddTaskModal({
+  onAddTask,
+  trigger,
+  existingIds = [],
+}: AddTaskModalProps) {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<TaskFormData>({
     id: "",
@@ -56,13 +76,6 @@ export function AddTaskModal({ onAddTask, trigger }: AddTaskModalProps) {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Generate unique task ID
-  const generateTaskId = () => {
-    const prefix = "TASK";
-    const number = Math.floor(Math.random() * 9999) + 1000;
-    return `${prefix}-${number}`;
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -70,7 +83,7 @@ export function AddTaskModal({ onAddTask, trigger }: AddTaskModalProps) {
       // Validate form data
       const validatedData = taskFormSchema.parse({
         ...formData,
-        id: generateTaskId(),
+        id: nextTaskId(existingIds),
       });
 
       // Create the task
