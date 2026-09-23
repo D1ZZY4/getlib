@@ -1,33 +1,11 @@
-"use client";
-
-import { useNavigate } from "react-router-dom";
-import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
+import { ErrorPage } from "../../components/error-page";
 
 export function UnauthorizedError() {
-  const navigate = useNavigate();
-
   return (
-    <div className="mx-auto flex min-h-dvh flex-col items-center justify-center gap-8 p-8 md:gap-12 md:p-16">
-      <div className="flex aspect-video w-240 items-center justify-center rounded-xl border bg-muted">
-        <Logo size={96} className="text-muted-foreground" />
-      </div>
-      <div className="text-center">
-        <h1 className="mb-4 text-3xl font-bold">401</h1>
-        <h2 className="mb-3 text-2xl font-semibold">Unauthorized</h2>
-        <p>
-          You don't have permission to access this resource. Please sign in or
-          contact your administrator.
-        </p>
-        <div className="mt-6 flex items-center justify-center gap-4 md:mt-8">
-          <Button
-            className="cursor-pointer"
-            onClick={() => navigate("/overview")}
-          >
-            Go Back Home
-          </Button>
-        </div>
-      </div>
-    </div>
+    <ErrorPage
+      code="401"
+      title="Unauthorized"
+      message="You don't have permission to access this resource. Please sign in or contact your administrator."
+    />
   );
 }
