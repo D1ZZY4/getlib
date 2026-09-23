@@ -1,0 +1,16 @@
+[
+  {
+    "id": "key-seed-production",
+    "name": "Production API Key",
+    "secret": "gl_a41f9c2d77e04b68c1d3f5a94234",
+    "created": "2024-06-12",
+    "revoked": false
+  },
+  {
+    "id": "key-seed-development",
+    "name": "Development API Key",
+    "secret": "gl_77e04b68c1d3f5a94234a41f9c2d",
+    "created": "2024-07-03",
+    "revoked": false
+  }
+]
