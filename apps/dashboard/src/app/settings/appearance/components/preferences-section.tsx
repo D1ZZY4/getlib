@@ -20,7 +20,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ThemePreview } from "./theme-preview"
 import type { AppearanceFormValues } from "@/lib/appearance"
 
-export function PreferencesCard({
+export function PreferencesSection({
   form,
   onSubmit,
   onCancel,
@@ -31,15 +31,41 @@ export function PreferencesCard({
 }) {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Preferences</CardTitle>
-        <CardDescription>
-          Theme mode, fonts, and content density.
-        </CardDescription>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0">
+        <div>
+          <CardTitle>Preferences</CardTitle>
+          <CardDescription>
+            Theme mode, fonts, and content density.
+          </CardDescription>
+        </div>
+        <div className="ml-auto flex items-center gap-2">
+          <Button
+            type="submit"
+            form="preferences-form"
+            variant="outline"
+            size="sm"
+            className="cursor-pointer"
+          >
+            Save Preferences
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={onCancel}
+            className="cursor-pointer"
+          >
+            Cancel
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form
+            id="preferences-form"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6"
+          >
             <h3 className="text-lg font-medium mb-2">Theme</h3>
             <FormField
               control={form.control}
@@ -159,14 +185,6 @@ export function PreferencesCard({
               )}
             />
 
-            <div className="flex space-x-2 mt-12">
-              <Button type="submit" className="cursor-pointer">
-                Save Preferences
-              </Button>
-              <Button variant="outline" type="button" className="cursor-pointer" onClick={onCancel}>
-                Cancel
-              </Button>
-            </div>
           </form>
         </Form>
       </CardContent>

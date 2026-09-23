@@ -22,7 +22,7 @@ import {
 } from "@/lib/appearance"
 import type { ImportedTheme } from "@/types/theme-customizer"
 import { LayoutSection } from "./components/layout-section"
-import { PreferencesCard } from "./components/preferences-card"
+import { PreferencesSection } from "./components/preferences-section"
 import type { AppearanceFormValues } from "@/lib/appearance"
 import { ThemeSection } from "./components/theme-section"
 
@@ -160,7 +160,7 @@ export default function AppearanceSettings() {
           </p>
         </div>
 
-        <PreferencesCard
+        <PreferencesSection
           form={form}
           onSubmit={onSubmit}
           onCancel={onCancel}
