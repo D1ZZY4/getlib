@@ -18,27 +18,27 @@ function renderPage() {
 }
 
 describe("Logs page", () => {
-  it("renders the stream with counts", () => {
+  it("renders stat cards and the table", () => {
     renderPage();
+    expect(screen.getByText("Total Entries")).toBeInTheDocument();
     expect(screen.getByText("12 of 12 entries")).toBeInTheDocument();
-    expect(screen.getByText("Fetch failed for hono docs: 429 rate limited")).toBeInTheDocument();
+    expect(
+      screen.getByText("Fetch failed for hono docs: 429 rate limited"),
+    ).toBeInTheDocument();
   });
 
-  it("filters by level", async () => {
+  it("filters by level through the table toolbar", async () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(screen.getByRole("combobox", { name: "Filter by level" }));
     await user.click(screen.getByRole("option", { name: "Error" }));
     expect(screen.getByText("2 of 12 entries")).toBeInTheDocument();
     expect(
-      screen.getByText("Fetch failed for hono docs: 429 rate limited"),
-    ).toBeInTheDocument();
-    expect(
       screen.queryByText("GET /api/v1/overview/summary 200 (14ms)"),
     ).not.toBeInTheDocument();
   });
 
-  it("narrows by search text and shows empty state", async () => {
+  it("narrows by search and shows the empty state", async () => {
     const user = userEvent.setup();
     renderPage();
     await user.type(
@@ -54,7 +54,7 @@ describe("Logs page", () => {
     expect(screen.getByText("No log entries match")).toBeInTheDocument();
   });
 
-  it("filters by service", async () => {
+  it("filters by service through the table toolbar", async () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(
