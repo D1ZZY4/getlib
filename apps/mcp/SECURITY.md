@@ -30,7 +30,7 @@ Out of scope:
 **Do not open a public GitHub issue for security vulnerabilities.**
 
 Report privately via GitHub Security Advisories:
-[github.com/rm-rf-prod/GetLib-MCP/security/advisories/new](https://github.com/rm-rf-prod/GetLib-MCP/security/advisories/new)
+[github.com/D1ZZY4/getlib/security/advisories/new](https://github.com/D1ZZY4/getlib/security/advisories/new)
 
 Include:
 

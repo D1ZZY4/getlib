@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Open-source self-hosted developer knowledge platform - version-aware, provenance-aware.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D1ZZY4/getlib.git"
+  },
   "packageManager": "bun@1.4.2",
   "workspaces": [
     "apps/*",

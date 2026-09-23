@@ -1,5 +1,7 @@
 # GetLib docs
 
+Repository: https://github.com/D1ZZY4/getlib
+
 Planning source of truth: Linear project **GetLib** (`P-ENG1-3`).
 
 - Phase 0 (Project Setup & Blueprint): complete in Linear.

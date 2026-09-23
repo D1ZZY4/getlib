@@ -14,7 +14,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@getlib/gl-mcp"><img src="https://img.shields.io/npm/v/@getlib/gl-mcp?color=00d4aa&label=npm" alt="npm version" /></a>
-  <a href="https://github.com/rm-rf-prod/GetLib-MCP/actions/workflows/ci.yml"><img src="https://github.com/rm-rf-prod/GetLib-MCP/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/D1ZZY4/getlib/actions/workflows/ci.yml"><img src="https://github.com/D1ZZY4/getlib/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-ELv2-orange" alt="Elastic License 2.0" /></a>
   <img src="https://img.shields.io/badge/libraries-598%2B-teal" alt="598+ curated libraries" />
   <img src="https://img.shields.io/badge/audit_patterns-107%2B-red" alt="107+ audit patterns" />
@@ -312,7 +312,7 @@ All optional. Works out of the box with zero configuration.
 
 The public registry lives in `src/sources/registry.ts`. Adding a library is a PR with `id`, `name`, `docsUrl`, and `llmsTxtUrl` if the project publishes one.
 
-Issues and requests: [github.com/rm-rf-prod/GetLib-MCP/issues](https://github.com/rm-rf-prod/GetLib-MCP/issues)
+Issues and requests: [github.com/D1ZZY4/getlib/issues](https://github.com/D1ZZY4/getlib/issues)
 
 ---
 
@@ -321,7 +321,7 @@ Issues and requests: [github.com/rm-rf-prod/GetLib-MCP/issues](https://github.co
 GetLib is under active development. New curated registry entries, audit patterns, search topics, and features are added regularly. The registry covers 598+ libraries with 100% bestPracticesPaths and urlPatterns coverage. Automatic fallback to npm, PyPI, crates.io, and pkg.go.dev means any public package is resolvable out of the box.
 
 To stay updated:
-- **Star and watch** the [GitHub repo](https://github.com/rm-rf-prod/GetLib-MCP) for release notifications
+- **Star and watch** the [GitHub repo](https://github.com/D1ZZY4/getlib) for release notifications
 - **Use `@latest`** in your MCP config (the default install command) — npx fetches the newest version automatically
 - **Check tool responses** — GetLib appends an update notice when a newer version is available
 

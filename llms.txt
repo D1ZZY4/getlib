@@ -88,7 +88,7 @@ For Cursor, VS Code, or Claude Desktop, add to your MCP config:
 
 ## Links
 
-- Repository: https://github.com/rm-rf-prod/GroundTruth-MCP
+- Repository: https://github.com/D1ZZY4/getlib
 - npm: https://www.npmjs.com/package/@groundtruth-mcp/gt-mcp
-- Issues: https://github.com/rm-rf-prod/GroundTruth-MCP/issues
-- Changelog: https://github.com/rm-rf-prod/GroundTruth-MCP/blob/main/CHANGELOG.md
+- Issues: https://github.com/D1ZZY4/getlib/issues
+- Changelog: https://github.com/D1ZZY4/getlib/commits/main

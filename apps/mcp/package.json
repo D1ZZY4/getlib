@@ -58,11 +58,12 @@
   "license": "Elastic-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rm-rf-prod/GetLib-MCP.git"
+    "url": "git+https://github.com/D1ZZY4/getlib.git",
+    "directory": "apps/mcp"
   },
-  "homepage": "https://github.com/rm-rf-prod/GetLib-MCP#readme",
+  "homepage": "https://github.com/D1ZZY4/getlib#readme",
   "bugs": {
-    "url": "https://github.com/rm-rf-prod/GetLib-MCP/issues"
+    "url": "https://github.com/D1ZZY4/getlib/issues"
   },
   "publishConfig": {
     "access": "public",
