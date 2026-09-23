@@ -1,0 +1,132 @@
+/**
+ * Fixture-grade indexing job queue for the dashboard Indexing surface.
+ *
+ * Covers every doc 06 job state. Retry/cancel transitions run in local
+ * page state; the PostgreSQL-backed worker with real retries arrives
+ * with Phase 5.
+ */
+import { z } from "zod";
+
+const JobSchema = z.object({
+  id: z.string().min(1),
+  library: z.string().min(1),
+  version: z.string().min(1),
+  source: z.string().min(1),
+  step: z.string().min(1),
+  progress: z.number().int().min(0).max(100),
+  state: z.enum([
+    "queued",
+    "running",
+    "retrying",
+    "completed",
+    "failed",
+    "canceled",
+  ]),
+  duration: z.string().min(1),
+  retries: z.number().int().nonnegative(),
+  error: z.string().min(1).optional(),
+  updated: z.string().min(1),
+});
+
+export type IndexJob = z.infer<typeof JobSchema>;
+
+export const indexJobsFixture: IndexJob[] = z.array(JobSchema).parse([
+  {
+    id: "JOB-1041",
+    library: "react",
+    version: "19.3.0",
+    source: "npm",
+    step: "Chunking documents",
+    progress: 64,
+    state: "running",
+    duration: "4m 12s",
+    retries: 0,
+    updated: "12 minutes ago",
+  },
+  {
+    id: "JOB-1040",
+    library: "@tanstack/react-query",
+    version: "5.90.3",
+    source: "npm",
+    step: "Fetching sources",
+    progress: 22,
+    state: "running",
+    duration: "1m 31s",
+    retries: 0,
+    updated: "31 minutes ago",
+  },
+  {
+    id: "JOB-1039",
+    library: "zod",
+    version: "4.6.5",
+    source: "npm",
+    step: "Embedding chunks",
+    progress: 41,
+    state: "retrying",
+    duration: "6m 03s",
+    retries: 2,
+    error: "Embedding provider timeout after 10s",
+    updated: "2 hours ago",
+  },
+  {
+    id: "JOB-1038",
+    library: "hono",
+    version: "4.13.8",
+    source: "github",
+    step: "Waiting for worker",
+    progress: 0,
+    state: "queued",
+    duration: "-",
+    retries: 0,
+    updated: "5 hours ago",
+  },
+  {
+    id: "JOB-1037",
+    library: "drizzle-orm",
+    version: "0.45.3",
+    source: "github",
+    step: "Revision pinned",
+    progress: 100,
+    state: "completed",
+    duration: "11m 47s",
+    retries: 0,
+    updated: "1 day ago",
+  },
+  {
+    id: "JOB-1036",
+    library: "recharts",
+    version: "3.10.1",
+    source: "npm",
+    step: "Fetching sources",
+    progress: 8,
+    state: "failed",
+    duration: "2m 19s",
+    retries: 3,
+    error: "429 rate limited by registry",
+    updated: "1 day ago",
+  },
+  {
+    id: "JOB-1035",
+    library: "vite",
+    version: "8.3.0",
+    source: "npm",
+    step: "Cancelled by operator",
+    progress: 33,
+    state: "canceled",
+    duration: "3m 05s",
+    retries: 0,
+    updated: "2 days ago",
+  },
+  {
+    id: "JOB-1034",
+    library: "typescript",
+    version: "6.0.3",
+    source: "npm",
+    step: "Revision pinned",
+    progress: 100,
+    state: "completed",
+    duration: "14m 52s",
+    retries: 1,
+    updated: "2 days ago",
+  },
+]);
