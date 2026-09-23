@@ -21,7 +21,7 @@ const MetricSchema = z.object({
 
 export type AnalyticsMetric = z.infer<typeof MetricSchema>;
 
-const ActivityPointSchema = z.object({
+export const ActivityPointSchema = z.object({
   label: z.string().min(1),
   searches: z.number().int().nonnegative(),
   withResults: z.number().int().nonnegative(),

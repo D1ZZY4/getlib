@@ -128,7 +128,7 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
 
   const searchItems: SearchItem[] = [
     // Dashboards
-    { title: "Overview", url: "/dashboard", group: "Dashboards", icon: LayoutDashboard },
+    { title: "Overview", url: "/overview", group: "Dashboards", icon: LayoutDashboard },
     { title: "Analytics", url: "/analytics", group: "Dashboards", icon: LayoutPanelLeft },
 
     // Apps

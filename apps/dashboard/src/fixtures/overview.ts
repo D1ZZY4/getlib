@@ -12,6 +12,7 @@ import {
   type HealthResponse,
   type OverviewSummary,
 } from "@getlib/schemas";
+import { z } from "zod";
 
 export const healthFixture: HealthResponse = HealthResponseSchema.parse({
   status: "ok",
@@ -26,3 +27,36 @@ export const overviewFixture: OverviewSummary = OverviewSummarySchema.parse({
   failedJobs: 0,
   generatedAt: "2026-09-23T07:00:00.000Z",
 });
+
+/**
+ * Fixture-grade daily indexing activity for the Overview chart.
+ * Deterministic formula (no randomness) so snapshots stay stable.
+ * Local shape, like the analytics fixtures: real activity contracts
+ * arrive with the ingestion/worker slices, not invented here.
+ */
+const IndexingPointSchema = z.object({
+  date: z.string().min(1),
+  documents: z.number().int().nonnegative(),
+  chunks: z.number().int().nonnegative(),
+});
+
+export type IndexingPoint = z.infer<typeof IndexingPointSchema>;
+
+function buildIndexingActivity(): IndexingPoint[] {
+  const end = new Date("2026-09-23T00:00:00.000Z");
+  return z.array(IndexingPointSchema).parse(
+    Array.from({ length: 90 }, (_, index) => {
+      const day = new Date(end);
+      day.setUTCDate(day.getUTCDate() - (89 - index));
+      const documents = 2 + ((index * 37) % 7);
+      const chunks = documents * (6 + ((index * 13) % 5));
+      return {
+        date: day.toISOString().slice(0, 10),
+        documents,
+        chunks,
+      };
+    }),
+  );
+}
+
+export const indexingActivityFixture: IndexingPoint[] = buildIndexingActivity();

@@ -3,8 +3,8 @@ import { Navigate } from 'react-router-dom'
 
 // Lazy load components for better performance
 const Landing = lazy(() => import('@/app/landing/page'))
-const Dashboard = lazy(() => import('@/app/dashboard/page'))
-const Dashboard2 = lazy(() => import('@/app/dashboard-2/page'))
+const Dashboard = lazy(() => import('@/app/overview/page'))
+const Dashboard2 = lazy(() => import('@/app/analytics/page'))
 const Mail = lazy(() => import('@/app/mail/page'))
 const Tasks = lazy(() => import('@/app/tasks/page'))
 const Chat = lazy(() => import('@/app/chat/page'))
@@ -46,11 +46,11 @@ export interface RouteConfig {
 }
 
 export const routes: RouteConfig[] = [
-  // Default route - redirect to dashboard
-  // Use relative path "dashboard" instead of "/dashboard" for basename compatibility
+  // Default route - redirect to overview
+  // Use relative path "overview" instead of "/overview" for basename compatibility
   {
     path: "/",
-    element: <Navigate to="dashboard" replace />
+    element: <Navigate to="overview" replace />
   },
 
   // Landing Page
@@ -61,7 +61,7 @@ export const routes: RouteConfig[] = [
 
   // Dashboard Routes
   {
-    path: "/dashboard",
+    path: "/overview",
     element: <Dashboard />
   },
   {

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/card"
 import { useHealthQuery, useOverviewQuery } from "@/hooks/use-overview"
 import { SectionCards, type OverviewStat } from "./components/section-cards"
+import { ChartAreaInteractive } from "./components/chart-area-interactive"
+import { indexingActivityFixture } from "@/fixtures/overview"
 import type { HealthResponse, OverviewSummary } from "@getlib/schemas"
 
 function buildStats(
@@ -114,7 +116,16 @@ export default function Page() {
       </Card>
     )
   } else {
-    content = <SectionCards stats={buildStats(health, summary)} />
+    content = (
+      <>
+        <SectionCards stats={buildStats(health, summary)} />
+        <ChartAreaInteractive
+          title="Indexing Activity"
+          description="Documents and chunks indexed per day"
+          data={indexingActivityFixture}
+        />
+      </>
+    )
   }
 
   return (
