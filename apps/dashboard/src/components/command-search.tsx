@@ -128,6 +128,7 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
     { title: "Overview", url: "/overview", group: "Knowledge", icon: LayoutDashboard },
     { title: "Libraries", url: "/libraries", group: "Knowledge", icon: BookOpen },
     { title: "Add Library", url: "/libraries/add", group: "Knowledge", icon: BookOpen },
+    { title: "Search", url: "/search", group: "Knowledge", icon: Search },
 
     // Operations
     { title: "Analytics", url: "/analytics", group: "Operations", icon: LayoutPanelLeft },

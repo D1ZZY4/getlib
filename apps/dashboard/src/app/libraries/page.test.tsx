@@ -51,7 +51,7 @@ describe("Libraries page", () => {
     expect(screen.getByText("No results.")).toBeInTheDocument();
   });
 
-  it("navigates to the add page", async () => {
+  it("opens the detail page from a row", async () => {
     const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={["/libraries"]}>
@@ -59,15 +59,19 @@ describe("Libraries page", () => {
           <Routes>
             <Route path="/libraries" element={<Page />} />
             <Route
-              path="/libraries/add"
-              element={<div>Add Library Page</div>}
+              path="/libraries/:id"
+              element={<div>Detail Page</div>}
             />
           </Routes>
         </SidebarConfigProvider>
       </MemoryRouter>,
     );
-    await user.click(screen.getByRole("button", { name: "Add Library" }));
-    expect(await screen.findByText("Add Library Page")).toBeInTheDocument();
+    const rows = screen.getAllByRole("row");
+    const firstDataRow = rows[1] as HTMLElement;
+    await user.click(
+      within(firstDataRow).getByRole("link", { name: "react" }),
+    );
+    expect(await screen.findByText("Detail Page")).toBeInTheDocument();
   });
 
   it("deletes entries through row actions", async () => {

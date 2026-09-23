@@ -6,8 +6,10 @@ import { Navigate } from 'react-router-dom'
 const Dashboard = lazy(() => import('@/app/overview/page'))
 const Dashboard2 = lazy(() => import('@/app/analytics/page'))
 const Logs = lazy(() => import('@/app/logs/page'))
+const Search = lazy(() => import('@/app/search/page'))
 const Libraries = lazy(() => import('@/app/libraries/page'))
 const AddLibrary = lazy(() => import('@/app/libraries/add/page'))
+const LibraryDetail = lazy(() => import('@/app/libraries/detail/page'))
 const EditLibrary = lazy(() => import('@/app/libraries/edit/page'))
 const Tasks = lazy(() => import('@/app/tasks/page'))
 const Users = lazy(() => import('@/app/users/page'))
@@ -68,8 +70,16 @@ export const routes: RouteConfig[] = [
     element: <AddLibrary />
   },
   {
+    path: "/libraries/:id",
+    element: <LibraryDetail />
+  },
+  {
     path: "/libraries/:id/edit",
     element: <EditLibrary />
+  },
+  {
+    path: "/search",
+    element: <Search />
   },
 
   // Application Routes

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {
   createColumnHelper,
   type ColumnFiltersState,
@@ -141,7 +141,12 @@ export function DataTable({ entries, onDeleteLibrary, onEditLibrary }: DataTable
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="font-medium">{entry.name}</span>
+              <Link
+                to={`/libraries/${entry.id}`}
+                className="font-medium hover:underline"
+              >
+                {entry.name}
+              </Link>
               <span className="text-sm text-muted-foreground">{entry.ecosystem}</span>
             </div>
           </div>

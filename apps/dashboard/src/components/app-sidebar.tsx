@@ -7,6 +7,7 @@ import {
   CheckSquare,
   BookOpen,
   FileText,
+  Search,
   Settings,
   Users,
 } from "lucide-react"
@@ -55,6 +56,11 @@ const data = {
               url: "/libraries/add",
             },
           ],
+        },
+        {
+          title: "Search",
+          url: "/search",
+          icon: Search,
         },
       ],
     },
