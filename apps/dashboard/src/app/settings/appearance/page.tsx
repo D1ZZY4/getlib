@@ -1,11 +1,20 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { RotateCcw } from "lucide-react"
 import { toast } from "sonner"
 import { z } from "zod"
 import { BaseLayout } from "@/components/layouts/base-layout"
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -16,14 +25,20 @@ import {
 } from "@/components/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ImportModal } from "@/components/theme-customizer/import-modal"
+import { LayoutTab } from "@/components/theme-customizer/layout-tab"
+import { ThemeTab } from "@/components/theme-customizer/theme-tab"
+import { tweakcnThemes } from "@/config/theme-data"
 import { useSidebarConfig } from "@/hooks/use-sidebar-config"
 import { useTheme } from "@/hooks/use-theme"
+import { useThemeManager } from "@/hooks/use-theme-manager"
 import {
   applyAppearance,
   loadAppearance,
   saveAppearance,
   type Appearance,
 } from "@/lib/appearance"
+import type { ImportedTheme } from "@/types/theme-customizer"
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark", "system"]),
@@ -113,7 +128,23 @@ function ThemePreview({ variant }: { variant: "light" | "dark" | "system" }) {
 
 export default function AppearanceSettings() {
   const { setTheme } = useTheme()
-  const { updateConfig } = useSidebarConfig()
+  const { updateConfig: updateSidebarConfig } = useSidebarConfig()
+  const {
+    applyImportedTheme,
+    isDarkMode,
+    resetTheme,
+    applyRadius,
+    setBrandColorsValues,
+    applyTheme,
+    applyTweakcnTheme,
+  } = useThemeManager()
+
+  const [selectedTheme, setSelectedTheme] = useState("default")
+  const [selectedTweakcnTheme, setSelectedTweakcnTheme] = useState("")
+  const [selectedRadius, setSelectedRadius] = useState("0.5rem")
+  const [importModalOpen, setImportModalOpen] = useState(false)
+  const [importedTheme, setImportedTheme] = useState<ImportedTheme | null>(null)
+
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues: loadAppearance(),
@@ -122,7 +153,7 @@ export default function AppearanceSettings() {
   function onSubmit(data: AppearanceFormValues) {
     const appearance: Appearance = { ...data }
     applyAppearance(appearance, setTheme)
-    updateConfig({
+    updateSidebarConfig({
       sidebarWidth: appearance.sidebarWidth,
       contentWidth: appearance.contentWidth,
     })
@@ -132,6 +163,56 @@ export default function AppearanceSettings() {
 
   function onCancel() {
     form.reset(loadAppearance())
+  }
+
+  function handleImport(themeData: ImportedTheme) {
+    setImportedTheme(themeData)
+    setSelectedTheme("")
+    setSelectedTweakcnTheme("")
+    applyImportedTheme(themeData, isDarkMode)
+  }
+
+  useEffect(() => {
+    if (importedTheme) {
+      applyImportedTheme(importedTheme, isDarkMode)
+    } else if (selectedTheme) {
+      applyTheme(selectedTheme, isDarkMode)
+    } else if (selectedTweakcnTheme) {
+      const selectedPreset = tweakcnThemes.find(
+        (preset) => preset.value === selectedTweakcnTheme,
+      )?.preset
+      if (selectedPreset) {
+        applyTweakcnTheme(selectedPreset, isDarkMode)
+      }
+    }
+  }, [
+    isDarkMode,
+    importedTheme,
+    selectedTheme,
+    selectedTweakcnTheme,
+    applyImportedTheme,
+    applyTheme,
+    applyTweakcnTheme,
+  ])
+
+  function handleResetTheme() {
+    setSelectedTheme("default")
+    setSelectedTweakcnTheme("")
+    setSelectedRadius("0.5rem")
+    setImportedTheme(null)
+    setBrandColorsValues({})
+    resetTheme()
+    applyRadius("0.5rem")
+    toast.success("Theme reset to defaults")
+  }
+
+  function handleResetLayout() {
+    updateSidebarConfig({
+      variant: "inset",
+      collapsible: "offcanvas",
+      side: "left",
+    })
+    toast.success("Layout reset to defaults")
   }
 
   return (
@@ -144,139 +225,210 @@ export default function AppearanceSettings() {
           </p>
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Theme Section */}
-            <h3 className="text-lg font-medium mb-2">Theme</h3>
-            <FormField
-              control={form.control}
-              name="theme"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      className="flex gap-4"
-                    >
-                      {(["light", "dark", "system"] as const).map((value) => (
-                        <FormItem key={value}>
-                          <FormLabel className="[&:has([data-state=checked])>div]:border-primary cursor-pointer">
-                            <FormControl>
-                              <RadioGroupItem value={value} className="sr-only" />
-                            </FormControl>
-                            <ThemePreview variant={value} />
-                          </FormLabel>
-                        </FormItem>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <Card>
+          <CardHeader>
+            <CardTitle>Preferences</CardTitle>
+            <CardDescription>
+              Theme mode, fonts, and content density.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <h3 className="text-lg font-medium mb-2">Theme</h3>
+                <FormField
+                  control={form.control}
+                  name="theme"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          className="flex gap-4"
+                        >
+                          {(["light", "dark", "system"] as const).map((value) => (
+                            <FormItem key={value}>
+                              <FormLabel className="[&:has([data-state=checked])>div]:border-primary cursor-pointer">
+                                <FormControl>
+                                  <RadioGroupItem value={value} className="sr-only" />
+                                </FormControl>
+                                <ThemePreview variant={value} />
+                              </FormLabel>
+                            </FormItem>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="fontFamily"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Font Family</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="cursor-pointer">
-                        <SelectValue placeholder="Select a font" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="inter">Inter</SelectItem>
-                      <SelectItem value="system">System Default</SelectItem>
-                      <SelectItem value="mono">Monospace</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="fontSize"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Font Size</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="cursor-pointer">
-                        <SelectValue placeholder="Select font size" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="small">Small</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="large">Large</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="fontFamily"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Font Family</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="cursor-pointer">
+                            <SelectValue placeholder="Select a font" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="inter">Inter</SelectItem>
+                          <SelectItem value="system">System Default</SelectItem>
+                          <SelectItem value="mono">Monospace</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="fontSize"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Font Size</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="cursor-pointer">
+                            <SelectValue placeholder="Select font size" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="small">Small</SelectItem>
+                          <SelectItem value="medium">Medium</SelectItem>
+                          <SelectItem value="large">Large</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            {/* Layout Section */}
-            <FormField
-              control={form.control}
-              name="sidebarWidth"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sidebar Width</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="cursor-pointer">
-                        <SelectValue placeholder="Select sidebar width" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="compact">Compact</SelectItem>
-                      <SelectItem value="comfortable">Comfortable</SelectItem>
-                      <SelectItem value="spacious">Spacious</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="contentWidth"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Content Width</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="cursor-pointer">
-                        <SelectValue placeholder="Select content width" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="fixed">Fixed</SelectItem>
-                      <SelectItem value="fluid">Fluid</SelectItem>
-                      <SelectItem value="container">Container</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="sidebarWidth"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sidebar Width</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="cursor-pointer">
+                            <SelectValue placeholder="Select sidebar width" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="compact">Compact</SelectItem>
+                          <SelectItem value="comfortable">Comfortable</SelectItem>
+                          <SelectItem value="spacious">Spacious</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="contentWidth"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Content Width</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="cursor-pointer">
+                            <SelectValue placeholder="Select content width" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="fixed">Fixed</SelectItem>
+                          <SelectItem value="fluid">Fluid</SelectItem>
+                          <SelectItem value="container">Container</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <div className="flex space-x-2 mt-12">
-              <Button type="submit" className="cursor-pointer">
-                Save Preferences
-              </Button>
-              <Button variant="outline" type="button" className="cursor-pointer" onClick={onCancel}>
-                Cancel
-              </Button>
+                <div className="flex space-x-2 mt-12">
+                  <Button type="submit" className="cursor-pointer">
+                    Save Preferences
+                  </Button>
+                  <Button variant="outline" type="button" className="cursor-pointer" onClick={onCancel}>
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <div>
+              <CardTitle>Theme</CardTitle>
+              <CardDescription>
+                Color presets, radius, and brand colors.
+              </CardDescription>
             </div>
-          </form>
-        </Form>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={handleResetTheme}
+              aria-label="Reset theme"
+              className="cursor-pointer"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <ThemeTab
+              selectedTheme={selectedTheme}
+              setSelectedTheme={setSelectedTheme}
+              selectedTweakcnTheme={selectedTweakcnTheme}
+              setSelectedTweakcnTheme={setSelectedTweakcnTheme}
+              selectedRadius={selectedRadius}
+              setSelectedRadius={setSelectedRadius}
+              setImportedTheme={setImportedTheme}
+              onImportClick={() => setImportModalOpen(true)}
+            />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <div>
+              <CardTitle>Layout</CardTitle>
+              <CardDescription>
+                Sidebar variant, behavior, and position.
+              </CardDescription>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={handleResetLayout}
+              aria-label="Reset layout"
+              className="cursor-pointer"
+            >
+              <RotateCcw className="h-4 w-4" />
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <LayoutTab />
+          </CardContent>
+        </Card>
+
+        <ImportModal
+          open={importModalOpen}
+          onOpenChange={setImportModalOpen}
+          onImport={handleImport}
+        />
       </div>
     </BaseLayout>
   )

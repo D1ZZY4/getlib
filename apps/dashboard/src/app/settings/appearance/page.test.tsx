@@ -46,6 +46,15 @@ describe("Appearance settings", () => {
     expect(await screen.findByText("Preferences saved")).toBeInTheDocument();
   });
 
+  it("renders the three organized sections", () => {
+    renderPage();
+    expect(screen.getByText("Preferences")).toBeInTheDocument();
+    expect(screen.getByText("Color presets, radius, and brand colors.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Sidebar variant, behavior, and position."),
+    ).toBeInTheDocument();
+  });
+
   it("loads stored values and cancels back to them", async () => {
     const user = userEvent.setup();
     localStorage.setItem(
