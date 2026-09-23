@@ -71,6 +71,22 @@ function stateVariant(
   return "secondary"
 }
 
+function getStateColor(state: IndexJob["state"]): string {
+  if (state === "completed") {
+    return "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20"
+  }
+  if (state === "failed") {
+    return "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20"
+  }
+  if (state === "canceled") {
+    return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20"
+  }
+  if (state === "queued") {
+    return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20"
+  }
+  return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20"
+}
+
 const exactFilter = (
   row: RowInstance<IndexJob>,
   columnId: string,
@@ -149,7 +165,11 @@ export function DataTable({ jobs, onRetry, onCancel }: DataTableProps) {
       header: "State",
       cell: ({ row }) => {
         const state = row.getValue("state") as IndexJob["state"]
-        return <Badge variant={stateVariant(state)}>{state}</Badge>
+        return (
+          <Badge variant={stateVariant(state)} className={getStateColor(state)}>
+            {state}
+          </Badge>
+        )
       },
       filterFn: exactFilter,
     },
