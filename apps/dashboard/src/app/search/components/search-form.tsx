@@ -51,17 +51,17 @@ export function SearchForm({
   return (
     <form
       onSubmit={onSubmit}
-      className="flex flex-col gap-3 md:flex-row md:items-center"
+      className="flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-center"
     >
       <Input
-        placeholder="Search libraries, documentation, sections..."
+        placeholder="Search libraries and knowledge..."
         value={draft}
         onChange={(event) => onDraftChange(event.target.value)}
-        className="md:max-w-md"
+        className="lg:min-w-64 lg:flex-1"
         aria-label="Search query"
       />
       <Select value={library} onValueChange={onLibraryChange}>
-        <SelectTrigger className="md:w-52" aria-label="Filter by library">
+        <SelectTrigger className="lg:w-52" aria-label="Filter by library">
           <SelectValue placeholder="Library" />
         </SelectTrigger>
         <SelectContent>
@@ -73,14 +73,14 @@ export function SearchForm({
         </SelectContent>
       </Select>
       <Input
-        placeholder="Version (optional)"
+        placeholder="Version"
         value={version}
         onChange={(event) => onVersionChange(event.target.value)}
-        className="md:w-40"
+        className="lg:w-36"
         aria-label="Filter by version"
       />
       <Select value={source} onValueChange={onSourceChange}>
-        <SelectTrigger className="md:w-40" aria-label="Filter by source">
+        <SelectTrigger className="lg:w-36" aria-label="Filter by source">
           <SelectValue placeholder="Source" />
         </SelectTrigger>
         <SelectContent>
@@ -92,7 +92,7 @@ export function SearchForm({
         </SelectContent>
       </Select>
       <Select value={limit} onValueChange={onLimitChange}>
-        <SelectTrigger className="md:w-28" aria-label="Result limit">
+        <SelectTrigger className="lg:w-24" aria-label="Result limit">
           <SelectValue placeholder="Limit" />
         </SelectTrigger>
         <SelectContent>

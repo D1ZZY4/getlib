@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom"
+import { TrendingUp } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -38,42 +40,56 @@ export function LibraryResults({
   totalDocuments: number
   trustFor: (entry: LibraryEntryFixture) => "high" | "medium" | "low"
 }) {
+  const stats = [
+    {
+      label: "Libraries indexed",
+      value: String(totalLibraries),
+      delta: "registry",
+      footer: "Registry coverage",
+      subfooter: "Across ecosystems",
+    },
+    {
+      label: "Documents",
+      value: String(totalDocuments),
+      delta: "searchable",
+      footer: "Searchable documents",
+      subfooter: "Version-aware knowledge",
+    },
+    {
+      label: "Matches",
+      value: String(entries.length),
+      delta: "this query",
+      footer: "Libraries for this query",
+      subfooter: "Filtered by query and library",
+    },
+  ]
   return (
     <div className="mt-4 space-y-4">
-      <div className="grid gap-4 sm:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Libraries indexed</CardTitle>
-            <CardDescription>Registry coverage</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-semibold tabular-nums">
-              {totalLibraries}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Documents</CardTitle>
-            <CardDescription>Searchable documents</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-semibold tabular-nums">
-              {totalDocuments}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Matches</CardTitle>
-            <CardDescription>Libraries for this query</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-semibold tabular-nums">
-              {entries.length}
-            </p>
-          </CardContent>
-        </Card>
+      <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs grid gap-4 sm:grid-cols-3">
+        {stats.map((stat) => (
+          <Card key={stat.label} className="@container/card">
+            <CardHeader>
+              <CardDescription>{stat.label}</CardDescription>
+              <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                {stat.value}
+              </CardTitle>
+              <CardAction>
+                <Badge variant="outline">
+                  <TrendingUp />
+                  {stat.delta}
+                </Badge>
+              </CardAction>
+            </CardHeader>
+            <CardContent className="flex-col items-start gap-1.5 text-sm">
+              <div className="line-clamp-1 flex gap-2 font-medium">
+                {stat.footer} <TrendingUp className="size-4" />
+              </div>
+              <div className="text-muted-foreground">
+                {stat.subfooter}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {entries.length === 0 ? (
