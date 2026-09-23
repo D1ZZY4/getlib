@@ -3,7 +3,7 @@
 import { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { routes, type RouteConfig } from '@/config/routes'
-import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { RouteSkeleton } from '@/components/route-skeleton'
 
 function renderRoutes(routeConfigs: RouteConfig[]) {
   return routeConfigs.map((route, index) => (
@@ -11,7 +11,7 @@ function renderRoutes(routeConfigs: RouteConfig[]) {
       key={route.path + index}
       path={route.path}
       element={
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense fallback={<RouteSkeleton />}>
           {route.element}
         </Suspense>
       }
