@@ -6,10 +6,9 @@ import { Navigate } from 'react-router-dom'
 const Dashboard = lazy(() => import('@/app/overview/page'))
 const Dashboard2 = lazy(() => import('@/app/analytics/page'))
 const Logs = lazy(() => import('@/app/logs/page'))
+const Libraries = lazy(() => import('@/app/libraries/page'))
 const Tasks = lazy(() => import('@/app/tasks/page'))
 const Users = lazy(() => import('@/app/users/page'))
-const FAQs = lazy(() => import('@/app/faqs/page'))
-const Pricing = lazy(() => import('@/app/pricing/page'))
 
 // Auth pages
 const SignIn = lazy(() => import('@/app/auth/sign-in/page'))
@@ -58,6 +57,10 @@ export const routes: RouteConfig[] = [
     path: "/logs",
     element: <Logs />
   },
+  {
+    path: "/libraries",
+    element: <Libraries />
+  },
 
   // Application Routes
   {
@@ -69,14 +72,6 @@ export const routes: RouteConfig[] = [
   {
     path: "/users",
     element: <Users />
-  },
-  {
-    path: "/faqs",
-    element: <FAQs />
-  },
-  {
-    path: "/pricing",
-    element: <Pricing />
   },
 
   // Authentication Routes

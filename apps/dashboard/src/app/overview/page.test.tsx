@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
@@ -49,6 +49,10 @@ function mockSuccess(
   overviewQuery.mockReturnValue(queryResult({ data: summary }));
 }
 
+function renderContent() {
+  return within(screen.getByRole("main"));
+}
+
 function renderPage(ui: ReactNode = <Page />) {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
@@ -73,13 +77,13 @@ describe("Dashboard OverviewPage", () => {
   it("renders fixture-backed summary, health, activity, and recents", () => {
     mockSuccess();
     renderPage();
-    expect(screen.getByText("Libraries")).toBeInTheDocument();
-    expect(screen.getByText("12")).toBeInTheDocument();
-    expect(screen.getByText("ok")).toBeInTheDocument();
+    expect(renderContent().getByText("Libraries")).toBeInTheDocument();
+    expect(renderContent().getByText("12")).toBeInTheDocument();
+    expect(renderContent().getByText("ok")).toBeInTheDocument();
     expect(screen.getByText("Uptime 1d 2h")).toBeInTheDocument();
-    expect(screen.getByText("Indexing Activity")).toBeInTheDocument();
-    expect(screen.getByText("Recently indexed")).toBeInTheDocument();
-    expect(screen.getByText("useQuery reference")).toBeInTheDocument();
+    expect(renderContent().getByText("Indexing Activity")).toBeInTheDocument();
+    expect(renderContent().getByText("Recently indexed")).toBeInTheDocument();
+    expect(renderContent().getByText("useQuery reference")).toBeInTheDocument();
     expect(screen.queryByText("Stale snapshot")).not.toBeInTheDocument();
   });
 
@@ -122,7 +126,7 @@ describe("Dashboard OverviewPage", () => {
     );
     renderPage();
     expect(screen.queryByText("Stale snapshot")).not.toBeInTheDocument();
-    expect(screen.getByText("12")).toBeInTheDocument();
+    expect(renderContent().getByText("12")).toBeInTheDocument();
   });
 
   it("resolves live hooks to fixtures without network in jsdom", async () => {
@@ -132,7 +136,7 @@ describe("Dashboard OverviewPage", () => {
     healthQuery.mockImplementation(() => actual.useHealthQuery());
     overviewQuery.mockImplementation(() => actual.useOverviewQuery());
     renderPage();
-    expect(await screen.findByText("Libraries")).toBeInTheDocument();
-    expect(screen.getByText("12")).toBeInTheDocument();
+    expect(await renderContent().findByText("Libraries")).toBeInTheDocument();
+    expect(renderContent().getByText("12")).toBeInTheDocument();
   });
 });

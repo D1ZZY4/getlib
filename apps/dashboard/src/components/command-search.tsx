@@ -8,9 +8,9 @@ import {
   LayoutPanelLeft,
   LayoutDashboard,
   CheckSquare,
+  BookOpen,
   FileText,
   Settings,
-  HelpCircle,
   CreditCard,
   User,
   Bell,
@@ -127,6 +127,7 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
     { title: "Overview", url: "/overview", group: "Dashboards", icon: LayoutDashboard },
     { title: "Analytics", url: "/analytics", group: "Dashboards", icon: LayoutPanelLeft },
     { title: "Logs", url: "/logs", group: "Dashboards", icon: FileText },
+    { title: "Libraries", url: "/libraries", group: "Dashboards", icon: BookOpen },
 
     // Apps
     { title: "Tasks", url: "/tasks", group: "Apps", icon: CheckSquare },
@@ -138,10 +139,6 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
     { title: "Appearance", url: "/settings/appearance", group: "Settings", icon: Palette },
     { title: "Notifications", url: "/settings/notifications", group: "Settings", icon: Bell },
     { title: "Connections", url: "/settings/connections", group: "Settings", icon: Link2 },
-
-    // Pages
-    { title: "FAQs", url: "/faqs", group: "Pages", icon: HelpCircle },
-    { title: "Pricing", url: "/pricing", group: "Pages", icon: CreditCard },
   ]
 
   const groupedItems = searchItems.reduce((acc, item) => {

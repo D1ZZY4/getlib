@@ -5,10 +5,9 @@ import {
   LayoutPanelLeft,
   LayoutDashboard,
   CheckSquare,
+  BookOpen,
   FileText,
   Settings,
-  HelpCircle,
-  CreditCard,
   Users,
 } from "lucide-react"
 import { Link } from "react-router-dom"
@@ -51,6 +50,11 @@ const data = {
           title: "Logs",
           url: "/logs",
           icon: FileText,
+        },
+        {
+          title: "Libraries",
+          url: "/libraries",
+          icon: BookOpen,
         },
       ],
     },
@@ -102,16 +106,6 @@ const data = {
               url: "/settings/connections",
             },
           ],
-        },
-        {
-          title: "FAQs",
-          url: "/faqs",
-          icon: HelpCircle,
-        },
-        {
-          title: "Pricing",
-          url: "/pricing",
-          icon: CreditCard,
         },
       ],
     },
