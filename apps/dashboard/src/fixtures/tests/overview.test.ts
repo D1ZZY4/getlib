@@ -8,7 +8,7 @@ import {
   indexingActivityFixture,
   overviewFixture,
   recentlyIndexedFixture,
-} from "./overview";
+} from "../overview";
 
 describe("overview fixtures", () => {
   it("health fixture conforms to the shared contract", () => {

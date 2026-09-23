@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getDataSource } from "./data-source";
+import { getDataSource } from "../data-source";
 
 describe("getDataSource", () => {
   it("defaults to fixtures when unconfigured", () => {

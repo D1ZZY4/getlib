@@ -7,7 +7,7 @@ import {
   retrievalVolumeFixture,
   searchActivityFixture,
   topLibrariesFixture,
-} from "./analytics";
+} from "../analytics";
 
 describe("analytics fixtures", () => {
   it("stays consistent with the overview counts", () => {

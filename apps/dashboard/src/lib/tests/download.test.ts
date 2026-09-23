@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { toCsv } from "./download";
+import { toCsv } from "../download";
 
 describe("toCsv", () => {
   it("joins headers and rows with commas", () => {

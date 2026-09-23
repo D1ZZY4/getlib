@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import Page from "./page";
+import Page from "../page";
 import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { GetLibQueryProvider } from "@/lib/query-provider";
 

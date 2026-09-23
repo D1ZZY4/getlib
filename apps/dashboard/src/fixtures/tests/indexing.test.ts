@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { indexJobsFixture } from "./indexing";
+import { indexJobsFixture } from "../indexing";
 
 describe("indexing fixtures", () => {
   it("covers every job state", () => {

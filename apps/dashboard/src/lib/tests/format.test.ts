@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatUptime } from "./format";
+import { formatUptime } from "../format";
 
 describe("formatUptime", () => {
   it("formats days, hours, minutes, and seconds", () => {

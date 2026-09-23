@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { libraryCorpusFixture, libraryVersionsFixture, trustForLibrary } from "./libraries";
+import { libraryCorpusFixture, libraryVersionsFixture, trustForLibrary } from "../libraries";
 
 describe("library fixtures", () => {
   it("marks exactly one default version", () => {

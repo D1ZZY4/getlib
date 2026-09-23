@@ -3,7 +3,7 @@ import {
   DEFAULT_SEARCH_FILTERS,
   matchSearchResults,
   searchLibraryFixtures,
-} from "./search";
+} from "../search";
 
 describe("search fixtures", () => {
   it("matches across document, section, snippet, and library", () => {

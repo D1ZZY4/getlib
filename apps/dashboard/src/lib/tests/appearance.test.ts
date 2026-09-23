@@ -13,7 +13,7 @@ import {
   saveThemeCustom,
   type Appearance,
   type AppearanceSnapshot,
-} from "./appearance";
+} from "../appearance";
 
 function memoryStorage(initial: Record<string, string> = {}): Storage {
   const store = { ...initial };
