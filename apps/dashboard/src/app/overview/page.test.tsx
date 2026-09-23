@@ -42,12 +42,11 @@ function queryResult<T>(overrides: {
 
 function mockSuccess(
   summary: OverviewSummary = overviewFixture,
-  stale = false,
 ) {
   healthQuery.mockReturnValue(
     queryResult<HealthResponse>({ data: healthFixture }),
   );
-  overviewQuery.mockReturnValue(queryResult({ data: summary, isStale: stale }));
+  overviewQuery.mockReturnValue(queryResult({ data: summary }));
 }
 
 function renderPage(ui: ReactNode = <Page />) {
@@ -114,10 +113,15 @@ describe("Dashboard OverviewPage", () => {
     expect(refetchOverview).toHaveBeenCalledTimes(1);
   });
 
-  it("marks background-stale data without hiding it", () => {
-    mockSuccess(overviewFixture, true);
+  it("renders stale data without any stale badge", () => {
+    healthQuery.mockReturnValue(
+      queryResult<HealthResponse>({ data: healthFixture, isStale: true }),
+    );
+    overviewQuery.mockReturnValue(
+      queryResult({ data: overviewFixture, isStale: true }),
+    );
     renderPage();
-    expect(screen.getByText("Stale snapshot")).toBeInTheDocument();
+    expect(screen.queryByText("Stale snapshot")).not.toBeInTheDocument();
     expect(screen.getByText("12")).toBeInTheDocument();
   });
 

@@ -80,7 +80,6 @@ export default function Page() {
   const error = healthQuery.error ?? overviewQuery.error
   const health = healthQuery.data
   const summary = overviewQuery.data
-  const stale = healthQuery.isStale || overviewQuery.isStale
 
   let content: ReactNode
   if (pending) {
@@ -171,11 +170,6 @@ export default function Page() {
       description="Libraries, knowledge, and indexing activity at a glance"
     >
       <div className="@container/main px-4 lg:px-6 space-y-6">
-        {stale && !pending && !error ? (
-          <div>
-            <Badge variant="outline">Stale snapshot</Badge>
-          </div>
-        ) : null}
         {content}
       </div>
     </BaseLayout>
