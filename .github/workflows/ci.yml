@@ -19,6 +19,9 @@ jobs:
       - name: Install
         run: bun install --frozen-lockfile
 
+      - name: Audit (high and critical)
+        run: bun audit --audit-level=high
+
       - name: Lint (Biome)
         run: bun run lint
 
