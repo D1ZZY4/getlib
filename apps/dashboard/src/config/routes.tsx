@@ -2,7 +2,6 @@ import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
 // Lazy load components for better performance
-const Landing = lazy(() => import('@/app/landing/page'))
 const Dashboard = lazy(() => import('@/app/overview/page'))
 const Dashboard2 = lazy(() => import('@/app/analytics/page'))
 const Mail = lazy(() => import('@/app/mail/page'))
@@ -53,13 +52,7 @@ export const routes: RouteConfig[] = [
     element: <Navigate to="overview" replace />
   },
 
-  // Landing Page
-  {
-    path: "/landing",
-    element: <Landing />
-  },
-
-  // Dashboard Routes
+  // Overview Routes
   {
     path: "/overview",
     element: <Dashboard />

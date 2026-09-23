@@ -13,7 +13,6 @@ import {
   Settings,
   HelpCircle,
   CreditCard,
-  LayoutTemplate,
   Users,
 } from "lucide-react"
 import { Link } from "react-router-dom"
@@ -87,12 +86,6 @@ const data = {
     {
       label: "Pages",
       items: [
-        {
-          title: "Landing",
-          url: "/landing",
-          target: "_blank",
-          icon: LayoutTemplate,
-        },
         {
           title: "Auth Pages",
           url: "#",
