@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom"
 import { TrendingUp } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -9,25 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { LibrariesTable } from "./libraries-table"
 import type { LibraryEntryFixture } from "@/fixtures/libraries"
-
-function trustClassName(trust: "high" | "medium" | "low"): string {
-  if (trust === "high") {
-    return "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20"
-  }
-  if (trust === "medium") {
-    return "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20"
-  }
-  return "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20"
-}
 
 export function LibraryResults({
   entries,
@@ -102,59 +84,7 @@ export function LibraryResults({
           </CardHeader>
         </Card>
       ) : (
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Version</TableHead>
-                  <TableHead className="text-right">Sources</TableHead>
-                  <TableHead className="text-right">Documents</TableHead>
-                  <TableHead className="text-right">Updated</TableHead>
-                  <TableHead className="text-right">Trust</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {entries.map((entry) => {
-                  const trust = trustFor(entry)
-                  return (
-                    <TableRow key={entry.id}>
-                      <TableCell>
-                        <Link
-                          to={`/libraries/${entry.id}`}
-                          className="font-medium hover:underline"
-                        >
-                          {entry.name}
-                        </Link>
-                        <p className="text-muted-foreground text-xs">
-                          {entry.ecosystem}
-                        </p>
-                      </TableCell>
-                      <TableCell className="font-mono text-xs">
-                        {entry.version}
-                      </TableCell>
-                      <TableCell className="text-right tabular-nums">
-                        {entry.sources}
-                      </TableCell>
-                      <TableCell className="text-right tabular-nums">
-                        {entry.documents}
-                      </TableCell>
-                      <TableCell className="text-right text-muted-foreground text-xs">
-                        {entry.freshness}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Badge variant="secondary" className={trustClassName(trust)}>
-                          {trust}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <LibrariesTable entries={entries} trustFor={trustFor} />
       )}
     </div>
   )
