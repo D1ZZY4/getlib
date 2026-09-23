@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { SectionActions } from "@/components/ui/section-actions"
 import {
   Form,
   FormControl,
@@ -29,6 +30,9 @@ export function PreferencesSection({
   onSubmit: (data: AppearanceFormValues) => void
   onCancel: () => void
 }) {
+  const {
+    formState: { isDirty },
+  } = form
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -38,26 +42,22 @@ export function PreferencesSection({
             Theme mode, fonts, and content density.
           </CardDescription>
         </div>
-        <div className="ml-auto flex items-center gap-2">
-          <Button
-            type="submit"
-            form="preferences-form"
-            variant="outline"
-            size="sm"
-            className="cursor-pointer"
-          >
-            Save Preferences
-          </Button>
+        <SectionActions
+          saveLabel="Save Preferences"
+          submitFormId="preferences-form"
+          disabled={!isDirty}
+        >
           <Button
             type="button"
             variant="ghost"
             size="sm"
             onClick={onCancel}
+            disabled={!isDirty}
             className="cursor-pointer"
           >
             Cancel
           </Button>
-        </div>
+        </SectionActions>
       </CardHeader>
       <CardContent>
         <Form {...form}>

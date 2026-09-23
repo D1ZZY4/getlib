@@ -53,6 +53,12 @@ export default function AppearanceSettings() {
   const [importedTheme, setImportedTheme] = useState<ImportedTheme | null>(
     () => loadSnapshot().themeCustom.imported,
   )
+  const [savedThemeCustom, setSavedThemeCustom] = useState(
+    () => loadSnapshot().themeCustom,
+  )
+  const [savedLayout, setSavedLayout] = useState(
+    () => loadSnapshot().layout,
+  )
 
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
@@ -86,6 +92,7 @@ export default function AppearanceSettings() {
       contentWidth: appearance.contentWidth,
     })
     saveAppearance(appearance)
+    form.reset(data)
     toast.success("Preferences saved")
   }
 
@@ -118,12 +125,14 @@ export default function AppearanceSettings() {
   }
 
   function handleSaveTheme() {
-    saveThemeCustom({
+    const themeCustom = {
       preset: selectedTheme,
       tweakcn: selectedTweakcnTheme,
       radius: selectedRadius,
       imported: importedTheme,
-    })
+    }
+    saveThemeCustom(themeCustom)
+    setSavedThemeCustom(themeCustom)
     toast.success("Theme saved")
   }
 
@@ -142,11 +151,13 @@ export default function AppearanceSettings() {
   }
 
   function handleSaveLayout() {
-    saveLayout({
+    const layout = {
       variant: sidebarConfig.variant,
       collapsible: sidebarConfig.collapsible,
       side: sidebarConfig.side,
-    })
+    }
+    saveLayout(layout)
+    setSavedLayout(layout)
     toast.success("Layout saved")
   }
 
@@ -174,12 +185,23 @@ export default function AppearanceSettings() {
           selectedRadius={selectedRadius}
           setSelectedRadius={setSelectedRadius}
           setImportedTheme={setImportedTheme}
+          imported={importedTheme}
+          saved={savedThemeCustom}
           onImportClick={() => setImportModalOpen(true)}
           onSave={handleSaveTheme}
           onReset={handleResetTheme}
         />
 
-        <LayoutSection onSave={handleSaveLayout} onReset={handleResetLayout} />
+        <LayoutSection
+          current={{
+            variant: sidebarConfig.variant,
+            collapsible: sidebarConfig.collapsible,
+            side: sidebarConfig.side,
+          }}
+          saved={savedLayout}
+          onSave={handleSaveLayout}
+          onReset={handleResetLayout}
+        />
 
         <ImportModal
           open={importModalOpen}

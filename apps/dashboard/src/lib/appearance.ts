@@ -49,6 +49,28 @@ export const AppearanceSnapshotSchema = AppearanceSchema.extend({
 
 export type AppearanceSnapshot = z.infer<typeof AppearanceSnapshotSchema>;
 
+export type ThemeCustomState = AppearanceSnapshot["themeCustom"];
+
+export const DEFAULT_THEME_CUSTOM: ThemeCustomState = {
+  preset: "default",
+  tweakcn: "",
+  radius: "0.5rem",
+  imported: null,
+};
+
+export function sameThemeCustom(
+  a: ThemeCustomState,
+  b: ThemeCustomState,
+): boolean {
+  return (
+    a.preset === b.preset &&
+    a.tweakcn === b.tweakcn &&
+    a.radius === b.radius &&
+    JSON.stringify(a.imported ?? null) ===
+      JSON.stringify(b.imported ?? null)
+  );
+}
+
 export const APPEARANCE_STORAGE_KEY = "getlib-appearance";
 
 export const DEFAULT_APPEARANCE: Appearance = {

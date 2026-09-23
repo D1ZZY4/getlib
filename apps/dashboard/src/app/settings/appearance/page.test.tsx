@@ -32,16 +32,26 @@ beforeEach(() => {
 });
 
 describe("Appearance settings", () => {
+  it("disables every save action while its section is pristine", () => {
+    renderPage();
+    expect(
+      screen.getByRole("button", { name: "Save Preferences" }),
+    ).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Save Theme" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Save Layout" })).toBeDisabled();
+  });
+
   it("saves preferences, applies them, and toasts", async () => {
     const user = userEvent.setup();
     renderPage();
+    await user.click(screen.getByRole("radio", { name: "Light" }));
     await user.click(
       screen.getByRole("button", { name: "Save Preferences" }),
     );
     const stored = JSON.parse(
       localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
     );
-    expect(stored.theme).toBe("system");
+    expect(stored.theme).toBe("light");
     expect(stored.layout).toEqual({
       variant: "inset",
       collapsible: "offcanvas",

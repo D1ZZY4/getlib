@@ -17,6 +17,26 @@ export const SidebarContext = React.createContext<SidebarContextValue | null>(
   null,
 )
 
+export interface LayoutState {
+  variant: SidebarConfig["variant"]
+  collapsible: SidebarConfig["collapsible"]
+  side: SidebarConfig["side"]
+}
+
+export const DEFAULT_LAYOUT: LayoutState = {
+  variant: "inset",
+  collapsible: "offcanvas",
+  side: "left",
+}
+
+export function sameLayout(a: LayoutState, b: LayoutState): boolean {
+  return (
+    a.variant === b.variant &&
+    a.collapsible === b.collapsible &&
+    a.side === b.side
+  )
+}
+
 const SIDEBAR_WIDTHS: Record<SidebarConfig["sidebarWidth"], string> = {
   compact: "12rem",
   comfortable: "16rem",
