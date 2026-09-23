@@ -10,23 +10,30 @@ import { tweakcnThemes } from "@/config/theme-data";
 import { useSidebarConfig } from "@/hooks/use-sidebar-config";
 import { useTheme } from "@/hooks/use-theme";
 import { useThemeManager } from "@/hooks/use-theme-manager";
-import type { AppearanceFormValues, ThemeMode } from "@/lib/appearance";
+import type {
+  AppearanceFormValues,
+  ThemeMode,
+  ToastSettings,
+} from "@/lib/appearance";
 import {
   type Appearance,
   appearanceFormSchema,
   applyAppearance,
   DEFAULT_APPEARANCE,
+  DEFAULT_TOAST,
   loadAppearance,
   loadSnapshot,
   saveAppearance,
   saveLayout,
   saveSnapshot,
   saveThemeCustom,
+  saveToastSettings,
 } from "@/lib/appearance";
 import type { ImportedTheme } from "@/types/theme-customizer";
 import { LayoutSection } from "./components/layout-section";
 import { PreferencesSection } from "./components/preferences-section";
 import { ThemeSection } from "./components/theme-section";
+import { ToastSection } from "./components/toast-section";
 
 export default function AppearanceSettings() {
   const { theme: providerTheme, setTheme } = useTheme();
@@ -64,6 +71,12 @@ export default function AppearanceSettings() {
   );
   const [savedThemeMode, setSavedThemeMode] = useState<ThemeMode>(
     () => loadSnapshot().theme,
+  );
+  const [selectedToast, setSelectedToast] = useState<ToastSettings>(
+    () => loadSnapshot().toast,
+  );
+  const [savedToast, setSavedToast] = useState<ToastSettings>(
+    () => loadSnapshot().toast,
   );
 
   const form = useForm<AppearanceFormValues>({
@@ -222,6 +235,23 @@ export default function AppearanceSettings() {
     applySavedThemeCustom(savedThemeCustom, isDarkMode);
   }
 
+  function handleSaveToast() {
+    saveToastSettings(selectedToast);
+    setSavedToast(selectedToast);
+    toast.success("Toast settings saved");
+  }
+
+  function handleCancelToast() {
+    setSelectedToast(savedToast);
+  }
+
+  function handleResetToast() {
+    saveToastSettings(DEFAULT_TOAST);
+    setSelectedToast(DEFAULT_TOAST);
+    setSavedToast(DEFAULT_TOAST);
+    toast.success("Toast settings reset to defaults");
+  }
+
   function handleResetLayout() {
     updateSidebarConfig({
       variant: "inset",
@@ -299,6 +329,15 @@ export default function AppearanceSettings() {
           onSave={handleSaveLayout}
           onCancel={handleCancelLayout}
           onReset={handleResetLayout}
+        />
+
+        <ToastSection
+          toast={selectedToast}
+          onToastChange={setSelectedToast}
+          saved={savedToast}
+          onSave={handleSaveToast}
+          onCancel={handleCancelToast}
+          onReset={handleResetToast}
         />
 
         <ImportModal

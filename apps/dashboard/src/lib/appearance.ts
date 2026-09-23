@@ -11,7 +11,7 @@ import type { ThemeProviderState } from "@/contexts/theme-context";
 
 export const AppearanceSchema = z.object({
   theme: z.enum(["light", "dark", "system"]),
-  fontFamily: z.enum(["inter", "system", "mono"]),
+  fontFamily: z.enum(["inter", "system", "macos", "mono"]),
   fontSize: z.enum(["small", "medium", "large"]),
   sidebarWidth: z.enum(["compact", "comfortable", "spacious"]),
   contentWidth: z.enum(["fixed", "fluid", "container"]),
@@ -22,6 +22,57 @@ export type Appearance = z.infer<typeof AppearanceSchema>;
 export const appearanceFormSchema = AppearanceSchema;
 
 export type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
+
+/**
+ * Toast notification preferences (appearance page, toast section).
+ *
+ * Defaults mirror sonner 2.x built-in behavior (bottom-right, 4000ms,
+ * 3 visible, 8px radius, collapsed, no close button) so a fresh install
+ * renders exactly like before this setting existed.
+ */
+export const ToastPositionSchema = z.enum([
+  "top-left",
+  "top-right",
+  "top-center",
+  "bottom-left",
+  "bottom-right",
+  "bottom-center",
+]);
+
+export const ToastSettingsSchema = z.object({
+  position: ToastPositionSchema.default("bottom-right"),
+  durationMs: z.number().int().min(1000).max(15000).default(4000),
+  visibleToasts: z.number().int().min(1).max(5).default(3),
+  radiusPx: z.number().int().min(0).max(24).default(8),
+  expanded: z.boolean().default(false),
+  closeButton: z.boolean().default(false),
+});
+
+export type ToastPosition = z.infer<typeof ToastPositionSchema>;
+export type ToastSettings = z.infer<typeof ToastSettingsSchema>;
+
+export const DEFAULT_TOAST: ToastSettings = {
+  position: "bottom-right",
+  durationMs: 4000,
+  visibleToasts: 3,
+  radiusPx: 8,
+  expanded: false,
+  closeButton: false,
+};
+
+export function sameToast(a: ToastSettings, b: ToastSettings): boolean {
+  return (
+    a.position === b.position &&
+    a.durationMs === b.durationMs &&
+    a.visibleToasts === b.visibleToasts &&
+    a.radiusPx === b.radiusPx &&
+    a.expanded === b.expanded &&
+    a.closeButton === b.closeButton
+  );
+}
+
+/** Same-tab broadcast so the mounted Toaster picks up saved changes. */
+export const TOAST_SETTINGS_EVENT = "getlib:toast-settings-changed";
 
 /**
  * Full appearance snapshot saved by the Save button: preferences plus
@@ -45,6 +96,9 @@ export const AppearanceSnapshotSchema = AppearanceSchema.extend({
       })
       .nullable(),
   }),
+  // Defaulted (not required) so snapshots saved before this setting
+  // existed still parse fully and keep their layout and themeCustom.
+  toast: ToastSettingsSchema.default(DEFAULT_TOAST),
 });
 
 export type AppearanceSnapshot = z.infer<typeof AppearanceSnapshotSchema>;
@@ -95,6 +149,7 @@ export const DEFAULT_SNAPSHOT: AppearanceSnapshot = {
     radius: "0.5rem",
     imported: null,
   },
+  toast: DEFAULT_TOAST,
 };
 
 const memoryFallback: Pick<Storage, "getItem" | "setItem"> = {
@@ -157,6 +212,17 @@ export function saveThemeCustom(
   saveSnapshot({ ...loadSnapshot(storage), themeCustom }, storage);
 }
 
+export function saveToastSettings(
+  toast: AppearanceSnapshot["toast"],
+  storage: Pick<Storage, "setItem" | "getItem"> = safeStorage() ??
+    memoryFallback,
+): void {
+  saveSnapshot({ ...loadSnapshot(storage), toast }, storage);
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new Event(TOAST_SETTINGS_EVENT));
+  }
+}
+
 export function saveLayout(
   layout: AppearanceSnapshot["layout"],
   storage: Pick<Storage, "setItem" | "getItem"> = safeStorage() ??
@@ -167,6 +233,9 @@ export function saveLayout(
 
 export function fontFamilyValue(family: Appearance["fontFamily"]): string {
   if (family === "system") return "system-ui, sans-serif";
+  if (family === "macos") {
+    return '-apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", Inter, system-ui, sans-serif';
+  }
   if (family === "mono")
     return 'ui-monospace, "Cascadia Mono", Menlo, monospace';
   return "Inter, system-ui, sans-serif";
@@ -186,4 +255,21 @@ export function applyAppearance(
   setTheme(appearance.theme);
   root.style.setProperty("--font-sans", fontFamilyValue(appearance.fontFamily));
   root.style.fontSize = fontSizeValue(appearance.fontSize);
+}
+
+/**
+ * Theme radius as a 0-100 smoothness percentage.
+ * 100% is 1rem (the previous maximum); 60% reads like macOS curvature.
+ */
+export function radiusRemToPercent(rem: string): number {
+  const parsed = Number.parseFloat(rem);
+  if (!Number.isFinite(parsed) || parsed <= 0) return 0;
+  return Math.min(100, Math.round(parsed * 100));
+}
+
+export function radiusPercentToRem(percent: number): string {
+  const clamped = Math.min(100, Math.max(0, Math.round(percent)));
+  if (clamped === 0) return "0rem";
+  const value = clamped / 100;
+  return `${Number.isInteger(value) ? value : String(value.toFixed(2)).replace(/0$/, "")}rem`;
 }

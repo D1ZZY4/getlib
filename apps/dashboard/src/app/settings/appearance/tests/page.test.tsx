@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
@@ -39,6 +39,7 @@ describe("Appearance settings", () => {
     ).toBeDisabled();
     expect(screen.getByRole("button", { name: "Save Theme" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Save Layout" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Save Toast" })).toBeDisabled();
   });
 
   it("saves font preferences through the preferences card", async () => {
@@ -74,7 +75,7 @@ describe("Appearance settings", () => {
     expect(await screen.findByText("Theme saved")).toBeInTheDocument();
   });
 
-  it("renders the three organized sections", () => {
+  it("renders the organized sections including toast", () => {
     renderPage();
     expect(screen.getByText("Preferences")).toBeInTheDocument();
     expect(
@@ -83,6 +84,7 @@ describe("Appearance settings", () => {
     expect(
       screen.getByText("Sidebar variant, behavior, and position."),
     ).toBeInTheDocument();
+    expect(screen.getByText("Toast Notifications")).toBeInTheDocument();
   });
 
   it("saves the layout section independently", async () => {
@@ -95,6 +97,36 @@ describe("Appearance settings", () => {
     );
     expect(stored.layout.variant).toBe("floating");
     expect(await screen.findByText("Layout saved")).toBeInTheDocument();
+  });
+
+  it("saves the toast section independently", async () => {
+    const user = userEvent.setup();
+    renderPage();
+    await user.click(
+      screen.getByRole("button", { name: "Toast position Top left" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Save Toast" }));
+    const stored = JSON.parse(
+      localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
+    );
+    expect(stored.toast.position).toBe("top-left");
+    expect(stored.layout).toEqual({
+      variant: "inset",
+      collapsible: "offcanvas",
+      side: "left",
+    });
+    expect(await screen.findByText("Toast settings saved")).toBeInTheDocument();
+  });
+
+  it("flags the macOS-like radius smoothness at 60 percent", () => {
+    renderPage();
+    const slider = screen.getByLabelText("Radius");
+    fireEvent.change(slider, { target: { value: "60" } });
+    expect(screen.getByText("60% - smooth like macOS.")).toBeInTheDocument();
+    const stored = JSON.parse(
+      localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
+    );
+    expect(stored.themeCustom).toBeUndefined();
   });
 
   it("cancels theme changes back to stored values", async () => {

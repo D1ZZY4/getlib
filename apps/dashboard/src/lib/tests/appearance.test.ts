@@ -5,10 +5,14 @@ import {
   type AppearanceSnapshot,
   DEFAULT_APPEARANCE,
   DEFAULT_SNAPSHOT,
+  DEFAULT_TOAST,
   fontFamilyValue,
   fontSizeValue,
   loadAppearance,
   loadSnapshot,
+  radiusPercentToRem,
+  radiusRemToPercent,
+  sameToast,
   saveAppearance,
   saveLayout,
   saveSnapshot,
@@ -100,9 +104,38 @@ describe("appearance preferences", () => {
   it("maps families and sizes to real CSS values", () => {
     expect(fontFamilyValue("inter")).toContain("Inter");
     expect(fontFamilyValue("system")).toContain("system-ui");
+    expect(fontFamilyValue("macos")).toContain("-apple-system");
     expect(fontFamilyValue("mono")).toContain("monospace");
     expect(fontSizeValue("small")).toBe("14px");
     expect(fontSizeValue("medium")).toBe("16px");
     expect(fontSizeValue("large")).toBe("18px");
+  });
+
+  it("fills toast defaults without losing older snapshot sections", () => {
+    const preToast = { ...DEFAULT_SNAPSHOT, toast: undefined };
+    const storage = memoryStorage({
+      [APPEARANCE_STORAGE_KEY]: JSON.stringify(preToast),
+    });
+    const loaded = loadSnapshot(storage);
+    expect(loaded.toast).toEqual(DEFAULT_TOAST);
+    expect(loaded.layout).toEqual(DEFAULT_SNAPSHOT.layout);
+    expect(loaded.themeCustom).toEqual(DEFAULT_SNAPSHOT.themeCustom);
+  });
+
+  it("compares toast settings field by field", () => {
+    expect(sameToast(DEFAULT_TOAST, { ...DEFAULT_TOAST })).toBe(true);
+    expect(
+      sameToast(DEFAULT_TOAST, { ...DEFAULT_TOAST, position: "top-left" }),
+    ).toBe(false);
+  });
+
+  it("converts theme radius between rem strings and percents", () => {
+    expect(radiusRemToPercent("0.5rem")).toBe(50);
+    expect(radiusRemToPercent("0rem")).toBe(0);
+    expect(radiusRemToPercent("nope")).toBe(0);
+    expect(radiusPercentToRem(0)).toBe("0rem");
+    expect(radiusPercentToRem(50)).toBe("0.5rem");
+    expect(radiusPercentToRem(60)).toBe("0.6rem");
+    expect(radiusPercentToRem(100)).toBe("1rem");
   });
 });

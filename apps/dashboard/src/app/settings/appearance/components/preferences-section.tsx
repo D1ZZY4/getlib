@@ -64,7 +64,7 @@ export function PreferencesSection({
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6"
           >
-            <div className="grid gap-6 sm:grid-cols-2">
+            <div className="grid gap-6 sm:grid-cols-4">
               <FormField
                 control={form.control}
                 name="fontFamily"
@@ -83,6 +83,9 @@ export function PreferencesSection({
                       <SelectContent>
                         <SelectItem value="inter">Inter</SelectItem>
                         <SelectItem value="system">System Default</SelectItem>
+                        <SelectItem value="macos">
+                          macOS (San Francisco)
+                        </SelectItem>
                         <SelectItem value="mono">Monospace</SelectItem>
                       </SelectContent>
                     </Select>
