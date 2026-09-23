@@ -49,6 +49,8 @@ export const AppearanceSnapshotSchema = AppearanceSchema.extend({
 
 export type AppearanceSnapshot = z.infer<typeof AppearanceSnapshotSchema>;
 
+export type ThemeMode = "light" | "dark" | "system";
+
 export type ThemeCustomState = AppearanceSnapshot["themeCustom"];
 
 export const DEFAULT_THEME_CUSTOM: ThemeCustomState = {

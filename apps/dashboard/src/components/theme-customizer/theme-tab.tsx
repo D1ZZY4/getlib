@@ -1,17 +1,20 @@
 "use client"
 
-import { Palette, Dices, Upload, ExternalLink, Sun, Moon } from 'lucide-react'
+import { Palette, Dices, Upload, ExternalLink, Sun, Moon, Monitor } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { useTheme } from '@/hooks/use-theme'
 import { useThemeManager } from '@/hooks/use-theme-manager'
 import { useCircularTransition } from '@/hooks/use-circular-transition'
 import { colorThemes, tweakcnThemes } from '@/config/theme-data'
 import { radiusOptions, baseColors } from '@/config/theme-customizer-constants'
 import { ColorPicker } from '@/components/color-picker'
+import { ThemePreview } from '@/components/theme-preview'
 import type { ImportedTheme } from '@/types/theme-customizer'
+import type { ThemeMode } from '@/lib/appearance'
 import React from 'react'
 import "./circular-transition.css"
 
@@ -24,6 +27,8 @@ interface ThemeTabProps {
   setSelectedRadius: (radius: string) => void
   setImportedTheme: (theme: ImportedTheme | null) => void
   onImportClick: () => void
+  mode: ThemeMode
+  onModeChange: (mode: ThemeMode) => void
 }
 
 export function ThemeTab({
@@ -34,7 +39,9 @@ export function ThemeTab({
   selectedRadius,
   setSelectedRadius,
   setImportedTheme,
-  onImportClick
+  onImportClick,
+  mode,
+  onModeChange,
 }: ThemeTabProps) {
   const {
     isDarkMode,
@@ -46,7 +53,8 @@ export function ThemeTab({
     handleColorChange
   } = useThemeManager()
 
-  const { toggleTheme } = useCircularTransition()
+  const { setTheme } = useTheme()
+  const { startTransition } = useCircularTransition()
 
   const handleRandomShadcn = () => {
     // Apply a random shadcn theme
@@ -73,14 +81,16 @@ export function ThemeTab({
     applyRadius(radius)
   }
 
-  const handleLightMode = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (isDarkMode === false) return
-    toggleTheme(event)
-  }
-
-  const handleDarkMode = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (isDarkMode === true) return
-    toggleTheme(event)
+  const handleModeSelect = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    target: ThemeMode,
+  ) => {
+    if (target === mode) return
+    onModeChange(target)
+    const coords = { x: event.clientX, y: event.clientY }
+    startTransition(coords, () => {
+      setTheme(target)
+    })
   }
 
   return (
@@ -225,25 +235,33 @@ export function ThemeTab({
       {/* Mode Section */}
       <div className="space-y-3">
         <Label className="text-sm font-medium">Mode</Label>
-        <div className="grid grid-cols-2 gap-2">
-          <Button
-            variant={!isDarkMode ? "secondary" : "outline"}
-            size="sm"
-            onClick={handleLightMode}
-            className="cursor-pointer mode-toggle-button relative overflow-hidden"
-          >
-            <Sun className="h-4 w-4 mr-1 transition-transform duration-300" />
-            Light
-          </Button>
-          <Button
-            variant={isDarkMode ? "secondary" : "outline"}
-            size="sm"
-            onClick={handleDarkMode}
-            className="cursor-pointer mode-toggle-button relative overflow-hidden"
-          >
-            <Moon className="h-4 w-4 mr-1 transition-transform duration-300" />
-            Dark
-          </Button>
+        <div className="grid grid-cols-3 gap-2">
+          {(
+            [
+              { value: "light", label: "Light", Icon: Sun },
+              { value: "dark", label: "Dark", Icon: Moon },
+              { value: "system", label: "System", Icon: Monitor },
+            ] as const
+          ).map(({ value, label, Icon }) => (
+            <button
+              key={value}
+              type="button"
+              onClick={(event) => handleModeSelect(event, value)}
+              aria-pressed={mode === value}
+              aria-label={`Theme mode ${label}`}
+              className={`flex flex-col items-center gap-2 rounded-md border p-3 transition-colors cursor-pointer ${
+                mode === value
+                  ? "border-primary bg-primary/10"
+                  : "border-border hover:border-border/60"
+              }`}
+            >
+              <ThemePreview variant={value} />
+              <span className="flex items-center gap-1 text-xs font-medium">
+                <Icon className="h-4 w-4" />
+                {label}
+              </span>
+            </button>
+          ))}
         </div>
       </div>
 

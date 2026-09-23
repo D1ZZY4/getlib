@@ -1,25 +1,34 @@
-import type { ReactNode } from "react"
+import { RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 /**
- * Shared Save action row for settings section cards.
+ * Shared action row for settings section cards.
  *
- * The Save button is disabled while its section has no unsaved changes;
- * callers compute that from their own dirty state. The secondary action
- * (Cancel or reset-to-defaults) renders next to it.
+ * Every section shows the same three actions: Save, Cancel, and
+ * reset-to-defaults. Actions disable themselves when they would be
+ * no-ops: Save and Cancel while the section has no unsaved changes,
+ * Reset while the section already matches factory defaults.
  */
 export function SectionActions({
   saveLabel,
-  disabled,
+  saveDisabled,
   onSave,
   submitFormId,
-  children,
+  onCancel,
+  cancelDisabled,
+  onReset,
+  resetDisabled,
+  resetLabel,
 }: {
   saveLabel: string
-  disabled?: boolean
+  saveDisabled?: boolean
   onSave?: () => void
   submitFormId?: string
-  children?: ReactNode
+  onCancel: () => void
+  cancelDisabled?: boolean
+  onReset: () => void
+  resetDisabled?: boolean
+  resetLabel: string
 }) {
   return (
     <div className="ml-auto flex items-center gap-2">
@@ -29,7 +38,7 @@ export function SectionActions({
           form={submitFormId}
           variant="outline"
           size="sm"
-          disabled={disabled}
+          disabled={saveDisabled}
           className="cursor-pointer"
         >
           {saveLabel}
@@ -40,13 +49,34 @@ export function SectionActions({
           variant="outline"
           size="sm"
           onClick={onSave}
-          disabled={disabled}
+          disabled={saveDisabled}
           className="cursor-pointer"
         >
           {saveLabel}
         </Button>
       )}
-      {children}
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={onCancel}
+        disabled={cancelDisabled}
+        className="cursor-pointer"
+      >
+        Cancel
+      </Button>
+      <Button
+        type="button"
+        variant="outline"
+        size="icon"
+        onClick={onReset}
+        disabled={resetDisabled}
+        aria-label={resetLabel}
+        title={resetLabel}
+        className="cursor-pointer h-8 w-8"
+      >
+        <RotateCcw className="h-4 w-4" />
+      </Button>
     </div>
   )
 }

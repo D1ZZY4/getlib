@@ -1,5 +1,3 @@
-import { RotateCcw } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -19,11 +17,13 @@ export function LayoutSection({
   current,
   saved,
   onSave,
+  onCancel,
   onReset,
 }: {
   current: LayoutState
   saved: LayoutState
   onSave: () => void
+  onCancel: () => void
   onReset: () => void
 }) {
   const dirty = !sameLayout(current, saved)
@@ -40,20 +40,13 @@ export function LayoutSection({
         <SectionActions
           saveLabel="Save Layout"
           onSave={onSave}
-          disabled={!dirty}
-        >
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={onReset}
-            disabled={atDefaults}
-            aria-label="Reset layout"
-            className="cursor-pointer h-8 w-8"
-          >
-            <RotateCcw className="h-4 w-4" />
-          </Button>
-        </SectionActions>
+          saveDisabled={!dirty}
+          onCancel={onCancel}
+          cancelDisabled={!dirty}
+          onReset={onReset}
+          resetDisabled={atDefaults}
+          resetLabel="Reset layout"
+        />
       </CardHeader>
       <CardContent>
         <LayoutTab />

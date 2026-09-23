@@ -41,17 +41,33 @@ describe("Appearance settings", () => {
     expect(screen.getByRole("button", { name: "Save Layout" })).toBeDisabled();
   });
 
-  it("saves preferences, applies them, and toasts", async () => {
+  it("saves font preferences through the preferences card", async () => {
     const user = userEvent.setup();
     renderPage();
-    await user.click(screen.getByRole("radio", { name: "Light" }));
+    await user.click(screen.getByRole("combobox", { name: "Font size" }));
+    await user.click(screen.getByRole("option", { name: "Large" }));
     await user.click(
       screen.getByRole("button", { name: "Save Preferences" }),
     );
     const stored = JSON.parse(
       localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
     );
-    expect(stored.theme).toBe("light");
+    expect(stored.fontSize).toBe("large");
+    expect(document.documentElement.style.fontSize).toBe("18px");
+    expect(await screen.findByText("Preferences saved")).toBeInTheDocument();
+  });
+
+  it("saves the theme section independently", async () => {
+    const user = userEvent.setup();
+    renderPage();
+    await user.click(screen.getByRole("button", { name: "Theme mode Dark" }));
+    await user.click(
+      screen.getByRole("button", { name: "Save Theme" }),
+    );
+    const stored = JSON.parse(
+      localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
+    );
+    expect(stored.theme).toBe("dark");
     expect(stored.layout).toEqual({
       variant: "inset",
       collapsible: "offcanvas",
@@ -59,14 +75,13 @@ describe("Appearance settings", () => {
     });
     expect(stored.themeCustom.preset).toBe("default");
     expect(stored.themeCustom.radius).toBe("0.5rem");
-    expect(document.documentElement.style.fontSize).toBe("16px");
-    expect(await screen.findByText("Preferences saved")).toBeInTheDocument();
+    expect(await screen.findByText("Theme saved")).toBeInTheDocument();
   });
 
   it("renders the three organized sections", () => {
     renderPage();
     expect(screen.getByText("Preferences")).toBeInTheDocument();
-    expect(screen.getByText("Color presets, radius, and brand colors.")).toBeInTheDocument();
+    expect(screen.getByText("Mode, color presets, radius, and brand colors.")).toBeInTheDocument();
     expect(
       screen.getByText("Sidebar variant, behavior, and position."),
     ).toBeInTheDocument();
@@ -84,7 +99,7 @@ describe("Appearance settings", () => {
     expect(await screen.findByText("Layout saved")).toBeInTheDocument();
   });
 
-  it("loads stored values and cancels back to them", async () => {
+  it("cancels theme changes back to stored values", async () => {
     const user = userEvent.setup();
     localStorage.setItem(
       APPEARANCE_STORAGE_KEY,
@@ -94,13 +109,34 @@ describe("Appearance settings", () => {
         fontSize: "medium",
         sidebarWidth: "comfortable",
         contentWidth: "fluid",
+        layout: {
+          variant: "inset",
+          collapsible: "offcanvas",
+          side: "left",
+        },
+        themeCustom: {
+          preset: "default",
+          tweakcn: "",
+          radius: "0.5rem",
+          imported: null,
+        },
       }),
     );
     renderPage();
-    expect(screen.getByRole("radio", { name: "Dark" })).toBeChecked();
-    await user.click(screen.getByRole("radio", { name: "Light" }));
-    expect(screen.getByRole("radio", { name: "Light" })).toBeChecked();
-    await user.click(screen.getByRole("button", { name: "Cancel" }));
-    expect(screen.getByRole("radio", { name: "Dark" })).toBeChecked();
+    expect(screen.getByRole("button", { name: "Theme mode Dark" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await user.click(screen.getByRole("button", { name: "Theme mode Light" }));
+    expect(screen.getByRole("button", { name: "Theme mode Light" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    const cancels = screen.getAllByRole("button", { name: "Cancel" });
+    await user.click(cancels[1] as HTMLElement);
+    expect(screen.getByRole("button", { name: "Theme mode Dark" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
   });
 });

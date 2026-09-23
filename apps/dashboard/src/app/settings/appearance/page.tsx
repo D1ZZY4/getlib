@@ -13,17 +13,19 @@ import { useThemeManager } from "@/hooks/use-theme-manager"
 import {
   applyAppearance,
   appearanceFormSchema,
+  DEFAULT_APPEARANCE,
   loadAppearance,
   loadSnapshot,
   saveAppearance,
   saveLayout,
+  saveSnapshot,
   saveThemeCustom,
   type Appearance,
 } from "@/lib/appearance"
 import type { ImportedTheme } from "@/types/theme-customizer"
 import { LayoutSection } from "./components/layout-section"
 import { PreferencesSection } from "./components/preferences-section"
-import type { AppearanceFormValues } from "@/lib/appearance"
+import type { AppearanceFormValues, ThemeMode } from "@/lib/appearance"
 import { ThemeSection } from "./components/theme-section"
 
 export default function AppearanceSettings() {
@@ -59,6 +61,12 @@ export default function AppearanceSettings() {
   const [savedLayout, setSavedLayout] = useState(
     () => loadSnapshot().layout,
   )
+  const [themeMode, setThemeMode] = useState<ThemeMode>(
+    () => loadSnapshot().theme,
+  )
+  const [savedThemeMode, setSavedThemeMode] = useState<ThemeMode>(
+    () => loadSnapshot().theme,
+  )
 
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
@@ -85,7 +93,7 @@ export default function AppearanceSettings() {
   }, [])
 
   function onSubmit(data: AppearanceFormValues) {
-    const appearance: Appearance = { ...data }
+    const appearance: Appearance = { ...data, theme: themeMode }
     applyAppearance(appearance, setTheme)
     updateSidebarConfig({
       sidebarWidth: appearance.sidebarWidth,
@@ -98,6 +106,46 @@ export default function AppearanceSettings() {
 
   function onCancel() {
     form.reset(loadAppearance())
+  }
+
+  function isPreferencesDefaults(values: AppearanceFormValues): boolean {
+    return (
+      values.fontFamily === DEFAULT_APPEARANCE.fontFamily &&
+      values.fontSize === DEFAULT_APPEARANCE.fontSize &&
+      values.sidebarWidth === DEFAULT_APPEARANCE.sidebarWidth &&
+      values.contentWidth === DEFAULT_APPEARANCE.contentWidth
+    )
+  }
+  function handleResetPreferences() {
+    const defaults = { ...DEFAULT_APPEARANCE, theme: themeMode }
+    form.reset(defaults)
+    applyAppearance(defaults, setTheme)
+    updateSidebarConfig({
+      sidebarWidth: defaults.sidebarWidth,
+      contentWidth: defaults.contentWidth,
+    })
+    saveAppearance(defaults)
+    toast.success("Preferences reset to defaults")
+  }
+
+  function handleThemeModeChange(mode: ThemeMode) {
+    setThemeMode(mode)
+    setTheme(mode)
+  }
+
+  function applySavedThemeCustom(
+    saved: typeof savedThemeCustom,
+    darkMode: boolean,
+  ) {
+    if (saved.imported) {
+      applyImportedTheme(saved.imported, darkMode)
+    } else if (saved.tweakcn) {
+      const preset = tweakcnThemes.find((t) => t.value === saved.tweakcn)?.preset
+      if (preset) applyTweakcnTheme(preset, darkMode)
+    } else if (saved.preset && saved.preset !== "default") {
+      applyTheme(saved.preset, darkMode)
+    }
+    applyRadius(saved.radius)
   }
 
   function handleImport(themeData: ImportedTheme) {
@@ -133,7 +181,20 @@ export default function AppearanceSettings() {
     }
     saveThemeCustom(themeCustom)
     setSavedThemeCustom(themeCustom)
+    setSavedThemeMode(themeMode)
+    const snapshot = loadSnapshot()
+    saveSnapshot({ ...snapshot, theme: themeMode })
     toast.success("Theme saved")
+  }
+
+  function handleCancelTheme() {
+    setThemeMode(savedThemeMode)
+    setTheme(savedThemeMode)
+    setSelectedTheme(savedThemeCustom.preset)
+    setSelectedTweakcnTheme(savedThemeCustom.tweakcn)
+    setSelectedRadius(savedThemeCustom.radius)
+    setImportedTheme(savedThemeCustom.imported)
+    applySavedThemeCustom(savedThemeCustom, isDarkMode)
   }
 
   function handleResetLayout() {
@@ -148,6 +209,10 @@ export default function AppearanceSettings() {
       side: "left",
     })
     toast.success("Layout reset to defaults")
+  }
+
+  function handleCancelLayout() {
+    updateSidebarConfig(savedLayout)
   }
 
   function handleSaveLayout() {
@@ -175,9 +240,14 @@ export default function AppearanceSettings() {
           form={form}
           onSubmit={onSubmit}
           onCancel={onCancel}
+          onReset={handleResetPreferences}
+          dirty={form.formState.isDirty}
+          atDefaults={isPreferencesDefaults(form.getValues())}
         />
 
         <ThemeSection
+          mode={themeMode}
+          onModeChange={handleThemeModeChange}
           selectedTheme={selectedTheme}
           setSelectedTheme={setSelectedTheme}
           selectedTweakcnTheme={selectedTweakcnTheme}
@@ -186,9 +256,11 @@ export default function AppearanceSettings() {
           setSelectedRadius={setSelectedRadius}
           setImportedTheme={setImportedTheme}
           imported={importedTheme}
+          savedMode={savedThemeMode}
           saved={savedThemeCustom}
           onImportClick={() => setImportModalOpen(true)}
           onSave={handleSaveTheme}
+          onCancel={handleCancelTheme}
           onReset={handleResetTheme}
         />
 
@@ -200,6 +272,7 @@ export default function AppearanceSettings() {
           }}
           saved={savedLayout}
           onSave={handleSaveLayout}
+          onCancel={handleCancelLayout}
           onReset={handleResetLayout}
         />
 
