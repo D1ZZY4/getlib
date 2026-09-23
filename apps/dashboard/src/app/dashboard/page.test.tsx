@@ -4,8 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
+import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
-import OverviewPage from "./page";
+import Page from "./page";
+import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { healthFixture, overviewFixture } from "@/fixtures/overview";
 import {
   useHealthQuery,
@@ -48,16 +50,20 @@ function mockSuccess(
   overviewQuery.mockReturnValue(queryResult({ data: summary, isStale: stale }));
 }
 
-function renderPage(ui: ReactNode = <OverviewPage />) {
+function renderPage(ui: ReactNode = <Page />) {
   const client = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   });
   return render(
-    <QueryClientProvider client={client}>{ui}</QueryClientProvider>,
+    <MemoryRouter>
+      <QueryClientProvider client={client}>
+        <SidebarConfigProvider>{ui}</SidebarConfigProvider>
+      </QueryClientProvider>
+    </MemoryRouter>,
   );
 }
 
-describe("OverviewPage", () => {
+describe("Dashboard OverviewPage", () => {
   it("renders loading skeletons while queries are pending", () => {
     healthQuery.mockReturnValue(queryResult({ isPending: true }));
     overviewQuery.mockReturnValue(queryResult({ isPending: true }));
@@ -107,7 +113,7 @@ describe("OverviewPage", () => {
   it("marks background-stale data without hiding it", () => {
     mockSuccess(overviewFixture, true);
     renderPage();
-    expect(screen.getByText("Stale")).toBeInTheDocument();
+    expect(screen.getByText("Stale snapshot")).toBeInTheDocument();
     expect(screen.getByText("12")).toBeInTheDocument();
   });
 
