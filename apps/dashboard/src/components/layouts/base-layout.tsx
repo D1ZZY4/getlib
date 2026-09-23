@@ -7,6 +7,10 @@ import { SiteFooter } from "@/components/site-footer"
 import { ThemeCustomizer, ThemeCustomizerTrigger } from "@/components/theme-customizer"
 import { useSidebarConfig } from "@/hooks/use-sidebar-config"
 import {
+  contentWidthClass,
+  sidebarWidthValue,
+} from "@/contexts/sidebar-state"
+import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
@@ -25,7 +29,7 @@ export function BaseLayout({ children, title, description }: BaseLayoutProps) {
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "16rem",
+          "--sidebar-width": sidebarWidthValue(config.sidebarWidth),
           "--sidebar-width-icon": "3rem", 
           "--header-height": "calc(var(--spacing) * 14)",
         } as React.CSSProperties
@@ -43,7 +47,7 @@ export function BaseLayout({ children, title, description }: BaseLayoutProps) {
             <SiteHeader />
             <div className="flex flex-1 flex-col">
               <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                <div className={`flex flex-col gap-4 py-4 md:gap-6 md:py-6 ${contentWidthClass(config.contentWidth)}`}>
                   {title && (
                     <div className="px-4 lg:px-6">
                       <div className="flex flex-col gap-2">
@@ -67,7 +71,7 @@ export function BaseLayout({ children, title, description }: BaseLayoutProps) {
             <SiteHeader />
             <div className="flex flex-1 flex-col">
               <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                <div className={`flex flex-col gap-4 py-4 md:gap-6 md:py-6 ${contentWidthClass(config.contentWidth)}`}>
                   {title && (
                     <div className="px-4 lg:px-6">
                       <div className="flex flex-col gap-2">

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import { z } from "zod"
 import { BaseLayout } from "@/components/layouts/base-layout"
 import { Button } from "@/components/ui/button"
@@ -15,32 +16,122 @@ import {
 } from "@/components/ui/form"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useSidebarConfig } from "@/hooks/use-sidebar-config"
+import { useTheme } from "@/hooks/use-theme"
+import {
+  applyAppearance,
+  loadAppearance,
+  saveAppearance,
+  type Appearance,
+} from "@/lib/appearance"
 
 const appearanceFormSchema = z.object({
-  theme: z.enum(["light", "dark"]),
-  fontFamily: z.string().optional(),
-  fontSize: z.string().optional(),
-  sidebarWidth: z.string().optional(),
-  contentWidth: z.string().optional(),
+  theme: z.enum(["light", "dark", "system"]),
+  fontFamily: z.enum(["inter", "system", "mono"]),
+  fontSize: z.enum(["small", "medium", "large"]),
+  sidebarWidth: z.enum(["compact", "comfortable", "spacious"]),
+  contentWidth: z.enum(["fixed", "fluid", "container"]),
 })
 
 type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
 
+function ThemePreview({ variant }: { variant: "light" | "dark" | "system" }) {
+  if (variant === "system") {
+    return (
+      <div className="rounded-md border-2 border-muted p-4 hover:border-accent transition-colors">
+        <div className="flex space-x-2">
+          <div className="w-10 h-20 bg-white border rounded-md" />
+          <div className="w-10 h-20 bg-gray-900 border border-gray-700 rounded-md" />
+        </div>
+        <span className="text-sm font-medium">System</span>
+      </div>
+    )
+  }
+  const dark = variant === "dark"
+  return (
+    <div className="rounded-md border-2 border-muted p-4 hover:border-accent transition-colors">
+      <div className="space-y-2">
+        <div
+          className={
+            dark
+              ? "w-20 h-20 bg-gray-900 border border-gray-700 rounded-md p-3"
+              : "w-20 h-20 bg-white border rounded-md p-3"
+          }
+        >
+          <div className="space-y-2">
+            <div
+              className={
+                dark
+                  ? "h-2 bg-gray-600 rounded w-3/4"
+                  : "h-2 bg-gray-200 rounded w-3/4"
+              }
+            ></div>
+            <div
+              className={
+                dark
+                  ? "h-2 bg-gray-600 rounded w-1/2"
+                  : "h-2 bg-gray-200 rounded w-1/2"
+              }
+            ></div>
+            <div className="flex space-x-2">
+              <div
+                className={
+                  dark
+                    ? "h-2 w-2 bg-gray-500 rounded-full"
+                    : "h-2 w-2 bg-gray-300 rounded-full"
+                }
+              ></div>
+              <div
+                className={
+                  dark ? "h-2 bg-gray-600 rounded flex-1" : "h-2 bg-gray-200 rounded flex-1"
+                }
+              ></div>
+            </div>
+            <div className="flex space-x-2">
+              <div
+                className={
+                  dark
+                    ? "h-2 w-2 bg-gray-500 rounded-full"
+                    : "h-2 w-2 bg-gray-300 rounded-full"
+                }
+              ></div>
+              <div
+                className={
+                  dark ? "h-2 bg-gray-600 rounded flex-1" : "h-2 bg-gray-200 rounded flex-1"
+                }
+              ></div>
+            </div>
+          </div>
+        </div>
+        <span className="text-sm font-medium">
+          {dark ? "Dark" : "Light"}
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export default function AppearanceSettings() {
+  const { setTheme } = useTheme()
+  const { updateConfig } = useSidebarConfig()
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
-    defaultValues: {
-      theme: "dark",
-      fontFamily: "",
-      fontSize: "",
-      sidebarWidth: "",
-      contentWidth: "",
-    },
+    defaultValues: loadAppearance(),
   })
 
   function onSubmit(data: AppearanceFormValues) {
-    console.log("Form submitted:", data)
-    // Here you would typically save the data
+    const appearance: Appearance = { ...data }
+    applyAppearance(appearance, setTheme)
+    updateConfig({
+      sidebarWidth: appearance.sidebarWidth,
+      contentWidth: appearance.contentWidth,
+    })
+    saveAppearance(appearance)
+    toast.success("Preferences saved")
+  }
+
+  function onCancel() {
+    form.reset(loadAppearance())
   }
 
   return (
@@ -65,61 +156,19 @@ export default function AppearanceSettings() {
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      value={field.value}
                       className="flex gap-4"
                     >
-                      <FormItem>
-                        <FormLabel className="[&:has([data-state=checked])>div]:border-primary cursor-pointer">
-                          <FormControl>
-                            <RadioGroupItem value="light" className="sr-only" />
-                          </FormControl>
-                          <div className="rounded-md border-2 border-muted p-4 hover:border-accent transition-colors">
-                            <div className="space-y-2">
-                              <div className="w-20 h-20 bg-white border rounded-md p-3">
-                                <div className="space-y-2">
-                                  <div className="h-2 bg-gray-200 rounded w-3/4"></div>
-                                  <div className="h-2 bg-gray-200 rounded w-1/2"></div>
-                                  <div className="flex space-x-2">
-                                    <div className="h-2 w-2 bg-gray-300 rounded-full"></div>
-                                    <div className="h-2 bg-gray-200 rounded flex-1"></div>
-                                  </div>
-                                  <div className="flex space-x-2">
-                                    <div className="h-2 w-2 bg-gray-300 rounded-full"></div>
-                                    <div className="h-2 bg-gray-200 rounded flex-1"></div>
-                                  </div>
-                                </div>
-                              </div>
-                              <span className="text-sm font-medium">Light</span>
-                            </div>
-                          </div>
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem>
-                        <FormLabel className="[&:has([data-state=checked])>div]:border-primary cursor-pointer">
-                          <FormControl>
-                            <RadioGroupItem value="dark" className="sr-only" />
-                          </FormControl>
-                          <div className="rounded-md border-2 border-muted p-4 hover:border-accent transition-colors">
-                            <div className="space-y-2">
-                              <div className="w-20 h-20 bg-gray-900 border border-gray-700 rounded-md p-3">
-                                <div className="space-y-2">
-                                  <div className="h-2 bg-gray-600 rounded w-3/4"></div>
-                                  <div className="h-2 bg-gray-600 rounded w-1/2"></div>
-                                  <div className="flex space-x-2">
-                                    <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
-                                    <div className="h-2 bg-gray-600 rounded flex-1"></div>
-                                  </div>
-                                  <div className="flex space-x-2">
-                                    <div className="h-2 w-2 bg-gray-500 rounded-full"></div>
-                                    <div className="h-2 bg-gray-600 rounded flex-1"></div>
-                                  </div>
-                                </div>
-                              </div>
-                              <span className="text-sm font-medium">Dark</span>
-                            </div>
-                          </div>
-                        </FormLabel>
-                      </FormItem>
+                      {(["light", "dark", "system"] as const).map((value) => (
+                        <FormItem key={value}>
+                          <FormLabel className="[&:has([data-state=checked])>div]:border-primary cursor-pointer">
+                            <FormControl>
+                              <RadioGroupItem value={value} className="sr-only" />
+                            </FormControl>
+                            <ThemePreview variant={value} />
+                          </FormLabel>
+                        </FormItem>
+                      ))}
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -133,7 +182,7 @@ export default function AppearanceSettings() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Font Family</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger className="cursor-pointer">
                         <SelectValue placeholder="Select a font" />
@@ -141,8 +190,8 @@ export default function AppearanceSettings() {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="inter">Inter</SelectItem>
-                      <SelectItem value="roboto">Roboto</SelectItem>
                       <SelectItem value="system">System Default</SelectItem>
+                      <SelectItem value="mono">Monospace</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -155,7 +204,7 @@ export default function AppearanceSettings() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Font Size</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger className="cursor-pointer">
                         <SelectValue placeholder="Select font size" />
@@ -179,7 +228,7 @@ export default function AppearanceSettings() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Sidebar Width</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger className="cursor-pointer">
                         <SelectValue placeholder="Select sidebar width" />
@@ -201,7 +250,7 @@ export default function AppearanceSettings() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Content Width</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <FormControl>
                       <SelectTrigger className="cursor-pointer">
                         <SelectValue placeholder="Select content width" />
@@ -222,7 +271,9 @@ export default function AppearanceSettings() {
               <Button type="submit" className="cursor-pointer">
                 Save Preferences
               </Button>
-              <Button variant="outline" type="button" className="cursor-pointer">Cancel</Button>
+              <Button variant="outline" type="button" className="cursor-pointer" onClick={onCancel}>
+                Cancel
+              </Button>
             </div>
           </form>
         </Form>
