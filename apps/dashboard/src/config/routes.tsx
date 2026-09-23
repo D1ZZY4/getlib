@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom'
 // Lazy load components for better performance
 const Dashboard = lazy(() => import('@/app/overview/page'))
 const Dashboard2 = lazy(() => import('@/app/analytics/page'))
+const Logs = lazy(() => import('@/app/logs/page'))
 const Tasks = lazy(() => import('@/app/tasks/page'))
 const Users = lazy(() => import('@/app/users/page'))
 const FAQs = lazy(() => import('@/app/faqs/page'))
@@ -52,6 +53,10 @@ export const routes: RouteConfig[] = [
   {
     path: "/analytics",
     element: <Dashboard2 />
+  },
+  {
+    path: "/logs",
+    element: <Logs />
   },
 
   // Application Routes

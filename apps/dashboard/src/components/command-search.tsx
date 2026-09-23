@@ -8,6 +8,7 @@ import {
   LayoutPanelLeft,
   LayoutDashboard,
   CheckSquare,
+  FileText,
   Settings,
   HelpCircle,
   CreditCard,
@@ -125,6 +126,7 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
     // Dashboards
     { title: "Overview", url: "/overview", group: "Dashboards", icon: LayoutDashboard },
     { title: "Analytics", url: "/analytics", group: "Dashboards", icon: LayoutPanelLeft },
+    { title: "Logs", url: "/logs", group: "Dashboards", icon: FileText },
 
     // Apps
     { title: "Tasks", url: "/tasks", group: "Apps", icon: CheckSquare },

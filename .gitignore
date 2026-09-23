@@ -43,6 +43,8 @@ Thumbs.db
 # Logs
 logs/
 *.log
+# ...except the dashboard Logs route, which is tracked source
+!apps/dashboard/src/app/logs/
 
 # Runtime data
 pids
