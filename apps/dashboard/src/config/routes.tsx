@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom'
 const Landing = lazy(() => import('@/app/landing/page'))
 const Dashboard = lazy(() => import('@/app/dashboard/page'))
 const Dashboard2 = lazy(() => import('@/app/dashboard-2/page'))
+const Overview = lazy(() => import('@/app/overview/page'))
 const Mail = lazy(() => import('@/app/mail/page'))
 const Tasks = lazy(() => import('@/app/tasks/page'))
 const Chat = lazy(() => import('@/app/chat/page'))
@@ -57,6 +58,12 @@ export const routes: RouteConfig[] = [
   {
     path: "/landing",
     element: <Landing />
+  },
+
+  // GetLib product routes (doc 06 IA; template routes below stay untouched)
+  {
+    path: "/overview",
+    element: <Overview />
   },
 
   // Dashboard Routes
