@@ -42,6 +42,13 @@ describe("Appearance settings", () => {
       localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
     );
     expect(stored.theme).toBe("system");
+    expect(stored.layout).toEqual({
+      variant: "inset",
+      collapsible: "offcanvas",
+      side: "left",
+    });
+    expect(stored.themeCustom.preset).toBe("default");
+    expect(stored.themeCustom.radius).toBe("0.5rem");
     expect(document.documentElement.style.fontSize).toBe("16px");
     expect(await screen.findByText("Preferences saved")).toBeInTheDocument();
   });
@@ -53,6 +60,18 @@ describe("Appearance settings", () => {
     expect(
       screen.getByText("Sidebar variant, behavior, and position."),
     ).toBeInTheDocument();
+  });
+
+  it("saves the layout section independently", async () => {
+    const user = userEvent.setup();
+    renderPage();
+    await user.click(screen.getByText("Floating"));
+    await user.click(screen.getByRole("button", { name: "Save Layout" }));
+    const stored = JSON.parse(
+      localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
+    );
+    expect(stored.layout.variant).toBe("floating");
+    expect(await screen.findByText("Layout saved")).toBeInTheDocument();
   });
 
   it("loads stored values and cancels back to them", async () => {

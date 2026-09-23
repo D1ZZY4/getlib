@@ -5,15 +5,15 @@ import {
   SidebarContext,
   type SidebarConfig,
 } from "@/contexts/sidebar-state"
-import { loadAppearance } from "@/lib/appearance"
+import { loadSnapshot } from "@/lib/appearance"
 
 export function SidebarConfigProvider({ children }: { children: React.ReactNode }) {
   const [config, setConfig] = React.useState<SidebarConfig>(() => {
-    const stored = loadAppearance()
+    const stored = loadSnapshot()
     return {
-      variant: "inset",
-      collapsible: "offcanvas",
-      side: "left",
+      variant: stored.layout.variant,
+      collapsible: stored.layout.collapsible,
+      side: stored.layout.side,
       sidebarWidth: stored.sidebarWidth,
       contentWidth: stored.contentWidth,
     }

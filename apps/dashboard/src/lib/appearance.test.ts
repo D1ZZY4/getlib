@@ -2,11 +2,17 @@ import { describe, expect, it } from "vitest";
 import {
   APPEARANCE_STORAGE_KEY,
   DEFAULT_APPEARANCE,
+  DEFAULT_SNAPSHOT,
   fontFamilyValue,
   fontSizeValue,
   loadAppearance,
+  loadSnapshot,
   saveAppearance,
+  saveLayout,
+  saveSnapshot,
+  saveThemeCustom,
   type Appearance,
+  type AppearanceSnapshot,
 } from "./appearance";
 
 function memoryStorage(initial: Record<string, string> = {}): Storage {
@@ -31,26 +37,64 @@ function memoryStorage(initial: Record<string, string> = {}): Storage {
 
 describe("appearance preferences", () => {
   it("falls back to defaults on missing or invalid storage", () => {
-    expect(loadAppearance(memoryStorage())).toEqual(DEFAULT_APPEARANCE);
+    expect(loadSnapshot(memoryStorage())).toEqual(DEFAULT_SNAPSHOT);
+    expect(loadAppearance(memoryStorage())).toMatchObject(DEFAULT_APPEARANCE);
     expect(
-      loadAppearance(memoryStorage({ [APPEARANCE_STORAGE_KEY]: "nope{" })),
-    ).toEqual(DEFAULT_APPEARANCE);
+      loadSnapshot(memoryStorage({ [APPEARANCE_STORAGE_KEY]: "nope{" })),
+    ).toEqual(DEFAULT_SNAPSHOT);
     expect(
-      loadAppearance(
+      loadSnapshot(
         memoryStorage({ [APPEARANCE_STORAGE_KEY]: '{"theme":"neon"}' }),
       ),
-    ).toEqual(DEFAULT_APPEARANCE);
+    ).toEqual(DEFAULT_SNAPSHOT);
   });
 
-  it("round-trips valid preferences", () => {
+  it("upgrades legacy preference payloads", () => {
+    const legacy: Appearance = { ...DEFAULT_APPEARANCE, theme: "dark" };
+    const storage = memoryStorage({
+      [APPEARANCE_STORAGE_KEY]: JSON.stringify(legacy),
+    });
+    expect(loadSnapshot(storage)).toEqual({ ...DEFAULT_SNAPSHOT, ...legacy });
+    expect(loadAppearance(storage).theme).toBe("dark");
+  });
+
+  it("round-trips full snapshots", () => {
     const storage = memoryStorage();
-    const prefs: Appearance = {
-      ...DEFAULT_APPEARANCE,
+    const snapshot: AppearanceSnapshot = {
+      ...DEFAULT_SNAPSHOT,
       theme: "dark",
-      fontSize: "large",
+      layout: { variant: "floating", collapsible: "icon", side: "right" },
+      themeCustom: {
+        preset: "zinc",
+        tweakcn: "",
+        radius: "0.75rem",
+        imported: null,
+      },
     };
-    saveAppearance(prefs, storage);
-    expect(loadAppearance(storage)).toEqual(prefs);
+    saveSnapshot(snapshot, storage);
+    expect(loadSnapshot(storage)).toEqual(snapshot);
+  });
+
+  it("saves theme and layout sections independently", () => {
+    const storage = memoryStorage();
+    saveThemeCustom(
+      { preset: "zinc", tweakcn: "", radius: "0.75rem", imported: null },
+      storage,
+    );
+    expect(loadSnapshot(storage).themeCustom.preset).toBe("zinc");
+    expect(loadSnapshot(storage).theme).toBe("system");
+    saveLayout(
+      { variant: "floating", collapsible: "icon", side: "right" },
+      storage,
+    );
+    const snapshot = loadSnapshot(storage);
+    expect(snapshot.layout.side).toBe("right");
+    expect(snapshot.themeCustom.preset).toBe("zinc");
+  });
+  it("saves preferences merged over snapshot defaults", () => {
+    const storage = memoryStorage();
+    saveAppearance({ ...DEFAULT_APPEARANCE, fontSize: "large" }, storage);
+    expect(loadAppearance(storage).fontSize).toBe("large");
   });
 
   it("maps families and sizes to real CSS values", () => {
