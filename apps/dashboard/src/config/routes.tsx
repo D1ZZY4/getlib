@@ -6,7 +6,6 @@ import { Navigate } from 'react-router-dom'
 const Dashboard = lazy(() => import('@/app/overview/page'))
 const Dashboard2 = lazy(() => import('@/app/analytics/page'))
 const Tasks = lazy(() => import('@/app/tasks/page'))
-const Calendar = lazy(() => import('@/app/calendar/page'))
 const Users = lazy(() => import('@/app/users/page'))
 const FAQs = lazy(() => import('@/app/faqs/page'))
 const Pricing = lazy(() => import('@/app/pricing/page'))
@@ -59,10 +58,6 @@ export const routes: RouteConfig[] = [
   {
     path: "/tasks",
     element: <Tasks />
-  },
-  {
-    path: "/calendar",
-    element: <Calendar />
   },
 
   // Content Pages

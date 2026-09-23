@@ -5,7 +5,6 @@ import {
   LayoutPanelLeft,
   LayoutDashboard,
   CheckSquare,
-  Calendar,
   Settings,
   HelpCircle,
   CreditCard,
@@ -56,11 +55,6 @@ const data = {
           title: "Tasks",
           url: "/tasks",
           icon: CheckSquare,
-        },
-        {
-          title: "Calendar",
-          url: "/calendar",
-          icon: Calendar,
         },
         {
           title: "Users",
