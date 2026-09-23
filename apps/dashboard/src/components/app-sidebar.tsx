@@ -5,7 +5,6 @@ import {
   LayoutPanelLeft,
   LayoutDashboard,
   CheckSquare,
-  MessageCircle,
   Calendar,
   Settings,
   HelpCircle,
@@ -57,11 +56,6 @@ const data = {
           title: "Tasks",
           url: "/tasks",
           icon: CheckSquare,
-        },
-        {
-          title: "Chat",
-          url: "/chat",
-          icon: MessageCircle,
         },
         {
           title: "Calendar",

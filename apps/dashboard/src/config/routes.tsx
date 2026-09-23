@@ -6,7 +6,6 @@ import { Navigate } from 'react-router-dom'
 const Dashboard = lazy(() => import('@/app/overview/page'))
 const Dashboard2 = lazy(() => import('@/app/analytics/page'))
 const Tasks = lazy(() => import('@/app/tasks/page'))
-const Chat = lazy(() => import('@/app/chat/page'))
 const Calendar = lazy(() => import('@/app/calendar/page'))
 const Users = lazy(() => import('@/app/users/page'))
 const FAQs = lazy(() => import('@/app/faqs/page'))
@@ -60,10 +59,6 @@ export const routes: RouteConfig[] = [
   {
     path: "/tasks",
     element: <Tasks />
-  },
-  {
-    path: "/chat",
-    element: <Chat />
   },
   {
     path: "/calendar",
