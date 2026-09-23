@@ -11,12 +11,17 @@ import {
 } from "@tanstack/react-table"
 import {
   ChevronDown,
+  EllipsisVertical,
+  Eye,
+  Pencil,
+  Trash2,
   Download,
   Search,
 } from "lucide-react"
 
 import { features, type RowInstance } from "@/lib/table-features"
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -24,6 +29,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
@@ -43,28 +50,75 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import type { LogEntry } from "@/fixtures/logs"
+import { LogFormDialog } from "./log-form-dialog"
 
-function levelVariant(
-  level: LogEntry["level"],
-): "default" | "secondary" | "destructive" | "outline" {
-  if (level === "error") return "destructive"
-  if (level === "warn") return "secondary"
-  if (level === "info") return "default"
-  return "outline"
+interface LogEntry {
+  id: string
+  message: string
+  requestId: string
+  avatar: string
+  level: string
+  time: string
+  request: string
+  service: string
+}
+
+interface LogFormValues {
+  message: string
+  requestId: string
+  level: string
+  time: string
+  request: string
+  service: string
 }
 
 interface DataTableProps {
   entries: LogEntry[]
+  onDeleteLog: (id: string) => void
+  onEditLog: (entry: LogEntry) => void
+  onAddLog: (logData: LogFormValues) => void
+  onCopyLog: (entry: LogEntry) => void
   onExport: (entries: LogEntry[]) => void
 }
 
-export function DataTable({ entries, onExport }: DataTableProps) {
+export function DataTable({ entries, onDeleteLog, onEditLog, onAddLog, onCopyLog, onExport }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<ColumnVisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState("")
+
+  const getServiceColor = (service: string) => {
+    switch (service) {
+      case "api":
+        return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20"
+      case "worker":
+        return "text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20"
+      case "ingestion":
+        return "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20"
+      case "mcp":
+        return "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20"
+      case "database":
+        return "text-yellow-600 bg-yellow-50 dark:text-yellow-400 dark:bg-yellow-900/20"
+      default:
+        return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20"
+    }
+  }
+
+  const getLevelColor = (level: string) => {
+    switch (level) {
+      case "error":
+        return "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20"
+      case "warn":
+        return "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20"
+      case "info":
+        return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20"
+      case "debug":
+        return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20"
+      default:
+        return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20"
+    }
+  }
 
   const exactFilter = (row: RowInstance<LogEntry>, columnId: string, value: string) => {
     return row.getValue(columnId) === value
@@ -100,46 +154,125 @@ export function DataTable({ entries, onExport }: DataTableProps) {
       enableHiding: false,
     },
     {
-      accessorKey: "timestamp",
-      header: "Time",
-      cell: ({ row }) => (
-        <span className="text-muted-foreground font-mono text-xs whitespace-nowrap">
-          {new Date(row.getValue("timestamp")).toLocaleString()}
-        </span>
-      ),
+      accessorKey: "message",
+      header: "Message",
+      cell: ({ row }) => {
+        const entry = row.original
+        return (
+          <div className="flex items-center gap-3">
+            <Avatar className="h-8 w-8">
+              <AvatarFallback className="text-xs font-medium">
+                {entry.avatar}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="font-medium">{entry.message}</span>
+              <span className="text-sm text-muted-foreground">{entry.requestId}</span>
+            </div>
+          </div>
+        )
+      },
     },
     {
       accessorKey: "level",
       header: "Level",
       cell: ({ row }) => {
-        const level = row.getValue("level") as LogEntry["level"]
-        return <Badge variant={levelVariant(level)}>{level}</Badge>
+        const level = row.getValue("level") as string
+        return (
+          <Badge variant="secondary" className={getLevelColor(level)}>
+            {level}
+          </Badge>
+        )
       },
       filterFn: exactFilter,
     },
     {
-      accessorKey: "service",
-      header: "Service",
-      cell: ({ row }) => (
-        <span className="font-mono text-xs">{row.getValue("service")}</span>
-      ),
+      accessorKey: "time",
+      header: "Time",
+      cell: ({ row }) => {
+        const time = row.getValue("time") as string
+        return <span className="font-medium">{time}</span>
+      },
       filterFn: exactFilter,
     },
     {
-      accessorKey: "message",
-      header: "Message",
-      cell: ({ row }) => (
-        <span className="font-mono text-xs">{row.getValue("message")}</span>
-      ),
+      accessorKey: "request",
+      header: "Request",
+      cell: ({ row }) => {
+        const request = row.getValue("request") as string
+        return <span className="text-sm">{request}</span>
+      },
     },
     {
-      accessorKey: "requestId",
-      header: "Request",
-      cell: ({ row }) => (
-        <span className="text-muted-foreground font-mono text-xs">
-          {(row.getValue("requestId") as string | undefined) ?? "-"}
-        </span>
-      ),
+      accessorKey: "service",
+      header: "Service",
+      cell: ({ row }) => {
+        const service = row.getValue("service") as string
+        return (
+          <Badge variant="secondary" className={getServiceColor(service)}>
+            {service}
+          </Badge>
+        )
+      },
+      filterFn: exactFilter,
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const entry = row.original
+        return (
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer">
+              <Eye className="size-4" />
+              <span className="sr-only">View log entry</span>
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 cursor-pointer"
+              onClick={() => onEditLog(entry)}
+            >
+              <Pencil className="size-4" />
+              <span className="sr-only">Inspect log entry</span>
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer">
+                  <EllipsisVertical className="size-4" />
+                  <span className="sr-only">More actions</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="cursor-pointer">
+                  View Details
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => onCopyLog(entry)}
+                >
+                  Copy Message
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => onExport([entry])}
+                >
+                  Export Row
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  variant="destructive"
+                  className="cursor-pointer"
+                  onClick={() => onDeleteLog(entry.id)}
+                >
+                  <Trash2 className="mr-2 size-4" />
+                  Delete Log
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )
+      },
     },
   ])
 
@@ -163,7 +296,6 @@ export function DataTable({ entries, onExport }: DataTableProps) {
 
   const levelFilter = table.getColumn("level")?.getFilterValue() as string
   const serviceFilter = table.getColumn("service")?.getFilterValue() as string
-  const visible = table.getFilteredRowModel().rows.map((row) => row.original)
 
   return (
     <div className="w-full space-y-4">
@@ -172,7 +304,7 @@ export function DataTable({ entries, onExport }: DataTableProps) {
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Search messages, services, request IDs..."
+              placeholder="Search logs..."
               value={globalFilter ?? ""}
               onChange={(event) => setGlobalFilter(String(event.target.value))}
               className="pl-9"
@@ -181,17 +313,17 @@ export function DataTable({ entries, onExport }: DataTableProps) {
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <span className="text-muted-foreground text-sm">
-            {visible.length} of {entries.length} entries
-          </span>
           <Button
             variant="outline"
             className="cursor-pointer"
-            onClick={() => onExport(visible)}
+            onClick={() =>
+              onExport(table.getFilteredRowModel().rows.map((row) => row.original))
+            }
           >
             <Download className="mr-2 size-4" />
             Export
           </Button>
+          <LogFormDialog onAddLog={onAddLog} />
         </div>
       </div>
 
@@ -318,7 +450,7 @@ export function DataTable({ entries, onExport }: DataTableProps) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No log entries match.
+                  No results.
                 </TableCell>
               </TableRow>
             )}

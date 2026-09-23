@@ -1,0 +1,122 @@
+[
+  {
+    "id": "log-0042",
+    "message": "GET /api/v1/overview/summary 200 (14ms)",
+    "requestId": "req-9f2c",
+    "avatar": "GE",
+    "level": "info",
+    "time": "08:41:02",
+    "request": "req-9f2c",
+    "service": "api"
+  },
+  {
+    "id": "log-0041",
+    "message": "JOB-1041 completed: react full reindex, 412 chunks",
+    "requestId": "req-9f1a",
+    "avatar": "JO",
+    "level": "info",
+    "time": "08:40:47",
+    "request": "req-9f1a",
+    "service": "worker"
+  },
+  {
+    "id": "log-0040",
+    "message": "Fetch retry 2/3 for zod changelog (timeout 10s)",
+    "requestId": "req-9e77",
+    "avatar": "FE",
+    "level": "warn",
+    "time": "08:39:15",
+    "request": "req-9e77",
+    "service": "ingestion"
+  },
+  {
+    "id": "log-0039",
+    "message": "Fetch failed for hono docs: 429 rate limited",
+    "requestId": "req-9e51",
+    "avatar": "FE",
+    "level": "error",
+    "time": "08:38:03",
+    "request": "req-9e51",
+    "service": "ingestion"
+  },
+  {
+    "id": "log-0038",
+    "message": "gl_search served 6 results with provenance (88ms)",
+    "requestId": "req-9e02",
+    "avatar": "GL",
+    "level": "info",
+    "time": "08:35:29",
+    "request": "req-9e02",
+    "service": "mcp"
+  },
+  {
+    "id": "log-0037",
+    "message": "pgvector index scan: 1240 candidates, 0.8ms",
+    "requestId": "req-9dd0",
+    "avatar": "PG",
+    "level": "debug",
+    "time": "08:33:11",
+    "request": "req-9dd0",
+    "service": "database"
+  },
+  {
+    "id": "log-0036",
+    "message": "JOB-1040 started: react-query incremental refresh",
+    "requestId": "req-9dbe",
+    "avatar": "JO",
+    "level": "info",
+    "time": "08:31:56",
+    "request": "req-9dbe",
+    "service": "worker"
+  },
+  {
+    "id": "log-0035",
+    "message": "Slow query: /api/v1/search 812ms (budget 500ms)",
+    "requestId": "req-9d90",
+    "avatar": "SL",
+    "level": "warn",
+    "time": "08:29:44",
+    "request": "req-9d90",
+    "service": "api"
+  },
+  {
+    "id": "log-0034",
+    "message": "Revision pinned: drizzle-orm docs r1841",
+    "requestId": "req-9d55",
+    "avatar": "RE",
+    "level": "info",
+    "time": "08:27:20",
+    "request": "req-9d55",
+    "service": "ingestion"
+  },
+  {
+    "id": "log-0033",
+    "message": "JOB-1036 failed: embedding timeout, retrying",
+    "requestId": "req-9d21",
+    "avatar": "JO",
+    "level": "error",
+    "time": "08:25:08",
+    "request": "req-9d21",
+    "service": "worker"
+  },
+  {
+    "id": "log-0032",
+    "message": "Tool catalog served: 14 tools, schema v3",
+    "requestId": "req-9cf0",
+    "avatar": "TO",
+    "level": "debug",
+    "time": "08:22:51",
+    "request": "req-9cf0",
+    "service": "mcp"
+  },
+  {
+    "id": "log-0031",
+    "message": "Migration level 0001 verified on startup",
+    "requestId": "req-9cb4",
+    "avatar": "MI",
+    "level": "info",
+    "time": "08:20:00",
+    "request": "req-9cb4",
+    "service": "database"
+  }
+]
