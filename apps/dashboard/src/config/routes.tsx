@@ -8,7 +8,6 @@ const Dashboard2 = lazy(() => import('@/app/analytics/page'))
 const Logs = lazy(() => import('@/app/logs/page'))
 const Search = lazy(() => import('@/app/search/page'))
 const Indexing = lazy(() => import('@/app/indexing/page'))
-const Mcp = lazy(() => import('@/app/mcp/page'))
 const Libraries = lazy(() => import('@/app/libraries/page'))
 const AddLibrary = lazy(() => import('@/app/libraries/add/page'))
 const LibraryDetail = lazy(() => import('@/app/libraries/detail/page'))
@@ -86,10 +85,6 @@ export const routes: RouteConfig[] = [
   {
     path: "/indexing",
     element: <Indexing />
-  },
-  {
-    path: "/mcp",
-    element: <Mcp />
   },
 
   // Application Routes

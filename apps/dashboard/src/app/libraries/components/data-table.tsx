@@ -222,7 +222,10 @@ export function DataTable({ entries, onDeleteLibrary, onEditLibrary }: DataTable
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => navigate(`/libraries/${entry.id}`)}
+                >
                   View Details
                 </DropdownMenuItem>
                 <DropdownMenuItem

@@ -33,6 +33,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -82,6 +91,7 @@ interface DataTableProps {
 }
 
 export function DataTable({ entries, onDeleteLog, onEditLog, onAddLog, onCopyLog, onExport }: DataTableProps) {
+  const [inspected, setInspected] = useState<LogEntry | null>(null)
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<ColumnVisibilityState>({})
@@ -223,7 +233,12 @@ export function DataTable({ entries, onDeleteLog, onEditLog, onAddLog, onCopyLog
         const entry = row.original
         return (
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 cursor-pointer"
+              onClick={() => setInspected(entry)}
+            >
               <Eye className="size-4" />
               <span className="sr-only">View log entry</span>
             </Button>
@@ -244,7 +259,10 @@ export function DataTable({ entries, onDeleteLog, onEditLog, onAddLog, onCopyLog
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => setInspected(entry)}
+                >
                   View Details
                 </DropdownMenuItem>
                 <DropdownMenuItem
@@ -516,6 +534,42 @@ export function DataTable({ entries, onDeleteLog, onEditLog, onAddLog, onCopyLog
           </div>
         </div>
       </div>
+
+      <Drawer
+        open={inspected !== null}
+        onOpenChange={(open) => {
+          if (!open) setInspected(null)
+        }}
+      >
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Log entry detail</DrawerTitle>
+            <DrawerDescription>
+              {inspected ? `${inspected.level} · ${inspected.service}` : null}
+            </DrawerDescription>
+          </DrawerHeader>
+          <div className="space-y-3 px-4 pb-4 text-sm">
+            <p className="font-mono text-xs">{inspected?.message}</p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <div className="flex items-center justify-between rounded-lg border p-3">
+                <span className="text-muted-foreground">Time</span>
+                <span className="font-mono text-xs">{inspected?.time}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-lg border p-3">
+                <span className="text-muted-foreground">Request</span>
+                <span className="font-mono text-xs">{inspected?.request}</span>
+              </div>
+            </div>
+          </div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <Button variant="outline" className="cursor-pointer">
+                Close
+              </Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   )
 }

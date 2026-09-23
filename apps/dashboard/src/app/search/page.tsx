@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
+import { Link } from "react-router-dom"
 import { BaseLayout } from "@/components/layouts/base-layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -20,6 +21,19 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  libraryCorpusFixture,
+  trustForLibrary,
+} from "@/fixtures/libraries"
 import { useSearchQuery } from "@/hooks/use-search"
 
 const LIBRARY_OPTIONS = [
@@ -36,6 +50,14 @@ const LIBRARY_OPTIONS = [
 const SOURCE_OPTIONS = ["all", "npm", "github"]
 
 const LIMIT_OPTIONS = ["5", "10", "25"]
+
+function trustVariant(
+  trust: "high" | "medium" | "low",
+): "default" | "secondary" | "destructive" {
+  if (trust === "high") return "default"
+  if (trust === "medium") return "secondary"
+  return "destructive"
+}
 
 export default function SearchPage() {
   const [draft, setDraft] = useState("")
@@ -57,10 +79,28 @@ export default function SearchPage() {
     setSubmitted(draft)
   }
 
+  const matchedLibraries = useMemo(() => {
+    const needle = submitted.trim().toLowerCase()
+    return libraryCorpusFixture.filter((entry) => {
+      if (library !== "all" && entry.name !== library) return false
+      if (needle.length === 0) return true
+      return (
+        entry.name.toLowerCase().includes(needle) ||
+        entry.ecosystem.toLowerCase().includes(needle)
+      )
+    })
+  }, [submitted, library])
+
+  const totalDocuments = useMemo(
+    () =>
+      libraryCorpusFixture.reduce((sum, entry) => sum + entry.documents, 0),
+    [],
+  )
+
   return (
     <BaseLayout
       title="Search"
-      description="Version-aware knowledge retrieval with provenance"
+      description="Explore libraries and version-aware knowledge with provenance"
     >
       <div className="@container/main px-4 lg:px-6 space-y-6">
         <Card>
@@ -70,7 +110,7 @@ export default function SearchPage() {
               className="flex flex-col gap-3 md:flex-row md:items-center"
             >
               <Input
-                placeholder="Search documentation, sections, libraries..."
+                placeholder="Search libraries, documentation, sections..."
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
                 className="md:max-w-md"
@@ -126,84 +166,196 @@ export default function SearchPage() {
           </CardContent>
         </Card>
 
-        {submitted.trim().length === 0 ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>Search the knowledge index</CardTitle>
-              <CardDescription>
-                Results carry library, version, source, and freshness with
-                every match.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        ) : search.isPending ? (
-          <div role="status" aria-label="Searching">
-            <div className="grid gap-4">
-              {[0, 1, 2].map((key) => (
-                <Card key={key}>
-                  <CardHeader>
-                    <Skeleton className="h-5 w-48" />
-                    <Skeleton className="h-4 w-32" />
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="h-4 w-full" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        ) : search.error ? (
-          <Card role="alert">
-            <CardHeader>
-              <CardTitle>Search unavailable</CardTitle>
-              <CardDescription>{search.error.message}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button
-                type="button"
-                onClick={() => void search.refetch()}
-              >
-                Retry
-              </Button>
-            </CardContent>
-          </Card>
-        ) : search.data?.length === 0 ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>No results</CardTitle>
-              <CardDescription>
-                Nothing in the index matches this query and filters.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        ) : (
-          <div className="grid gap-4" role="list" aria-label="Search results">
-            {(search.data ?? []).map((result) => (
-              <Card key={result.id} role="listitem">
+        <Tabs defaultValue="libraries" className="w-full">
+          <TabsList>
+            <TabsTrigger value="libraries">Libraries</TabsTrigger>
+            <TabsTrigger value="knowledge">Knowledge</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="libraries" className="mt-4 space-y-4">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Card>
                 <CardHeader>
-                  <CardTitle className="text-base">{result.document}</CardTitle>
-                  <CardDescription>
-                    {result.library}@{result.version} · {result.section}
-                  </CardDescription>
+                  <CardTitle>Libraries indexed</CardTitle>
+                  <CardDescription>Registry coverage</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm">{result.snippet}</p>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge variant="outline">{result.source}</Badge>
-                    <Badge variant="outline">{result.version}</Badge>
-                    <Badge
-                      variant={
-                        result.freshness === "fresh" ? "default" : "secondary"
-                      }
-                    >
-                      {result.freshness}
-                    </Badge>
-                  </div>
+                <CardContent>
+                  <p className="text-3xl font-semibold tabular-nums">
+                    {libraryCorpusFixture.length}
+                  </p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-        )}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Documents</CardTitle>
+                  <CardDescription>Searchable documents</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-semibold tabular-nums">
+                    {totalDocuments}
+                  </p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Matches</CardTitle>
+                  <CardDescription>Libraries for this query</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-semibold tabular-nums">
+                    {matchedLibraries.length}
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {matchedLibraries.length === 0 ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>No libraries found</CardTitle>
+                  <CardDescription>
+                    No indexed library matches this query.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            ) : (
+              <Card>
+                <CardContent className="p-0">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Version</TableHead>
+                        <TableHead className="text-right">Sources</TableHead>
+                        <TableHead className="text-right">Documents</TableHead>
+                        <TableHead className="text-right">Updated</TableHead>
+                        <TableHead className="text-right">Trust</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {matchedLibraries.map((entry) => {
+                        const trust = trustForLibrary(entry)
+                        return (
+                          <TableRow key={entry.id}>
+                            <TableCell>
+                              <Link
+                                to={`/libraries/${entry.id}`}
+                                className="font-medium hover:underline"
+                              >
+                                {entry.name}
+                              </Link>
+                              <p className="text-muted-foreground text-xs">
+                                {entry.ecosystem}
+                              </p>
+                            </TableCell>
+                            <TableCell className="font-mono text-xs">
+                              {entry.version}
+                            </TableCell>
+                            <TableCell className="text-right tabular-nums">
+                              {entry.sources}
+                            </TableCell>
+                            <TableCell className="text-right tabular-nums">
+                              {entry.documents}
+                            </TableCell>
+                            <TableCell className="text-right text-muted-foreground text-xs">
+                              {entry.freshness}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Badge variant={trustVariant(trust)}>
+                                {trust}
+                              </Badge>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      })}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="knowledge" className="mt-4">
+            {submitted.trim().length === 0 ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Search the knowledge index</CardTitle>
+                  <CardDescription>
+                    Results carry library, version, source, and freshness with
+                    every match.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            ) : search.isPending ? (
+              <div role="status" aria-label="Searching">
+                <div className="grid gap-4">
+                  {[0, 1, 2].map((key) => (
+                    <Card key={key}>
+                      <CardHeader>
+                        <Skeleton className="h-5 w-48" />
+                        <Skeleton className="h-4 w-32" />
+                      </CardHeader>
+                      <CardContent>
+                        <Skeleton className="h-4 w-full" />
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            ) : search.error ? (
+              <Card role="alert">
+                <CardHeader>
+                  <CardTitle>Search unavailable</CardTitle>
+                  <CardDescription>{search.error.message}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button
+                    type="button"
+                    onClick={() => void search.refetch()}
+                  >
+                    Retry
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : search.data?.length === 0 ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>No results</CardTitle>
+                  <CardDescription>
+                    Nothing in the index matches this query and filters.
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+            ) : (
+              <div className="grid gap-4" role="list" aria-label="Search results">
+                {(search.data ?? []).map((result) => (
+                  <Card key={result.id} role="listitem">
+                    <CardHeader>
+                      <CardTitle className="text-base">{result.document}</CardTitle>
+                      <CardDescription>
+                        {result.library}@{result.version} · {result.section}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <p className="text-sm">{result.snippet}</p>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge variant="outline">{result.source}</Badge>
+                        <Badge variant="outline">{result.version}</Badge>
+                        <Badge
+                          variant={
+                            result.freshness === "fresh" ? "default" : "secondary"
+                          }
+                        >
+                          {result.freshness}
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
     </BaseLayout>
   )

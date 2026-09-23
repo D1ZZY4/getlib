@@ -14,8 +14,7 @@ import {
 } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { VersionsTable } from "../components/versions-table"
-import { libraryVersionsFixture } from "@/fixtures/libraries"
-import initialLibrariesData from "../data.json"
+import { libraryCorpusFixture, libraryVersionsFixture } from "@/fixtures/libraries"
 
 function indexingVariant(
   indexing: string,
@@ -29,7 +28,7 @@ function indexingVariant(
 export default function LibraryDetailPage() {
   const navigate = useNavigate()
   const { id } = useParams()
-  const entry = initialLibrariesData.find((item) => item.id === id)
+  const entry = libraryCorpusFixture.find((item) => item.id === id)
 
   if (!entry) {
     return (

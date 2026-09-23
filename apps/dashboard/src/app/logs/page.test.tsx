@@ -61,6 +61,18 @@ describe("Logs page", () => {
     expect(screen.getByText("No results.")).toBeInTheDocument();
   });
 
+  it("opens entry details from the actions menu", async () => {
+    const user = userEvent.setup();
+    renderPage();
+    const rows = screen.getAllByRole("row");
+    const firstDataRow = rows[1] as HTMLElement;
+    await user.click(
+      within(firstDataRow).getByRole("button", { name: "More actions" }),
+    );
+    await user.click(screen.getByRole("menuitem", { name: "View Details" }));
+    expect(await screen.findByText("Log entry detail")).toBeInTheDocument();
+  });
+
   it("filters by service and pages the table", async () => {
     const user = userEvent.setup();
     renderPage();

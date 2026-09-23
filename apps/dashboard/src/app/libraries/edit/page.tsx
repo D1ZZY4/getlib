@@ -13,10 +13,10 @@ import { LibraryForm } from "../components/library-form"
 import type { LibraryFormValues } from "../components/library-form-schema"
 import { VersionsTable } from "../components/versions-table"
 import { libraryVersionsFixture } from "@/fixtures/libraries"
-import initialLibrariesData from "../data.json"
+import { libraryCorpusFixture } from "@/fixtures/libraries"
 
 function initialValuesFor(id: string | undefined): LibraryFormValues | null {
-  const entry = initialLibrariesData.find((item) => item.id === id)
+  const entry = libraryCorpusFixture.find((item) => item.id === id)
   if (!entry) return null
   return {
     name: entry.name,

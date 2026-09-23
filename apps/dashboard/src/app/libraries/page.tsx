@@ -6,7 +6,7 @@ import { BaseLayout } from "@/components/layouts/base-layout"
 import { StatCards } from "./components/stat-cards"
 import { DataTable } from "./components/data-table"
 
-import initialLibrariesData from "./data.json"
+import { libraryCorpusFixture } from "@/fixtures/libraries"
 
 interface LibraryEntry {
   id: string
@@ -22,7 +22,7 @@ interface LibraryEntry {
 
 export default function LibrariesPage() {
   const navigate = useNavigate()
-  const [entries, setEntries] = useState<LibraryEntry[]>(initialLibrariesData)
+  const [entries, setEntries] = useState<LibraryEntry[]>(libraryCorpusFixture)
 
   const handleDeleteLibrary = (id: string) => {
     setEntries(prev => prev.filter(entry => entry.id !== id))
