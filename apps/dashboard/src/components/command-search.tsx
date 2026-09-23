@@ -7,6 +7,7 @@ import {
   CheckSquare,
   CreditCard,
   FileText,
+  KeyRound,
   Layers,
   LayoutDashboard,
   LayoutPanelLeft,
@@ -199,6 +200,12 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
       url: "/settings/connections",
       group: "Settings",
       icon: Link2,
+    },
+    {
+      title: "API Keys",
+      url: "/settings/api-keys",
+      group: "Settings",
+      icon: KeyRound,
     },
   ];
 

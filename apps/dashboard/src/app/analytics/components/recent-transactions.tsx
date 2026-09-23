@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getInitials } from "@/lib/initials";
 
 export interface IndexJobRow {
   id: string;
@@ -16,14 +17,6 @@ export interface IndexJobRow {
   detail: string;
   status: "completed" | "running" | "failed";
   updated: string;
-}
-
-function initials(name: string): string {
-  const parts = name.replace(/^@/, "").split(/[/\s-]+/);
-  if (parts.length >= 2) {
-    return `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase();
-  }
-  return name.substring(0, 2).toUpperCase();
 }
 
 export function RecentTransactions({
@@ -51,7 +44,7 @@ export function RecentTransactions({
           <div key={job.id}>
             <div className="flex p-3 rounded-lg border gap-2">
               <Avatar className="h-8 w-8">
-                <AvatarFallback>{initials(job.library)}</AvatarFallback>
+                <AvatarFallback>{getInitials(job.library)}</AvatarFallback>
               </Avatar>
               <div className="flex flex-1 items-center flex-wrap justify-between gap-1">
                 <div className="flex items-center space-x-3">

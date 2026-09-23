@@ -32,6 +32,9 @@ export function useHealthQuery(): UseQueryResult<HealthResponse, Error> {
       live
         ? getHealth({ baseUrl: apiBaseUrl(), signal })
         : Promise.resolve(healthFixture),
+    // Fixture data is already in memory, so first paint renders real
+    // content instead of flashing a skeleton for synchronous data.
+    ...(live ? {} : { initialData: healthFixture }),
   });
 }
 
@@ -43,5 +46,8 @@ export function useOverviewQuery(): UseQueryResult<OverviewSummary, Error> {
       live
         ? getOverviewSummary({ baseUrl: apiBaseUrl(), signal })
         : Promise.resolve(overviewFixture),
+    // Fixture data is already in memory, so first paint renders real
+    // content instead of flashing a skeleton for synchronous data.
+    ...(live ? {} : { initialData: overviewFixture }),
   });
 }

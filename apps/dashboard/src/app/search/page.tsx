@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { BaseLayout } from "@/components/layouts/base-layout";
-import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { libraryCorpusFixture, trustForLibrary } from "@/fixtures/libraries";
 import { useSearchQuery } from "@/hooks/use-search";
@@ -59,23 +58,19 @@ export default function SearchPage() {
       description="Explore libraries and version-aware knowledge with provenance"
     >
       <div className="@container/main px-4 lg:px-6 space-y-6">
-        <Card>
-          <CardContent className="pt-6">
-            <SearchForm
-              draft={draft}
-              onDraftChange={setDraft}
-              library={library}
-              onLibraryChange={setLibrary}
-              version={version}
-              onVersionChange={setVersion}
-              source={source}
-              onSourceChange={setSource}
-              limit={limit}
-              onLimitChange={setLimit}
-              onSubmit={submit}
-            />
-          </CardContent>
-        </Card>
+        <SearchForm
+          draft={draft}
+          onDraftChange={setDraft}
+          library={library}
+          onLibraryChange={setLibrary}
+          version={version}
+          onVersionChange={setVersion}
+          source={source}
+          onSourceChange={setSource}
+          limit={limit}
+          onLimitChange={setLimit}
+          onSubmit={submit}
+        />
 
         <Tabs defaultValue="libraries" className="w-full">
           <TabsList>

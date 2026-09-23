@@ -41,6 +41,7 @@ const NotificationSettings = lazy(
 const ConnectionSettings = lazy(
   () => import("@/app/settings/connections/page"),
 );
+const ApiKeysSettings = lazy(() => import("@/app/settings/api-keys/page"));
 
 export interface RouteConfig {
   path: string;
@@ -166,6 +167,10 @@ export const routes: RouteConfig[] = [
   {
     path: "/settings/connections",
     element: <ConnectionSettings />,
+  },
+  {
+    path: "/settings/api-keys",
+    element: <ApiKeysSettings />,
   },
 
   // Catch-all route for 404

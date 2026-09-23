@@ -3,11 +3,14 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { EllipsisVertical, Eye, Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { exactMatchFilter } from "@/components/data-table";
+import {
+  exactMatchFilter,
+  SelectAllCheckbox,
+  SelectRowCheckbox,
+} from "@/components/data-table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,32 +18,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { LibraryEntryFixture } from "@/fixtures/libraries";
+import { toneClassName } from "@/lib/badge-tone";
 import type { features } from "@/lib/table-features";
 
-export interface LibraryEntry {
-  id: string;
-  name: string;
-  ecosystem: string;
-  avatar: string;
-  version: string;
-  sources: number;
-  indexing: string;
-  freshness: string;
-  documents: number;
-}
+export type LibraryEntry = LibraryEntryFixture;
 
 export function getIndexingColor(indexing: string): string {
   switch (indexing) {
     case "indexed":
-      return "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20";
+      return toneClassName("success");
     case "indexing":
-      return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20";
+      return toneClassName("info");
     case "stale":
-      return "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20";
+      return toneClassName("warning");
     case "failed":
-      return "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20";
+      return toneClassName("danger");
     default:
-      return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20";
+      return toneClassName("muted");
   }
 }
 
@@ -57,29 +52,8 @@ export function createLibraryTableColumns(actions: LibraryColumnActions) {
   return columnHelper.columns([
     {
       id: "select",
-      header: ({ table }) => (
-        <div className="flex items-center justify-center px-2">
-          <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && "indeterminate")
-            }
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
-            aria-label="Select all"
-          />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="flex items-center justify-center px-2">
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
-        </div>
-      ),
+      header: ({ table }) => <SelectAllCheckbox table={table} />,
+      cell: ({ row }) => <SelectRowCheckbox row={row} />,
       enableSorting: false,
       enableHiding: false,
     },

@@ -1,6 +1,6 @@
 import { TrendingDown, TrendingUp } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { StatTrendBadge } from "@/components/stat-trend-badge";
 import {
   Card,
   CardAction,
@@ -28,10 +28,7 @@ function TileCard({ tile }: { tile: LogTile }) {
           {tile.value}
         </CardTitle>
         <CardAction>
-          <Badge variant="outline">
-            <TrendIcon />
-            {tile.delta}
-          </Badge>
+          <StatTrendBadge trend={tile.trend}>{tile.delta}</StatTrendBadge>
         </CardAction>
       </CardHeader>
       <CardFooter className="flex-col items-start gap-1.5 text-sm">

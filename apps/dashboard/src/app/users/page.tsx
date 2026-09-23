@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { BaseLayout } from "@/components/layouts/base-layout";
+import { getInitials } from "@/lib/initials";
 import { DataTable } from "./components/data-table";
 import { StatCards } from "./components/stat-cards";
 import {
@@ -29,14 +30,6 @@ export default function UsersPage() {
   const [users, setUsers] = useState<User[]>(initialUsersData);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
-  const generateAvatar = (name: string) => {
-    const parts = name.trim().split(/\s+/).filter(Boolean);
-    if (parts.length >= 2) {
-      return `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase();
-    }
-    return name.trim().substring(0, 2).toUpperCase();
-  };
-
   const handleAddUser = (userData: UserFormValues) => {
     const nextId =
       users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
@@ -44,7 +37,7 @@ export default function UsersPage() {
       id: nextId,
       name: userData.name,
       email: userData.email,
-      avatar: generateAvatar(userData.name),
+      avatar: getInitials(userData.name),
       role: userData.role,
       plan: userData.plan,
       billing: userData.billing,
@@ -68,7 +61,7 @@ export default function UsersPage() {
     setUsers((prev) =>
       prev.map((user) =>
         user.id === editingUser.id
-          ? { ...user, ...values, avatar: generateAvatar(values.name) }
+          ? { ...user, ...values, avatar: getInitials(values.name) }
           : user,
       ),
     );

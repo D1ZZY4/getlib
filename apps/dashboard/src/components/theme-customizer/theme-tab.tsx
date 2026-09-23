@@ -20,12 +20,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { baseColors, radiusOptions } from "@/config/theme-customizer-constants";
+import { baseColors } from "@/config/theme-customizer-constants";
 import { colorThemes, tweakcnThemes } from "@/config/theme-data";
 import { useCircularTransition } from "@/hooks/use-circular-transition";
 import { useTheme } from "@/hooks/use-theme";
 import { useThemeManager } from "@/hooks/use-theme-manager";
 import type { ThemeMode } from "@/lib/appearance";
+import { radiusPercentToRem, radiusRemToPercent } from "@/lib/appearance";
 import type { ImportedTheme } from "@/types/theme-customizer";
 import { PresetSelect } from "./preset-select";
 import "./circular-transition.css";
@@ -90,10 +91,13 @@ export function ThemeTab({
     applyTweakcnTheme(randomTheme.preset, isDarkMode);
   };
 
-  const handleRadiusSelect = (radius: string) => {
-    setSelectedRadius(radius);
-    applyRadius(radius);
+  const handleRadiusInput = (percent: number) => {
+    const next = radiusPercentToRem(percent);
+    setSelectedRadius(next);
+    applyRadius(next);
   };
+
+  const radiusPercent = radiusRemToPercent(selectedRadius);
 
   const handleModeSelect = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -150,25 +154,39 @@ export function ThemeTab({
 
       {/* Radius Selection */}
       <div className="space-y-3">
-        <Label className="text-sm font-medium">Radius</Label>
-        <div className="grid grid-cols-5 gap-2">
-          {radiusOptions.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              className={`relative cursor-pointer rounded-md p-3 border text-center transition-colors ${
-                selectedRadius === option.value
-                  ? "border-primary"
-                  : "border-border hover:border-border/60"
-              }`}
-              onClick={() => handleRadiusSelect(option.value)}
-            >
-              <div className="text-center">
-                <div className="text-xs font-medium">{option.name}</div>
-              </div>
-            </button>
-          ))}
+        <div className="flex items-center justify-between">
+          <Label htmlFor="radius-slider" className="text-sm font-medium">
+            Radius
+          </Label>
+          <span
+            className="text-xs text-muted-foreground tabular-nums"
+            aria-live="polite"
+          >
+            {radiusPercent}% · {selectedRadius}
+          </span>
         </div>
+        <input
+          id="radius-slider"
+          type="range"
+          min={0}
+          max={100}
+          step={10}
+          value={radiusPercent}
+          onChange={(event) => handleRadiusInput(Number(event.target.value))}
+          className="w-full cursor-pointer"
+          aria-describedby={
+            radiusPercent === 60 ? "radius-macos-hint" : undefined
+          }
+        />
+        <div className="flex justify-between text-xs text-muted-foreground">
+          <span>Sharp</span>
+          <span>Round</span>
+        </div>
+        {radiusPercent === 60 ? (
+          <p id="radius-macos-hint" className="text-xs text-muted-foreground">
+            60% - smooth like macOS.
+          </p>
+        ) : null}
       </div>
 
       <Separator />

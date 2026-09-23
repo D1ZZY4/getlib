@@ -131,6 +131,10 @@ const data = {
               title: "Connections",
               url: "/settings/connections",
             },
+            {
+              title: "API Keys",
+              url: "/settings/api-keys",
+            },
           ],
         },
       ],

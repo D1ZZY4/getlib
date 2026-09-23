@@ -5,19 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { libraryCorpusFixture } from "@/fixtures/libraries";
 import { DataTable } from "./components/data-table";
+import type { LibraryEntry } from "./components/data-table-columns";
 import { StatCards } from "./components/stat-cards";
-
-interface LibraryEntry {
-  id: string;
-  name: string;
-  ecosystem: string;
-  avatar: string;
-  version: string;
-  sources: number;
-  indexing: string;
-  freshness: string;
-  documents: number;
-}
 
 export default function LibrariesPage() {
   const navigate = useNavigate();

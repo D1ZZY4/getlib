@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { downloadCsv, toCsv } from "@/lib/download";
+import { getInitials } from "@/lib/initials";
 import { DataTable } from "./components/data-table";
 import { type LogTile, StatCards } from "./components/stat-cards";
 import initialLogsData from "./data.json";
@@ -72,14 +73,6 @@ export default function LogsPage() {
     ];
   })();
 
-  const generateAvatar = (message: string) => {
-    const parts = message.trim().split(/\s+/).filter(Boolean);
-    if (parts.length >= 2) {
-      return `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase();
-    }
-    return message.trim().substring(0, 2).toUpperCase();
-  };
-
   const handleAddLog = (logData: LogFormValues) => {
     const now = new Date();
     const time = logData.time || now.toTimeString().slice(0, 8);
@@ -88,7 +81,7 @@ export default function LogsPage() {
       id: `log-${now.getTime()}`,
       message: logData.message,
       requestId,
-      avatar: generateAvatar(logData.message),
+      avatar: getInitials(logData.message),
       level: logData.level,
       time,
       request: logData.request || requestId,

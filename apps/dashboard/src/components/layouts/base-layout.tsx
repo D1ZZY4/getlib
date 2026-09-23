@@ -2,7 +2,6 @@
 
 import type * as React from "react";
 import { AppSidebar } from "@/components/app-sidebar";
-import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { contentWidthClass, sidebarWidthValue } from "@/contexts/sidebar-state";
@@ -37,11 +36,14 @@ function PageBody({
   title,
   description,
   contentClass,
-}: BaseLayoutProps & { contentClass: string }) {
+  framed,
+}: BaseLayoutProps & { contentClass: string; framed: boolean }) {
   return (
-    <SidebarInset>
+    <SidebarInset className={framed ? "md:h-[calc(100svh-1rem)]" : undefined}>
       <SiteHeader />
-      <div className="flex flex-1 flex-col">
+      <div
+        className={`flex flex-1 flex-col ${framed ? "md:min-h-0 md:overflow-y-auto" : ""}`}
+      >
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div
             className={`flex flex-col gap-4 py-4 md:gap-6 md:py-6 ${contentClass}`}
@@ -51,7 +53,6 @@ function PageBody({
           </div>
         </div>
       </div>
-      <SiteFooter />
     </SidebarInset>
   );
 }
@@ -59,6 +60,11 @@ function PageBody({
 export function BaseLayout({ children, title, description }: BaseLayoutProps) {
   const { config } = useSidebarConfig();
   const contentClass = contentWidthClass(config.contentWidth);
+  // Inset mode renders as a fixed viewport-height card: the header and
+  // footer stay in place while only the middle content region scrolls.
+  // Other variants keep the default document scroll. Mobile keeps document
+  // scroll in every variant (the md: prefixes below).
+  const framed = config.variant === "inset";
 
   return (
     <SidebarProvider
@@ -82,6 +88,7 @@ export function BaseLayout({ children, title, description }: BaseLayoutProps) {
             title={title}
             description={description}
             contentClass={contentClass}
+            framed={framed}
           >
             {children}
           </PageBody>
@@ -92,6 +99,7 @@ export function BaseLayout({ children, title, description }: BaseLayoutProps) {
             title={title}
             description={description}
             contentClass={contentClass}
+            framed={framed}
           >
             {children}
           </PageBody>

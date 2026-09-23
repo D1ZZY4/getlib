@@ -1,7 +1,7 @@
 "use client";
 
 import { type LucideIcon, TrendingDown, TrendingUp } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { StatTrendBadge } from "@/components/stat-trend-badge";
 import {
   Card,
   CardAction,
@@ -40,10 +40,9 @@ export function MetricsOverview({
                 {metric.value}
               </CardTitle>
               <CardAction>
-                <Badge variant="outline">
-                  <TrendIcon className="h-4 w-4" />
+                <StatTrendBadge trend={metric.trend}>
                   {metric.change}
-                </Badge>
+                </StatTrendBadge>
               </CardAction>
             </CardHeader>
             <CardFooter className="flex-col items-start gap-1.5 text-sm">

@@ -1,9 +1,8 @@
 "use client";
 
 import { createColumnHelper } from "@tanstack/react-table";
-
+import { SelectAllCheckbox, SelectRowCheckbox } from "@/components/data-table";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
 import type { features } from "@/lib/table-features";
 import { cn } from "@/lib/utils";
 
@@ -18,22 +17,15 @@ export const columns = columnHelper.columns([
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px] cursor-pointer"
+      <SelectAllCheckbox
+        table={table}
+        checkboxClassName="translate-y-[2px] cursor-pointer"
       />
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px] cursor-pointer"
+      <SelectRowCheckbox
+        row={row}
+        checkboxClassName="translate-y-[2px] cursor-pointer"
       />
     ),
     enableSorting: false,

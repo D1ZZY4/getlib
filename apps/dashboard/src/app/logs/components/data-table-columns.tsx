@@ -2,11 +2,14 @@
 
 import { createColumnHelper } from "@tanstack/react-table";
 import { EllipsisVertical, Eye, Trash2 } from "lucide-react";
-import { exactMatchFilter } from "@/components/data-table";
+import {
+  exactMatchFilter,
+  SelectAllCheckbox,
+  SelectRowCheckbox,
+} from "@/components/data-table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toneClassName } from "@/lib/badge-tone";
 import type { features } from "@/lib/table-features";
 
 export interface LogEntry {
@@ -30,30 +34,30 @@ export interface LogEntry {
 export function getServiceColor(service: string): string {
   switch (service) {
     case "api":
-      return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20";
+      return toneClassName("info");
     case "worker":
-      return "text-purple-600 bg-purple-50 dark:text-purple-400 dark:bg-purple-900/20";
+      return toneClassName("violet");
     case "ingestion":
-      return "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20";
+      return toneClassName("warning");
     case "mcp":
-      return "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20";
+      return toneClassName("success");
     case "database":
-      return "text-yellow-600 bg-yellow-50 dark:text-yellow-400 dark:bg-yellow-900/20";
+      return toneClassName("yellow");
     default:
-      return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20";
+      return toneClassName("muted");
   }
 }
 
 export function getLevelColor(level: string): string {
   switch (level) {
     case "error":
-      return "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20";
+      return toneClassName("danger");
     case "warn":
-      return "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20";
+      return toneClassName("warning");
     case "info":
-      return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20";
+      return toneClassName("info");
     default:
-      return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20";
+      return toneClassName("muted");
   }
 }
 
@@ -70,29 +74,8 @@ export function createLogColumns(actions: LogColumnActions) {
   return columnHelper.columns([
     {
       id: "select",
-      header: ({ table }) => (
-        <div className="flex items-center justify-center px-2">
-          <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && "indeterminate")
-            }
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
-            aria-label="Select all"
-          />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="flex items-center justify-center px-2">
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
-        </div>
-      ),
+      header: ({ table }) => <SelectAllCheckbox table={table} />,
+      cell: ({ row }) => <SelectRowCheckbox row={row} />,
       enableSorting: false,
       enableHiding: false,
     },

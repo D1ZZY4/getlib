@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -70,6 +69,7 @@ export function CustomerInsights({
   activeSources: string;
 }) {
   const [activeTab, setActiveTab] = useState("growth");
+  const maxSearches = Math.max(0, ...sources.map((row) => row.searches));
 
   return (
     <Card className="h-fit">
@@ -216,37 +216,43 @@ export function CustomerInsights({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {sources.map((row) => (
-                    <TableRow
-                      key={row.source}
-                      className="hover:bg-muted/30 transition-colors"
-                    >
-                      <TableCell className="font-medium py-5 px-6">
-                        {row.source}
-                      </TableCell>
-                      <TableCell className="text-right py-5 px-6">
-                        {row.searches.toLocaleString()}
-                      </TableCell>
-                      <TableCell className="text-right py-5 px-6">
-                        <span className="font-medium">{row.share}</span>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {sources.map((row) => {
+                    const shareWidth =
+                      maxSearches > 0
+                        ? Math.round((row.searches / maxSearches) * 100)
+                        : 0;
+                    return (
+                      <TableRow
+                        key={row.source}
+                        className="hover:bg-muted/30 transition-colors"
+                      >
+                        <TableCell className="font-medium py-5 px-6">
+                          {row.source}
+                        </TableCell>
+                        <TableCell className="text-right py-5 px-6 tabular-nums">
+                          {row.searches.toLocaleString()}
+                        </TableCell>
+                        <TableCell className="py-5 px-6">
+                          <div className="flex flex-col items-end gap-1.5">
+                            <span className="font-medium tabular-nums">
+                              {row.share}
+                            </span>
+                            <div
+                              className="h-1.5 w-full max-w-32 overflow-hidden rounded-full bg-muted"
+                              role="presentation"
+                            >
+                              <div
+                                className="h-full rounded-full bg-primary"
+                                style={{ width: `${shareWidth}%` }}
+                              />
+                            </div>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
-            </div>
-            <div className="flex items-center justify-end space-x-2 py-6">
-              <div className="text-muted-foreground text-sm hidden sm:block">
-                0 of {sources.length} row(s) selected.
-              </div>
-              <div className="space-x-2 space-y-2">
-                <Button variant="outline" size="sm" disabled>
-                  Previous
-                </Button>
-                <Button variant="outline" size="sm" disabled>
-                  Next
-                </Button>
-              </div>
             </div>
           </TabsContent>
         </Tabs>
