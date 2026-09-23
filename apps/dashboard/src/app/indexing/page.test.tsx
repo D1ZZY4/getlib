@@ -17,46 +17,56 @@ function renderPage() {
   );
 }
 
-describe("Indexing page", () => {
-  it("renders stats and the job queue", () => {
-    renderPage();
-    expect(screen.getByText("Running")).toBeInTheDocument();
-    expect(screen.getByText("JOB-1041")).toBeInTheDocument();
-  });
+function column(name: string): HTMLElement {
+  const heading = screen.getByRole("heading", { name });
+  const header = heading.closest("div")?.parentElement;
+  return header?.parentElement as HTMLElement;
+}
 
-  it("filters by job state", async () => {
+describe("Indexing page", () => {
+  it("switches between board and table views", async () => {
     const user = userEvent.setup();
     renderPage();
-    await user.click(screen.getByRole("combobox", { name: "State" }));
-    await user.click(screen.getByRole("option", { name: "Failed" }));
-    expect(screen.getByText("JOB-1036")).toBeInTheDocument();
-    expect(screen.queryByText("JOB-1041")).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Running" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Table" }));
+    expect(screen.getByText("JOB-1041")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Board" }));
+    expect(screen.getByRole("heading", { name: "Running" })).toBeInTheDocument();
   });
 
   it("retries a failed job back to queued", async () => {
     const user = userEvent.setup();
     renderPage();
-    const rows = screen.getAllByRole("row");
-    const failedRow = rows.find((row) =>
-      within(row).queryByText("JOB-1036"),
-    ) as HTMLElement;
-    await user.click(
-      within(failedRow).getByRole("button", { name: "More actions" }),
-    );
-    await user.click(screen.getByRole("menuitem", { name: "Retry Job" }));
-    expect(screen.getByText("JOB-1036")).toBeInTheDocument();
+    const attention = column("Needs Attention");
+    const retries = within(attention).getAllByRole("button", {
+      name: "Retry job",
+    });
+    await user.click(retries[1] as HTMLElement);
+    const queued = column("Queued");
+    expect(within(queued).getByText("JOB-1036")).toBeInTheDocument();
+  });
+
+  it("cancels a running job", async () => {
+    const user = userEvent.setup();
+    renderPage();
+    const running = column("Running");
+    const cancels = within(running).getAllByRole("button", {
+      name: "Cancel job",
+    });
+    await user.click(cancels[0] as HTMLElement);
+    expect(
+      within(column("Done")).getByText("JOB-1041"),
+    ).toBeInTheDocument();
   });
 
   it("inspects a failed job with its sanitized error", async () => {
     const user = userEvent.setup();
     renderPage();
-    const rows = screen.getAllByRole("row");
-    const failedRow = rows.find((row) =>
-      within(row).queryByText("JOB-1036"),
-    ) as HTMLElement;
-    await user.click(
-      within(failedRow).getByRole("button", { name: "Inspect job" }),
-    );
+    const attention = column("Needs Attention");
+    const inspectors = within(attention).getAllByRole("button", {
+      name: "Inspect job",
+    });
+    await user.click(inspectors[1] as HTMLElement);
     expect(await screen.findByText("Sanitized error")).toBeInTheDocument();
     expect(
       screen.getByText("429 rate limited by registry"),

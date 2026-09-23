@@ -12,7 +12,6 @@ import {
 import {
   Ban,
   ChevronDown,
-  Download,
   EllipsisVertical,
   Eye,
   RotateCcw,
@@ -59,7 +58,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { downloadCsv, toCsv } from "@/lib/download"
 import type { IndexJob } from "@/fixtures/indexing"
 
 function stateVariant(
@@ -298,30 +296,6 @@ export function DataTable({ jobs, onRetry, onCancel }: DataTableProps) {
           <span className="text-muted-foreground text-sm">
             {visible.length} of {jobs.length} jobs
           </span>
-          <Button
-            variant="outline"
-            className="cursor-pointer"
-            onClick={() =>
-              downloadCsv(
-                "getlib-indexing-jobs.csv",
-                toCsv(
-                  ["id", "library", "version", "state", "progress", "duration", "retries"],
-                  visible.map((job) => [
-                    job.id,
-                    job.library,
-                    job.version,
-                    job.state,
-                    job.progress,
-                    job.duration,
-                    job.retries,
-                  ]),
-                ),
-              )
-            }
-          >
-            <Download className="mr-2 size-4" />
-            Export
-          </Button>
         </div>
       </div>
 

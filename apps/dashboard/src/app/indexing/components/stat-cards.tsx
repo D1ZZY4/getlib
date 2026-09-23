@@ -1,8 +1,14 @@
-import { Card, CardContent } from "@/components/ui/card"
-import {Activity, CheckCircle2, CircleAlert, Clock, type LucideIcon} from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { cn } from '@/lib/utils'
+import { TrendingDown, TrendingUp } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge"
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export interface JobStats {
   running: number
@@ -12,81 +18,78 @@ export interface JobStats {
 }
 
 interface Tile {
-  title: string
+  label: string
   value: string
   delta: string
-  tone: "bad" | "warn" | "muted"
-  icon: LucideIcon
+  trend: "up" | "down"
   footer: string
+  subfooter: string
 }
 
 export function StatCards({ stats }: { stats: JobStats }) {
   const tiles: Tile[] = [
     {
-      title: 'Running',
+      label: "Running",
       value: String(stats.running),
-      delta: 'active now',
-      tone: stats.running > 0 ? 'warn' : 'muted',
-      icon: Activity,
-      footer: 'Jobs executing',
+      delta: "active now",
+      trend: "up",
+      footer: "Jobs executing",
+      subfooter: "Across the pipeline",
     },
     {
-      title: 'Queued',
+      label: "Queued",
       value: String(stats.queued),
-      delta: 'waiting',
-      tone: 'muted',
-      icon: Clock,
-      footer: 'Waiting for worker',
+      delta: "waiting",
+      trend: "up",
+      footer: "Waiting for worker",
+      subfooter: "Picked up in order",
     },
     {
-      title: 'Failed',
+      label: "Failed",
       value: String(stats.failed),
-      delta: stats.failed > 0 ? 'needs retry' : 'none',
-      tone: stats.failed > 0 ? 'bad' : 'muted',
-      icon: CircleAlert,
-      footer: 'Failed or retrying',
+      delta: stats.failed > 0 ? "needs retry" : "none",
+      trend: stats.failed > 0 ? "down" : "up",
+      footer: "Failed or retrying",
+      subfooter: "Retry from the board",
     },
     {
-      title: 'Completed',
+      label: "Completed",
       value: String(stats.completed),
-      delta: 'done',
-      tone: 'muted',
-      icon: CheckCircle2,
-      footer: 'Revisions pinned',
+      delta: "done",
+      trend: "up",
+      footer: "Revisions pinned",
+      subfooter: "Failed refreshes kept last good",
     },
   ]
-
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {tiles.map((tile, index) => (
-        <Card key={index} className='border'>
-          <CardContent className='space-y-4'>
-            <div className='flex items-center justify-between'>
-              <tile.icon className='text-muted-foreground size-6' />
-              <Badge
-                variant='outline'
-                className={cn(
-                  tile.tone === 'bad'
-                    ? 'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950/20 dark:text-red-400'
-                    : tile.tone === 'warn'
-                      ? 'border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-800 dark:bg-orange-950/20 dark:text-orange-400'
-                      : 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950/20 dark:text-green-400',
-                )}
-              >
-                {tile.delta}
-              </Badge>
-            </div>
-
-            <div className='space-y-2'>
-              <p className='text-muted-foreground text-sm font-medium'>{tile.title}</p>
-              <div className='text-2xl font-bold'>{tile.value}</div>
-              <div className='text-muted-foreground flex items-center gap-2 text-sm'>
-                <span>{tile.footer}</span>
+    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {tiles.map((tile) => {
+        const TrendIcon = tile.trend === "up" ? TrendingUp : TrendingDown
+        return (
+          <Card key={tile.label} className="@container/card">
+            <CardHeader>
+              <CardDescription>{tile.label}</CardDescription>
+              <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+                {tile.value}
+              </CardTitle>
+              <CardAction>
+                <Badge variant="outline">
+                  <TrendIcon />
+                  {tile.delta}
+                </Badge>
+              </CardAction>
+            </CardHeader>
+            <CardFooter className="flex-col items-start gap-1.5 text-sm">
+              <div className="line-clamp-1 flex gap-2 font-medium">
+                {tile.footer} <TrendIcon className="size-4" />
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+              <div className="text-muted-foreground">
+                {tile.subfooter}
+              </div>
+            </CardFooter>
+          </Card>
+        )
+      })}
     </div>
   )
 }
