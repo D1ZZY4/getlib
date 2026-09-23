@@ -34,8 +34,8 @@ import {
 
 const data = {
   user: {
-    name: "ShadcnStore",
-    email: "store@example.com",
+    name: "GetLib Admin",
+    email: "admin@getlib.local",
     avatar: "",
   },
   navGroups: [

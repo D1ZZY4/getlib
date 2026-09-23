@@ -48,7 +48,7 @@ const chartConfig = {
   },
   chunks: {
     label: "Chunks",
-    color: "var(--primary)",
+    color: "var(--chart-2)",
   },
 } satisfies ChartConfig
 

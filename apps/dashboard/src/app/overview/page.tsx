@@ -26,15 +26,15 @@ function buildStats(
       delta: `${summary.activeJobs} active`,
       trend: summary.activeJobs > 0 ? "up" : "down",
       footer: "Registered libraries",
-      subfooter: `${summary.documentCount} documents indexed`,
+      subfooter: "npm, github, pypi, docs",
     },
     {
       label: "Documents",
       value: String(summary.documentCount),
-      delta: `${summary.chunkCount} chunks`,
+      delta: `${summary.chunkCount.toLocaleString()} chunks`,
       trend: "up",
       footer: "Indexed documents",
-      subfooter: "Across all libraries",
+      subfooter: "Version-aware knowledge",
     },
     {
       label: "Active jobs",
@@ -42,7 +42,7 @@ function buildStats(
       delta: `${summary.failedJobs} failed`,
       trend: summary.failedJobs > 0 ? "down" : "up",
       footer: "Jobs running",
-      subfooter: "Retry failed jobs from Indexing",
+      subfooter: "Pipeline healthy",
     },
     {
       label: "Service health",
