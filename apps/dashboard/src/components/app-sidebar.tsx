@@ -7,6 +7,8 @@ import {
   CheckSquare,
   BookOpen,
   FileText,
+  Bot,
+  Layers,
   Search,
   Settings,
   Users,
@@ -62,6 +64,11 @@ const data = {
           url: "/search",
           icon: Search,
         },
+        {
+          title: "Indexing",
+          url: "/indexing",
+          icon: Layers,
+        },
       ],
     },
     {
@@ -76,6 +83,11 @@ const data = {
           title: "Logs",
           url: "/logs",
           icon: FileText,
+        },
+        {
+          title: "MCP",
+          url: "/mcp",
+          icon: Bot,
         },
       ],
     },

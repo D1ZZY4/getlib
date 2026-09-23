@@ -10,6 +10,8 @@ import {
   CheckSquare,
   BookOpen,
   FileText,
+  Bot,
+  Layers,
   Settings,
   CreditCard,
   User,
@@ -129,10 +131,12 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
     { title: "Libraries", url: "/libraries", group: "Knowledge", icon: BookOpen },
     { title: "Add Library", url: "/libraries/add", group: "Knowledge", icon: BookOpen },
     { title: "Search", url: "/search", group: "Knowledge", icon: Search },
+    { title: "Indexing", url: "/indexing", group: "Knowledge", icon: Layers },
 
     // Operations
     { title: "Analytics", url: "/analytics", group: "Operations", icon: LayoutPanelLeft },
     { title: "Logs", url: "/logs", group: "Operations", icon: FileText },
+    { title: "MCP", url: "/mcp", group: "Operations", icon: Bot },
 
     // Workspace
     { title: "Tasks", url: "/tasks", group: "Workspace", icon: CheckSquare },
