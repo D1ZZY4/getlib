@@ -7,6 +7,7 @@ import {
   healthFixture,
   indexingActivityFixture,
   overviewFixture,
+  recentlyIndexedFixture,
 } from "./overview";
 
 describe("overview fixtures", () => {
@@ -19,6 +20,18 @@ describe("overview fixtures", () => {
     expect(parsed).toEqual(overviewFixture);
     expect(parsed.libraryCount).toBeGreaterThanOrEqual(0);
     expect(Number.isNaN(Date.parse(parsed.generatedAt))).toBe(false);
+  });
+
+  it("health fixture carries uptime", () => {
+    expect(healthFixture.uptimeSeconds).toBeGreaterThan(0);
+  });
+
+  it("recently indexed lists five documents", () => {
+    expect(recentlyIndexedFixture).toHaveLength(5);
+    for (const doc of recentlyIndexedFixture) {
+      expect(doc.title.length).toBeGreaterThan(0);
+      expect(doc.indexedAt.length).toBeGreaterThan(0);
+    }
   });
 
   it("indexing activity covers 90 ascending days", () => {

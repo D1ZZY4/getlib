@@ -17,6 +17,7 @@ import { z } from "zod";
 export const healthFixture: HealthResponse = HealthResponseSchema.parse({
   status: "ok",
   version: "0.1.0",
+  uptimeSeconds: 93784,
 });
 
 export const overviewFixture: OverviewSummary = OverviewSummarySchema.parse({
@@ -60,3 +61,58 @@ function buildIndexingActivity(): IndexingPoint[] {
 }
 
 export const indexingActivityFixture: IndexingPoint[] = buildIndexingActivity();
+
+/**
+ * Recently indexed documents for the Overview list.
+ * Fixture-grade like the analytics fixtures: real shapes arrive with
+ * the ingestion slices, not invented here.
+ */
+const RecentDocumentSchema = z.object({
+  title: z.string().min(1),
+  library: z.string().min(1),
+  version: z.string().min(1),
+  source: z.string().min(1),
+  indexedAt: z.string().min(1),
+});
+
+export type RecentDocument = z.infer<typeof RecentDocumentSchema>;
+
+export const recentlyIndexedFixture: RecentDocument[] = z
+  .array(RecentDocumentSchema)
+  .parse([
+    {
+      title: "useQuery reference",
+      library: "@tanstack/react-query",
+      version: "5.90.3",
+      source: "npm",
+      indexedAt: "12 minutes ago",
+    },
+    {
+      title: "Getting started",
+      library: "react",
+      version: "19.3.0",
+      source: "npm",
+      indexedAt: "48 minutes ago",
+    },
+    {
+      title: "Schemas and validation",
+      library: "zod",
+      version: "4.6.5",
+      source: "npm",
+      indexedAt: "2 hours ago",
+    },
+    {
+      title: "Context and HonoRequest",
+      library: "hono",
+      version: "4.13.8",
+      source: "github",
+      indexedAt: "5 hours ago",
+    },
+    {
+      title: "Relations and queries",
+      library: "drizzle-orm",
+      version: "0.45.3",
+      source: "github",
+      indexedAt: "1 day ago",
+    },
+  ]);

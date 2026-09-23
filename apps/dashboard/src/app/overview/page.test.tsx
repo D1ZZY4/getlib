@@ -71,13 +71,16 @@ describe("Dashboard OverviewPage", () => {
     expect(screen.getByRole("status", { name: "Loading overview" })).toBeInTheDocument();
   });
 
-  it("renders fixture-backed summary, health, and activity chart", () => {
+  it("renders fixture-backed summary, health, activity, and recents", () => {
     mockSuccess();
     renderPage();
     expect(screen.getByText("Libraries")).toBeInTheDocument();
     expect(screen.getByText("12")).toBeInTheDocument();
     expect(screen.getByText("ok")).toBeInTheDocument();
+    expect(screen.getByText("Uptime 1d 2h")).toBeInTheDocument();
     expect(screen.getByText("Indexing Activity")).toBeInTheDocument();
+    expect(screen.getByText("Recently indexed")).toBeInTheDocument();
+    expect(screen.getByText("useQuery reference")).toBeInTheDocument();
     expect(screen.queryByText("Stale snapshot")).not.toBeInTheDocument();
   });
 

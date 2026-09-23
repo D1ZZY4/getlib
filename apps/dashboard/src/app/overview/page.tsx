@@ -12,7 +12,8 @@ import {
 import { useHealthQuery, useOverviewQuery } from "@/hooks/use-overview"
 import { SectionCards, type OverviewStat } from "./components/section-cards"
 import { ChartAreaInteractive } from "./components/chart-area-interactive"
-import { indexingActivityFixture } from "@/fixtures/overview"
+import { indexingActivityFixture, recentlyIndexedFixture } from "@/fixtures/overview"
+import { formatUptime } from "@/lib/format"
 import type { HealthResponse, OverviewSummary } from "@getlib/schemas"
 
 function buildStats(
@@ -53,7 +54,10 @@ function buildStats(
         health.status === "ok"
           ? "Knowledge engine operational"
           : "Attention required",
-      subfooter: `Snapshot ${new Date(summary.generatedAt).toLocaleDateString()}`,
+      subfooter:
+        health.uptimeSeconds === undefined
+          ? `Snapshot ${new Date(summary.generatedAt).toLocaleDateString()}`
+          : `Uptime ${formatUptime(health.uptimeSeconds)}`,
     },
   ]
 }
@@ -124,6 +128,39 @@ export default function Page() {
           description="Documents and chunks indexed per day"
           data={indexingActivityFixture}
         />
+        <Card>
+          <CardHeader>
+            <CardTitle>Recently indexed</CardTitle>
+            <CardDescription>
+              Latest documents added to the knowledge index
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {recentlyIndexedFixture.map((doc) => (
+              <div
+                key={`${doc.library}@${doc.version}/${doc.title}`}
+                className="flex items-center p-3 rounded-lg border gap-2"
+              >
+                <div className="flex gap-2 items-center justify-between flex-1 flex-wrap">
+                  <div>
+                    <p className="text-sm font-medium truncate">{doc.title}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {doc.library}@{doc.version}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <Badge variant="outline" className="text-xs">
+                      {doc.source}
+                    </Badge>
+                    <span className="text-xs text-muted-foreground">
+                      {doc.indexedAt}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       </>
     )
   }
