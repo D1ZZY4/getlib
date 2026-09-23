@@ -1,12 +1,9 @@
-/* eslint-disable react-refresh/only-export-components -- shared module: helpers plus components */
 "use client";
 
-import { CircleCheckBig, EllipsisVertical, Loader } from "lucide-react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { CircleCheckBig, EllipsisVertical, Loader } from "lucide-react";
 import { toast } from "sonner";
-import { z } from "zod";
-import { schema } from "../schemas/task-schema";
-import { features } from "@/lib/table-features";
+import type { z } from "zod";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -26,10 +23,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import type { features } from "@/lib/table-features";
+import type { schema } from "../schemas/task-schema";
 import { TableCellViewer } from "./cell-viewer";
 import { DragHandle } from "./draggable-row";
 
-const columnHelper = createColumnHelper<typeof features, z.infer<typeof schema>>();
+const columnHelper = createColumnHelper<
+  typeof features,
+  z.infer<typeof schema>
+>();
 
 function EditableCell({
   id,

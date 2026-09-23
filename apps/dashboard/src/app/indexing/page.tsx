@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Download, KanbanSquare, Table2 } from "lucide-react"
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { Button } from "@/components/ui/button"
-import { StatCards } from "./components/stat-cards"
-import { DataTable } from "./components/data-table"
-import { JobBoard } from "./components/job-board"
-import { indexJobsFixture, type IndexJob } from "@/fixtures/indexing"
-import { downloadCsv, toCsv } from "@/lib/download"
+import { Download, KanbanSquare, Table2 } from "lucide-react";
+import { useState } from "react";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { Button } from "@/components/ui/button";
+import { type IndexJob, indexJobsFixture } from "@/fixtures/indexing";
+import { downloadCsv, toCsv } from "@/lib/download";
+import { DataTable } from "./components/data-table";
+import { JobBoard } from "./components/job-board";
+import { StatCards } from "./components/stat-cards";
 
-type BoardColumn = "queued" | "running" | "attention" | "done"
+type BoardColumn = "queued" | "running" | "attention" | "done";
 
 const COLUMN_STATES: Record<BoardColumn, IndexJob["state"]> = {
   queued: "queued",
   running: "running",
   attention: "failed",
   done: "completed",
-}
+};
 
 export default function IndexingPage() {
-  const [jobs, setJobs] = useState<IndexJob[]>(indexJobsFixture)
-  const [view, setView] = useState<"board" | "table">("board")
+  const [jobs, setJobs] = useState<IndexJob[]>(indexJobsFixture);
+  const [view, setView] = useState<"board" | "table">("board");
 
   const handleRetry = (id: string) => {
     setJobs((prev) =>
@@ -30,32 +30,44 @@ export default function IndexingPage() {
           ? { ...job, state: "queued" as const, progress: 0, error: undefined }
           : job,
       ),
-    )
-  }
+    );
+  };
 
   const handleCancel = (id: string) => {
     setJobs((prev) =>
       prev.map((job) =>
         job.id === id
-          ? { ...job, state: "canceled" as const, step: "Cancelled by operator" }
+          ? {
+              ...job,
+              state: "canceled" as const,
+              step: "Cancelled by operator",
+            }
           : job,
       ),
-    )
-  }
+    );
+  };
 
   const handleMove = (id: string, column: BoardColumn) => {
     setJobs((prev) =>
       prev.map((job) =>
         job.id === id ? { ...job, state: COLUMN_STATES[column] } : job,
       ),
-    )
-  }
+    );
+  };
 
   const handleExport = () => {
     downloadCsv(
       "getlib-indexing-jobs.csv",
       toCsv(
-        ["id", "library", "version", "state", "progress", "duration", "retries"],
+        [
+          "id",
+          "library",
+          "version",
+          "state",
+          "progress",
+          "duration",
+          "retries",
+        ],
         jobs.map((job) => [
           job.id,
           job.library,
@@ -66,8 +78,8 @@ export default function IndexingPage() {
           job.retries,
         ]),
       ),
-    )
-  }
+    );
+  };
 
   return (
     <BaseLayout
@@ -141,5 +153,5 @@ export default function IndexingPage() {
         </div>
       </div>
     </BaseLayout>
-  )
+  );
 }

@@ -39,7 +39,8 @@ export const tweakcnPresetsChunkPart06: Record<string, ThemePreset> = {
         "sidebar-border": "#dfdfdf",
         "sidebar-ring": "#72e3ad",
         "font-sans": "Outfit, sans-serif",
-        "font-serif": 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
+        "font-serif":
+          'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
         "font-mono": "monospace",
         radius: "0.5rem",
         "shadow-color": "#000000",

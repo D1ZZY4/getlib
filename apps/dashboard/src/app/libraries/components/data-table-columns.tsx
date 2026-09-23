@@ -1,9 +1,8 @@
 "use client";
 
-import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
 import { EllipsisVertical, Eye, Pencil, Trash2 } from "lucide-react";
-import { features, type RowInstance } from "@/lib/table-features";
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { features, RowInstance } from "@/lib/table-features";
 
 export interface LibraryEntry {
   id: string;

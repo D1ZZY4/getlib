@@ -1,20 +1,25 @@
-"use client"
+"use client";
 
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { PricingPlans } from "@/components/pricing-plans"
-import { CurrentPlanCard } from "./components/current-plan-card"
-import { BillingHistoryCard } from "./components/billing-history-card"
-
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { PricingPlans } from "@/components/pricing-plans";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { BillingHistoryCard } from "./components/billing-history-card";
+import { CurrentPlanCard } from "./components/current-plan-card";
+import billingHistoryData from "./data/billing-history.json";
 // Import data
-import currentPlanData from "./data/current-plan.json"
-import billingHistoryData from "./data/billing-history.json"
+import currentPlanData from "./data/current-plan.json";
 
 export default function BillingSettings() {
   const handlePlanSelect = (planId: string) => {
-    console.log('Plan selected:', planId)
+    console.log("Plan selected:", planId);
     // Handle plan selection logic here
-  }
+  };
 
   return (
     <BaseLayout>
@@ -30,7 +35,7 @@ export default function BillingSettings() {
           <CurrentPlanCard plan={currentPlanData} />
           <BillingHistoryCard history={billingHistoryData} />
         </div>
-        
+
         <div className="grid gap-6">
           <Card>
             <CardHeader>
@@ -40,8 +45,8 @@ export default function BillingSettings() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <PricingPlans 
-                mode="billing" 
+              <PricingPlans
+                mode="billing"
                 currentPlanId="professional"
                 onPlanSelect={handlePlanSelect}
               />
@@ -50,5 +55,5 @@ export default function BillingSettings() {
         </div>
       </div>
     </BaseLayout>
-  )
+  );
 }

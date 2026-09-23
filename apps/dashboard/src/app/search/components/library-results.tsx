@@ -1,5 +1,5 @@
-import { TrendingUp } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { TrendingUp } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardAction,
@@ -7,9 +7,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { LibrariesTable } from "./libraries-table"
-import type { LibraryEntryFixture } from "@/fixtures/libraries"
+} from "@/components/ui/card";
+import type { LibraryEntryFixture } from "@/fixtures/libraries";
+import { LibrariesTable } from "./libraries-table";
 
 export function LibraryResults({
   entries,
@@ -17,10 +17,10 @@ export function LibraryResults({
   totalDocuments,
   trustFor,
 }: {
-  entries: LibraryEntryFixture[]
-  totalLibraries: number
-  totalDocuments: number
-  trustFor: (entry: LibraryEntryFixture) => "high" | "medium" | "low"
+  entries: LibraryEntryFixture[];
+  totalLibraries: number;
+  totalDocuments: number;
+  trustFor: (entry: LibraryEntryFixture) => "high" | "medium" | "low";
 }) {
   const stats = [
     {
@@ -44,7 +44,7 @@ export function LibraryResults({
       footer: "Libraries for this query",
       subfooter: "Filtered by query and library",
     },
-  ]
+  ];
   return (
     <div className="mt-4 space-y-4">
       <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs grid gap-4 sm:grid-cols-3">
@@ -66,9 +66,7 @@ export function LibraryResults({
               <div className="line-clamp-1 flex gap-2 font-medium">
                 {stat.footer} <TrendingUp className="size-4" />
               </div>
-              <div className="text-muted-foreground">
-                {stat.subfooter}
-              </div>
+              <div className="text-muted-foreground">{stat.subfooter}</div>
             </CardContent>
           </Card>
         ))}
@@ -87,5 +85,5 @@ export function LibraryResults({
         <LibrariesTable entries={entries} trustFor={trustFor} />
       )}
     </div>
-  )
+  );
 }

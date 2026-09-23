@@ -1,23 +1,36 @@
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { Zap, Globe, Database, Apple } from "lucide-react"
-import { Github, Slack, Twitter, Chrome, Facebook, Instagram, Dribbble } from "@/components/brand-icons"
-import { useState } from "react"
-
+import { Apple, Database, Globe, Zap } from "lucide-react";
+import { useState } from "react";
+import {
+  Chrome,
+  Dribbble,
+  Facebook,
+  Github,
+  Instagram,
+  Slack,
+  Twitter,
+} from "@/components/brand-icons";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 
 export default function ConnectionSettings() {
   // Controlled state for switches
-  const [appleConnected, setAppleConnected] = useState(true)
-  const [googleConnected, setGoogleConnected] = useState(false)
-  const [githubConnected, setGithubConnected] = useState(true)
-  const [slackConnected, setSlackConnected] = useState(false)
-  const [zapierConnected, setZapierConnected] = useState(true)
-  const [webhooksConnected, setWebhooksConnected] = useState(false)
-  const [dbConnected, setDbConnected] = useState(true)
+  const [appleConnected, setAppleConnected] = useState(true);
+  const [googleConnected, setGoogleConnected] = useState(false);
+  const [githubConnected, setGithubConnected] = useState(true);
+  const [slackConnected, setSlackConnected] = useState(false);
+  const [zapierConnected, setZapierConnected] = useState(true);
+  const [webhooksConnected, setWebhooksConnected] = useState(false);
+  const [dbConnected, setDbConnected] = useState(true);
 
   return (
     <BaseLayout>
@@ -44,7 +57,9 @@ export default function ConnectionSettings() {
                     <Apple className="h-8 w-8" />
                     <div>
                       <div className="font-medium">Apple</div>
-                      <div className="text-sm text-muted-foreground">Calendar and contacts</div>
+                      <div className="text-sm text-muted-foreground">
+                        Calendar and contacts
+                      </div>
                     </div>
                   </div>
                   <Switch
@@ -59,7 +74,9 @@ export default function ConnectionSettings() {
                     <Chrome className="h-8 w-8" />
                     <div>
                       <div className="font-medium">Google</div>
-                      <div className="text-sm text-muted-foreground">Calendar and contacts</div>
+                      <div className="text-sm text-muted-foreground">
+                        Calendar and contacts
+                      </div>
                     </div>
                   </div>
                   <Switch
@@ -74,7 +91,9 @@ export default function ConnectionSettings() {
                     <Github className="h-8 w-8" />
                     <div>
                       <div className="font-medium">Github</div>
-                      <div className="text-sm text-muted-foreground">Manage your Git repositories</div>
+                      <div className="text-sm text-muted-foreground">
+                        Manage your Git repositories
+                      </div>
                     </div>
                   </div>
                   <Switch
@@ -89,7 +108,9 @@ export default function ConnectionSettings() {
                     <Slack className="h-8 w-8" />
                     <div>
                       <div className="font-medium">Slack</div>
-                      <div className="text-sm text-muted-foreground">Communication</div>
+                      <div className="text-sm text-muted-foreground">
+                        Communication
+                      </div>
                     </div>
                   </div>
                   <Switch
@@ -117,12 +138,20 @@ export default function ConnectionSettings() {
                     <div>
                       <div className="font-medium">
                         Facebook
-                        <Badge variant="outline" className="ml-2">Not Connected</Badge>
+                        <Badge variant="outline" className="ml-2">
+                          Not Connected
+                        </Badge>
                       </div>
-                      <div className="text-sm text-muted-foreground">Share updates on Facebook</div>
+                      <div className="text-sm text-muted-foreground">
+                        Share updates on Facebook
+                      </div>
                     </div>
                   </div>
-                  <Button variant="outline" size="icon" className="cursor-pointer">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="cursor-pointer"
+                  >
                     <Globe className="h-4 w-4" />
                   </Button>
                 </div>
@@ -133,12 +162,20 @@ export default function ConnectionSettings() {
                     <div>
                       <div className="font-medium">
                         Twitter
-                        <Badge variant="secondary" className="ml-2">connected</Badge>
+                        <Badge variant="secondary" className="ml-2">
+                          connected
+                        </Badge>
                       </div>
-                      <div className="text-sm text-muted-foreground">Share updates on Twitter</div>
+                      <div className="text-sm text-muted-foreground">
+                        Share updates on Twitter
+                      </div>
                     </div>
                   </div>
-                  <Button variant="outline" size="icon" className="cursor-pointer text-destructive">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="cursor-pointer text-destructive"
+                  >
                     <Globe className="h-4 w-4" />
                   </Button>
                 </div>
@@ -149,12 +186,20 @@ export default function ConnectionSettings() {
                     <div>
                       <div className="font-medium">
                         Instagram
-                        <Badge variant="secondary" className="ml-2">connected</Badge>
+                        <Badge variant="secondary" className="ml-2">
+                          connected
+                        </Badge>
                       </div>
-                      <div className="text-sm text-muted-foreground">Stay connected at Instagram</div>
+                      <div className="text-sm text-muted-foreground">
+                        Stay connected at Instagram
+                      </div>
                     </div>
                   </div>
-                  <Button variant="outline" size="icon" className="cursor-pointer text-destructive">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="cursor-pointer text-destructive"
+                  >
                     <Globe className="h-4 w-4" />
                   </Button>
                 </div>
@@ -165,12 +210,20 @@ export default function ConnectionSettings() {
                     <div>
                       <div className="font-medium">
                         Dribbble
-                        <Badge variant="outline" className="ml-2">Not Connected</Badge>
+                        <Badge variant="outline" className="ml-2">
+                          Not Connected
+                        </Badge>
                       </div>
-                      <div className="text-sm text-muted-foreground">Stay connected at Dribbble</div>
+                      <div className="text-sm text-muted-foreground">
+                        Stay connected at Dribbble
+                      </div>
                     </div>
                   </div>
-                  <Button variant="outline" size="icon" className="cursor-pointer">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="cursor-pointer"
+                  >
                     <Globe className="h-4 w-4" />
                   </Button>
                 </div>
@@ -178,7 +231,6 @@ export default function ConnectionSettings() {
             </CardContent>
           </Card>
         </div>
-
 
         <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
           <Card>
@@ -195,7 +247,9 @@ export default function ConnectionSettings() {
                     <Zap className="h-8 w-8" />
                     <div>
                       <div className="font-medium">Zapier</div>
-                      <div className="text-sm text-muted-foreground">Automate workflows with Zapier</div>
+                      <div className="text-sm text-muted-foreground">
+                        Automate workflows with Zapier
+                      </div>
                     </div>
                   </div>
                   <Switch
@@ -210,7 +264,9 @@ export default function ConnectionSettings() {
                     <Globe className="h-8 w-8" />
                     <div>
                       <div className="font-medium">Webhooks</div>
-                      <div className="text-sm text-muted-foreground">Configure custom webhook endpoints</div>
+                      <div className="text-sm text-muted-foreground">
+                        Configure custom webhook endpoints
+                      </div>
                     </div>
                   </div>
                   <Switch
@@ -225,7 +281,9 @@ export default function ConnectionSettings() {
                     <Database className="h-8 w-8" />
                     <div>
                       <div className="font-medium">Database Sync</div>
-                      <div className="text-sm text-muted-foreground">Sync data with external databases</div>
+                      <div className="text-sm text-muted-foreground">
+                        Sync data with external databases
+                      </div>
                     </div>
                   </div>
                   <Switch
@@ -250,13 +308,23 @@ export default function ConnectionSettings() {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <div>
                     <div className="font-medium">Production API Key</div>
-                    <div className="text-sm text-muted-foreground font-mono">sk_live_••••••••••••••••••••••••4234</div>
+                    <div className="text-sm text-muted-foreground font-mono">
+                      sk_live_••••••••••••••••••••••••4234
+                    </div>
                   </div>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm" className="cursor-pointer">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="cursor-pointer"
+                    >
                       Regenerate
                     </Button>
-                    <Button variant="outline" size="sm" className="cursor-pointer">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="cursor-pointer"
+                    >
                       Copy
                     </Button>
                   </div>
@@ -265,20 +333,32 @@ export default function ConnectionSettings() {
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <div>
                     <div className="font-medium">Development API Key</div>
-                    <div className="text-sm text-muted-foreground font-mono">sk_test_••••••••••••••••••••••••5678</div>
+                    <div className="text-sm text-muted-foreground font-mono">
+                      sk_test_••••••••••••••••••••••••5678
+                    </div>
                   </div>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm" className="cursor-pointer">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="cursor-pointer"
+                    >
                       Regenerate
                     </Button>
-                    <Button variant="outline" size="sm" className="cursor-pointer">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="cursor-pointer"
+                    >
                       Copy
                     </Button>
                   </div>
                 </div>
                 <Separator />
                 <div className="pt-4">
-                  <Button variant="outline" className="cursor-pointer">Add New API Key</Button>
+                  <Button variant="outline" className="cursor-pointer">
+                    Add New API Key
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -286,5 +366,5 @@ export default function ConnectionSettings() {
         </div>
       </div>
     </BaseLayout>
-  )
+  );
 }

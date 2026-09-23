@@ -1,19 +1,25 @@
-"use client"
+"use client";
 
-import { Link } from "react-router-dom"
-import { useQueryClient } from "@tanstack/react-query"
-import { RefreshCw, Settings, Download } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { downloadCsv, toCsv } from "@/lib/download"
-import { searchActivityFixture } from "@/fixtures/analytics"
+import { useQueryClient } from "@tanstack/react-query";
+import { Download, RefreshCw, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { searchActivityFixture } from "@/fixtures/analytics";
+import { downloadCsv, toCsv } from "@/lib/download";
 
 export function QuickActions() {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const handleRefresh = () => {
-    void queryClient.invalidateQueries({ queryKey: ["getlib"] })
-  }
+    void queryClient.invalidateQueries({ queryKey: ["getlib"] });
+  };
 
   const handleExport = () => {
     downloadCsv(
@@ -26,8 +32,8 @@ export function QuickActions() {
           point.withResults,
         ]),
       ),
-    )
-  }
+    );
+  };
 
   return (
     <div className="flex items-center space-x-2">
@@ -57,5 +63,5 @@ export function QuickActions() {
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }

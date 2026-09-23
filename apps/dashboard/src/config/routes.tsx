@@ -1,44 +1,51 @@
-/* eslint-disable react-refresh/only-export-components -- route table module: route data plus lazy elements, not a refreshable component */
-import { lazy } from 'react'
-import { Navigate } from 'react-router-dom'
+import { lazy } from "react";
+import { Navigate } from "react-router-dom";
 
 // Lazy load components for better performance
-const Dashboard = lazy(() => import('@/app/overview/page'))
-const Dashboard2 = lazy(() => import('@/app/analytics/page'))
-const Logs = lazy(() => import('@/app/logs/page'))
-const Search = lazy(() => import('@/app/search/page'))
-const Indexing = lazy(() => import('@/app/indexing/page'))
-const Libraries = lazy(() => import('@/app/libraries/page'))
-const AddLibrary = lazy(() => import('@/app/libraries/add/page'))
-const LibraryDetail = lazy(() => import('@/app/libraries/detail/page'))
-const EditLibrary = lazy(() => import('@/app/libraries/edit/page'))
-const Tasks = lazy(() => import('@/app/tasks/page'))
-const Users = lazy(() => import('@/app/users/page'))
+const Dashboard = lazy(() => import("@/app/overview/page"));
+const Dashboard2 = lazy(() => import("@/app/analytics/page"));
+const Logs = lazy(() => import("@/app/logs/page"));
+const Search = lazy(() => import("@/app/search/page"));
+const Indexing = lazy(() => import("@/app/indexing/page"));
+const Libraries = lazy(() => import("@/app/libraries/page"));
+const AddLibrary = lazy(() => import("@/app/libraries/add/page"));
+const LibraryDetail = lazy(() => import("@/app/libraries/detail/page"));
+const EditLibrary = lazy(() => import("@/app/libraries/edit/page"));
+const Tasks = lazy(() => import("@/app/tasks/page"));
+const Users = lazy(() => import("@/app/users/page"));
 
 // Auth pages
-const SignIn = lazy(() => import('@/app/auth/sign-in/page'))
-const SignUp = lazy(() => import('@/app/auth/sign-up/page'))
-const ForgotPassword = lazy(() => import('@/app/auth/forgot-password/page'))
+const SignIn = lazy(() => import("@/app/auth/sign-in/page"));
+const SignUp = lazy(() => import("@/app/auth/sign-up/page"));
+const ForgotPassword = lazy(() => import("@/app/auth/forgot-password/page"));
 
 // Error pages
-const Unauthorized = lazy(() => import('@/app/errors/unauthorized/page'))
-const Forbidden = lazy(() => import('@/app/errors/forbidden/page'))
-const NotFound = lazy(() => import('@/app/errors/not-found/page'))
-const InternalServerError = lazy(() => import('@/app/errors/internal-server-error/page'))
-const UnderMaintenance = lazy(() => import('@/app/errors/under-maintenance/page'))
+const Unauthorized = lazy(() => import("@/app/errors/unauthorized/page"));
+const Forbidden = lazy(() => import("@/app/errors/forbidden/page"));
+const NotFound = lazy(() => import("@/app/errors/not-found/page"));
+const InternalServerError = lazy(
+  () => import("@/app/errors/internal-server-error/page"),
+);
+const UnderMaintenance = lazy(
+  () => import("@/app/errors/under-maintenance/page"),
+);
 
 // Settings pages
-const UserSettings = lazy(() => import('@/app/settings/user/page'))
-const AccountSettings = lazy(() => import('@/app/settings/account/page'))
-const BillingSettings = lazy(() => import('@/app/settings/billing/page'))
-const AppearanceSettings = lazy(() => import('@/app/settings/appearance/page'))
-const NotificationSettings = lazy(() => import('@/app/settings/notifications/page'))
-const ConnectionSettings = lazy(() => import('@/app/settings/connections/page'))
+const UserSettings = lazy(() => import("@/app/settings/user/page"));
+const AccountSettings = lazy(() => import("@/app/settings/account/page"));
+const BillingSettings = lazy(() => import("@/app/settings/billing/page"));
+const AppearanceSettings = lazy(() => import("@/app/settings/appearance/page"));
+const NotificationSettings = lazy(
+  () => import("@/app/settings/notifications/page"),
+);
+const ConnectionSettings = lazy(
+  () => import("@/app/settings/connections/page"),
+);
 
 export interface RouteConfig {
-  path: string
-  element: React.ReactNode
-  children?: RouteConfig[]
+  path: string;
+  element: React.ReactNode;
+  children?: RouteConfig[];
 }
 
 export const routes: RouteConfig[] = [
@@ -46,124 +53,124 @@ export const routes: RouteConfig[] = [
   // Use relative path "overview" instead of "/overview" for basename compatibility
   {
     path: "/",
-    element: <Navigate to="overview" replace />
+    element: <Navigate to="overview" replace />,
   },
 
   // Overview Routes
   {
     path: "/overview",
-    element: <Dashboard />
+    element: <Dashboard />,
   },
   {
     path: "/analytics",
-    element: <Dashboard2 />
+    element: <Dashboard2 />,
   },
   {
     path: "/logs",
-    element: <Logs />
+    element: <Logs />,
   },
   {
     path: "/libraries",
-    element: <Libraries />
+    element: <Libraries />,
   },
   {
     path: "/libraries/add",
-    element: <AddLibrary />
+    element: <AddLibrary />,
   },
   {
     path: "/libraries/:id",
-    element: <LibraryDetail />
+    element: <LibraryDetail />,
   },
   {
     path: "/libraries/:id/edit",
-    element: <EditLibrary />
+    element: <EditLibrary />,
   },
   {
     path: "/search",
-    element: <Search />
+    element: <Search />,
   },
   {
     path: "/indexing",
-    element: <Indexing />
+    element: <Indexing />,
   },
 
   // Application Routes
   {
     path: "/tasks",
-    element: <Tasks />
+    element: <Tasks />,
   },
 
   // Content Pages
   {
     path: "/users",
-    element: <Users />
+    element: <Users />,
   },
 
   // Authentication Routes
   {
     path: "/auth/sign-in",
-    element: <SignIn />
+    element: <SignIn />,
   },
   {
     path: "/auth/sign-up",
-    element: <SignUp />
+    element: <SignUp />,
   },
   {
     path: "/auth/forgot-password",
-    element: <ForgotPassword />
+    element: <ForgotPassword />,
   },
 
   // Error Pages
   {
     path: "/errors/unauthorized",
-    element: <Unauthorized />
+    element: <Unauthorized />,
   },
   {
     path: "/errors/forbidden",
-    element: <Forbidden />
+    element: <Forbidden />,
   },
   {
     path: "/errors/not-found",
-    element: <NotFound />
+    element: <NotFound />,
   },
   {
     path: "/errors/internal-server-error",
-    element: <InternalServerError />
+    element: <InternalServerError />,
   },
   {
     path: "/errors/under-maintenance",
-    element: <UnderMaintenance />
+    element: <UnderMaintenance />,
   },
 
   // Settings Routes
   {
     path: "/settings/user",
-    element: <UserSettings />
+    element: <UserSettings />,
   },
   {
     path: "/settings/account",
-    element: <AccountSettings />
+    element: <AccountSettings />,
   },
   {
     path: "/settings/billing",
-    element: <BillingSettings />
+    element: <BillingSettings />,
   },
   {
     path: "/settings/appearance",
-    element: <AppearanceSettings />
+    element: <AppearanceSettings />,
   },
   {
     path: "/settings/notifications",
-    element: <NotificationSettings />
+    element: <NotificationSettings />,
   },
   {
     path: "/settings/connections",
-    element: <ConnectionSettings />
+    element: <ConnectionSettings />,
   },
 
   // Catch-all route for 404
   {
     path: "*",
-    element: <NotFound />
-  }
-]
+    element: <NotFound />,
+  },
+];

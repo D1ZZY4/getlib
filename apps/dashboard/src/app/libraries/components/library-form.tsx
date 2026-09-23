@@ -1,15 +1,15 @@
-import { useForm, type UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { type UseFormReturn, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import {
-  libraryFormSchema,
-  type LibraryFormValues,
-} from "./library-form-schema";
+import { AdvancedSection, AiRulesSection } from "./form-advanced";
 import { IdentitySection } from "./form-identity";
 import { RepositorySection } from "./form-repository";
 import { SourcesSection } from "./form-sources";
-import { AdvancedSection, AiRulesSection } from "./form-advanced";
+import {
+  type LibraryFormValues,
+  libraryFormSchema,
+} from "./library-form-schema";
 
 export function LibraryForm({
   defaultValues,

@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { createColumnHelper } from "@tanstack/react-table"
+import { createColumnHelper } from "@tanstack/react-table";
 
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-import { cn } from "@/lib/utils"
-import { features } from "@/lib/table-features"
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import type { features } from "@/lib/table-features";
+import { cn } from "@/lib/utils";
 
-import { categories, priorities, statuses } from "../data/data"
-import type { Task } from "../data/schema"
-import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTableRowActions } from "./data-table-row-actions"
+import { categories, priorities, statuses } from "../data/data";
+import type { Task } from "../data/schema";
+import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableRowActions } from "./data-table-row-actions";
 
-const columnHelper = createColumnHelper<typeof features, Task>()
+const columnHelper = createColumnHelper<typeof features, Task>();
 
 export const columns = columnHelper.columns([
   {
@@ -61,7 +61,7 @@ export const columns = columnHelper.columns([
             {row.getValue("title")}
           </span>
         </div>
-      )
+      );
     },
   },
   {
@@ -71,23 +71,21 @@ export const columns = columnHelper.columns([
     ),
     cell: ({ row }) => {
       const category = categories.find(
-        (cat) => cat.value === row.getValue("category")
-      )
+        (cat) => cat.value === row.getValue("category"),
+      );
 
       if (!category) {
-        return null
+        return null;
       }
 
       return (
         <div className="flex w-[120px] items-center">
-          <Badge variant="outline">
-            {category.label}
-          </Badge>
+          <Badge variant="outline">{category.label}</Badge>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -97,11 +95,11 @@ export const columns = columnHelper.columns([
     ),
     cell: ({ row }) => {
       const status = statuses.find(
-        (status) => status.value === row.getValue("status")
-      )
+        (status) => status.value === row.getValue("status"),
+      );
 
       if (!status) {
-        return null
+        return null;
       }
 
       return (
@@ -111,10 +109,10 @@ export const columns = columnHelper.columns([
           )}
           <span className="text-sm">{status.label}</span>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -124,11 +122,11 @@ export const columns = columnHelper.columns([
     ),
     cell: ({ row }) => {
       const priority = priorities.find(
-        (priority) => priority.value === row.getValue("priority")
-      )
+        (priority) => priority.value === row.getValue("priority"),
+      );
 
       if (!priority) {
-        return null
+        return null;
       }
 
       const priorityColors = {
@@ -136,7 +134,7 @@ export const columns = columnHelper.columns([
         important: "border-orange-500 text-orange-700 dark:text-orange-400",
         normal: "border-blue-500 text-blue-700 dark:text-blue-400",
         minor: "border-gray-500 text-gray-700 dark:text-gray-400",
-      }
+      };
 
       return (
         <div className="flex items-center">
@@ -144,20 +142,20 @@ export const columns = columnHelper.columns([
             variant="outline"
             className={cn(
               "pl-2",
-              priorityColors[priority.value as keyof typeof priorityColors]
+              priorityColors[priority.value as keyof typeof priorityColors],
             )}
           >
             <span className="text-sm">{priority.label}</span>
           </Badge>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
-])
+]);

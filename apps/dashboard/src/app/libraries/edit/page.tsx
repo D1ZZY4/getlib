@@ -1,23 +1,25 @@
-"use client"
+"use client";
 
-import { useNavigate, useParams } from "react-router-dom"
-import { toast } from "sonner"
-import { BaseLayout } from "@/components/layouts/base-layout"
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
+import { BaseLayout } from "@/components/layouts/base-layout";
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { LibraryForm } from "../components/library-form"
-import type { LibraryFormValues } from "../components/library-form-schema"
-import { VersionsTable } from "../components/versions-table"
-import { libraryVersionsFixture } from "@/fixtures/libraries"
-import { libraryCorpusFixture } from "@/fixtures/libraries"
+} from "@/components/ui/card";
+import {
+  libraryCorpusFixture,
+  libraryVersionsFixture,
+} from "@/fixtures/libraries";
+import { LibraryForm } from "../components/library-form";
+import type { LibraryFormValues } from "../components/library-form-schema";
+import { VersionsTable } from "../components/versions-table";
 
 function initialValuesFor(id: string | undefined): LibraryFormValues | null {
-  const entry = libraryCorpusFixture.find((item) => item.id === id)
-  if (!entry) return null
+  const entry = libraryCorpusFixture.find((item) => item.id === id);
+  if (!entry) return null;
   return {
     name: entry.name,
     ecosystem: entry.ecosystem as LibraryFormValues["ecosystem"],
@@ -37,21 +39,21 @@ function initialValuesFor(id: string | undefined): LibraryFormValues | null {
     aiRules: "",
     redirectUrl: "",
     blockIndexing: false,
-  }
+  };
 }
 
 export default function EditLibraryPage() {
-  const navigate = useNavigate()
-  const { id } = useParams()
-  const initialValues = initialValuesFor(id)
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const initialValues = initialValuesFor(id);
 
   function handleSubmit(data: LibraryFormValues) {
-    toast.success(`Library ${data.name} updated`)
-    navigate("/libraries")
+    toast.success(`Library ${data.name} updated`);
+    navigate("/libraries");
   }
 
   function handleReindex(version: string) {
-    toast.success(`Reindex queued for ${version}`)
+    toast.success(`Reindex queued for ${version}`);
   }
 
   if (!initialValues) {
@@ -71,7 +73,7 @@ export default function EditLibraryPage() {
           </Card>
         </div>
       </BaseLayout>
-    )
+    );
   }
 
   return (
@@ -92,5 +94,5 @@ export default function EditLibraryPage() {
         />
       </div>
     </BaseLayout>
-  )
+  );
 }

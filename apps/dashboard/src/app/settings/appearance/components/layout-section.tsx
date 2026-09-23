@@ -1,17 +1,17 @@
+import { LayoutTab } from "@/components/theme-customizer/layout-tab";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { SectionActions } from "@/components/ui/section-actions"
-import { LayoutTab } from "@/components/theme-customizer/layout-tab"
+} from "@/components/ui/card";
+import { SectionActions } from "@/components/ui/section-actions";
 import {
   DEFAULT_LAYOUT,
-  sameLayout,
   type LayoutState,
-} from "@/contexts/sidebar-state"
+  sameLayout,
+} from "@/contexts/sidebar-state";
 
 export function LayoutSection({
   current,
@@ -20,14 +20,14 @@ export function LayoutSection({
   onCancel,
   onReset,
 }: {
-  current: LayoutState
-  saved: LayoutState
-  onSave: () => void
-  onCancel: () => void
-  onReset: () => void
+  current: LayoutState;
+  saved: LayoutState;
+  onSave: () => void;
+  onCancel: () => void;
+  onReset: () => void;
 }) {
-  const dirty = !sameLayout(current, saved)
-  const atDefaults = sameLayout(current, DEFAULT_LAYOUT)
+  const dirty = !sameLayout(current, saved);
+  const atDefaults = sameLayout(current, DEFAULT_LAYOUT);
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -52,5 +52,5 @@ export function LayoutSection({
         <LayoutTab />
       </CardContent>
     </Card>
-  )
+  );
 }

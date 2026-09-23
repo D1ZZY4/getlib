@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
+import type * as React from "react";
 import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { useSidebarConfig } from "@/hooks/use-sidebar-config";
-import { contentWidthClass, sidebarWidthValue } from "@/contexts/sidebar-state";
+import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { contentWidthClass, sidebarWidthValue } from "@/contexts/sidebar-state";
+import { useSidebarConfig } from "@/hooks/use-sidebar-config";
 
 interface BaseLayoutProps {
   children: React.ReactNode;
@@ -14,7 +14,13 @@ interface BaseLayoutProps {
   description?: string;
 }
 
-function PageHeader({ title, description }: { title?: string; description?: string }) {
+function PageHeader({
+  title,
+  description,
+}: {
+  title?: string;
+  description?: string;
+}) {
   if (!title) return null;
   return (
     <div className="px-4 lg:px-6">
@@ -37,7 +43,9 @@ function PageBody({
       <SiteHeader />
       <div className="flex flex-1 flex-col">
         <div className="@container/main flex flex-1 flex-col gap-2">
-          <div className={`flex flex-col gap-4 py-4 md:gap-6 md:py-6 ${contentClass}`}>
+          <div
+            className={`flex flex-col gap-4 py-4 md:gap-6 md:py-6 ${contentClass}`}
+          >
             <PageHeader title={title} description={description} />
             {children}
           </div>
@@ -70,13 +78,21 @@ export function BaseLayout({ children, title, description }: BaseLayoutProps) {
             collapsible={config.collapsible}
             side={config.side}
           />
-          <PageBody title={title} description={description} contentClass={contentClass}>
+          <PageBody
+            title={title}
+            description={description}
+            contentClass={contentClass}
+          >
             {children}
           </PageBody>
         </>
       ) : (
         <>
-          <PageBody title={title} description={description} contentClass={contentClass}>
+          <PageBody
+            title={title}
+            description={description}
+            contentClass={contentClass}
+          >
             {children}
           </PageBody>
           <AppSidebar

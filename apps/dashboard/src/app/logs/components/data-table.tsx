@@ -1,9 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { flexRender, useTable } from "@tanstack/react-table";
 import { Download } from "lucide-react";
-import { features } from "@/lib/table-features";
+import { useMemo, useState } from "react";
+import {
+  ColumnVisibility,
+  FilterSelect,
+  TablePagination,
+  TableSearch,
+  useTableState,
+} from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,15 +19,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ColumnVisibility,
-  FilterSelect,
-  TablePagination,
-  TableSearch,
-  useTableState,
-} from "@/components/data-table";
-import { LogFormDialog } from "./log-form-dialog";
+import { features } from "@/lib/table-features";
 import { createLogColumns, type LogEntry } from "./data-table-columns";
+import { LogFormDialog } from "./log-form-dialog";
 import { LogInspector } from "./log-inspector";
 
 interface LogFormValues {
@@ -124,7 +124,9 @@ export function DataTable({
             variant="outline"
             className="cursor-pointer"
             onClick={() =>
-              onExport(table.getFilteredRowModel().rows.map((row) => row.original))
+              onExport(
+                table.getFilteredRowModel().rows.map((row) => row.original),
+              )
             }
           >
             <Download className="mr-2 size-4" />
@@ -175,17 +177,26 @@ export function DataTable({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>

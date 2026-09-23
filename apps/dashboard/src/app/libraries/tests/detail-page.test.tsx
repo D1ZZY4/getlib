@@ -5,10 +5,10 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import Page from "../detail/page";
-import { SidebarConfigProvider } from "@/contexts/sidebar-context";
-import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { SidebarConfigProvider } from "@/contexts/sidebar-context";
+import Page from "../detail/page";
 
 function renderAt(path: string) {
   const ui: ReactNode = <Page />;

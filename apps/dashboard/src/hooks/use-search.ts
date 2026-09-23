@@ -5,12 +5,12 @@
  * aborts the in-flight fixture search through AbortSignal, so stale
  * results never overwrite current ones.
  */
-import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { type UseQueryResult, useQuery } from "@tanstack/react-query";
 import type { SearchResult } from "@/fixtures/search";
 import {
   DEFAULT_SEARCH_FILTERS,
-  searchLibraryFixtures,
   type SearchFilters,
+  searchLibraryFixtures,
 } from "@/fixtures/search";
 import { getDataSource } from "@/lib/data-source";
 

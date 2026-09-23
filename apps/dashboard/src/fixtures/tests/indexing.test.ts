@@ -5,7 +5,14 @@ describe("indexing fixtures", () => {
   it("covers every job state", () => {
     const states = new Set(indexJobsFixture.map((job) => job.state));
     expect(states).toEqual(
-      new Set(["queued", "running", "retrying", "completed", "failed", "canceled"]),
+      new Set([
+        "queued",
+        "running",
+        "retrying",
+        "completed",
+        "failed",
+        "canceled",
+      ]),
     );
   });
 

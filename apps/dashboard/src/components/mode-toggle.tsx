@@ -3,8 +3,8 @@
 import { Moon, Sun } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useThemeManager } from "@/hooks/use-theme-manager";
 import { useCircularTransition } from "@/hooks/use-circular-transition";
+import { useThemeManager } from "@/hooks/use-theme-manager";
 import "./theme-customizer/circular-transition.css";
 
 interface ModeToggleProps {

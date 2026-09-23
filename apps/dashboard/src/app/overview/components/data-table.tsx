@@ -1,8 +1,8 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { z } from "zod";
-import { schema } from "../schemas/task-schema";
+import type { z } from "zod";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
+import type { schema } from "../schemas/task-schema";
 import { IsolatedTaskTable } from "./isolated-table";
 
 type TaskRow = z.infer<typeof schema>;
@@ -30,7 +30,10 @@ export function DataTable({
   focusDocumentsData?: TaskRow[];
 }) {
   return (
-    <Tabs defaultValue="outline" className="w-full flex-col justify-start gap-6">
+    <Tabs
+      defaultValue="outline"
+      className="w-full flex-col justify-start gap-6"
+    >
       <div className="flex items-center justify-between px-4 lg:px-6 flex-wrap gap-3">
         <Label htmlFor="view-selector" className="sr-only">
           View

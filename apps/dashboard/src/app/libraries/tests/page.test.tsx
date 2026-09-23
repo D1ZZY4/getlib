@@ -5,8 +5,8 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import Page from "../page";
 import { SidebarConfigProvider } from "@/contexts/sidebar-context";
+import Page from "../page";
 
 function renderPage() {
   const ui: ReactNode = <Page />;
@@ -58,19 +58,14 @@ describe("Libraries page", () => {
         <SidebarConfigProvider>
           <Routes>
             <Route path="/libraries" element={<Page />} />
-            <Route
-              path="/libraries/:id"
-              element={<div>Detail Page</div>}
-            />
+            <Route path="/libraries/:id" element={<div>Detail Page</div>} />
           </Routes>
         </SidebarConfigProvider>
       </MemoryRouter>,
     );
     const rows = screen.getAllByRole("row");
     const firstDataRow = rows[1] as HTMLElement;
-    await user.click(
-      within(firstDataRow).getByRole("link", { name: "react" }),
-    );
+    await user.click(within(firstDataRow).getByRole("link", { name: "react" }));
     expect(await screen.findByText("Detail Page")).toBeInTheDocument();
   });
 

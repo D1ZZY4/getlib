@@ -1,7 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,19 +22,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Plus } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+} from "@/components/ui/select";
 
 const userFormSchema = z.object({
   name: z.string().min(2, {
@@ -51,16 +51,16 @@ const userFormSchema = z.object({
   status: z.string().min(1, {
     message: "Please select a status.",
   }),
-})
+});
 
-type UserFormValues = z.infer<typeof userFormSchema>
+type UserFormValues = z.infer<typeof userFormSchema>;
 
 interface UserFormDialogProps {
-  onAddUser: (user: UserFormValues) => void
+  onAddUser: (user: UserFormValues) => void;
 }
 
 export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
@@ -72,12 +72,12 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
       billing: "",
       status: "",
     },
-  })
+  });
 
   function onSubmit(data: UserFormValues) {
-    onAddUser(data)
-    form.reset()
-    setOpen(false)
+    onAddUser(data);
+    form.reset();
+    setOpen(false);
   }
 
   return (
@@ -130,7 +130,10 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Role</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="cursor-pointer w-full">
                           <SelectValue placeholder="Select role" />
@@ -154,7 +157,10 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Plan</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="cursor-pointer w-full">
                           <SelectValue placeholder="Select plan" />
@@ -162,7 +168,9 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Basic">Basic</SelectItem>
-                        <SelectItem value="Professional">Professional</SelectItem>
+                        <SelectItem value="Professional">
+                          Professional
+                        </SelectItem>
                         <SelectItem value="Enterprise">Enterprise</SelectItem>
                       </SelectContent>
                     </Select>
@@ -178,7 +186,10 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Billing</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="cursor-pointer w-full">
                           <SelectValue placeholder="Select billing" />
@@ -200,7 +211,10 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Status</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="cursor-pointer w-full">
                           <SelectValue placeholder="Select status" />
@@ -227,5 +241,5 @@ export function UserFormDialog({ onAddUser }: UserFormDialogProps) {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

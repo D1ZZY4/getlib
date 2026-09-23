@@ -1,12 +1,5 @@
-import { Activity, BookOpen, Database, FileText } from "lucide-react"
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { MetricsOverview } from "./components/metrics-overview"
-import { SalesChart } from "./components/sales-chart"
-import { RecentTransactions } from "./components/recent-transactions"
-import { TopProducts } from "./components/top-products"
-import { CustomerInsights } from "./components/customer-insights"
-import { QuickActions } from "./components/quick-actions"
-import { RevenueBreakdown } from "./components/revenue-breakdown"
+import { Activity, BookOpen, Database, FileText } from "lucide-react";
+import { BaseLayout } from "@/components/layouts/base-layout";
 import {
   analyticsMetricsFixture,
   knowledgeSourcesFixture,
@@ -15,9 +8,16 @@ import {
   retrievalVolumeFixture,
   searchActivityFixture,
   topLibrariesFixture,
-} from "@/fixtures/analytics"
+} from "@/fixtures/analytics";
+import { CustomerInsights } from "./components/customer-insights";
+import { MetricsOverview } from "./components/metrics-overview";
+import { QuickActions } from "./components/quick-actions";
+import { RecentTransactions } from "./components/recent-transactions";
+import { RevenueBreakdown } from "./components/revenue-breakdown";
+import { SalesChart } from "./components/sales-chart";
+import { TopProducts } from "./components/top-products";
 
-const metricIcons = [BookOpen, FileText, Activity, Database]
+const metricIcons = [BookOpen, FileText, Activity, Database];
 
 export default function Dashboard2() {
   const metrics = analyticsMetricsFixture.map((metric, index) => ({
@@ -36,7 +36,9 @@ export default function Dashboard2() {
     0,
   );
   const successRate =
-    totalVolume > 0 ? `${(((withResults / totalVolume) * 100).toFixed(1))}%` : "—";
+    totalVolume > 0
+      ? `${((withResults / totalVolume) * 100).toFixed(1)}%`
+      : "-";
 
   return (
     <BaseLayout>
@@ -47,7 +49,8 @@ export default function Dashboard2() {
           <div className="flex flex-col gap-2">
             <h1 className="text-2xl font-bold tracking-tight">Analytics</h1>
             <p className="text-muted-foreground">
-              Monitor search volume, indexing throughput, and source distribution
+              Monitor search volume, indexing throughput, and source
+              distribution
             </p>
           </div>
           <QuickActions />
@@ -99,5 +102,5 @@ export default function Dashboard2() {
         </div>
       </div>
     </BaseLayout>
-  )
+  );
 }

@@ -68,8 +68,7 @@ export function sameThemeCustom(
     a.preset === b.preset &&
     a.tweakcn === b.tweakcn &&
     a.radius === b.radius &&
-    JSON.stringify(a.imported ?? null) ===
-      JSON.stringify(b.imported ?? null)
+    JSON.stringify(a.imported ?? null) === JSON.stringify(b.imported ?? null)
   );
 }
 
@@ -152,14 +151,16 @@ export function saveSnapshot(
 
 export function saveThemeCustom(
   themeCustom: AppearanceSnapshot["themeCustom"],
-  storage: Pick<Storage, "setItem" | "getItem"> = safeStorage() ?? memoryFallback,
+  storage: Pick<Storage, "setItem" | "getItem"> = safeStorage() ??
+    memoryFallback,
 ): void {
   saveSnapshot({ ...loadSnapshot(storage), themeCustom }, storage);
 }
 
 export function saveLayout(
   layout: AppearanceSnapshot["layout"],
-  storage: Pick<Storage, "setItem" | "getItem"> = safeStorage() ?? memoryFallback,
+  storage: Pick<Storage, "setItem" | "getItem"> = safeStorage() ??
+    memoryFallback,
 ): void {
   saveSnapshot({ ...loadSnapshot(storage), layout }, storage);
 }

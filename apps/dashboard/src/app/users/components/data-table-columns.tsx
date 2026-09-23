@@ -2,7 +2,6 @@
 
 import { createColumnHelper } from "@tanstack/react-table";
 import { EllipsisVertical, Eye, Pencil, Trash2 } from "lucide-react";
-import { features, type RowInstance } from "@/lib/table-features";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { features, RowInstance } from "@/lib/table-features";
 
 export interface User {
   id: number;
@@ -117,7 +117,9 @@ export function createUserColumns(actions: UserColumnActions) {
             </Avatar>
             <div className="flex flex-col">
               <span className="font-medium">{user.name}</span>
-              <span className="text-sm text-muted-foreground">{user.email}</span>
+              <span className="text-sm text-muted-foreground">
+                {user.email}
+              </span>
             </div>
           </div>
         );
@@ -171,7 +173,11 @@ export function createUserColumns(actions: UserColumnActions) {
         const user = row.original;
         return (
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="h-8 w-8 cursor-pointer">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 cursor-pointer"
+            >
               <Eye className="size-4" />
               <span className="sr-only">View user</span>
             </Button>

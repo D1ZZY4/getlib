@@ -73,7 +73,8 @@ export function AdvancedSection({
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Redirect <span className="text-muted-foreground">(optional)</span>
+                Redirect{" "}
+                <span className="text-muted-foreground">(optional)</span>
               </FormLabel>
               <FormControl>
                 <Input
@@ -93,8 +94,8 @@ export function AdvancedSection({
               <div className="space-y-0.5">
                 <FormLabel className="text-base">Block indexing</FormLabel>
                 <CardDescription>
-                  Hide this library and remove its content. Only metadata
-                  stays; unblocking indexes it again.
+                  Hide this library and remove its content. Only metadata stays;
+                  unblocking indexes it again.
                 </CardDescription>
               </div>
               <FormControl>

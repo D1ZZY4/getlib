@@ -1,40 +1,39 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { StatCards, type LogTile } from "./components/stat-cards"
-import { DataTable } from "./components/data-table"
-
-import initialLogsData from "./data.json"
-import { downloadCsv, toCsv } from "@/lib/download"
+import { useState } from "react";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { downloadCsv, toCsv } from "@/lib/download";
+import { DataTable } from "./components/data-table";
+import { type LogTile, StatCards } from "./components/stat-cards";
+import initialLogsData from "./data.json";
 
 interface LogEntry {
-  id: string
-  message: string
-  requestId: string
-  avatar: string
-  level: string
-  time: string
-  request: string
-  service: string
+  id: string;
+  message: string;
+  requestId: string;
+  avatar: string;
+  level: string;
+  time: string;
+  request: string;
+  service: string;
 }
 
 interface LogFormValues {
-  message: string
-  requestId: string
-  level: string
-  time: string
-  request: string
-  service: string
+  message: string;
+  requestId: string;
+  level: string;
+  time: string;
+  request: string;
+  service: string;
 }
 
 export default function LogsPage() {
-  const [entries, setEntries] = useState<LogEntry[]>(initialLogsData)
+  const [entries, setEntries] = useState<LogEntry[]>(initialLogsData);
 
   const tiles: LogTile[] = (() => {
-    const errors = entries.filter((entry) => entry.level === "error").length
-    const warnings = entries.filter((entry) => entry.level === "warn").length
-    const services = new Set(entries.map((entry) => entry.service)).size
+    const errors = entries.filter((entry) => entry.level === "error").length;
+    const warnings = entries.filter((entry) => entry.level === "warn").length;
+    const services = new Set(entries.map((entry) => entry.service)).size;
     return [
       {
         label: "Total Entries",
@@ -70,21 +69,21 @@ export default function LogsPage() {
         footer: "Diagnostic traces",
         subfooter: "Index scans and catalogs",
       },
-    ]
-  })()
+    ];
+  })();
 
   const generateAvatar = (message: string) => {
-    const words = message.split(" ")
+    const words = message.split(" ");
     if (words.length >= 2) {
-      return `${words[0]?.[0] ?? ""}${words[1]?.[0] ?? ""}`.toUpperCase()
+      return `${words[0]?.[0] ?? ""}${words[1]?.[0] ?? ""}`.toUpperCase();
     }
-    return message.substring(0, 2).toUpperCase()
-  }
+    return message.substring(0, 2).toUpperCase();
+  };
 
   const handleAddLog = (logData: LogFormValues) => {
-    const now = new Date()
-    const time = logData.time || now.toTimeString().slice(0, 8)
-    const requestId = logData.requestId || `req-${now.getTime().toString(36)}`
+    const now = new Date();
+    const time = logData.time || now.toTimeString().slice(0, 8);
+    const requestId = logData.requestId || `req-${now.getTime().toString(36)}`;
     const newEntry: LogEntry = {
       id: `log-${now.getTime()}`,
       message: logData.message,
@@ -94,23 +93,23 @@ export default function LogsPage() {
       time,
       request: logData.request || requestId,
       service: logData.service,
-    }
-    setEntries(prev => [newEntry, ...prev])
-  }
+    };
+    setEntries((prev) => [newEntry, ...prev]);
+  };
 
   const handleDeleteLog = (id: string) => {
-    setEntries(prev => prev.filter(entry => entry.id !== id))
-  }
+    setEntries((prev) => prev.filter((entry) => entry.id !== id));
+  };
 
   const handleEditLog = (entry: LogEntry) => {
     // For now, just log the entry to edit
     // In a real app, you'd open an edit dialog
-    console.log("Edit log entry:", entry)
-  }
+    console.log("Edit log entry:", entry);
+  };
 
   const handleCopyLog = (entry: LogEntry) => {
-    void navigator.clipboard?.writeText(entry.message).catch(() => undefined)
-  }
+    void navigator.clipboard?.writeText(entry.message).catch(() => undefined);
+  };
 
   const handleExportLogs = (visible: LogEntry[]) => {
     downloadCsv(
@@ -126,8 +125,8 @@ export default function LogsPage() {
           entry.request,
         ]),
       ),
-    )
-  }
+    );
+  };
 
   return (
     <BaseLayout
@@ -151,5 +150,5 @@ export default function LogsPage() {
         </div>
       </div>
     </BaseLayout>
-  )
+  );
 }

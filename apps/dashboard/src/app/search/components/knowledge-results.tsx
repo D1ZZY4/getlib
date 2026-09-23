@@ -1,22 +1,22 @@
-import type { UseQueryResult } from "@tanstack/react-query"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import type { UseQueryResult } from "@tanstack/react-query";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import type { SearchResult } from "@/fixtures/search"
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { SearchResult } from "@/fixtures/search";
 
 export function KnowledgeResults({
   submitted,
   search,
 }: {
-  submitted: string
-  search: UseQueryResult<SearchResult[], Error>
+  submitted: string;
+  search: UseQueryResult<SearchResult[], Error>;
 }) {
   if (submitted.trim().length === 0) {
     return (
@@ -24,12 +24,12 @@ export function KnowledgeResults({
         <CardHeader>
           <CardTitle>Search the knowledge index</CardTitle>
           <CardDescription>
-            Results carry library, version, source, and freshness with
-            every match.
+            Results carry library, version, source, and freshness with every
+            match.
           </CardDescription>
         </CardHeader>
       </Card>
-    )
+    );
   }
 
   if (search.isPending) {
@@ -49,7 +49,7 @@ export function KnowledgeResults({
           ))}
         </div>
       </div>
-    )
+    );
   }
 
   if (search.error) {
@@ -65,7 +65,7 @@ export function KnowledgeResults({
           </Button>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (!search.data || search.data.length === 0) {
@@ -78,33 +78,37 @@ export function KnowledgeResults({
           </CardDescription>
         </CardHeader>
       </Card>
-    )
+    );
   }
 
   return (
-    <div className="grid gap-4" role="list" aria-label="Search results">
+    <ul className="grid list-none gap-4 p-0 m-0" aria-label="Search results">
       {search.data.map((result) => (
-        <Card key={result.id} role="listitem">
-          <CardHeader>
-            <CardTitle className="text-base">{result.document}</CardTitle>
-            <CardDescription>
-              {result.library}@{result.version} · {result.section}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="text-sm">{result.snippet}</p>
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline">{result.source}</Badge>
-              <Badge variant="outline">{result.version}</Badge>
-              <Badge
-                variant={result.freshness === "fresh" ? "default" : "secondary"}
-              >
-                {result.freshness}
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+        <li key={result.id}>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">{result.document}</CardTitle>
+              <CardDescription>
+                {result.library}@{result.version} · {result.section}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-sm">{result.snippet}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant="outline">{result.source}</Badge>
+                <Badge variant="outline">{result.version}</Badge>
+                <Badge
+                  variant={
+                    result.freshness === "fresh" ? "default" : "secondary"
+                  }
+                >
+                  {result.freshness}
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
+        </li>
       ))}
-    </div>
-  )
+    </ul>
+  );
 }

@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import type { RowData } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import type { RowData } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,20 +11,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-import { taskSchema } from "../data/schema"
-import type { RowInstance } from "@/lib/table-features"
+} from "@/components/ui/dropdown-menu";
+import type { RowInstance } from "@/lib/table-features";
+import { taskSchema } from "../data/schema";
 
 interface DataTableRowActionsProps<TData extends RowData> {
-  row: RowInstance<TData>
+  row: RowInstance<TData>;
 }
 
 export function DataTableRowActions<TData extends RowData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   // Validate the row data (throws at runtime on malformed data)
-  taskSchema.parse(row.original)
+  taskSchema.parse(row.original);
 
   return (
     <DropdownMenu>
@@ -38,17 +37,27 @@ export function DataTableRowActions<TData extends RowData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem className="cursor-pointer">View Task</DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">Edit Task</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          View Task
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          Edit Task
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">Duplicate</DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">Mark as Favorite</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          Duplicate
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer">
+          Mark as Favorite
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" variant="destructive">
           Delete
-          <DropdownMenuShortcut className="text-destructive">⌘⌫</DropdownMenuShortcut>
+          <DropdownMenuShortcut className="text-destructive">
+            ⌘⌫
+          </DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

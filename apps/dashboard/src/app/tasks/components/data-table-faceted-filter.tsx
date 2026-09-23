@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import type { RowData } from "@tanstack/react-table"
-import { PlusCircle } from "lucide-react"
+import type { RowData } from "@tanstack/react-table";
+import { PlusCircle } from "lucide-react";
+import type * as React from "react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Command,
   CommandEmpty,
@@ -15,23 +15,23 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Separator } from "@/components/ui/separator"
-import type { ColumnInstance } from "@/lib/table-features"
+} from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import type { ColumnInstance } from "@/lib/table-features";
 
 interface DataTableFacetedFilterProps<TData extends RowData, TValue> {
-  column?: ColumnInstance<TData, TValue>
-  title?: string
+  column?: ColumnInstance<TData, TValue>;
+  title?: string;
   options: {
-    label: string
-    value: string
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
+    label: string;
+    value: string;
+    icon?: React.ComponentType<{ className?: string }>;
+  }[];
 }
 
 export function DataTableFacetedFilter<TData extends RowData, TValue>({
@@ -39,13 +39,17 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
   title,
   options,
 }: DataTableFacetedFilterProps<TData, TValue>) {
-  const facets = column?.getFacetedUniqueValues()
-  const selectedValues = new Set(column?.getFilterValue() as string[])
+  const facets = column?.getFacetedUniqueValues();
+  const selectedValues = new Set(column?.getFilterValue() as string[]);
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 border-dashed cursor-pointer">
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-8 border-dashed cursor-pointer"
+        >
           <PlusCircle />
           {title}
           {selectedValues?.size > 0 && (
@@ -90,20 +94,20 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                const isSelected = selectedValues.has(option.value)
+                const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
                     key={option.value}
                     onSelect={() => {
                       if (isSelected) {
-                        selectedValues.delete(option.value)
+                        selectedValues.delete(option.value);
                       } else {
-                        selectedValues.add(option.value)
+                        selectedValues.add(option.value);
                       }
-                      const filterValues = Array.from(selectedValues)
+                      const filterValues = Array.from(selectedValues);
                       column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined
-                      )
+                        filterValues.length ? filterValues : undefined,
+                      );
                     }}
                     className="cursor-pointer [&_svg:not([class*='text-'])]:text-primary-foreground"
                   >
@@ -111,14 +115,14 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
                       checked={isSelected}
                       onCheckedChange={(checked) => {
                         if (checked) {
-                          selectedValues.add(option.value)
+                          selectedValues.add(option.value);
                         } else {
-                          selectedValues.delete(option.value)
+                          selectedValues.delete(option.value);
                         }
-                        const filterValues = Array.from(selectedValues)
+                        const filterValues = Array.from(selectedValues);
                         column?.setFilterValue(
-                          filterValues.length ? filterValues : undefined
-                        )
+                          filterValues.length ? filterValues : undefined,
+                        );
                       }}
                       className="mr-2"
                     />
@@ -132,7 +136,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
                       </span>
                     )}
                   </CommandItem>
-                )
+                );
               })}
             </CommandGroup>
             {selectedValues.size > 0 && (
@@ -152,5 +156,5 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

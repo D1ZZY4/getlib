@@ -1,19 +1,19 @@
+import { ThemeTab } from "@/components/theme-customizer/theme-tab";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { SectionActions } from "@/components/ui/section-actions"
-import { ThemeTab } from "@/components/theme-customizer/theme-tab"
+} from "@/components/ui/card";
+import { SectionActions } from "@/components/ui/section-actions";
 import {
   DEFAULT_THEME_CUSTOM,
   sameThemeCustom,
   type ThemeCustomState,
   type ThemeMode,
-} from "@/lib/appearance"
-import type { ImportedTheme } from "@/types/theme-customizer"
+} from "@/lib/appearance";
+import type { ImportedTheme } from "@/types/theme-customizer";
 
 export function ThemeSection({
   mode,
@@ -33,32 +33,32 @@ export function ThemeSection({
   onCancel,
   onReset,
 }: {
-  mode: ThemeMode
-  onModeChange: (mode: ThemeMode) => void
-  selectedTheme: string
-  setSelectedTheme: (theme: string) => void
-  selectedTweakcnTheme: string
-  setSelectedTweakcnTheme: (theme: string) => void
-  selectedRadius: string
-  setSelectedRadius: (radius: string) => void
-  setImportedTheme: (theme: ImportedTheme | null) => void
-  imported: ImportedTheme | null
-  savedMode: ThemeMode
-  saved: ThemeCustomState
-  onImportClick: () => void
-  onSave: () => void
-  onCancel: () => void
-  onReset: () => void
+  mode: ThemeMode;
+  onModeChange: (mode: ThemeMode) => void;
+  selectedTheme: string;
+  setSelectedTheme: (theme: string) => void;
+  selectedTweakcnTheme: string;
+  setSelectedTweakcnTheme: (theme: string) => void;
+  selectedRadius: string;
+  setSelectedRadius: (radius: string) => void;
+  setImportedTheme: (theme: ImportedTheme | null) => void;
+  imported: ImportedTheme | null;
+  savedMode: ThemeMode;
+  saved: ThemeCustomState;
+  onImportClick: () => void;
+  onSave: () => void;
+  onCancel: () => void;
+  onReset: () => void;
 }) {
   const current: ThemeCustomState = {
     preset: selectedTheme,
     tweakcn: selectedTweakcnTheme,
     radius: selectedRadius,
     imported,
-  }
-  const dirty = mode !== savedMode || !sameThemeCustom(current, saved)
+  };
+  const dirty = mode !== savedMode || !sameThemeCustom(current, saved);
   const atDefaults =
-    mode === "system" && sameThemeCustom(current, DEFAULT_THEME_CUSTOM)
+    mode === "system" && sameThemeCustom(current, DEFAULT_THEME_CUSTOM);
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
@@ -94,5 +94,5 @@ export function ThemeSection({
         />
       </CardContent>
     </Card>
-  )
+  );
 }

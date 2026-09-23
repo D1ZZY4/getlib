@@ -1,7 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,19 +22,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Plus } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+} from "@/components/ui/select";
 
 const logFormSchema = z.object({
   message: z.string().min(2, {
@@ -51,16 +51,16 @@ const logFormSchema = z.object({
   service: z.string().min(1, {
     message: "Please select a service.",
   }),
-})
+});
 
-type LogFormValues = z.infer<typeof logFormSchema>
+type LogFormValues = z.infer<typeof logFormSchema>;
 
 interface LogFormDialogProps {
-  onAddLog: (log: LogFormValues) => void
+  onAddLog: (log: LogFormValues) => void;
 }
 
 export function LogFormDialog({ onAddLog }: LogFormDialogProps) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const form = useForm<LogFormValues>({
     resolver: zodResolver(logFormSchema),
@@ -72,12 +72,12 @@ export function LogFormDialog({ onAddLog }: LogFormDialogProps) {
       request: "",
       service: "",
     },
-  })
+  });
 
   function onSubmit(data: LogFormValues) {
-    onAddLog(data)
-    form.reset()
-    setOpen(false)
+    onAddLog(data);
+    form.reset();
+    setOpen(false);
   }
 
   return (
@@ -130,7 +130,10 @@ export function LogFormDialog({ onAddLog }: LogFormDialogProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Level</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="cursor-pointer w-full">
                           <SelectValue placeholder="Select level" />
@@ -141,7 +144,6 @@ export function LogFormDialog({ onAddLog }: LogFormDialogProps) {
                         <SelectItem value="info">Info</SelectItem>
                         <SelectItem value="warn">Warn</SelectItem>
                         <SelectItem value="error">Error</SelectItem>
-                        
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -182,7 +184,10 @@ export function LogFormDialog({ onAddLog }: LogFormDialogProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Service</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="cursor-pointer w-full">
                           <SelectValue placeholder="Select service" />
@@ -210,5 +215,5 @@ export function LogFormDialog({ onAddLog }: LogFormDialogProps) {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

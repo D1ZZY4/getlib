@@ -20,9 +20,9 @@ describe("analytics fixtures", () => {
       (job) => job.status === "running",
     ).length;
     expect(running).toBe(2);
-    expect(
-      recentJobsFixture.some((job) => job.status === "failed"),
-    ).toBe(false);
+    expect(recentJobsFixture.some((job) => job.status === "failed")).toBe(
+      false,
+    );
   });
 
   it("keeps source shares totaling 100", () => {

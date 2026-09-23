@@ -1,9 +1,7 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
-
-import { useIsMobile } from "@/hooks/use-mobile"
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import {
   Card,
   CardAction,
@@ -11,31 +9,29 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group"
+} from "@/components/ui/select";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useIsMobile } from "@/hooks/use-mobile";
 
-export const description = "An interactive area chart"
+export const description = "An interactive area chart";
 
 export interface IndexingActivityPoint {
-  date: string
-  documents: number
-  chunks: number
+  date: string;
+  documents: number;
+  chunks: number;
 }
 
 const chartConfig = {
@@ -50,58 +46,56 @@ const chartConfig = {
     label: "Chunks",
     color: "var(--chart-2)",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function ChartAreaInteractive({
   title,
   description,
   data,
 }: {
-  title: string
-  description: string
-  data: IndexingActivityPoint[]
+  title: string;
+  description: string;
+  data: IndexingActivityPoint[];
 }) {
-  const isMobile = useIsMobile()
-  const [timeRange, setTimeRange] = React.useState("90d")
+  const isMobile = useIsMobile();
+  const [timeRange, setTimeRange] = React.useState("90d");
 
-  // When the viewport switches to mobile, switch the range to 7d — without
+  // When the viewport switches to mobile, switch the range to 7d, without
   // calling setState inside an effect (adjust state during render instead).
-  const [prevIsMobile, setPrevIsMobile] = React.useState(isMobile)
+  const [prevIsMobile, setPrevIsMobile] = React.useState(isMobile);
   if (isMobile !== prevIsMobile) {
-    setPrevIsMobile(isMobile)
+    setPrevIsMobile(isMobile);
     if (isMobile) {
-      setTimeRange("7d")
+      setTimeRange("7d");
     }
   }
 
   const referenceDate = React.useMemo(() => {
-    let latest = "1970-01-01"
+    let latest = "1970-01-01";
     for (const item of data) {
-      if (item.date > latest) latest = item.date
+      if (item.date > latest) latest = item.date;
     }
-    return new Date(latest)
-  }, [data])
+    return new Date(latest);
+  }, [data]);
 
   const filteredData = data.filter((item) => {
-    const date = new Date(item.date)
-    let daysToSubtract = 90
+    const date = new Date(item.date);
+    let daysToSubtract = 90;
     if (timeRange === "30d") {
-      daysToSubtract = 30
+      daysToSubtract = 30;
     } else if (timeRange === "7d") {
-      daysToSubtract = 7
+      daysToSubtract = 7;
     }
-    const startDate = new Date(referenceDate)
-    startDate.setDate(startDate.getDate() - daysToSubtract)
-    return date >= startDate
-  })
+    const startDate = new Date(referenceDate);
+    startDate.setDate(startDate.getDate() - daysToSubtract);
+    return date >= startDate;
+  });
   return (
     <Card className="@container/card">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>
-          <span className="hidden @[540px]/card:block">
-            {description}
-          </span>
+          <span className="hidden @[540px]/card:block">{description}</span>
           <span className="@[540px]/card:hidden">{description}</span>
         </CardDescription>
         <CardAction>
@@ -178,11 +172,11 @@ export function ChartAreaInteractive({
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(value);
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
-                })
+                });
               }}
             />
             <ChartTooltip
@@ -190,10 +184,12 @@ export function ChartAreaInteractive({
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) => {
-                    return new Date(value as string | number | Date).toLocaleDateString("en-US", {
+                    return new Date(
+                      value as string | number | Date,
+                    ).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
-                    })
+                    });
                   }}
                   indicator="dot"
                 />
@@ -217,5 +213,5 @@ export function ChartAreaInteractive({
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }

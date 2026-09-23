@@ -1,22 +1,20 @@
-"use client"
+"use client";
 
-import { useNavigate } from "react-router-dom"
-import { toast } from "sonner"
-import { BaseLayout } from "@/components/layouts/base-layout"
-import {
-  LibraryForm,
-} from "../components/library-form"
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { LibraryForm } from "../components/library-form";
 import {
   DEFAULT_LIBRARY_VALUES,
   type LibraryFormValues,
-} from "../components/library-form-schema"
+} from "../components/library-form-schema";
 
 export default function AddLibraryPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function handleSubmit(data: LibraryFormValues) {
-    toast.success(`Library ${data.name} registered for indexing`)
-    navigate("/libraries")
+    toast.success(`Library ${data.name} registered for indexing`);
+    navigate("/libraries");
   }
 
   return (
@@ -33,5 +31,5 @@ export default function AddLibraryPage() {
         />
       </div>
     </BaseLayout>
-  )
+  );
 }

@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   APPEARANCE_STORAGE_KEY,
+  type Appearance,
+  type AppearanceSnapshot,
   DEFAULT_APPEARANCE,
   DEFAULT_SNAPSHOT,
   fontFamilyValue,
@@ -11,8 +13,6 @@ import {
   saveLayout,
   saveSnapshot,
   saveThemeCustom,
-  type Appearance,
-  type AppearanceSnapshot,
 } from "../appearance";
 
 function memoryStorage(initial: Record<string, string> = {}): Storage {

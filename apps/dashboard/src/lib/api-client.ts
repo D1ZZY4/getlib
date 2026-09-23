@@ -11,12 +11,12 @@
  */
 import {
   ApiErrorSchema,
-  HealthResponseSchema,
-  OverviewSummarySchema,
   type HealthResponse,
+  HealthResponseSchema,
   type OverviewSummary,
+  OverviewSummarySchema,
 } from "@getlib/schemas";
-import { z } from "zod";
+import type { z } from "zod";
 
 export const DEFAULT_API_BASE_URL = "http://localhost:3001/api/v1";
 
@@ -120,7 +120,8 @@ export async function apiFetch<T>(
     throw new GetLibApiError({
       code: "NETWORK_ERROR",
       status: 0,
-      message: error instanceof Error ? error.message : "Network request failed",
+      message:
+        error instanceof Error ? error.message : "Network request failed",
       requestId,
     });
   }

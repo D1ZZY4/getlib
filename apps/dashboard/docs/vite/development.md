@@ -344,28 +344,21 @@ The project includes strict TypeScript settings:
 }
 ```
 
-### ESLint Configuration
+### Biome Lint and Format
 
-Code quality rules for React and TypeScript:
+Lint, format, and import organization run through Biome (latest) from the workspace
+root config (`biome.json`). The dashboard has no ESLint or Prettier configs
+anymore. Check and auto fix from `apps/dashboard`:
 
-```javascript
-// eslint.config.js
-export default [
-  {
-    extends: [
-      'eslint:recommended',
-      '@typescript-eslint/recommended',
-      'plugin:react/recommended',
-      'plugin:react-hooks/recommended',
-    ],
-    rules: {
-      'react/react-in-jsx-scope': 'off',
-      '@typescript-eslint/no-unused-vars': 'error',
-      'prefer-const': 'error',
-    },
-  },
-]
+```bash
+bun run lint
+bun run lint:fix
 ```
+
+React and TypeScript quality rules come from Biome recommended rules plus
+`tsc -b` strict mode (`noUnusedLocals`, `noUnusedParameters`). Intentional
+exceptions use a reasoned `// biome-ignore <rule>: <why>` comment, never a
+bare disable.
 
 ### VS Code Integration
 
@@ -377,7 +370,7 @@ Recommended VS Code settings:
   "typescript.preferences.preferTypeOnlyAutoImports": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true,
-    "source.fixAll.eslint": true
+    "source.fixAll.biome": true
   },
   "tailwindCSS.experimental.classRegex": [
     ["cn\\(([^)]*)\\)", "'([^']*)'"]

@@ -1,8 +1,8 @@
 import { HealthResponseSchema } from "@getlib/schemas";
 import { describe, expect, it, vi } from "vitest";
 import {
-  GetLibApiError,
   apiFetch,
+  GetLibApiError,
   getHealth,
   resolveApiBaseUrl,
 } from "../api-client";

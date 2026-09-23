@@ -69,7 +69,10 @@ export function FrequencySection({
               control={form.control}
               name="quietHoursStart"
               render={({ field }) => (
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <SelectTrigger className="w-50">
                     <SelectValue placeholder="Start" />
                   </SelectTrigger>
@@ -86,7 +89,10 @@ export function FrequencySection({
               control={form.control}
               name="quietHoursEnd"
               render={({ field }) => (
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <SelectTrigger className="w-50">
                     <SelectValue placeholder="End" />
                   </SelectTrigger>

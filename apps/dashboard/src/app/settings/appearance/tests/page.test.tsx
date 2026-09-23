@@ -5,11 +5,11 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
-import Page from "../page";
 import { ThemeProvider } from "@/components/theme-provider";
-import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { Toaster } from "@/components/ui/sonner";
+import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { APPEARANCE_STORAGE_KEY } from "@/lib/appearance";
+import Page from "../page";
 
 function renderPage() {
   const ui: ReactNode = <Page />;
@@ -46,9 +46,7 @@ describe("Appearance settings", () => {
     renderPage();
     await user.click(screen.getByRole("combobox", { name: "Font size" }));
     await user.click(screen.getByRole("option", { name: "Large" }));
-    await user.click(
-      screen.getByRole("button", { name: "Save Preferences" }),
-    );
+    await user.click(screen.getByRole("button", { name: "Save Preferences" }));
     const stored = JSON.parse(
       localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
     );
@@ -61,9 +59,7 @@ describe("Appearance settings", () => {
     const user = userEvent.setup();
     renderPage();
     await user.click(screen.getByRole("button", { name: "Theme mode Dark" }));
-    await user.click(
-      screen.getByRole("button", { name: "Save Theme" }),
-    );
+    await user.click(screen.getByRole("button", { name: "Save Theme" }));
     const stored = JSON.parse(
       localStorage.getItem(APPEARANCE_STORAGE_KEY) ?? "{}",
     );
@@ -81,7 +77,9 @@ describe("Appearance settings", () => {
   it("renders the three organized sections", () => {
     renderPage();
     expect(screen.getByText("Preferences")).toBeInTheDocument();
-    expect(screen.getByText("Mode, color presets, radius, and brand colors.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Mode, color presets, radius, and brand colors."),
+    ).toBeInTheDocument();
     expect(
       screen.getByText("Sidebar variant, behavior, and position."),
     ).toBeInTheDocument();
@@ -123,20 +121,17 @@ describe("Appearance settings", () => {
       }),
     );
     renderPage();
-    expect(screen.getByRole("button", { name: "Theme mode Dark" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    expect(
+      screen.getByRole("button", { name: "Theme mode Dark" }),
+    ).toHaveAttribute("aria-pressed", "true");
     await user.click(screen.getByRole("button", { name: "Theme mode Light" }));
-    expect(screen.getByRole("button", { name: "Theme mode Light" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    expect(
+      screen.getByRole("button", { name: "Theme mode Light" }),
+    ).toHaveAttribute("aria-pressed", "true");
     const cancels = screen.getAllByRole("button", { name: "Cancel" });
     await user.click(cancels[1] as HTMLElement);
-    expect(screen.getByRole("button", { name: "Theme mode Dark" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    expect(
+      screen.getByRole("button", { name: "Theme mode Dark" }),
+    ).toHaveAttribute("aria-pressed", "true");
   });
 });

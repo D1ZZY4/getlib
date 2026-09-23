@@ -1,20 +1,37 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Label, Pie, PieChart, Sector } from "recharts"
-import type { PieSectorDataItem } from "recharts/types/polar/Pie"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartContainer, ChartStyle, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { downloadCsv, toCsv } from "@/lib/download"
+import * as React from "react";
+import { Label, Pie, PieChart, Sector } from "recharts";
+import type { PieSectorDataItem } from "recharts/types/polar/Pie";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartStyle,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { downloadCsv, toCsv } from "@/lib/download";
 
 export interface KnowledgeSourceItem {
-  key: string
-  label: string
-  documents: number
-  share: number
-  color: string
+  key: string;
+  label: string;
+  documents: number;
+  share: number;
+  color: string;
 }
 
 export function RevenueBreakdown({
@@ -23,30 +40,35 @@ export function RevenueBreakdown({
   items,
   unit,
 }: {
-  title: string
-  description: string
-  items: KnowledgeSourceItem[]
-  unit: string
+  title: string;
+  description: string;
+  items: KnowledgeSourceItem[];
+  unit: string;
 }) {
-  const id = "knowledge-by-source"
+  const id = "knowledge-by-source";
   const chartConfig = React.useMemo(() => {
     const entries: Record<string, { label: string; color: string }> = {
       documents: { label: "Documents", color: "var(--primary)" },
-    }
+    };
     for (const item of items) {
-      entries[item.key] = { label: item.label, color: item.color }
+      entries[item.key] = { label: item.label, color: item.color };
     }
-    return entries
-  }, [items])
-  const [activeCategory, setActiveCategory] = React.useState(items[0]?.key ?? "")
+    return entries;
+  }, [items]);
+  const [activeCategory, setActiveCategory] = React.useState(
+    items[0]?.key ?? "",
+  );
 
   const activeIndex = React.useMemo(
     () => items.findIndex((item) => item.key === activeCategory),
-    [items, activeCategory]
-  )
+    [items, activeCategory],
+  );
 
-  const categories = React.useMemo(() => items.map((item) => item.key), [items])
-  const activeItem = items[activeIndex]
+  const categories = React.useMemo(
+    () => items.map((item) => item.key),
+    [items],
+  );
+  const activeItem = items[activeIndex];
 
   const handleExport = () => {
     downloadCsv(
@@ -55,8 +77,8 @@ export function RevenueBreakdown({
         ["source", "documents", "share"],
         items.map((item) => [item.label, item.documents, item.share]),
       ),
-    )
-  }
+    );
+  };
 
   return (
     <Card data-chart={id} className="flex flex-col cursor-pointer">
@@ -76,10 +98,10 @@ export function RevenueBreakdown({
             </SelectTrigger>
             <SelectContent align="end" className="rounded-lg">
               {categories.map((key) => {
-                const config = chartConfig[key as keyof typeof chartConfig]
+                const config = chartConfig[key as keyof typeof chartConfig];
 
                 if (!config) {
-                  return null
+                  return null;
                 }
 
                 return (
@@ -98,11 +120,15 @@ export function RevenueBreakdown({
                       {config?.label}
                     </div>
                   </SelectItem>
-                )
+                );
               })}
             </SelectContent>
           </Select>
-          <Button variant="outline" className="cursor-pointer" onClick={handleExport}>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleExport}
+          >
             Export
           </Button>
         </div>
@@ -168,7 +194,7 @@ export function RevenueBreakdown({
                               {unit}
                             </tspan>
                           </text>
-                        )
+                        );
                       }
                     }}
                   />
@@ -179,16 +205,17 @@ export function RevenueBreakdown({
 
           <div className="flex flex-col justify-center space-y-4">
             {items.map((item, index) => {
-              const config = chartConfig[item.key]
-              const isActive = index === activeIndex
+              const config = chartConfig[item.key];
+              const isActive = index === activeIndex;
 
               return (
-                <div
+                <button
                   key={item.key}
-                  className={`flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer ${
-                    isActive ? 'bg-muted' : 'hover:bg-muted/50'
-                  }`}
+                  type="button"
                   onClick={() => setActiveCategory(item.key)}
+                  className={`flex w-full items-center justify-between rounded-lg p-3 text-left transition-colors cursor-pointer ${
+                    isActive ? "bg-muted" : "hover:bg-muted/50"
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                     <span
@@ -200,15 +227,19 @@ export function RevenueBreakdown({
                     <span className="font-medium">{config?.label}</span>
                   </div>
                   <div className="text-right">
-                    <div className="font-bold">{item.documents} {unit}</div>
-                    <div className="text-sm text-muted-foreground">{item.share}%</div>
+                    <div className="font-bold">
+                      {item.documents} {unit}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {item.share}%
+                    </div>
                   </div>
-                </div>
-              )
+                </button>
+              );
             })}
           </div>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

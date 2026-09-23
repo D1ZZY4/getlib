@@ -1,6 +1,6 @@
-import { SignupForm } from "./components/signup-form"
-import { Link } from "react-router-dom"
-import { Logo } from "@/components/logo"
+import { Link } from "react-router-dom";
+import { Logo } from "@/components/logo";
+import { SignupForm } from "./components/signup-form";
 
 export default function SignUpPage() {
   return (
@@ -23,10 +23,10 @@ export default function SignUpPage() {
       <div className="bg-muted relative hidden lg:block">
         <img
           src="https://ui.shadcn.com/placeholder.svg"
-          alt="Image"
+          alt=""
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.95] dark:invert"
         />
       </div>
     </div>
-  )
+  );
 }

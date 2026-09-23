@@ -7,7 +7,7 @@ import {
   Clock,
   Minus,
   PlayCircle,
-} from "lucide-react"
+} from "lucide-react";
 
 export const categories = [
   {
@@ -30,7 +30,7 @@ export const categories = [
     value: "refactor",
     label: "Refactor",
   },
-]
+];
 
 export const statuses = [
   {
@@ -53,7 +53,7 @@ export const statuses = [
     label: "Completed",
     icon: CheckCircle2,
   },
-]
+];
 
 export const priorities = [
   {
@@ -76,4 +76,4 @@ export const priorities = [
     value: "critical",
     icon: CircleAlert,
   },
-]
+];

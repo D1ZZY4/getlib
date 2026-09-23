@@ -1,18 +1,15 @@
-"use client"
+"use client";
 
-import * as React from "react"
 import {
   type ColumnDef,
   type ColumnFiltersState,
   type ColumnVisibilityState,
+  flexRender,
   type RowData,
   type SortingState,
-  flexRender,
   useTable,
-} from "@tanstack/react-table"
-
-import { features, type Features } from "@/lib/table-features"
-
+} from "@tanstack/react-table";
+import * as React from "react";
 import {
   Table,
   TableBody,
@@ -20,16 +17,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-
-import { DataTablePagination } from "./data-table-pagination"
-import { DataTableToolbar } from "./data-table-toolbar"
-import type { Task } from "../data/schema"
+} from "@/components/ui/table";
+import { type Features, features } from "@/lib/table-features";
+import type { Task } from "../data/schema";
+import { DataTablePagination } from "./data-table-pagination";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData extends RowData> {
-  columns: ColumnDef<Features, TData>[]
-  data: TData[]
-  onAddTask?: (task: Task) => void
+  columns: ColumnDef<Features, TData>[];
+  data: TData[];
+  onAddTask?: (task: Task) => void;
 }
 
 export function DataTable<TData extends RowData>({
@@ -37,13 +34,13 @@ export function DataTable<TData extends RowData>({
   data,
   onAddTask,
 }: DataTableProps<TData>) {
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<ColumnVisibilityState>({})
+    React.useState<ColumnVisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [sorting, setSorting] = React.useState<SortingState>([])
+    [],
+  );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useTable({
     features,
@@ -60,7 +57,7 @@ export function DataTable<TData extends RowData>({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
-  })
+  });
 
   return (
     <div className="space-y-4">
@@ -77,10 +74,10 @@ export function DataTable<TData extends RowData>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -96,7 +93,7 @@ export function DataTable<TData extends RowData>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -117,5 +114,5 @@ export function DataTable<TData extends RowData>({
       </div>
       <DataTablePagination table={table} />
     </div>
-  )
+  );
 }

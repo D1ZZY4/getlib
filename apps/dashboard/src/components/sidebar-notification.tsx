@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Logo } from "./logo"
+import { X } from "lucide-react";
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Logo } from "./logo";
 
 export function SidebarNotification() {
-  const [isVisible, setIsVisible] = React.useState(true)
+  const [isVisible, setIsVisible] = React.useState(true);
 
-  if (!isVisible) return null
+  if (!isVisible) return null;
 
   return (
     <Card className="mb-3 py-0 border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800">
@@ -23,20 +23,18 @@ export function SidebarNotification() {
           <X className="h-3 w-3" />
           <span className="sr-only">Close notification</span>
         </Button>
-        
+
         <div className="pr-6">
           <h3 className="flex items-center gap-3 font-semibold text-neutral-900 dark:text-neutral-100 mb-2 mt-1">
             <Logo size={42} className="-mt-1" />
-            <div>
-              Welcome to GetLib
-            </div>
+            <div>Welcome to GetLib</div>
           </h3>
           <p className="text-sm text-muted-foreground dark:text-neutral-400 leading-relaxed">
-            Version-aware knowledge about your libraries, indexing jobs,
-            and retrieval health in one place.
+            Version-aware knowledge about your libraries, indexing jobs, and
+            retrieval health in one place.
           </p>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

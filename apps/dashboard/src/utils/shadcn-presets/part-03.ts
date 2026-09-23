@@ -1,7 +1,7 @@
 import type { ThemePreset } from "../../types/theme";
 
 export const shadcnChunkPart03: Record<string, ThemePreset> = {
-  "amber": {
+  amber: {
     label: "Amber",
     styles: {
       light: {
@@ -30,8 +30,10 @@ export const shadcnChunkPart03: Record<string, ThemePreset> = {
         "chart-4": "var(--color-amber-800)",
         "chart-5": "var(--color-amber-900)",
         radius: "0.625rem",
-        "font-sans": "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-        "font-mono": "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+        "font-sans":
+          "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        "font-mono":
+          "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
       },
       dark: {
         background: "oklch(0.145 0 0)",
@@ -59,12 +61,14 @@ export const shadcnChunkPart03: Record<string, ThemePreset> = {
         "chart-4": "var(--color-amber-700)",
         "chart-5": "var(--color-amber-800)",
         radius: "0.625rem",
-        "font-sans": "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-        "font-mono": "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
-      }
-    }
+        "font-sans":
+          "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        "font-mono":
+          "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+      },
+    },
   },
-  "purple": {
+  purple: {
     label: "Purple",
     styles: {
       light: {
@@ -93,8 +97,10 @@ export const shadcnChunkPart03: Record<string, ThemePreset> = {
         "chart-4": "var(--color-purple-800)",
         "chart-5": "var(--color-purple-900)",
         radius: "0.625rem",
-        "font-sans": "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-        "font-mono": "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+        "font-sans":
+          "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        "font-mono":
+          "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
       },
       dark: {
         background: "oklch(0.145 0 0)",
@@ -122,12 +128,14 @@ export const shadcnChunkPart03: Record<string, ThemePreset> = {
         "chart-4": "var(--color-purple-700)",
         "chart-5": "var(--color-purple-800)",
         radius: "0.625rem",
-        "font-sans": "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-        "font-mono": "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
-      }
-    }
+        "font-sans":
+          "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        "font-mono":
+          "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+      },
+    },
   },
-  "teal": {
+  teal: {
     label: "Teal",
     styles: {
       light: {
@@ -156,8 +164,10 @@ export const shadcnChunkPart03: Record<string, ThemePreset> = {
         "chart-4": "var(--color-teal-800)",
         "chart-5": "var(--color-teal-900)",
         radius: "0.625rem",
-        "font-sans": "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-        "font-mono": "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+        "font-sans":
+          "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        "font-mono":
+          "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
       },
       dark: {
         background: "oklch(0.145 0 0)",
@@ -185,9 +195,11 @@ export const shadcnChunkPart03: Record<string, ThemePreset> = {
         "chart-4": "var(--color-teal-700)",
         "chart-5": "var(--color-teal-800)",
         radius: "0.625rem",
-        "font-sans": "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
-        "font-mono": "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
-      }
-    }
+        "font-sans":
+          "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+        "font-mono":
+          "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+      },
+    },
   },
 };

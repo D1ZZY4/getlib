@@ -1,23 +1,18 @@
-"use client"
+"use client";
 
-import { useState } from "react"
 import {
   DndContext,
+  type DragEndEvent,
   DragOverlay,
   useDraggable,
   useDroppable,
-  type DragEndEvent,
-} from "@dnd-kit/core"
-import { CSS } from "@dnd-kit/utilities"
-import { Ban, Eye, RotateCcw } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+} from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
+import { Ban, Eye, RotateCcw } from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Drawer,
   DrawerClose,
@@ -26,24 +21,28 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/ui/drawer"
-import { Progress } from "@/components/ui/progress"
-import type { IndexJob } from "@/fixtures/indexing"
+} from "@/components/ui/drawer";
+import { Progress } from "@/components/ui/progress";
+import type { IndexJob } from "@/fixtures/indexing";
 
-type BoardColumn = "queued" | "running" | "attention" | "done"
+type BoardColumn = "queued" | "running" | "attention" | "done";
 
 const COLUMNS: { key: BoardColumn; title: string; description: string }[] = [
   { key: "queued", title: "Queued", description: "Waiting for worker" },
   { key: "running", title: "Running", description: "Executing now" },
-  { key: "attention", title: "Needs Attention", description: "Retrying or failed" },
+  {
+    key: "attention",
+    title: "Needs Attention",
+    description: "Retrying or failed",
+  },
   { key: "done", title: "Done", description: "Completed or canceled" },
-]
+];
 
 function columnFor(job: IndexJob): BoardColumn {
-  if (job.state === "queued") return "queued"
-  if (job.state === "running") return "running"
-  if (job.state === "completed" || job.state === "canceled") return "done"
-  return "attention"
+  if (job.state === "queued") return "queued";
+  if (job.state === "running") return "running";
+  if (job.state === "completed" || job.state === "canceled") return "done";
+  return "attention";
 }
 
 function DraggableJobCard({
@@ -52,25 +51,27 @@ function DraggableJobCard({
   onRetry,
   onCancel,
 }: {
-  job: IndexJob
-  onInspect: () => void
-  onRetry: () => void
-  onCancel: () => void
+  job: IndexJob;
+  onInspect: () => void;
+  onRetry: () => void;
+  onCancel: () => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({ id: job.id, data: { job } })
+    useDraggable({ id: job.id, data: { job } });
   const retryable =
     job.state === "failed" ||
     job.state === "retrying" ||
-    job.state === "canceled"
+    job.state === "canceled";
   const cancelable =
     job.state === "queued" ||
     job.state === "running" ||
-    job.state === "retrying"
+    job.state === "retrying";
   return (
     <Card
       ref={setNodeRef}
-      style={transform ? { transform: CSS.Translate.toString(transform) } : undefined}
+      style={
+        transform ? { transform: CSS.Translate.toString(transform) } : undefined
+      }
       className={`gap-0 py-4 ${isDragging ? "opacity-50" : ""}`}
     >
       <CardHeader className="pb-2">
@@ -143,7 +144,7 @@ function DraggableJobCard({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 function DroppableColumn({
@@ -151,11 +152,11 @@ function DroppableColumn({
   count,
   children,
 }: {
-  column: BoardColumn
-  count: number
-  children: React.ReactNode
+  column: BoardColumn;
+  count: number;
+  children: React.ReactNode;
 }) {
-  const { setNodeRef, isOver } = useDroppable({ id: column })
+  const { setNodeRef, isOver } = useDroppable({ id: column });
   return (
     <div
       ref={setNodeRef}
@@ -176,20 +177,20 @@ function DroppableColumn({
       </div>
       {children}
     </div>
-  )
+  );
 }
 
 function stateClassName(state: IndexJob["state"]): string {
   if (state === "completed") {
-    return "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20"
+    return "text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-900/20";
   }
   if (state === "failed") {
-    return "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20"
+    return "text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20";
   }
   if (state === "canceled" || state === "queued") {
-    return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20"
+    return "text-gray-600 bg-gray-50 dark:text-gray-400 dark:bg-gray-900/20";
   }
-  return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20"
+  return "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/20";
 }
 
 export function JobBoard({
@@ -198,28 +199,28 @@ export function JobBoard({
   onCancel,
   onMove,
 }: {
-  jobs: IndexJob[]
-  onRetry: (id: string) => void
-  onCancel: (id: string) => void
-  onMove: (id: string, column: BoardColumn) => void
+  jobs: IndexJob[];
+  onRetry: (id: string) => void;
+  onCancel: (id: string) => void;
+  onMove: (id: string, column: BoardColumn) => void;
 }) {
-  const [inspected, setInspected] = useState<IndexJob | null>(null)
-  const [activeJob, setActiveJob] = useState<IndexJob | null>(null)
+  const [inspected, setInspected] = useState<IndexJob | null>(null);
+  const [activeJob, setActiveJob] = useState<IndexJob | null>(null);
 
   const handleDragEnd = (event: DragEndEvent) => {
-    setActiveJob(null)
-    const { active, over } = event
-    if (!over) return
-    const target = over.id as BoardColumn
-    if (target === columnFor(active.data.current?.job as IndexJob)) return
-    onMove(String(active.id), target)
-  }
+    setActiveJob(null);
+    const { active, over } = event;
+    if (!over) return;
+    const target = over.id as BoardColumn;
+    if (target === columnFor(active.data.current?.job as IndexJob)) return;
+    onMove(String(active.id), target);
+  };
 
   return (
     <>
       <DndContext
         onDragStart={(event) => {
-          setActiveJob(event.active.data.current?.job as IndexJob)
+          setActiveJob(event.active.data.current?.job as IndexJob);
         }}
         onDragEnd={handleDragEnd}
         onDragCancel={() => setActiveJob(null)}
@@ -228,7 +229,7 @@ export function JobBoard({
           {COLUMNS.map((column) => {
             const columnJobs = jobs.filter(
               (job) => columnFor(job) === column.key,
-            )
+            );
             return (
               <DroppableColumn
                 key={column.key}
@@ -254,7 +255,7 @@ export function JobBoard({
                   ))
                 )}
               </DroppableColumn>
-            )
+            );
           })}
         </div>
         <DragOverlay dropAnimation={null}>
@@ -273,13 +274,15 @@ export function JobBoard({
       <Drawer
         open={inspected !== null}
         onOpenChange={(open) => {
-          if (!open) setInspected(null)
+          if (!open) setInspected(null);
         }}
       >
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>
-              {inspected ? `${inspected.id} · ${inspected.library}` : "Job detail"}
+              {inspected
+                ? `${inspected.id} · ${inspected.library}`
+                : "Job detail"}
             </DrawerTitle>
             <DrawerDescription>
               {inspected
@@ -321,5 +324,5 @@ export function JobBoard({
         </DrawerContent>
       </Drawer>
     </>
-  )
+  );
 }

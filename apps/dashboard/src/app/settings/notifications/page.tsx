@@ -5,15 +5,15 @@ import { useForm } from "react-hook-form";
 import { BaseLayout } from "@/components/layouts/base-layout";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import {
-  DEFAULT_NOTIFICATIONS,
-  notificationsFormSchema,
-  type NotificationsFormValues,
-} from "./components/notifications-schema";
+import { ChannelsSection } from "./components/channels-section";
 import { EmailSection, PushSection } from "./components/email-push-sections";
 import { FrequencySection } from "./components/frequency-section";
+import {
+  DEFAULT_NOTIFICATIONS,
+  type NotificationsFormValues,
+  notificationsFormSchema,
+} from "./components/notifications-schema";
 import { PreferencesTable } from "./components/preferences-table";
-import { ChannelsSection } from "./components/channels-section";
 
 export default function NotificationSettings() {
   const form = useForm<NotificationsFormValues>({

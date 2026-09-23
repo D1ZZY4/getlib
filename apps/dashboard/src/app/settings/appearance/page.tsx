@@ -1,18 +1,20 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { ImportModal } from "@/components/theme-customizer/import-modal"
-import { tweakcnThemes } from "@/config/theme-data"
-import { useSidebarConfig } from "@/hooks/use-sidebar-config"
-import { useTheme } from "@/hooks/use-theme"
-import { useThemeManager } from "@/hooks/use-theme-manager"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { ImportModal } from "@/components/theme-customizer/import-modal";
+import { tweakcnThemes } from "@/config/theme-data";
+import { useSidebarConfig } from "@/hooks/use-sidebar-config";
+import { useTheme } from "@/hooks/use-theme";
+import { useThemeManager } from "@/hooks/use-theme-manager";
+import type { AppearanceFormValues, ThemeMode } from "@/lib/appearance";
 import {
-  applyAppearance,
+  type Appearance,
   appearanceFormSchema,
+  applyAppearance,
   DEFAULT_APPEARANCE,
   loadAppearance,
   loadSnapshot,
@@ -20,18 +22,16 @@ import {
   saveLayout,
   saveSnapshot,
   saveThemeCustom,
-  type Appearance,
-} from "@/lib/appearance"
-import type { ImportedTheme } from "@/types/theme-customizer"
-import { LayoutSection } from "./components/layout-section"
-import { PreferencesSection } from "./components/preferences-section"
-import type { AppearanceFormValues, ThemeMode } from "@/lib/appearance"
-import { ThemeSection } from "./components/theme-section"
+} from "@/lib/appearance";
+import type { ImportedTheme } from "@/types/theme-customizer";
+import { LayoutSection } from "./components/layout-section";
+import { PreferencesSection } from "./components/preferences-section";
+import { ThemeSection } from "./components/theme-section";
 
 export default function AppearanceSettings() {
-  const { theme: providerTheme, setTheme } = useTheme()
+  const { theme: providerTheme, setTheme } = useTheme();
   const { config: sidebarConfig, updateConfig: updateSidebarConfig } =
-    useSidebarConfig()
+    useSidebarConfig();
   const {
     applyImportedTheme,
     isDarkMode,
@@ -40,87 +40,94 @@ export default function AppearanceSettings() {
     setBrandColorsValues,
     applyTheme,
     applyTweakcnTheme,
-  } = useThemeManager()
+  } = useThemeManager();
 
   const [selectedTheme, setSelectedTheme] = useState(
     () => loadSnapshot().themeCustom.preset,
-  )
+  );
   const [selectedTweakcnTheme, setSelectedTweakcnTheme] = useState(
     () => loadSnapshot().themeCustom.tweakcn,
-  )
+  );
   const [selectedRadius, setSelectedRadius] = useState(
     () => loadSnapshot().themeCustom.radius,
-  )
-  const [importModalOpen, setImportModalOpen] = useState(false)
+  );
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const [importedTheme, setImportedTheme] = useState<ImportedTheme | null>(
     () => loadSnapshot().themeCustom.imported,
-  )
+  );
   const [savedThemeCustom, setSavedThemeCustom] = useState(
     () => loadSnapshot().themeCustom,
-  )
-  const [savedLayout, setSavedLayout] = useState(
-    () => loadSnapshot().layout,
-  )
+  );
+  const [savedLayout, setSavedLayout] = useState(() => loadSnapshot().layout);
   const [themeMode, setThemeMode] = useState<ThemeMode>(
     () => loadSnapshot().theme,
-  )
+  );
   const [savedThemeMode, setSavedThemeMode] = useState<ThemeMode>(
     () => loadSnapshot().theme,
-  )
+  );
 
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues: loadAppearance(),
-  })
+  });
 
   // Provider theme is the live truth. If it changes from outside this
   // page (e.g. the header sun/moon button), mirror it into the draft so
   // the selected card highlight stays realtime and never drifts.
   // Adjusted during render (not in an effect) and skipping the initial
   // mount so a saved snapshot always wins on first paint.
-  const [prevProviderTheme, setPrevProviderTheme] = useState(providerTheme)
-  const [providerSynced, setProviderSynced] = useState(false)
+  const [prevProviderTheme, setPrevProviderTheme] = useState(providerTheme);
+  const [providerSynced, setProviderSynced] = useState(false);
   if (providerTheme !== prevProviderTheme) {
-    setPrevProviderTheme(providerTheme)
+    setPrevProviderTheme(providerTheme);
     if (providerSynced) {
-      setThemeMode(providerTheme)
+      setThemeMode(providerTheme);
     }
-    setProviderSynced(true)
+    setProviderSynced(true);
   }
 
   // Re-apply the saved theme customization on load (theme engine itself
   // keeps everything in memory, so a reload would otherwise lose it).
-  const appliedSavedTheme = useRef(false)
+  // Runs once via the ref guard. Deps are listed so the linter stays green.
+  // Re-runs are no-ops because the guard returns early.
+  const appliedSavedTheme = useRef(false);
   useEffect(() => {
-    if (appliedSavedTheme.current) return
-    appliedSavedTheme.current = true
-    const saved = loadSnapshot().themeCustom
+    if (appliedSavedTheme.current) return;
+    appliedSavedTheme.current = true;
+    const saved = loadSnapshot().themeCustom;
     if (saved.imported) {
-      applyImportedTheme(saved.imported, isDarkMode)
+      applyImportedTheme(saved.imported, isDarkMode);
     } else if (saved.tweakcn) {
-      const preset = tweakcnThemes.find((t) => t.value === saved.tweakcn)?.preset
-      if (preset) applyTweakcnTheme(preset, isDarkMode)
+      const preset = tweakcnThemes.find(
+        (t) => t.value === saved.tweakcn,
+      )?.preset;
+      if (preset) applyTweakcnTheme(preset, isDarkMode);
     } else if (saved.preset && saved.preset !== "default") {
-      applyTheme(saved.preset, isDarkMode)
+      applyTheme(saved.preset, isDarkMode);
     }
-    if (saved.radius !== "0.5rem") applyRadius(saved.radius)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    if (saved.radius !== "0.5rem") applyRadius(saved.radius);
+  }, [
+    applyImportedTheme,
+    applyRadius,
+    applyTheme,
+    applyTweakcnTheme,
+    isDarkMode,
+  ]);
 
   function onSubmit(data: AppearanceFormValues) {
-    const appearance: Appearance = { ...data, theme: themeMode }
-    applyAppearance(appearance, setTheme)
+    const appearance: Appearance = { ...data, theme: themeMode };
+    applyAppearance(appearance, setTheme);
     updateSidebarConfig({
       sidebarWidth: appearance.sidebarWidth,
       contentWidth: appearance.contentWidth,
-    })
-    saveAppearance(appearance)
-    form.reset(data)
-    toast.success("Preferences saved")
+    });
+    saveAppearance(appearance);
+    form.reset(data);
+    toast.success("Preferences saved");
   }
 
   function onCancel() {
-    form.reset(loadAppearance())
+    form.reset(loadAppearance());
   }
 
   function isPreferencesDefaults(values: AppearanceFormValues): boolean {
@@ -129,24 +136,24 @@ export default function AppearanceSettings() {
       values.fontSize === DEFAULT_APPEARANCE.fontSize &&
       values.sidebarWidth === DEFAULT_APPEARANCE.sidebarWidth &&
       values.contentWidth === DEFAULT_APPEARANCE.contentWidth
-    )
+    );
   }
   function handleResetPreferences() {
-    const defaults = { ...DEFAULT_APPEARANCE, theme: themeMode }
-    form.reset(defaults)
-    applyAppearance(defaults, setTheme)
+    const defaults = { ...DEFAULT_APPEARANCE, theme: themeMode };
+    form.reset(defaults);
+    applyAppearance(defaults, setTheme);
     updateSidebarConfig({
       sidebarWidth: defaults.sidebarWidth,
       contentWidth: defaults.contentWidth,
-    })
-    saveAppearance(defaults)
-    toast.success("Preferences reset to defaults")
+    });
+    saveAppearance(defaults);
+    toast.success("Preferences reset to defaults");
   }
 
   function handleThemeModeChange(mode: ThemeMode) {
-    // Draft only — ThemeTab applies the live provider theme inside the
+    // Draft only: ThemeTab applies the live provider theme inside the
     // circular transition, so this never double-sets or tears.
-    setThemeMode(mode)
+    setThemeMode(mode);
   }
 
   function applySavedThemeCustom(
@@ -154,38 +161,40 @@ export default function AppearanceSettings() {
     darkMode: boolean,
   ) {
     if (saved.imported) {
-      applyImportedTheme(saved.imported, darkMode)
+      applyImportedTheme(saved.imported, darkMode);
     } else if (saved.tweakcn) {
-      const preset = tweakcnThemes.find((t) => t.value === saved.tweakcn)?.preset
-      if (preset) applyTweakcnTheme(preset, darkMode)
+      const preset = tweakcnThemes.find(
+        (t) => t.value === saved.tweakcn,
+      )?.preset;
+      if (preset) applyTweakcnTheme(preset, darkMode);
     } else if (saved.preset && saved.preset !== "default") {
-      applyTheme(saved.preset, darkMode)
+      applyTheme(saved.preset, darkMode);
     }
-    applyRadius(saved.radius)
+    applyRadius(saved.radius);
   }
 
   function handleImport(themeData: ImportedTheme) {
-    setImportedTheme(themeData)
-    setSelectedTheme("")
-    setSelectedTweakcnTheme("")
-    applyImportedTheme(themeData, isDarkMode)
+    setImportedTheme(themeData);
+    setSelectedTheme("");
+    setSelectedTweakcnTheme("");
+    applyImportedTheme(themeData, isDarkMode);
   }
 
   function handleResetTheme() {
-    setSelectedTheme("default")
-    setSelectedTweakcnTheme("")
-    setSelectedRadius("0.5rem")
-    setImportedTheme(null)
-    setBrandColorsValues({})
-    resetTheme()
-    applyRadius("0.5rem")
+    setSelectedTheme("default");
+    setSelectedTweakcnTheme("");
+    setSelectedRadius("0.5rem");
+    setImportedTheme(null);
+    setBrandColorsValues({});
+    resetTheme();
+    applyRadius("0.5rem");
     saveThemeCustom({
       preset: "default",
       tweakcn: "",
       radius: "0.5rem",
       imported: null,
-    })
-    toast.success("Theme reset to defaults")
+    });
+    toast.success("Theme reset to defaults");
   }
 
   function handleSaveTheme() {
@@ -194,23 +203,23 @@ export default function AppearanceSettings() {
       tweakcn: selectedTweakcnTheme,
       radius: selectedRadius,
       imported: importedTheme,
-    }
-    saveThemeCustom(themeCustom)
-    setSavedThemeCustom(themeCustom)
-    setSavedThemeMode(themeMode)
-    const snapshot = loadSnapshot()
-    saveSnapshot({ ...snapshot, theme: themeMode })
-    toast.success("Theme saved")
+    };
+    saveThemeCustom(themeCustom);
+    setSavedThemeCustom(themeCustom);
+    setSavedThemeMode(themeMode);
+    const snapshot = loadSnapshot();
+    saveSnapshot({ ...snapshot, theme: themeMode });
+    toast.success("Theme saved");
   }
 
   function handleCancelTheme() {
-    setThemeMode(savedThemeMode)
-    setTheme(savedThemeMode)
-    setSelectedTheme(savedThemeCustom.preset)
-    setSelectedTweakcnTheme(savedThemeCustom.tweakcn)
-    setSelectedRadius(savedThemeCustom.radius)
-    setImportedTheme(savedThemeCustom.imported)
-    applySavedThemeCustom(savedThemeCustom, isDarkMode)
+    setThemeMode(savedThemeMode);
+    setTheme(savedThemeMode);
+    setSelectedTheme(savedThemeCustom.preset);
+    setSelectedTweakcnTheme(savedThemeCustom.tweakcn);
+    setSelectedRadius(savedThemeCustom.radius);
+    setImportedTheme(savedThemeCustom.imported);
+    applySavedThemeCustom(savedThemeCustom, isDarkMode);
   }
 
   function handleResetLayout() {
@@ -218,17 +227,17 @@ export default function AppearanceSettings() {
       variant: "inset",
       collapsible: "offcanvas",
       side: "left",
-    })
+    });
     saveLayout({
       variant: "inset",
       collapsible: "offcanvas",
       side: "left",
-    })
-    toast.success("Layout reset to defaults")
+    });
+    toast.success("Layout reset to defaults");
   }
 
   function handleCancelLayout() {
-    updateSidebarConfig(savedLayout)
+    updateSidebarConfig(savedLayout);
   }
 
   function handleSaveLayout() {
@@ -236,10 +245,10 @@ export default function AppearanceSettings() {
       variant: sidebarConfig.variant,
       collapsible: sidebarConfig.collapsible,
       side: sidebarConfig.side,
-    }
-    saveLayout(layout)
-    setSavedLayout(layout)
-    toast.success("Layout saved")
+    };
+    saveLayout(layout);
+    setSavedLayout(layout);
+    toast.success("Layout saved");
   }
 
   return (
@@ -299,5 +308,5 @@ export default function AppearanceSettings() {
         />
       </div>
     </BaseLayout>
-  )
+  );
 }

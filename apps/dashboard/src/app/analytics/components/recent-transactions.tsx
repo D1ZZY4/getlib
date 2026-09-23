@@ -1,23 +1,29 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export interface IndexJobRow {
-  id: string
-  library: string
-  detail: string
-  status: "completed" | "running" | "failed"
-  updated: string
+  id: string;
+  library: string;
+  detail: string;
+  status: "completed" | "running" | "failed";
+  updated: string;
 }
 
 function initials(name: string): string {
-  const parts = name.replace(/^@/, "").split(/[/\s-]+/)
+  const parts = name.replace(/^@/, "").split(/[/\s-]+/);
   if (parts.length >= 2) {
-    return `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase()
+    return `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase();
   }
-  return name.substring(0, 2).toUpperCase()
+  return name.substring(0, 2).toUpperCase();
 }
 
 export function RecentTransactions({
@@ -25,9 +31,9 @@ export function RecentTransactions({
   description,
   jobs,
 }: {
-  title: string
-  description: string
-  jobs: IndexJobRow[]
+  title: string;
+  description: string;
+  jobs: IndexJobRow[];
 }) {
   return (
     <Card className="cursor-pointer">
@@ -42,7 +48,7 @@ export function RecentTransactions({
       </CardHeader>
       <CardContent className="space-y-4">
         {jobs.map((job) => (
-          <div key={job.id} >
+          <div key={job.id}>
             <div className="flex p-3 rounded-lg border gap-2">
               <Avatar className="h-8 w-8">
                 <AvatarFallback>{initials(job.library)}</AvatarFallback>
@@ -50,15 +56,22 @@ export function RecentTransactions({
               <div className="flex flex-1 items-center flex-wrap justify-between gap-1">
                 <div className="flex items-center space-x-3">
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium truncate">{job.library}</p>
-                    <p className="text-xs text-muted-foreground truncate">{job.detail}</p>
+                    <p className="text-sm font-medium truncate">
+                      {job.library}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {job.detail}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Badge
                     variant={
-                      job.status === "completed" ? "default" :
-                      job.status === "running" ? "secondary" : "destructive"
+                      job.status === "completed"
+                        ? "default"
+                        : job.status === "running"
+                          ? "secondary"
+                          : "destructive"
                     }
                     className="cursor-pointer"
                   >
@@ -66,7 +79,9 @@ export function RecentTransactions({
                   </Badge>
                   <div className="text-right">
                     <p className="text-sm font-medium">{job.id}</p>
-                    <p className="text-xs text-muted-foreground">{job.updated}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {job.updated}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -75,5 +90,5 @@ export function RecentTransactions({
         ))}
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,20 +1,23 @@
-import type { ReactNode } from "react"
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import type { HealthResponse, OverviewSummary } from "@getlib/schemas";
+import type { ReactNode } from "react";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { useHealthQuery, useOverviewQuery } from "@/hooks/use-overview"
-import { SectionCards, type OverviewStat } from "./components/section-cards"
-import { ChartAreaInteractive } from "./components/chart-area-interactive"
-import { indexingActivityFixture, recentlyIndexedFixture } from "@/fixtures/overview"
-import { formatUptime } from "@/lib/format"
-import type { HealthResponse, OverviewSummary } from "@getlib/schemas"
+} from "@/components/ui/card";
+import {
+  indexingActivityFixture,
+  recentlyIndexedFixture,
+} from "@/fixtures/overview";
+import { useHealthQuery, useOverviewQuery } from "@/hooks/use-overview";
+import { formatUptime } from "@/lib/format";
+import { ChartAreaInteractive } from "./components/chart-area-interactive";
+import { type OverviewStat, SectionCards } from "./components/section-cards";
 
 function buildStats(
   health: HealthResponse,
@@ -59,7 +62,7 @@ function buildStats(
           ? `Snapshot ${new Date(summary.generatedAt).toLocaleDateString()}`
           : `Uptime ${formatUptime(health.uptimeSeconds)}`,
     },
-  ]
+  ];
 }
 
 function isEmptySummary(summary: OverviewSummary): boolean {
@@ -69,21 +72,21 @@ function isEmptySummary(summary: OverviewSummary): boolean {
     summary.chunkCount === 0 &&
     summary.activeJobs === 0 &&
     summary.failedJobs === 0
-  )
+  );
 }
 
 export default function Page() {
-  const healthQuery = useHealthQuery()
-  const overviewQuery = useOverviewQuery()
+  const healthQuery = useHealthQuery();
+  const overviewQuery = useOverviewQuery();
 
-  const pending = healthQuery.isPending || overviewQuery.isPending
-  const error = healthQuery.error ?? overviewQuery.error
-  const health = healthQuery.data
-  const summary = overviewQuery.data
+  const pending = healthQuery.isPending || overviewQuery.isPending;
+  const error = healthQuery.error ?? overviewQuery.error;
+  const health = healthQuery.data;
+  const summary = overviewQuery.data;
 
-  let content: ReactNode
+  let content: ReactNode;
   if (pending) {
-    content = <SectionCards loading />
+    content = <SectionCards loading />;
   } else if (error) {
     content = (
       <Card role="alert">
@@ -95,17 +98,17 @@ export default function Page() {
           <Button
             type="button"
             onClick={() => {
-              void healthQuery.refetch()
-              void overviewQuery.refetch()
+              void healthQuery.refetch();
+              void overviewQuery.refetch();
             }}
           >
             Retry
           </Button>
         </CardContent>
       </Card>
-    )
+    );
   } else if (!health || !summary) {
-    content = <SectionCards loading />
+    content = <SectionCards loading />;
   } else if (isEmptySummary(summary)) {
     content = (
       <Card>
@@ -117,7 +120,7 @@ export default function Page() {
           </CardDescription>
         </CardHeader>
       </Card>
-    )
+    );
   } else {
     content = (
       <>
@@ -161,7 +164,7 @@ export default function Page() {
           </CardContent>
         </Card>
       </>
-    )
+    );
   }
 
   return (
@@ -169,9 +172,7 @@ export default function Page() {
       title="Overview"
       description="Libraries, knowledge, and indexing activity at a glance"
     >
-      <div className="@container/main px-4 lg:px-6 space-y-6">
-        {content}
-      </div>
+      <div className="@container/main px-4 lg:px-6 space-y-6">{content}</div>
     </BaseLayout>
-  )
+  );
 }

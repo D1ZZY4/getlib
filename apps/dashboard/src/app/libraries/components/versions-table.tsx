@@ -1,12 +1,12 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -14,22 +14,22 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 export interface LibraryVersionRow {
-  version: string
-  tokens: string
-  snippets: number
-  updated: string
-  isDefault: boolean
+  version: string;
+  tokens: string;
+  snippets: number;
+  updated: string;
+  isDefault: boolean;
 }
 
 export function VersionsTable({
   versions,
   onReindex,
 }: {
-  versions: LibraryVersionRow[]
-  onReindex: (version: string) => void
+  versions: LibraryVersionRow[];
+  onReindex: (version: string) => void;
 }) {
   return (
     <Card>
@@ -86,5 +86,5 @@ export function VersionsTable({
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }

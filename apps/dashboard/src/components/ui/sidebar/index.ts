@@ -1,13 +1,6 @@
 export * from "./constants";
-export { SidebarContext, SidebarProvider, useSidebar } from "./context";
 export type { SidebarContextProps } from "./context";
-export {
-  Sidebar,
-  SidebarInset,
-  SidebarInput,
-  SidebarRail,
-  SidebarTrigger,
-} from "./shell";
+export { SidebarContext, SidebarProvider, useSidebar } from "./context";
 export {
   SidebarContent,
   SidebarFooter,
@@ -30,3 +23,10 @@ export {
   SidebarMenuSubItem,
   sidebarMenuButtonVariants,
 } from "./menu";
+export {
+  Sidebar,
+  SidebarInput,
+  SidebarInset,
+  SidebarRail,
+  SidebarTrigger,
+} from "./shell";

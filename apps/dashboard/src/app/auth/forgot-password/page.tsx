@@ -1,6 +1,6 @@
-import { ForgotPasswordForm } from "./components/forgot-password-form"
-import { Link } from "react-router-dom"
-import { Logo } from "@/components/logo"
+import { Link } from "react-router-dom";
+import { Logo } from "@/components/logo";
+import { ForgotPasswordForm } from "./components/forgot-password-form";
 
 export default function ForgotPasswordPage() {
   return (
@@ -23,10 +23,10 @@ export default function ForgotPasswordPage() {
       <div className="bg-muted relative hidden lg:block">
         <img
           src="https://ui.shadcn.com/placeholder.svg"
-          alt="Image"
+          alt=""
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.95] dark:invert"
         />
       </div>
     </div>
-  )
+  );
 }

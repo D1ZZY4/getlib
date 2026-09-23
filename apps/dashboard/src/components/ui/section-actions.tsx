@@ -1,5 +1,5 @@
-import { RotateCcw } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { RotateCcw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 /**
  * Shared action row for settings section cards.
@@ -20,15 +20,15 @@ export function SectionActions({
   resetDisabled,
   resetLabel,
 }: {
-  saveLabel: string
-  saveDisabled?: boolean
-  onSave?: () => void
-  submitFormId?: string
-  onCancel: () => void
-  cancelDisabled?: boolean
-  onReset: () => void
-  resetDisabled?: boolean
-  resetLabel: string
+  saveLabel: string;
+  saveDisabled?: boolean;
+  onSave?: () => void;
+  submitFormId?: string;
+  onCancel: () => void;
+  cancelDisabled?: boolean;
+  onReset: () => void;
+  resetDisabled?: boolean;
+  resetLabel: string;
 }) {
   return (
     <div className="ml-auto flex items-center gap-2">
@@ -78,5 +78,5 @@ export function SectionActions({
         <RotateCcw className="h-4 w-4" />
       </Button>
     </div>
-  )
+  );
 }

@@ -43,7 +43,8 @@ const corpus: SearchResult[] = z.array(SearchResultSchema).parse([
     source: "npm",
     document: "Getting started",
     section: "Installation",
-    snippet: "Install react and react-dom, then render your root component into a container element.",
+    snippet:
+      "Install react and react-dom, then render your root component into a container element.",
     freshness: "fresh",
   },
   {
@@ -53,7 +54,8 @@ const corpus: SearchResult[] = z.array(SearchResultSchema).parse([
     source: "npm",
     document: "useQuery reference",
     section: "Query keys",
-    snippet: "Query keys uniquely identify cached data and drive automatic refetching behavior.",
+    snippet:
+      "Query keys uniquely identify cached data and drive automatic refetching behavior.",
     freshness: "fresh",
   },
   {
@@ -63,7 +65,8 @@ const corpus: SearchResult[] = z.array(SearchResultSchema).parse([
     source: "npm",
     document: "Schemas and validation",
     section: "Objects",
-    snippet: "z.object defines validated record shapes with inferred TypeScript types.",
+    snippet:
+      "z.object defines validated record shapes with inferred TypeScript types.",
     freshness: "fresh",
   },
   {
@@ -73,7 +76,8 @@ const corpus: SearchResult[] = z.array(SearchResultSchema).parse([
     source: "github",
     document: "Context and HonoRequest",
     section: "Handlers",
-    snippet: "Handlers receive a context carrying the request, response helpers, and variables.",
+    snippet:
+      "Handlers receive a context carrying the request, response helpers, and variables.",
     freshness: "stale",
   },
   {
@@ -93,7 +97,8 @@ const corpus: SearchResult[] = z.array(SearchResultSchema).parse([
     source: "npm",
     document: "Hooks reference",
     section: "useEffect",
-    snippet: "Effects synchronize external systems after render commits to the screen.",
+    snippet:
+      "Effects synchronize external systems after render commits to the screen.",
     freshness: "fresh",
   },
   {
@@ -103,7 +108,8 @@ const corpus: SearchResult[] = z.array(SearchResultSchema).parse([
     source: "npm",
     document: "Strict configuration",
     section: "Compiler options",
-    snippet: "Strict mode enables the full family of type-safety checks for new projects.",
+    snippet:
+      "Strict mode enables the full family of type-safety checks for new projects.",
     freshness: "stale",
   },
   {
@@ -113,7 +119,8 @@ const corpus: SearchResult[] = z.array(SearchResultSchema).parse([
     source: "npm",
     document: "Static deployments",
     section: "Preview",
-    snippet: "Preview serves the production build locally for verification before deploy.",
+    snippet:
+      "Preview serves the production build locally for verification before deploy.",
     freshness: "fresh",
   },
 ]);

@@ -5,8 +5,8 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import Page from "../page";
 import { SidebarConfigProvider } from "@/contexts/sidebar-context";
+import Page from "../page";
 
 function renderPage() {
   const ui: ReactNode = <Page />;
@@ -27,11 +27,15 @@ describe("Indexing page", () => {
   it("switches between board and table views", async () => {
     const user = userEvent.setup();
     renderPage();
-    expect(screen.getByRole("heading", { name: "Running" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Running" }),
+    ).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Table" }));
     expect(screen.getByText("JOB-1041")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Board" }));
-    expect(screen.getByRole("heading", { name: "Running" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Running" }),
+    ).toBeInTheDocument();
   });
 
   it("retries a failed job back to queued", async () => {
@@ -54,9 +58,7 @@ describe("Indexing page", () => {
       name: "Cancel job",
     });
     await user.click(cancels[0] as HTMLElement);
-    expect(
-      within(column("Done")).getByText("JOB-1041"),
-    ).toBeInTheDocument();
+    expect(within(column("Done")).getByText("JOB-1041")).toBeInTheDocument();
   });
 
   it("inspects a failed job with its sanitized error", async () => {

@@ -5,11 +5,11 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import AddPage from "../add/page";
-import EditPage from "../edit/page";
-import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { SidebarConfigProvider } from "@/contexts/sidebar-context";
+import AddPage from "../add/page";
+import EditPage from "../edit/page";
 
 function renderAt(path: string, ui: ReactNode) {
   return render(
@@ -56,7 +56,9 @@ describe("Add library page", () => {
       "https://docs.example.com/probe-lib",
     );
     await user.click(screen.getByRole("button", { name: "Add Library" }));
-    expect(await screen.findByText("Library probe-lib registered for indexing")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Library probe-lib registered for indexing"),
+    ).toBeInTheDocument();
   });
 });
 

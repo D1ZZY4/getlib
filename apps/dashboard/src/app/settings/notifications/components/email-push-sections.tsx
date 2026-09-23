@@ -8,13 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
 import type { NotificationsFormValues } from "./notifications-schema";
 
 function ToggleRow({

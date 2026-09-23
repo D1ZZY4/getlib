@@ -1,24 +1,48 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { Search, MapPin, TrendingUp, Target, ArrowUpIcon, BarChart3 } from "lucide-react"
+import {
+  ArrowUpIcon,
+  BarChart3,
+  MapPin,
+  Search,
+  Target,
+  TrendingUp,
+} from "lucide-react";
+import { useState } from "react";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export interface RetrievalVolumePoint {
-  label: string
-  searches: number
-  withResults: number
+  label: string;
+  searches: number;
+  withResults: number;
 }
 
 export interface RetrievalSourceRow {
-  source: string
-  searches: number
-  share: string
+  source: string;
+  searches: number;
+  share: string;
 }
 
 const chartConfig = {
@@ -30,7 +54,7 @@ const chartConfig = {
     label: "With results",
     color: "var(--chart-2)",
   },
-}
+};
 
 export function CustomerInsights({
   volume,
@@ -39,13 +63,13 @@ export function CustomerInsights({
   successRate,
   activeSources,
 }: {
-  volume: RetrievalVolumePoint[]
-  sources: RetrievalSourceRow[]
-  totalSearches: string
-  successRate: string
-  activeSources: string
+  volume: RetrievalVolumePoint[];
+  sources: RetrievalSourceRow[];
+  totalSearches: string;
+  successRate: string;
+  activeSources: string;
 }) {
-  const [activeTab, setActiveTab] = useState("growth")
+  const [activeTab, setActiveTab] = useState("growth");
 
   return (
     <Card className="h-fit">
@@ -78,39 +102,62 @@ export function CustomerInsights({
               <div className="grid grid-cols-10 gap-6">
                 {/* Chart Area - 70% */}
                 <div className="col-span-10 xl:col-span-7">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-6">Search Volume Trends</h3>
-                  <ChartContainer config={chartConfig} className="h-[375px] w-full">
-                    <BarChart data={volume} margin={{ top: 20, right: 20, bottom: 20, left: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <h3 className="text-sm font-medium text-muted-foreground mb-6">
+                    Search Volume Trends
+                  </h3>
+                  <ChartContainer
+                    config={chartConfig}
+                    className="h-[375px] w-full"
+                  >
+                    <BarChart
+                      data={volume}
+                      margin={{ top: 20, right: 20, bottom: 20, left: 0 }}
+                    >
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        className="stroke-muted"
+                      />
                       <XAxis
                         dataKey="label"
                         className="text-xs"
                         tick={{ fontSize: 12 }}
-                        tickLine={{ stroke: 'var(--border)' }}
-                        axisLine={{ stroke: 'var(--border)' }}
+                        tickLine={{ stroke: "var(--border)" }}
+                        axisLine={{ stroke: "var(--border)" }}
                       />
                       <YAxis
                         className="text-xs"
                         tick={{ fontSize: 12 }}
-                        tickLine={{ stroke: 'var(--border)' }}
-                        axisLine={{ stroke: 'var(--border)' }}
-                        domain={[0, 'dataMax']}
+                        tickLine={{ stroke: "var(--border)" }}
+                        axisLine={{ stroke: "var(--border)" }}
+                        domain={[0, "dataMax"]}
                       />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="searches" fill="var(--color-searches)" radius={[2, 2, 0, 0]} />
-                      <Bar dataKey="withResults" fill="var(--color-withResults)" radius={[2, 2, 0, 0]} />
+                      <Bar
+                        dataKey="searches"
+                        fill="var(--color-searches)"
+                        radius={[2, 2, 0, 0]}
+                      />
+                      <Bar
+                        dataKey="withResults"
+                        fill="var(--color-withResults)"
+                        radius={[2, 2, 0, 0]}
+                      />
                     </BarChart>
                   </ChartContainer>
                 </div>
 
                 {/* Key Metrics - 30% */}
                 <div className="col-span-10 xl:col-span-3 space-y-5">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-6">Key Metrics</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-6">
+                    Key Metrics
+                  </h3>
                   <div className="grid grid-cols-3 gap-5">
                     <div className="p-4 rounded-lg max-lg:col-span-3 xl:col-span-3 border">
                       <div className="flex items-center gap-2 mb-2">
                         <Search className="h-4 w-4 text-primary" />
-                        <span className="text-sm font-medium">Total Searches</span>
+                        <span className="text-sm font-medium">
+                          Total Searches
+                        </span>
                       </div>
                       <div className="text-2xl font-bold">{totalSearches}</div>
                       <div className="text-xs text-green-600 flex items-center gap-1 mt-1">
@@ -122,7 +169,9 @@ export function CustomerInsights({
                     <div className="p-4 rounded-lg max-lg:col-span-3 xl:col-span-3 border">
                       <div className="flex items-center gap-2 mb-2">
                         <Target className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm font-medium">With-Results Rate</span>
+                        <span className="text-sm font-medium">
+                          With-Results Rate
+                        </span>
                       </div>
                       <div className="text-2xl font-bold">{successRate}</div>
                       <div className="text-xs text-green-600 flex items-center gap-1 mt-1">
@@ -134,7 +183,9 @@ export function CustomerInsights({
                     <div className="p-4 rounded-lg max-lg:col-span-3 xl:col-span-3 border">
                       <div className="flex items-center gap-2 mb-2">
                         <BarChart3 className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm font-medium">Active Sources</span>
+                        <span className="text-sm font-medium">
+                          Active Sources
+                        </span>
                       </div>
                       <div className="text-2xl font-bold">{activeSources}</div>
                       <div className="text-xs text-green-600 flex items-center gap-1 mt-1">
@@ -153,16 +204,29 @@ export function CustomerInsights({
               <Table>
                 <TableHeader>
                   <TableRow className="border-b">
-                    <TableHead className="py-5 px-6 font-semibold">Source</TableHead>
-                    <TableHead className="text-right py-5 px-6 font-semibold">Searches</TableHead>
-                    <TableHead className="text-right py-5 px-6 font-semibold">Share</TableHead>
+                    <TableHead className="py-5 px-6 font-semibold">
+                      Source
+                    </TableHead>
+                    <TableHead className="text-right py-5 px-6 font-semibold">
+                      Searches
+                    </TableHead>
+                    <TableHead className="text-right py-5 px-6 font-semibold">
+                      Share
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {sources.map((row, index) => (
-                    <TableRow key={index} className="hover:bg-muted/30 transition-colors">
-                      <TableCell className="font-medium py-5 px-6">{row.source}</TableCell>
-                      <TableCell className="text-right py-5 px-6">{row.searches.toLocaleString()}</TableCell>
+                  {sources.map((row) => (
+                    <TableRow
+                      key={row.source}
+                      className="hover:bg-muted/30 transition-colors"
+                    >
+                      <TableCell className="font-medium py-5 px-6">
+                        {row.source}
+                      </TableCell>
+                      <TableCell className="text-right py-5 px-6">
+                        {row.searches.toLocaleString()}
+                      </TableCell>
                       <TableCell className="text-right py-5 px-6">
                         <span className="font-medium">{row.share}</span>
                       </TableCell>
@@ -188,5 +252,5 @@ export function CustomerInsights({
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

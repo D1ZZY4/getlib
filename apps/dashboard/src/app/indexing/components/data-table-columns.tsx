@@ -2,7 +2,6 @@
 
 import { createColumnHelper } from "@tanstack/react-table";
 import { Ban, EllipsisVertical, Eye, RotateCcw } from "lucide-react";
-import { features, type RowInstance } from "@/lib/table-features";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 import type { IndexJob } from "@/fixtures/indexing";
+import type { features, RowInstance } from "@/lib/table-features";
 
 export function stateVariant(
   state: IndexJob["state"],

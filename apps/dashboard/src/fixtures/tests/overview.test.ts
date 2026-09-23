@@ -1,7 +1,4 @@
-import {
-  HealthResponseSchema,
-  OverviewSummarySchema,
-} from "@getlib/schemas";
+import { HealthResponseSchema, OverviewSummarySchema } from "@getlib/schemas";
 import { describe, expect, it } from "vitest";
 import {
   healthFixture,

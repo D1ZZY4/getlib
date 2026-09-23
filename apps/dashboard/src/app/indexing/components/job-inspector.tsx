@@ -27,7 +27,9 @@ export function JobInspector({
             {job ? `${job.id} · ${job.library}` : "Job detail"}
           </DrawerTitle>
           <DrawerDescription>
-            {job ? `Step: ${job.step} · ${job.progress}% · ${job.duration}` : null}
+            {job
+              ? `Step: ${job.step} · ${job.progress}% · ${job.duration}`
+              : null}
           </DrawerDescription>
         </DrawerHeader>
         <div className="space-y-3 px-4 pb-4 text-sm">
@@ -37,7 +39,9 @@ export function JobInspector({
           </div>
           <div className="flex items-center justify-between rounded-lg border p-3">
             <span className="text-muted-foreground">Retries</span>
-            <span className="font-medium tabular-nums">{job?.retries ?? 0}</span>
+            <span className="font-medium tabular-nums">
+              {job?.retries ?? 0}
+            </span>
           </div>
           <div className="flex items-center justify-between rounded-lg border p-3">
             <span className="text-muted-foreground">Updated</span>
@@ -46,7 +50,9 @@ export function JobInspector({
           {job?.error ? (
             <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-3">
               <p className="font-medium">Sanitized error</p>
-              <p className="text-muted-foreground font-mono text-xs">{job.error}</p>
+              <p className="text-muted-foreground font-mono text-xs">
+                {job.error}
+              </p>
             </div>
           ) : null}
         </div>

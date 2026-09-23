@@ -1,16 +1,15 @@
 "use client";
 
-import * as React from "react";
 import {
   closestCenter,
   DndContext,
+  type DragEndEvent,
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
+  type UniqueIdentifier,
   useSensor,
   useSensors,
-  type DragEndEvent,
-  type UniqueIdentifier,
 } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
@@ -19,6 +18,13 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import {
+  type ColumnFiltersState,
+  type ColumnVisibilityState,
+  flexRender,
+  type SortingState,
+  useTable,
+} from "@tanstack/react-table";
+import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -26,16 +32,8 @@ import {
   ChevronsRight,
   Columns2,
 } from "lucide-react";
-import {
-  flexRender,
-  useTable,
-  type ColumnFiltersState,
-  type ColumnVisibilityState,
-  type SortingState,
-} from "@tanstack/react-table";
-import { z } from "zod";
-import { schema } from "../schemas/task-schema";
-import { features } from "@/lib/table-features";
+import * as React from "react";
+import type { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -59,8 +57,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { taskColumns } from "./task-columns";
+import { features } from "@/lib/table-features";
+import type { schema } from "../schemas/task-schema";
 import { DraggableRow } from "./draggable-row";
+import { taskColumns } from "./task-columns";
 
 type TaskRow = z.infer<typeof schema>;
 
@@ -69,9 +69,14 @@ export function IsolatedTaskTable({ initialData }: { initialData: TaskRow[] }) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<ColumnVisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [pagination, setPagination] = React.useState({ pageIndex: 0, pageSize: 10 });
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
   const sortableId = React.useId();
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
@@ -88,7 +93,13 @@ export function IsolatedTaskTable({ initialData }: { initialData: TaskRow[] }) {
     features,
     data,
     columns: taskColumns,
-    state: { sorting, columnVisibility, rowSelection, columnFilters, pagination },
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+      pagination,
+    },
     getRowId: (row) => row.id.toString(),
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -138,14 +149,20 @@ export function IsolatedTaskTable({ initialData }: { initialData: TaskRow[] }) {
             </TableHeader>
             <TableBody className="**:data-[slot=table-cell]:first:w-8">
               {table.getRowModel().rows?.length ? (
-                <SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
+                <SortableContext
+                  items={dataIds}
+                  strategy={verticalListSortingStrategy}
+                >
                   {table.getRowModel().rows.map((row) => (
                     <DraggableRow key={row.id} row={row} />
                   ))}
                 </SortableContext>
               ) : (
                 <TableRow>
-                  <TableCell colSpan={taskColumns.length} className="h-24 text-center">
+                  <TableCell
+                    colSpan={taskColumns.length}
+                    className="h-24 text-center"
+                  >
                     No results.
                   </TableCell>
                 </TableRow>
@@ -185,7 +202,11 @@ function TableFooter({
             value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => table.setPageSize(Number(value))}
           >
-            <SelectTrigger size="sm" className="w-20 cursor-pointer" id="rows-per-page">
+            <SelectTrigger
+              size="sm"
+              className="w-20 cursor-pointer"
+              id="rows-per-page"
+            >
               <SelectValue placeholder={table.state.pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">

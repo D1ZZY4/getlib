@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import type { RowData } from "@tanstack/react-table"
-import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import type { ColumnInstance } from "@/lib/table-features"
+import type { RowData } from "@tanstack/react-table";
+import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type { ColumnInstance } from "@/lib/table-features";
+import { cn } from "@/lib/utils";
 
 interface DataTableColumnHeaderProps<TData extends RowData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
-  column: ColumnInstance<TData, TValue>
-  title: string
+  column: ColumnInstance<TData, TValue>;
+  title: string;
 }
 
 export function DataTableColumnHeader<TData extends RowData, TValue>({
@@ -19,7 +18,7 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return <div className={cn(className)}>{title}</div>;
   }
 
   return (
@@ -40,5 +39,5 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
         )}
       </Button>
     </div>
-  )
+  );
 }

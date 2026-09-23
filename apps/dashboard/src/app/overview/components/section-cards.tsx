@@ -1,6 +1,6 @@
-import { TrendingDown, TrendingUp } from "lucide-react"
+import { TrendingDown, TrendingUp } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardAction,
@@ -8,20 +8,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export interface OverviewStat {
-  label: string
-  value: string
-  delta: string
-  trend: "up" | "down"
-  footer: string
-  subfooter: string
+  label: string;
+  value: string;
+  delta: string;
+  trend: "up" | "down";
+  footer: string;
+  subfooter: string;
 }
 
 function StatCard({ stat }: { stat: OverviewStat }) {
-  const TrendIcon = stat.trend === "up" ? TrendingUp : TrendingDown
+  const TrendIcon = stat.trend === "up" ? TrendingUp : TrendingDown;
   return (
     <Card className="@container/card">
       <CardHeader>
@@ -40,20 +40,18 @@ function StatCard({ stat }: { stat: OverviewStat }) {
         <div className="line-clamp-1 flex gap-2 font-medium">
           {stat.footer} <TrendIcon className="size-4" />
         </div>
-        <div className="text-muted-foreground">
-          {stat.subfooter}
-        </div>
+        <div className="text-muted-foreground">{stat.subfooter}</div>
       </CardFooter>
     </Card>
-  )
+  );
 }
 
 export function SectionCards({
   stats,
   loading,
 }: {
-  stats?: OverviewStat[]
-  loading?: boolean
+  stats?: OverviewStat[];
+  loading?: boolean;
 }) {
   if (loading || !stats) {
     return (
@@ -75,7 +73,7 @@ export function SectionCards({
           </Card>
         ))}
       </div>
-    )
+    );
   }
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -83,5 +81,5 @@ export function SectionCards({
         <StatCard key={stat.label} stat={stat} />
       ))}
     </div>
-  )
+  );
 }

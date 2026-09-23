@@ -1,11 +1,11 @@
-import type { UseFormReturn } from "react-hook-form"
+import type { UseFormReturn } from "react-hook-form";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -13,10 +13,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { SectionActions } from "@/components/ui/section-actions"
-import type { AppearanceFormValues } from "@/lib/appearance"
+} from "@/components/ui/form";
+import { SectionActions } from "@/components/ui/section-actions";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { AppearanceFormValues } from "@/lib/appearance";
 
 export function PreferencesSection({
   form,
@@ -26,21 +32,19 @@ export function PreferencesSection({
   dirty,
   atDefaults,
 }: {
-  form: UseFormReturn<AppearanceFormValues>
-  onSubmit: (data: AppearanceFormValues) => void
-  onCancel: () => void
-  onReset: () => void
-  dirty: boolean
-  atDefaults: boolean
+  form: UseFormReturn<AppearanceFormValues>;
+  onSubmit: (data: AppearanceFormValues) => void;
+  onCancel: () => void;
+  onReset: () => void;
+  dirty: boolean;
+  atDefaults: boolean;
 }) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0">
         <div>
           <CardTitle>Preferences</CardTitle>
-          <CardDescription>
-            Fonts and content density.
-          </CardDescription>
+          <CardDescription>Fonts and content density.</CardDescription>
         </div>
         <SectionActions
           saveLabel="Save Preferences"
@@ -69,7 +73,10 @@ export function PreferencesSection({
                     <FormLabel>Font Family</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="cursor-pointer" aria-label="Font family">
+                        <SelectTrigger
+                          className="cursor-pointer"
+                          aria-label="Font family"
+                        >
                           <SelectValue placeholder="Select a font" />
                         </SelectTrigger>
                       </FormControl>
@@ -91,7 +98,10 @@ export function PreferencesSection({
                     <FormLabel>Font Size</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="cursor-pointer" aria-label="Font size">
+                        <SelectTrigger
+                          className="cursor-pointer"
+                          aria-label="Font size"
+                        >
                           <SelectValue placeholder="Select font size" />
                         </SelectTrigger>
                       </FormControl>
@@ -113,7 +123,10 @@ export function PreferencesSection({
                     <FormLabel>Sidebar Width</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="cursor-pointer" aria-label="Sidebar width">
+                        <SelectTrigger
+                          className="cursor-pointer"
+                          aria-label="Sidebar width"
+                        >
                           <SelectValue placeholder="Select sidebar width" />
                         </SelectTrigger>
                       </FormControl>
@@ -135,7 +148,10 @@ export function PreferencesSection({
                     <FormLabel>Content Width</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
-                        <SelectTrigger className="cursor-pointer" aria-label="Content width">
+                        <SelectTrigger
+                          className="cursor-pointer"
+                          aria-label="Content width"
+                        >
                           <SelectValue placeholder="Select content width" />
                         </SelectTrigger>
                       </FormControl>
@@ -154,5 +170,5 @@ export function PreferencesSection({
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }

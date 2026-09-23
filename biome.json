@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -20,8 +20,7 @@
       "!**/coverage",
       "!**/*.lock",
       "!bun.lock",
-      "!apps/mcp",
-      "!apps/dashboard"
+      "!apps/mcp"
     ]
   },
   "formatter": {
@@ -44,5 +43,13 @@
   },
   "assist": {
     "enabled": true
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["apps/dashboard/**/*.css"],
+      "linter": { "enabled": false },
+      "formatter": { "enabled": false },
+      "assist": { "enabled": false }
+    }
+  ]
 }

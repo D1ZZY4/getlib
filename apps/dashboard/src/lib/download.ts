@@ -3,7 +3,7 @@
  * Pure builder plus a thin DOM trigger so the builder stays unit-testable.
  */
 export function toCsv(headers: string[], rows: (string | number)[][]): string {
-  const escape = (cell: string | number): string => {
+  const escapeCell = (cell: string | number): string => {
     const text = String(cell);
     if (text.includes('"') || text.includes(",") || text.includes("\n")) {
       return `"${text.replace(/"/g, '""')}"`;
@@ -11,7 +11,7 @@ export function toCsv(headers: string[], rows: (string | number)[][]): string {
     return text;
   };
   return [headers, ...rows]
-    .map((row) => row.map(escape).join(","))
+    .map((row) => row.map(escapeCell).join(","))
     .join("\n");
 }
 

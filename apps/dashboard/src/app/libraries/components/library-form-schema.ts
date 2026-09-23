@@ -1,10 +1,10 @@
-import { z } from "zod"
+import { z } from "zod";
 
 const optionalUrl = z
   .string()
   .refine((value) => value.length === 0 || /^https?:\/\/.+\..+/.test(value), {
     message: "Please enter a valid URL.",
-  })
+  });
 
 export const libraryFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -25,9 +25,9 @@ export const libraryFormSchema = z.object({
   aiRules: z.string().optional(),
   redirectUrl: optionalUrl,
   blockIndexing: z.boolean(),
-})
+});
 
-export type LibraryFormValues = z.infer<typeof libraryFormSchema>
+export type LibraryFormValues = z.infer<typeof libraryFormSchema>;
 
 export const DEFAULT_LIBRARY_VALUES: LibraryFormValues = {
   name: "",
@@ -48,4 +48,4 @@ export const DEFAULT_LIBRARY_VALUES: LibraryFormValues = {
   aiRules: "",
   redirectUrl: "",
   blockIndexing: false,
-}
+};

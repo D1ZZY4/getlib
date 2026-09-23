@@ -1,10 +1,16 @@
 "use client";
 
-import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { flexRender, useTable } from "@tanstack/react-table";
 import { Download, Plus } from "lucide-react";
-import { features } from "@/lib/table-features";
+import { useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  ColumnVisibility,
+  FilterSelect,
+  TablePagination,
+  TableSearch,
+  useTableState,
+} from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -14,14 +20,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ColumnVisibility,
-  FilterSelect,
-  TablePagination,
-  TableSearch,
-  useTableState,
-} from "@/components/data-table";
 import { downloadCsv, toCsv } from "@/lib/download";
+import { features } from "@/lib/table-features";
 import {
   createLibraryTableColumns,
   type LibraryEntry,
@@ -49,7 +49,7 @@ export function DataTable({
   const navigate = useNavigate();
   const state = useTableState();
 
-  const handleExportRow = (entry: LibraryEntry) => {
+  const handleExportRow = useCallback((entry: LibraryEntry) => {
     downloadCsv(
       `getlib-library-${entry.id}.csv`,
       toCsv(
@@ -66,7 +66,7 @@ export function DataTable({
         ],
       ),
     );
-  };
+  }, []);
 
   const columns = useMemo(
     () =>
@@ -76,8 +76,7 @@ export function DataTable({
         onExportRow: handleExportRow,
         onViewDetail: (entry) => navigate(`/libraries/${entry.id}`),
       }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [onDeleteLibrary, onEditLibrary],
+    [onDeleteLibrary, onEditLibrary, handleExportRow, navigate],
   );
 
   const table = useTable({
@@ -106,14 +105,16 @@ export function DataTable({
       "getlib-libraries.csv",
       toCsv(
         ["id", "name", "ecosystem", "version", "indexing", "documents"],
-        table.getFilteredRowModel().rows.map((row) => [
-          row.original.id,
-          row.original.name,
-          row.original.ecosystem,
-          row.original.version,
-          row.original.indexing,
-          row.original.documents,
-        ]),
+        table
+          .getFilteredRowModel()
+          .rows.map((row) => [
+            row.original.id,
+            row.original.name,
+            row.original.ecosystem,
+            row.original.version,
+            row.original.indexing,
+            row.original.documents,
+          ]),
       ),
     );
   };
@@ -130,11 +131,18 @@ export function DataTable({
           />
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" className="cursor-pointer" onClick={handleExportAll}>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleExportAll}
+          >
             <Download className="mr-2 size-4" />
             Export
           </Button>
-          <Button className="cursor-pointer" onClick={() => navigate("/libraries/add")}>
+          <Button
+            className="cursor-pointer"
+            onClick={() => navigate("/libraries/add")}
+          >
             <Plus className="mr-2 h-4 w-4" />
             Add Library
           </Button>
@@ -149,7 +157,9 @@ export function DataTable({
           placeholder="Select State"
           options={INDEXING_OPTIONS}
           onChange={(value) =>
-            table.getColumn("indexing")?.setFilterValue(value === "all" ? "" : value)
+            table
+              .getColumn("indexing")
+              ?.setFilterValue(value === "all" ? "" : value)
           }
         />
         <ColumnVisibility table={table} />
@@ -176,17 +186,26 @@ export function DataTable({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>

@@ -5,8 +5,9 @@
  * Components consume isPending/error/data directly to render the doc 06
  * UI states (loading, stale, recoverable error). No global-store mirror.
  */
-import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+
 import type { HealthResponse, OverviewSummary } from "@getlib/schemas";
+import { type UseQueryResult, useQuery } from "@tanstack/react-query";
 import { healthFixture, overviewFixture } from "@/fixtures/overview";
 import {
   getHealth,

@@ -1,23 +1,22 @@
-"use client"
+"use client";
 
-import * as React from "react"
 import {
-  LayoutPanelLeft,
-  LayoutDashboard,
-  CheckSquare,
   BookOpen,
+  CheckSquare,
   FileText,
   Layers,
+  LayoutDashboard,
+  LayoutPanelLeft,
   Search,
   Settings,
   Users,
-} from "lucide-react"
-import { Link } from "react-router-dom"
-import { Logo } from "@/components/logo"
-import { SidebarNotification } from "@/components/sidebar-notification"
-
-import { NavMain } from "@/components/nav-main"
-import { NavUser } from "@/components/nav-user"
+} from "lucide-react";
+import type * as React from "react";
+import { Link } from "react-router-dom";
+import { Logo } from "@/components/logo";
+import { NavMain } from "@/components/nav-main";
+import { NavUser } from "@/components/nav-user";
+import { SidebarNotification } from "@/components/sidebar-notification";
 import {
   Sidebar,
   SidebarContent,
@@ -26,7 +25,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 const data = {
   user: {
@@ -137,7 +136,7 @@ const data = {
       ],
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -169,5 +168,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

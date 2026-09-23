@@ -1,20 +1,17 @@
 // @vitest-environment jsdom
 import "@testing-library/jest-dom/vitest";
+import type { HealthResponse, OverviewSummary } from "@getlib/schemas";
+import type { UseQueryResult } from "@tanstack/react-query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
-import Page from "../page";
 import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { healthFixture, overviewFixture } from "@/fixtures/overview";
-import {
-  useHealthQuery,
-  useOverviewQuery,
-} from "@/hooks/use-overview";
-import type { UseQueryResult } from "@tanstack/react-query";
-import type { HealthResponse, OverviewSummary } from "@getlib/schemas";
+import { useHealthQuery, useOverviewQuery } from "@/hooks/use-overview";
+import Page from "../page";
 
 vi.mock("@/hooks/use-overview", () => ({
   useHealthQuery: vi.fn(),
@@ -40,9 +37,7 @@ function queryResult<T>(overrides: {
   } as UseQueryResult<T, Error>;
 }
 
-function mockSuccess(
-  summary: OverviewSummary = overviewFixture,
-) {
+function mockSuccess(summary: OverviewSummary = overviewFixture) {
   healthQuery.mockReturnValue(
     queryResult<HealthResponse>({ data: healthFixture }),
   );
@@ -71,7 +66,9 @@ describe("Dashboard OverviewPage", () => {
     healthQuery.mockReturnValue(queryResult({ isPending: true }));
     overviewQuery.mockReturnValue(queryResult({ isPending: true }));
     renderPage();
-    expect(screen.getByRole("status", { name: "Loading overview" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("status", { name: "Loading overview" }),
+    ).toBeInTheDocument();
   });
 
   it("renders fixture-backed summary, health, activity, and recents", () => {
@@ -105,10 +102,16 @@ describe("Dashboard OverviewPage", () => {
     const refetchHealth = vi.fn(() => Promise.resolve());
     const refetchOverview = vi.fn(() => Promise.resolve());
     healthQuery.mockReturnValue(
-      queryResult({ error: new Error("service unreachable"), refetch: refetchHealth }),
+      queryResult({
+        error: new Error("service unreachable"),
+        refetch: refetchHealth,
+      }),
     );
     overviewQuery.mockReturnValue(
-      queryResult<OverviewSummary>({ data: overviewFixture, refetch: refetchOverview }),
+      queryResult<OverviewSummary>({
+        data: overviewFixture,
+        refetch: refetchOverview,
+      }),
     );
     renderPage();
     expect(screen.getByRole("alert")).toHaveTextContent("service unreachable");

@@ -1,43 +1,55 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { z } from "zod"
-import { ArrowUp, BarChart3, CheckCircle2, Clock, ListTodo } from "lucide-react"
+import {
+  ArrowUp,
+  BarChart3,
+  CheckCircle2,
+  Clock,
+  ListTodo,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { columns } from "./components/columns"
-import { DataTable } from "./components/data-table"
-import { taskSchema, type Task } from "./data/schema"
-import tasksData from "./data/tasks.json"
+import { BaseLayout } from "@/components/layouts/base-layout";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { columns } from "./components/columns";
+import { DataTable } from "./components/data-table";
+import { type Task, taskSchema } from "./data/schema";
+import tasksData from "./data/tasks.json";
 
 // Use static import for tasks data (works in both Vite and Next.js)
 async function getTasks() {
-  return z.array(taskSchema).parse(tasksData)
+  return z.array(taskSchema).parse(tasksData);
 }
 
 export default function TaskPage() {
-  const [tasks, setTasks] = useState<z.infer<typeof taskSchema>[]>([])
-  const [loading, setLoading] = useState(true)
+  const [tasks, setTasks] = useState<z.infer<typeof taskSchema>[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadTasks = async () => {
       try {
-        const taskList = await getTasks()
-        setTasks(taskList)
+        const taskList = await getTasks();
+        setTasks(taskList);
       } catch (error) {
-        console.error("Failed to load tasks:", error)
+        console.error("Failed to load tasks:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadTasks()
-  }, [])
+    loadTasks();
+  }, []);
 
   const handleAddTask = (newTask: Task) => {
-    setTasks(prev => [newTask, ...prev])
-  }
+    setTasks((prev) => [newTask, ...prev]);
+  };
 
   // Calculate statistics (guard division by zero for empty states)
   const stats = {
@@ -51,16 +63,22 @@ export default function TaskPage() {
 
   if (loading) {
     return (
-      <BaseLayout title="Tasks" description="A powerful task and issue tracker built with Tanstack Table.">
+      <BaseLayout
+        title="Tasks"
+        description="A powerful task and issue tracker built with Tanstack Table."
+      >
         <div className="flex items-center justify-center h-96">
           <div className="text-muted-foreground">Loading tasks...</div>
         </div>
       </BaseLayout>
-    )
+    );
   }
 
   return (
-    <BaseLayout title="Tasks" description="A powerful task and issue tracker built with Tanstack Table.">
+    <BaseLayout
+      title="Tasks"
+      description="A powerful task and issue tracker built with Tanstack Table."
+    >
       {/* Mobile view placeholder - shows message instead of images */}
       <div className="md:hidden">
         <div className="flex items-center justify-center h-96 border rounded-lg bg-muted/20">
@@ -81,7 +99,9 @@ export default function TaskPage() {
             <CardContent>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm font-medium">Total Tasks</p>
+                  <p className="text-muted-foreground text-sm font-medium">
+                    Total Tasks
+                  </p>
                   <div className="mt-1 flex items-baseline gap-2">
                     <span className="text-2xl font-bold">{stats.total}</span>
                     <span className="flex items-center gap-0.5 text-sm text-green-500">
@@ -101,9 +121,13 @@ export default function TaskPage() {
             <CardContent>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm font-medium">Completed</p>
+                  <p className="text-muted-foreground text-sm font-medium">
+                    Completed
+                  </p>
                   <div className="mt-1 flex items-baseline gap-2">
-                    <span className="text-2xl font-bold">{stats.completed}</span>
+                    <span className="text-2xl font-bold">
+                      {stats.completed}
+                    </span>
                     <span className="flex items-center gap-0.5 text-sm text-green-500">
                       <ArrowUp className="size-3.5" />
                       {percent(stats.completed)}%
@@ -121,9 +145,13 @@ export default function TaskPage() {
             <CardContent>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm font-medium">In Progress</p>
+                  <p className="text-muted-foreground text-sm font-medium">
+                    In Progress
+                  </p>
                   <div className="mt-1 flex items-baseline gap-2">
-                    <span className="text-2xl font-bold">{stats.inProgress}</span>
+                    <span className="text-2xl font-bold">
+                      {stats.inProgress}
+                    </span>
                     <span className="flex items-center gap-0.5 text-sm text-green-500">
                       <ArrowUp className="size-3.5" />
                       {percent(stats.inProgress)}%
@@ -141,7 +169,9 @@ export default function TaskPage() {
             <CardContent>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm font-medium">Pending</p>
+                  <p className="text-muted-foreground text-sm font-medium">
+                    Pending
+                  </p>
                   <div className="mt-1 flex items-baseline gap-2">
                     <span className="text-2xl font-bold">{stats.pending}</span>
                     <span className="flex items-center gap-0.5 text-sm text-orange-500">
@@ -167,10 +197,14 @@ export default function TaskPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <DataTable data={tasks} columns={columns} onAddTask={handleAddTask} />
+            <DataTable
+              data={tasks}
+              columns={columns}
+              onAddTask={handleAddTask}
+            />
           </CardContent>
         </Card>
       </div>
     </BaseLayout>
-  )
+  );
 }

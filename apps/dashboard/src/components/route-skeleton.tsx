@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * Route transition fallback for the lazy routes in AppRouter.
@@ -51,5 +51,5 @@ export function RouteSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }

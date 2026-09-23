@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import { defineConfig } from "vitest/config";
 
 // Slice 2 adds @testing-library/react + jsdom for component behavior.

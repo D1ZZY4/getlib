@@ -1,8 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { flexRender, useTable } from "@tanstack/react-table";
-import { features } from "@/lib/table-features";
+import { useMemo, useState } from "react";
+import {
+  ColumnVisibility,
+  FilterSelect,
+  TablePagination,
+  TableSearch,
+  useTableState,
+} from "@/components/data-table";
 import {
   Table,
   TableBody,
@@ -11,14 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ColumnVisibility,
-  FilterSelect,
-  TablePagination,
-  TableSearch,
-  useTableState,
-} from "@/components/data-table";
 import type { IndexJob } from "@/fixtures/indexing";
+import { features } from "@/lib/table-features";
 import { createJobColumns } from "./data-table-columns";
 import { JobInspector } from "./job-inspector";
 
@@ -98,7 +98,9 @@ export function DataTable({ jobs, onRetry, onCancel }: DataTableProps) {
           placeholder="Select State"
           options={STATE_OPTIONS}
           onChange={(value) =>
-            table.getColumn("state")?.setFilterValue(value === "all" ? "" : value)
+            table
+              .getColumn("state")
+              ?.setFilterValue(value === "all" ? "" : value)
           }
         />
         <ColumnVisibility table={table} />
@@ -125,17 +127,26 @@ export function DataTable({ jobs, onRetry, onCancel }: DataTableProps) {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>

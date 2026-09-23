@@ -1,15 +1,17 @@
-import { useState } from "react";
 import type {
   ColumnFiltersState,
   ColumnVisibilityState,
   SortingState,
 } from "@tanstack/react-table";
+import { useState } from "react";
 
 export interface TableStateOptions {
   initialPageSize?: number;
 }
 
-export function useTableState({ initialPageSize = 10 }: TableStateOptions = {}) {
+export function useTableState({
+  initialPageSize = 10,
+}: TableStateOptions = {}) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] =

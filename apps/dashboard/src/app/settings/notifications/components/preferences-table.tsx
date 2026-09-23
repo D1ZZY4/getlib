@@ -1,6 +1,7 @@
 "use client";
 
 import type { UseFormReturn } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,9 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -64,22 +69,37 @@ function ChannelCheckbox({
   );
 }
 
-const ROWS: { label: string; fields: [ChannelField, ChannelField, ChannelField] }[] = [
+const ROWS: {
+  label: string;
+  fields: [ChannelField, ChannelField, ChannelField];
+}[] = [
   {
     label: "Order updates",
     fields: ["orderUpdatesEmail", "orderUpdatesBrowser", "orderUpdatesApp"],
   },
   {
     label: "Invoice reminders",
-    fields: ["invoiceRemindersEmail", "invoiceRemindersBrowser", "invoiceRemindersApp"],
+    fields: [
+      "invoiceRemindersEmail",
+      "invoiceRemindersBrowser",
+      "invoiceRemindersApp",
+    ],
   },
   {
     label: "Promotional offers",
-    fields: ["promotionalOffersEmail", "promotionalOffersBrowser", "promotionalOffersApp"],
+    fields: [
+      "promotionalOffersEmail",
+      "promotionalOffersBrowser",
+      "promotionalOffersApp",
+    ],
   },
   {
     label: "System maintenance",
-    fields: ["systemMaintenanceEmail", "systemMaintenanceBrowser", "systemMaintenanceApp"],
+    fields: [
+      "systemMaintenanceEmail",
+      "systemMaintenanceBrowser",
+      "systemMaintenanceApp",
+    ],
   },
 ];
 
@@ -130,14 +150,19 @@ export function PreferencesTable({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>When should we send you notifications?</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger className="w-full max-w-sm">
                       <SelectValue placeholder="Select timing" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="online">Only When I&apos;m online</SelectItem>
+                    <SelectItem value="online">
+                      Only When I&apos;m online
+                    </SelectItem>
                     <SelectItem value="always">Always</SelectItem>
                     <SelectItem value="never">Never</SelectItem>
                   </SelectContent>

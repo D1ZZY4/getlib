@@ -1,15 +1,14 @@
 "use client";
 
 import { useSortable } from "@dnd-kit/sortable";
-import { GripVertical } from "lucide-react";
-import { z } from "zod";
-import { schema } from "../schemas/task-schema";
-import { Button } from "@/components/ui/button";
-import { TableCell } from "@/components/ui/table";
-import { TableRow } from "@/components/ui/table";
 import { CSS } from "@dnd-kit/utilities";
 import { flexRender } from "@tanstack/react-table";
+import { GripVertical } from "lucide-react";
+import type { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { TableCell, TableRow } from "@/components/ui/table";
 import type { RowInstance } from "@/lib/table-features";
+import type { schema } from "../schemas/task-schema";
 
 export function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({ id });

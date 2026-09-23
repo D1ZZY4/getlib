@@ -1,8 +1,8 @@
-import { useState } from "react"
-import { Plus, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Plus, X } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function StringListInput({
   label,
@@ -11,20 +11,20 @@ export function StringListInput({
   onChange,
   placeholder,
 }: {
-  label: string
-  description?: string
-  values: string[]
-  onChange: (values: string[]) => void
-  placeholder: string
+  label: string;
+  description?: string;
+  values: string[];
+  onChange: (values: string[]) => void;
+  placeholder: string;
 }) {
-  const [draft, setDraft] = useState("")
+  const [draft, setDraft] = useState("");
 
   const addValue = () => {
-    const trimmed = draft.trim()
-    if (trimmed.length === 0 || values.includes(trimmed)) return
-    onChange([...values, trimmed])
-    setDraft("")
-  }
+    const trimmed = draft.trim();
+    if (trimmed.length === 0 || values.includes(trimmed)) return;
+    onChange([...values, trimmed]);
+    setDraft("");
+  };
 
   return (
     <div className="space-y-2">
@@ -62,8 +62,8 @@ export function StringListInput({
           onChange={(event) => setDraft(event.target.value)}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
-              event.preventDefault()
-              addValue()
+              event.preventDefault();
+              addValue();
             }
           }}
           placeholder={placeholder}
@@ -76,5 +76,5 @@ export function StringListInput({
         </Button>
       </div>
     </div>
-  )
+  );
 }

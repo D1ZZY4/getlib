@@ -1,65 +1,69 @@
-"use client"
+"use client";
 
-import type { RowData } from "@tanstack/react-table"
-import { RefreshCcw } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import type { RowData } from "@tanstack/react-table";
+import { RefreshCcw } from "lucide-react";
+import { DataTableViewOptions } from "@/app/tasks/components/data-table-view-options";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import type { TableInstance } from "@/lib/table-features"
-import { DataTableViewOptions } from "@/app/tasks/components/data-table-view-options"
-import { AddTaskModal } from "./add-task-modal"
-
-import { categories, priorities, statuses } from "../data/data"
-import type { Task } from "../data/schema"
+} from "@/components/ui/select";
+import type { TableInstance } from "@/lib/table-features";
+import { categories, priorities, statuses } from "../data/data";
+import type { Task } from "../data/schema";
+import { AddTaskModal } from "./add-task-modal";
 
 interface DataTableToolbarProps<TData extends RowData> {
-  table: TableInstance<TData>
-  onAddTask?: (task: Task) => void
+  table: TableInstance<TData>;
+  onAddTask?: (task: Task) => void;
 }
 
 export function DataTableToolbar<TData extends RowData>({
   table,
   onAddTask,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.state.columnFilters.length > 0
+  const isFiltered = table.state.columnFilters.length > 0;
 
   const handleStatusChange = (value: string) => {
-    const column = table.getColumn("status")
+    const column = table.getColumn("status");
     if (value === "all") {
-      column?.setFilterValue(undefined)
+      column?.setFilterValue(undefined);
     } else {
-      column?.setFilterValue(value)
+      column?.setFilterValue(value);
     }
-  }
+  };
 
   const handleCategoryChange = (value: string) => {
-    const column = table.getColumn("category")
+    const column = table.getColumn("category");
     if (value === "all") {
-      column?.setFilterValue(undefined)
+      column?.setFilterValue(undefined);
     } else {
-      column?.setFilterValue(value)
+      column?.setFilterValue(value);
     }
-  }
+  };
 
   const handlePriorityChange = (value: string) => {
-    const column = table.getColumn("priority")
+    const column = table.getColumn("priority");
     if (value === "all") {
-      column?.setFilterValue(undefined)
+      column?.setFilterValue(undefined);
     } else {
-      column?.setFilterValue(value)
+      column?.setFilterValue(value);
     }
-  }
+  };
 
-  const statusFilter = table.getColumn("status")?.getFilterValue() as string | undefined
-  const categoryFilter = table.getColumn("category")?.getFilterValue() as string | undefined
-  const priorityFilter = table.getColumn("priority")?.getFilterValue() as string | undefined
+  const statusFilter = table.getColumn("status")?.getFilterValue() as
+    | string
+    | undefined;
+  const categoryFilter = table.getColumn("category")?.getFilterValue() as
+    | string
+    | undefined;
+  const priorityFilter = table.getColumn("priority")?.getFilterValue() as
+    | string
+    | undefined;
 
   return (
     <div className="space-y-4">
@@ -75,7 +79,9 @@ export function DataTableToolbar<TData extends RowData>({
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all" className="cursor-pointer">All Status</SelectItem>
+              <SelectItem value="all" className="cursor-pointer">
+                All Status
+              </SelectItem>
               {statuses.map((status) => (
                 <SelectItem
                   key={status.value}
@@ -102,7 +108,9 @@ export function DataTableToolbar<TData extends RowData>({
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all" className="cursor-pointer">All Categories</SelectItem>
+              <SelectItem value="all" className="cursor-pointer">
+                All Categories
+              </SelectItem>
               {categories.map((category) => (
                 <SelectItem
                   key={category.value}
@@ -124,7 +132,9 @@ export function DataTableToolbar<TData extends RowData>({
               <SelectValue placeholder="Priority" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all" className="cursor-pointer">All Priorities</SelectItem>
+              <SelectItem value="all" className="cursor-pointer">
+                All Priorities
+              </SelectItem>
               {priorities.map((priority) => (
                 <SelectItem
                   key={priority.value}
@@ -171,5 +181,5 @@ export function DataTableToolbar<TData extends RowData>({
         </div>
       </div>
     </div>
-  )
+  );
 }

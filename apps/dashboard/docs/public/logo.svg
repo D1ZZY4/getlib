@@ -6,6 +6,7 @@ fill='none'
 xmlns='http://www.w3.org/2000/svg'
 className='size-7'
 >
+<title>GetLib logo</title>
     <path
         d='M26 24.75C26.4142 24.75 26.75 24.4142 26.75 24C26.75 23.5858 26.4142 23.25 26 23.25V24.75ZM26 23.25H11V24.75H26V23.25ZM8.75 21V15H7.25V21H8.75ZM11 23.25C9.75736 23.25 8.75 22.2426 8.75 21H7.25C7.25 23.0711 8.92893 24.75 11 24.75V23.25Z'
         fill='currentColor'

@@ -1,14 +1,14 @@
 "use client";
 
-import { Link } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
-import { features } from "@/lib/table-features";
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { LibraryEntryFixture } from "@/fixtures/libraries";
+import type { features } from "@/lib/table-features";
 
 export type LibraryTrust = "high" | "medium" | "low";
 

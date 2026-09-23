@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 const LIBRARY_OPTIONS = [
   "all",
@@ -17,11 +17,11 @@ const LIBRARY_OPTIONS = [
   "drizzle-orm",
   "typescript",
   "vite",
-]
+];
 
-const SOURCE_OPTIONS = ["all", "npm", "github"]
+const SOURCE_OPTIONS = ["all", "npm", "github"];
 
-const LIMIT_OPTIONS = ["5", "10", "25"]
+const LIMIT_OPTIONS = ["5", "10", "25"];
 
 export function SearchForm({
   draft,
@@ -36,17 +36,17 @@ export function SearchForm({
   onLimitChange,
   onSubmit,
 }: {
-  draft: string
-  onDraftChange: (value: string) => void
-  library: string
-  onLibraryChange: (value: string) => void
-  version: string
-  onVersionChange: (value: string) => void
-  source: string
-  onSourceChange: (value: string) => void
-  limit: string
-  onLimitChange: (value: string) => void
-  onSubmit: (event: React.FormEvent) => void
+  draft: string;
+  onDraftChange: (value: string) => void;
+  library: string;
+  onLibraryChange: (value: string) => void;
+  version: string;
+  onVersionChange: (value: string) => void;
+  source: string;
+  onSourceChange: (value: string) => void;
+  limit: string;
+  onLimitChange: (value: string) => void;
+  onSubmit: (event: React.FormEvent) => void;
 }) {
   return (
     <form
@@ -107,5 +107,5 @@ export function SearchForm({
         Search
       </Button>
     </form>
-  )
+  );
 }

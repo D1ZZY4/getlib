@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import type { RowData } from "@tanstack/react-table"
+import type { RowData } from "@tanstack/react-table";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import type { TableInstance } from "@/lib/table-features"
+} from "@/components/ui/select";
+import type { TableInstance } from "@/lib/table-features";
 
 interface DataTablePaginationProps<TData extends RowData> {
-  table: TableInstance<TData>
+  table: TableInstance<TData>;
 }
 
 export function DataTablePagination<TData extends RowData>({
@@ -37,7 +37,7 @@ export function DataTablePagination<TData extends RowData>({
           <Select
             value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {
-              table.setPageSize(Number(value))
+              table.setPageSize(Number(value));
             }}
           >
             <SelectTrigger className="h-8 w-[70px] cursor-pointer">
@@ -45,7 +45,11 @@ export function DataTablePagination<TData extends RowData>({
             </SelectTrigger>
             <SelectContent side="top">
               {[10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={`${pageSize}`} className="cursor-pointer">
+                <SelectItem
+                  key={pageSize}
+                  value={`${pageSize}`}
+                  className="cursor-pointer"
+                >
                   {pageSize}
                 </SelectItem>
               ))}
@@ -96,5 +100,5 @@ export function DataTablePagination<TData extends RowData>({
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -20,8 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { StringListInput } from "./string-list";
 import type { LibraryFormValues } from "./library-form-schema";
+import { StringListInput } from "./string-list";
 
 export function SourcesSection({
   form,

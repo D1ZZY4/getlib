@@ -1,6 +1,6 @@
-import { TrendingDown, TrendingUp } from "lucide-react"
+import { TrendingDown, TrendingUp } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardAction,
@@ -8,18 +8,18 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 export interface LogTile {
-  label: string
-  value: string
-  delta: string
-  trend: "up" | "down"
-  footer: string
-  subfooter: string
+  label: string;
+  value: string;
+  delta: string;
+  trend: "up" | "down";
+  footer: string;
+  subfooter: string;
 }
 
 function TileCard({ tile }: { tile: LogTile }) {
-  const TrendIcon = tile.trend === "up" ? TrendingUp : TrendingDown
+  const TrendIcon = tile.trend === "up" ? TrendingUp : TrendingDown;
   return (
     <Card className="@container/card">
       <CardHeader>
@@ -38,12 +38,10 @@ function TileCard({ tile }: { tile: LogTile }) {
         <div className="line-clamp-1 flex gap-2 font-medium">
           {tile.footer} <TrendIcon className="size-4" />
         </div>
-        <div className="text-muted-foreground">
-          {tile.subfooter}
-        </div>
+        <div className="text-muted-foreground">{tile.subfooter}</div>
       </CardFooter>
     </Card>
-  )
+  );
 }
 
 export function StatCards({ tiles }: { tiles: LogTile[] }) {
@@ -53,5 +51,5 @@ export function StatCards({ tiles }: { tiles: LogTile[] }) {
         <TileCard key={tile.label} tile={tile} />
       ))}
     </div>
-  )
+  );
 }

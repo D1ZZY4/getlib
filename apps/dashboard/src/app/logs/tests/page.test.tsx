@@ -5,8 +5,8 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import Page from "../page";
 import { SidebarConfigProvider } from "@/contexts/sidebar-context";
+import Page from "../page";
 
 function renderPage() {
   const ui: ReactNode = <Page />;
@@ -90,22 +90,15 @@ describe("Logs page", () => {
     renderPage();
     await user.click(screen.getByRole("button", { name: "Add Log Entry" }));
     const dialog = await screen.findByRole("dialog");
-    await user.type(
-      within(dialog).getByLabelText("Message"),
-      "probe entry",
-    );
+    await user.type(within(dialog).getByLabelText("Message"), "probe entry");
     await user.type(within(dialog).getByLabelText("Request ID"), "req-probe");
     await user.click(within(dialog).getByRole("combobox", { name: "Level" }));
     await user.click(screen.getByRole("option", { name: "Info" }));
     await user.type(within(dialog).getByLabelText("Time"), "09:00:00");
     await user.type(within(dialog).getByLabelText("Request"), "req-probe");
-    await user.click(
-      within(dialog).getByRole("combobox", { name: "Service" }),
-    );
+    await user.click(within(dialog).getByRole("combobox", { name: "Service" }));
     await user.click(screen.getByRole("option", { name: "api" }));
-    await user.click(
-      within(dialog).getByRole("button", { name: "Save Log" }),
-    );
+    await user.click(within(dialog).getByRole("button", { name: "Save Log" }));
     expect(screen.getByText("probe entry")).toBeInTheDocument();
   });
 });

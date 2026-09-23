@@ -5,9 +5,9 @@ import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import Page from "../page";
 import { SidebarConfigProvider } from "@/contexts/sidebar-context";
 import { GetLibQueryProvider } from "@/lib/query-provider";
+import Page from "../page";
 
 function renderPage() {
   const ui: ReactNode = <Page />;
@@ -20,7 +20,10 @@ function renderPage() {
   );
 }
 
-async function searchFor(user: ReturnType<typeof userEvent.setup>, query: string) {
+async function searchFor(
+  user: ReturnType<typeof userEvent.setup>,
+  query: string,
+) {
   await user.type(screen.getByRole("textbox", { name: "Search query" }), query);
   await user.click(screen.getByRole("button", { name: "Search" }));
   await user.click(screen.getByRole("tab", { name: "Knowledge" }));
@@ -38,7 +41,10 @@ describe("Search page", () => {
   it("filters the library table by query", async () => {
     const user = userEvent.setup();
     renderPage();
-    await user.type(screen.getByRole("textbox", { name: "Search query" }), "zod");
+    await user.type(
+      screen.getByRole("textbox", { name: "Search query" }),
+      "zod",
+    );
     await user.click(screen.getByRole("button", { name: "Search" }));
     const table = screen.getByRole("table");
     expect(within(table).getByText("zod")).toBeInTheDocument();

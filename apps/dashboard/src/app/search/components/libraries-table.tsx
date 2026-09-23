@@ -1,9 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
 import { flexRender, useTable } from "@tanstack/react-table";
 import { Download } from "lucide-react";
-import { features } from "@/lib/table-features";
+import { useMemo } from "react";
+import {
+  ColumnVisibility,
+  TablePagination,
+  useTableState,
+} from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,13 +17,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ColumnVisibility,
-  TablePagination,
-  useTableState,
-} from "@/components/data-table";
-import { downloadCsv, toCsv } from "@/lib/download";
 import type { LibraryEntryFixture } from "@/fixtures/libraries";
+import { downloadCsv, toCsv } from "@/lib/download";
+import { features } from "@/lib/table-features";
 import {
   createLibraryColumns,
   type LibraryTrust,
@@ -58,14 +58,16 @@ export function LibrariesTable({
       "getlib-search-libraries.csv",
       toCsv(
         ["name", "ecosystem", "version", "sources", "documents", "trust"],
-        table.getFilteredRowModel().rows.map((row) => [
-          row.original.name,
-          row.original.ecosystem,
-          row.original.version,
-          row.original.sources,
-          row.original.documents,
-          trustFor(row.original),
-        ]),
+        table
+          .getFilteredRowModel()
+          .rows.map((row) => [
+            row.original.name,
+            row.original.ecosystem,
+            row.original.version,
+            row.original.sources,
+            row.original.documents,
+            trustFor(row.original),
+          ]),
       ),
     );
   };
@@ -78,7 +80,11 @@ export function LibrariesTable({
           <span className="text-muted-foreground text-sm">
             {entries.length} libraries
           </span>
-          <Button variant="outline" className="cursor-pointer" onClick={handleExport}>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleExport}
+          >
             <Download className="mr-2 size-4" />
             Export
           </Button>
@@ -112,14 +118,20 @@ export function LibrariesTable({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No libraries found.
                 </TableCell>
               </TableRow>

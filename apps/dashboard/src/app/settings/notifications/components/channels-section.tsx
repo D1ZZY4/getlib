@@ -1,5 +1,6 @@
 "use client";
 
+import { Bell, Mail, MessageSquare } from "lucide-react";
 import type { UseFormReturn } from "react-hook-form";
 import {
   Card,
@@ -8,15 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { Bell, Mail, MessageSquare } from "lucide-react";
 import type { NotificationsFormValues } from "./notifications-schema";
 
 function ChannelRow({

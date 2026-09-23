@@ -1,34 +1,37 @@
-"use client"
+"use client";
 
-import { useNavigate, useParams } from "react-router-dom"
-import { toast } from "sonner"
-import { BaseLayout } from "@/components/layouts/base-layout"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
+import { BaseLayout } from "@/components/layouts/base-layout";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { VersionsTable } from "../components/versions-table"
-import { libraryCorpusFixture, libraryVersionsFixture } from "@/fixtures/libraries"
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  libraryCorpusFixture,
+  libraryVersionsFixture,
+} from "@/fixtures/libraries";
+import { VersionsTable } from "../components/versions-table";
 
 function indexingVariant(
   indexing: string,
 ): "default" | "secondary" | "destructive" | "outline" {
-  if (indexing === "indexed") return "default"
-  if (indexing === "indexing") return "secondary"
-  if (indexing === "failed") return "destructive"
-  return "outline"
+  if (indexing === "indexed") return "default";
+  if (indexing === "indexing") return "secondary";
+  if (indexing === "failed") return "destructive";
+  return "outline";
 }
 
 export default function LibraryDetailPage() {
-  const navigate = useNavigate()
-  const { id } = useParams()
-  const entry = libraryCorpusFixture.find((item) => item.id === id)
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const entry = libraryCorpusFixture.find((item) => item.id === id);
 
   if (!entry) {
     return (
@@ -47,12 +50,12 @@ export default function LibraryDetailPage() {
           </Card>
         </div>
       </BaseLayout>
-    )
+    );
   }
 
-  const chunks = entry.documents * 8
-  const examples = entry.documents * 2
-  const snippets = entry.documents * 3
+  const chunks = entry.documents * 8;
+  const examples = entry.documents * 2;
+  const snippets = entry.documents * 3;
   const sources = [
     {
       type: "registry",
@@ -69,7 +72,7 @@ export default function LibraryDetailPage() {
       url: `https://docs.example.com/${entry.name}`,
       status: entry.indexing === "failed" ? "unreachable" : "healthy",
     },
-  ]
+  ];
 
   return (
     <BaseLayout
@@ -190,5 +193,5 @@ export default function LibraryDetailPage() {
         </Tabs>
       </div>
     </BaseLayout>
-  )
+  );
 }

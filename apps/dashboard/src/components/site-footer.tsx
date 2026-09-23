@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export function SiteFooter() {
   return (
@@ -19,5 +19,5 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
-  )
+  );
 }

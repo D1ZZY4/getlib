@@ -1,11 +1,9 @@
 "use client";
 
+import { TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
-import { TrendingUp } from "lucide-react";
-import { z } from "zod";
-import { schema } from "../schemas/task-schema";
-import { useIsMobile } from "@/hooks/use-mobile";
+import type { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   type ChartConfig,
@@ -33,6 +31,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useIsMobile } from "@/hooks/use-mobile";
+import type { schema } from "../schemas/task-schema";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -107,7 +107,8 @@ export function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               <Separator />
               <div className="grid gap-2">
                 <div className="flex gap-2 leading-none font-medium">
-                  Trending up by 5.2% this month <TrendingUp className="size-4" />
+                  Trending up by 5.2% this month{" "}
+                  <TrendingUp className="size-4" />
                 </div>
                 <div className="text-muted-foreground">
                   Showing total visitors for the last 6 months.
