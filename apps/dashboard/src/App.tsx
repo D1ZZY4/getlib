@@ -2,6 +2,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { ThemeProvider } from '@/components/theme-provider'
 import { SidebarConfigProvider } from '@/contexts/sidebar-context'
 import { AppRouter } from '@/components/router/app-router'
+import { GetLibQueryProvider } from '@/lib/query-provider'
 import { useEffect } from 'react'
 import { initGTM } from '@/utils/analytics'
 
@@ -18,9 +19,11 @@ function App() {
     <div className="font-sans antialiased" style={{ fontFamily: 'var(--font-inter)' }}>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <SidebarConfigProvider>
-          <Router basename={basename}>
-            <AppRouter />
-          </Router>
+          <GetLibQueryProvider>
+            <Router basename={basename}>
+              <AppRouter />
+            </Router>
+          </GetLibQueryProvider>
         </SidebarConfigProvider>
       </ThemeProvider>
     </div>

@@ -7,6 +7,7 @@ import {
   LibraryQuerySchema,
   LibrarySlugSchema,
   LibraryVersionSchema,
+  OverviewSummarySchema,
 } from "./index.js";
 
 describe("@getlib/schemas", () => {
@@ -66,5 +67,37 @@ describe("@getlib/schemas", () => {
       ApiErrorSchema.parse({ code: "NOT_FOUND", message: "missing" }).code,
     ).toBe("NOT_FOUND");
     expect(() => ApiErrorSchema.parse({ code: "", message: "" })).toThrow();
+  });
+
+  it("validates overview summary counts and freshness timestamp", () => {
+    const summary = OverviewSummarySchema.parse({
+      libraryCount: 12,
+      documentCount: 340,
+      chunkCount: 5210,
+      activeJobs: 2,
+      failedJobs: 0,
+      generatedAt: "2026-09-23T07:00:00.000Z",
+    });
+    expect(summary.libraryCount).toBe(12);
+    expect(() =>
+      OverviewSummarySchema.parse({
+        libraryCount: -1,
+        documentCount: 0,
+        chunkCount: 0,
+        activeJobs: 0,
+        failedJobs: 0,
+        generatedAt: "2026-09-23T07:00:00.000Z",
+      }),
+    ).toThrow();
+    expect(() =>
+      OverviewSummarySchema.parse({
+        libraryCount: 0,
+        documentCount: 0,
+        chunkCount: 0,
+        activeJobs: 0,
+        failedJobs: 0,
+        generatedAt: "not-a-timestamp",
+      }),
+    ).toThrow();
   });
 });

@@ -68,6 +68,22 @@ export const HealthResponseSchema = z.object({
 
 export type HealthResponse = z.infer<typeof HealthResponseSchema>;
 
+/**
+ * Dashboard Overview operational summary (doc 06 route model).
+ * Additive contract: counts plus generation timestamp so freshness can be
+ * displayed. Detailed breakdowns arrive with later slices/services.
+ */
+export const OverviewSummarySchema = z.object({
+  libraryCount: z.number().int().nonnegative(),
+  documentCount: z.number().int().nonnegative(),
+  chunkCount: z.number().int().nonnegative(),
+  activeJobs: z.number().int().nonnegative(),
+  failedJobs: z.number().int().nonnegative(),
+  generatedAt: z.iso.datetime(),
+});
+
+export type OverviewSummary = z.infer<typeof OverviewSummarySchema>;
+
 /** Transport error envelope shared by API/MCP mappers. */
 export const ApiErrorSchema = z.object({
   code: z.string().min(1).max(64),
