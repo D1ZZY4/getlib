@@ -3,7 +3,7 @@
 FROM oven/bun:1.4.2 AS builder
 
 WORKDIR /app
-COPY package.json bun.lock turbo.json ./
+COPY package.json bun.lock turbo.json tsconfig.base.json ./
 COPY apps/dashboard/package.json apps/dashboard/
 COPY apps/mcp/package.json apps/mcp/
 COPY packages/config/package.json packages/config/
@@ -16,6 +16,9 @@ RUN bun install --frozen-lockfile --ignore-scripts
 # both irrelevant to this dashboard image.
 
 COPY apps/dashboard apps/dashboard
+# @getlib/schemas resolves to TypeScript source (workspace:* link), so the
+# dashboard build needs its files, not just its package.json manifest.
+COPY packages/schemas packages/schemas
 RUN bun run --cwd apps/dashboard build
 
 FROM nginx:1.29-alpine AS runtime
