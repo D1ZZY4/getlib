@@ -10,7 +10,10 @@ COPY packages/config/package.json packages/config/
 COPY packages/database/package.json packages/database/
 COPY packages/schemas/package.json packages/schemas/
 COPY packages/types/package.json packages/types/
-RUN bun install --frozen-lockfile
+RUN bun install --frozen-lockfile --ignore-scripts
+# NOTE: --ignore-scripts skips workspace lifecycle hooks. apps/mcp's
+# postinstall needs its own source tree and writes a machine-unique key,
+# both irrelevant to this dashboard image.
 
 COPY apps/dashboard apps/dashboard
 RUN bun run --cwd apps/dashboard build
