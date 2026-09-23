@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- route table module: route data plus lazy elements, not a refreshable component */
 import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 

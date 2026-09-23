@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- shadcn primitive module: component plus its variants */
 "use client"
 
 import * as React from "react"
