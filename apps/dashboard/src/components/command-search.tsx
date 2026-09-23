@@ -10,7 +10,6 @@ import {
   CheckSquare,
   MessageCircle,
   Calendar,
-  AlertTriangle,
   Settings,
   HelpCircle,
   CreditCard,
@@ -133,13 +132,6 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
     { title: "Tasks", url: "/tasks", group: "Apps", icon: CheckSquare },
     { title: "Chat", url: "/chat", group: "Apps", icon: MessageCircle },
     { title: "Calendar", url: "/calendar", group: "Apps", icon: Calendar },
-
-    // Errors
-    { title: "Unauthorized", url: "/errors/unauthorized", group: "Errors", icon: AlertTriangle },
-    { title: "Forbidden", url: "/errors/forbidden", group: "Errors", icon: AlertTriangle },
-    { title: "Not Found", url: "/errors/not-found", group: "Errors", icon: AlertTriangle },
-    { title: "Internal Server Error", url: "/errors/internal-server-error", group: "Errors", icon: AlertTriangle },
-    { title: "Under Maintenance", url: "/errors/under-maintenance", group: "Errors", icon: AlertTriangle },
 
     // Settings
     { title: "User Settings", url: "/settings/user", group: "Settings", icon: User },

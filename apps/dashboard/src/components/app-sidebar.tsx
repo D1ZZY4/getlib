@@ -7,7 +7,6 @@ import {
   CheckSquare,
   MessageCircle,
   Calendar,
-  AlertTriangle,
   Settings,
   HelpCircle,
   CreditCard,
@@ -79,33 +78,6 @@ const data = {
     {
       label: "Pages",
       items: [
-        {
-          title: "Errors",
-          url: "#",
-          icon: AlertTriangle,
-          items: [
-            {
-              title: "Unauthorized",
-              url: "/errors/unauthorized",
-            },
-            {
-              title: "Forbidden",
-              url: "/errors/forbidden",
-            },
-            {
-              title: "Not Found",
-              url: "/errors/not-found",
-            },
-            {
-              title: "Internal Server Error",
-              url: "/errors/internal-server-error",
-            },
-            {
-              title: "Under Maintenance",
-              url: "/errors/under-maintenance",
-            },
-          ],
-        },
         {
           title: "Settings",
           url: "#",
