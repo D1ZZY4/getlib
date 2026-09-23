@@ -13,6 +13,7 @@ import {
   Settings,
   CreditCard,
   User,
+  Users,
   Bell,
   Link2,
   Palette,
@@ -123,14 +124,18 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
   const commandRef = React.useRef<HTMLDivElement>(null)
 
   const searchItems: SearchItem[] = [
-    // Dashboards
-    { title: "Overview", url: "/overview", group: "Dashboards", icon: LayoutDashboard },
-    { title: "Analytics", url: "/analytics", group: "Dashboards", icon: LayoutPanelLeft },
-    { title: "Logs", url: "/logs", group: "Dashboards", icon: FileText },
-    { title: "Libraries", url: "/libraries", group: "Dashboards", icon: BookOpen },
+    // Knowledge
+    { title: "Overview", url: "/overview", group: "Knowledge", icon: LayoutDashboard },
+    { title: "Libraries", url: "/libraries", group: "Knowledge", icon: BookOpen },
+    { title: "Add Library", url: "/libraries/add", group: "Knowledge", icon: BookOpen },
 
-    // Apps
-    { title: "Tasks", url: "/tasks", group: "Apps", icon: CheckSquare },
+    // Operations
+    { title: "Analytics", url: "/analytics", group: "Operations", icon: LayoutPanelLeft },
+    { title: "Logs", url: "/logs", group: "Operations", icon: FileText },
+
+    // Workspace
+    { title: "Tasks", url: "/tasks", group: "Workspace", icon: CheckSquare },
+    { title: "Users", url: "/users", group: "Workspace", icon: Users },
 
     // Settings
     { title: "User Settings", url: "/settings/user", group: "Settings", icon: User },

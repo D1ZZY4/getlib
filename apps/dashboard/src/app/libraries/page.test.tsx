@@ -3,7 +3,7 @@ import "@testing-library/jest-dom/vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactNode } from "react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import Page from "./page";
 import { SidebarConfigProvider } from "@/contexts/sidebar-context";
@@ -51,23 +51,23 @@ describe("Libraries page", () => {
     expect(screen.getByText("No results.")).toBeInTheDocument();
   });
 
-  it("adds entries through the add dialog", async () => {
+  it("navigates to the add page", async () => {
     const user = userEvent.setup();
-    renderPage();
+    render(
+      <MemoryRouter initialEntries={["/libraries"]}>
+        <SidebarConfigProvider>
+          <Routes>
+            <Route path="/libraries" element={<Page />} />
+            <Route
+              path="/libraries/add"
+              element={<div>Add Library Page</div>}
+            />
+          </Routes>
+        </SidebarConfigProvider>
+      </MemoryRouter>,
+    );
     await user.click(screen.getByRole("button", { name: "Add Library" }));
-    const dialog = await screen.findByRole("dialog");
-    await user.type(within(dialog).getByLabelText("Name"), "probe-lib");
-    await user.click(within(dialog).getByRole("combobox", { name: "Ecosystem" }));
-    await user.click(screen.getByRole("option", { name: "pypi" }));
-    await user.type(within(dialog).getByLabelText("Version"), "1.0.0");
-    await user.type(
-      within(dialog).getByLabelText("Documentation URL"),
-      "https://example.com/docs",
-    );
-    await user.click(
-      within(dialog).getByRole("button", { name: "Save Library" }),
-    );
-    expect(screen.getByText("probe-lib")).toBeInTheDocument();
+    expect(await screen.findByText("Add Library Page")).toBeInTheDocument();
   });
 
   it("deletes entries through row actions", async () => {

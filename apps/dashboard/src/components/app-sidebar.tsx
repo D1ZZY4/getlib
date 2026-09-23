@@ -34,13 +34,33 @@ const data = {
   },
   navGroups: [
     {
-      label: "Dashboards",
+      label: "Knowledge",
       items: [
         {
           title: "Overview",
           url: "/overview",
           icon: LayoutDashboard,
         },
+        {
+          title: "Libraries",
+          url: "/libraries",
+          icon: BookOpen,
+          items: [
+            {
+              title: "All Libraries",
+              url: "/libraries",
+            },
+            {
+              title: "Add Library",
+              url: "/libraries/add",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: "Operations",
+      items: [
         {
           title: "Analytics",
           url: "/analytics",
@@ -51,15 +71,10 @@ const data = {
           url: "/logs",
           icon: FileText,
         },
-        {
-          title: "Libraries",
-          url: "/libraries",
-          icon: BookOpen,
-        },
       ],
     },
     {
-      label: "Apps",
+      label: "Workspace",
       items: [
         {
           title: "Tasks",
@@ -74,7 +89,7 @@ const data = {
       ],
     },
     {
-      label: "Pages",
+      label: "System",
       items: [
         {
           title: "Settings",

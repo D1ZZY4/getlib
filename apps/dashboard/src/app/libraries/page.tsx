@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { BaseLayout } from "@/components/layouts/base-layout"
 import { StatCards } from "./components/stat-cards"
 import { DataTable } from "./components/data-table"
@@ -19,48 +20,16 @@ interface LibraryEntry {
   documents: number
 }
 
-interface LibraryFormValues {
-  name: string
-  ecosystem: string
-  version: string
-  sourceUrl: string
-}
-
 export default function LibrariesPage() {
+  const navigate = useNavigate()
   const [entries, setEntries] = useState<LibraryEntry[]>(initialLibrariesData)
-
-  const generateAvatar = (name: string) => {
-    const clean = name.replace(/^@/, "")
-    const parts = clean.split(/[/\s-]+/)
-    if (parts.length >= 2) {
-      return `${parts[0]?.[0] ?? ""}${parts[1]?.[0] ?? ""}`.toUpperCase()
-    }
-    return clean.substring(0, 2).toUpperCase()
-  }
-
-  const handleAddLibrary = (data: LibraryFormValues) => {
-    const newEntry: LibraryEntry = {
-      id: `lib-${Date.now()}`,
-      name: data.name,
-      ecosystem: data.ecosystem,
-      avatar: generateAvatar(data.name),
-      version: data.version,
-      sources: 1,
-      indexing: "indexing",
-      freshness: "just now",
-      documents: 0,
-    }
-    setEntries(prev => [newEntry, ...prev])
-  }
 
   const handleDeleteLibrary = (id: string) => {
     setEntries(prev => prev.filter(entry => entry.id !== id))
   }
 
   const handleEditLibrary = (entry: LibraryEntry) => {
-    // For now, just log the entry to edit
-    // In a real app, you'd open an edit dialog
-    console.log("Edit library:", entry)
+    navigate(`/libraries/${entry.id}/edit`)
   }
 
   const ecosystems = new Set(entries.map(entry => entry.ecosystem)).size
@@ -90,7 +59,6 @@ export default function LibrariesPage() {
             entries={entries}
             onDeleteLibrary={handleDeleteLibrary}
             onEditLibrary={handleEditLibrary}
-            onAddLibrary={handleAddLibrary}
           />
         </div>
       </div>

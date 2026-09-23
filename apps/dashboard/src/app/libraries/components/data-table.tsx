@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import {
   createColumnHelper,
   type ColumnFiltersState,
@@ -15,6 +16,7 @@ import {
   EllipsisVertical,
   Eye,
   Pencil,
+  Plus,
   Search,
   Trash2,
 } from "lucide-react"
@@ -50,7 +52,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { LibraryFormDialog } from "./library-form-dialog"
 import { downloadCsv, toCsv } from "@/lib/download"
 
 interface LibraryEntry {
@@ -63,13 +64,6 @@ interface LibraryEntry {
   indexing: string
   freshness: string
   documents: number
-}
-
-interface LibraryFormValues {
-  name: string
-  ecosystem: string
-  version: string
-  sourceUrl: string
 }
 
 function getIndexingColor(indexing: string) {
@@ -91,10 +85,10 @@ interface DataTableProps {
   entries: LibraryEntry[]
   onDeleteLibrary: (id: string) => void
   onEditLibrary: (entry: LibraryEntry) => void
-  onAddLibrary: (data: LibraryFormValues) => void
 }
 
-export function DataTable({ entries, onDeleteLibrary, onEditLibrary, onAddLibrary }: DataTableProps) {
+export function DataTable({ entries, onDeleteLibrary, onEditLibrary }: DataTableProps) {
+  const navigate = useNavigate()
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<ColumnVisibilityState>({})
@@ -318,7 +312,13 @@ export function DataTable({ entries, onDeleteLibrary, onEditLibrary, onAddLibrar
             <Download className="mr-2 size-4" />
             Export
           </Button>
-          <LibraryFormDialog onAddLibrary={onAddLibrary} />
+          <Button
+            className="cursor-pointer"
+            onClick={() => navigate("/libraries/add")}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add Library
+          </Button>
         </div>
       </div>
 

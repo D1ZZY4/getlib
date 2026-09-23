@@ -7,6 +7,8 @@ const Dashboard = lazy(() => import('@/app/overview/page'))
 const Dashboard2 = lazy(() => import('@/app/analytics/page'))
 const Logs = lazy(() => import('@/app/logs/page'))
 const Libraries = lazy(() => import('@/app/libraries/page'))
+const AddLibrary = lazy(() => import('@/app/libraries/add/page'))
+const EditLibrary = lazy(() => import('@/app/libraries/edit/page'))
 const Tasks = lazy(() => import('@/app/tasks/page'))
 const Users = lazy(() => import('@/app/users/page'))
 
@@ -60,6 +62,14 @@ export const routes: RouteConfig[] = [
   {
     path: "/libraries",
     element: <Libraries />
+  },
+  {
+    path: "/libraries/add",
+    element: <AddLibrary />
+  },
+  {
+    path: "/libraries/:id/edit",
+    element: <EditLibrary />
   },
 
   // Application Routes
