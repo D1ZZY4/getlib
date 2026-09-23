@@ -173,7 +173,7 @@ export function ThemeTab({
           step={10}
           value={radiusPercent}
           onChange={(event) => handleRadiusInput(Number(event.target.value))}
-          className="w-full cursor-pointer"
+          className="w-full cursor-pointer accent-primary"
           aria-describedby={
             radiusPercent === 60 ? "radius-macos-hint" : undefined
           }

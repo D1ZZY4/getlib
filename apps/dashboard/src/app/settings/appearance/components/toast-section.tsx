@@ -116,7 +116,7 @@ export function ToastSection({
               onChange={(event) =>
                 set({ durationMs: Number(event.target.value) })
               }
-              className="w-full cursor-pointer"
+              className="w-full cursor-pointer accent-primary"
               aria-label="Toast duration"
             />
           </div>
@@ -139,7 +139,7 @@ export function ToastSection({
               onChange={(event) =>
                 set({ radiusPx: Number(event.target.value) })
               }
-              className="w-full cursor-pointer"
+              className="w-full cursor-pointer accent-primary"
               aria-label="Toast radius"
             />
           </div>
