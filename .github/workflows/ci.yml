@@ -65,3 +65,20 @@ jobs:
 
       - name: Database tests (live PostgreSQL + pgvector)
         run: bun run --cwd packages/database test
+
+  container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build dashboard image
+        run: docker build -f apps/dashboard/Dockerfile -t getlib-dashboard:ci .
+
+      - name: Smoke test (serves UI + health endpoint)
+        run: |
+          docker run -d --name getlib-ci -p 8080:80 getlib-dashboard:ci
+          sleep 3
+          curl -fsS http://localhost:8080/ -o /dev/null
+          curl -fsS http://localhost:8080/healthz
+          curl -fsS http://localhost:8080/overview -o /dev/null
+          docker stop getlib-ci

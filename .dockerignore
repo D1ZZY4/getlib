@@ -1,0 +1,15 @@
+# Root build context exclusions for all images.
+node_modules/
+dist/
+build/
+.turbo/
+coverage/
+.git/
+.github/
+.env
+.env.*
+*.log
+apps/*/node_modules
+packages/*/node_modules
+tmp/
+temp/
