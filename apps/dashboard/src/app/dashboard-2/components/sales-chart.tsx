@@ -6,42 +6,59 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-
-const salesData = [
-  { month: "Jan", sales: 12500, target: 15000 },
-  { month: "Feb", sales: 18200, target: 15000 },
-  { month: "Mar", sales: 16800, target: 15000 },
-  { month: "Apr", sales: 22400, target: 20000 },
-  { month: "May", sales: 24600, target: 20000 },
-  { month: "Jun", sales: 28200, target: 25000 },
-  { month: "Jul", sales: 31500, target: 25000 },
-  { month: "Aug", sales: 29800, target: 25000 },
-  { month: "Sep", sales: 33200, target: 30000 },
-  { month: "Oct", sales: 35100, target: 30000 },
-  { month: "Nov", sales: 38900, target: 35000 },
-  { month: "Dec", sales: 42300, target: 35000 },
-]
+import { downloadCsv, toCsv } from "@/lib/download"
 
 const chartConfig = {
-  sales: {
-    label: "Sales",
+  searches: {
+    label: "Searches",
     color: "var(--primary)",
   },
-  target: {
-    label: "Target",
+  withResults: {
+    label: "With results",
     color: "var(--primary)",
   },
 }
 
-export function SalesChart() {
+export interface SearchActivityPoint {
+  label: string
+  searches: number
+  withResults: number
+}
+
+const RANGE_SIZES: Record<string, number> = {
+  "3m": 3,
+  "6m": 6,
+  "12m": 12,
+}
+
+export function SalesChart({
+  title,
+  description,
+  data,
+}: {
+  title: string
+  description: string
+  data: SearchActivityPoint[]
+}) {
   const [timeRange, setTimeRange] = useState("12m")
+  const visibleData = data.slice(-(RANGE_SIZES[timeRange] ?? data.length))
+
+  const handleExport = () => {
+    downloadCsv(
+      "search-activity.csv",
+      toCsv(
+        ["label", "searches", "withResults"],
+        visibleData.map((point) => [point.label, point.searches, point.withResults]),
+      ),
+    )
+  }
 
   return (
     <Card className="cursor-pointer">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div>
-          <CardTitle>Sales Performance</CardTitle>
-          <CardDescription>Monthly sales vs targets</CardDescription>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
         </div>
         <div className="flex items-center space-x-2">
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -54,7 +71,7 @@ export function SalesChart() {
               <SelectItem value="12m" className="cursor-pointer">Last 12 months</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" className="cursor-pointer">
+          <Button variant="outline" className="cursor-pointer" onClick={handleExport}>
             Export
           </Button>
         </div>
@@ -62,48 +79,48 @@ export function SalesChart() {
       <CardContent className="p-0 pt-6">
         <div className="px-6 pb-6">
           <ChartContainer config={chartConfig} className="h-[350px] w-full">
-            <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+            <AreaChart data={visibleData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
               <defs>
-                <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-sales)" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="var(--color-sales)" stopOpacity={0.05} />
+                <linearGradient id="colorSearches" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--color-searches)" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="var(--color-searches)" stopOpacity={0.05} />
                 </linearGradient>
-                <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-target)" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="var(--color-target)" stopOpacity={0} />
+                <linearGradient id="colorWithResults" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--color-withResults)" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="var(--color-withResults)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted/30" />
-              <XAxis 
-                dataKey="month" 
+              <XAxis
+                dataKey="label"
                 axisLine={false}
                 tickLine={false}
                 className="text-xs"
                 tick={{ fontSize: 12 }}
               />
-              <YAxis 
+              <YAxis
                 axisLine={false}
                 tickLine={false}
                 className="text-xs"
                 tick={{ fontSize: 12 }}
-                tickFormatter={(value) => `$${value.toLocaleString()}`}
+                tickFormatter={(value) => `${Number(value).toLocaleString()}`}
               />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Area
                 type="monotone"
-                dataKey="target"
+                dataKey="withResults"
                 stackId="1"
-                stroke="var(--color-target)"
-                fill="url(#colorTarget)"
+                stroke="var(--color-withResults)"
+                fill="url(#colorWithResults)"
                 strokeDasharray="5 5"
                 strokeWidth={1}
               />
               <Area
                 type="monotone"
-                dataKey="sales"
+                dataKey="searches"
                 stackId="2"
-                stroke="var(--color-sales)"
-                fill="url(#colorSales)"
+                stroke="var(--color-searches)"
+                fill="url(#colorSearches)"
                 strokeWidth={1}
               />
             </AreaChart>

@@ -7,57 +7,64 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer, ChartStyle, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import { downloadCsv, toCsv } from "@/lib/download"
 
-const revenueData = [
-  { category: "subscriptions", value: 45, amount: 24500, fill: "var(--color-subscriptions)" },
-  { category: "sales", value: 30, amount: 16300, fill: "var(--color-sales)" },
-  { category: "services", value: 15, amount: 8150, fill: "var(--color-services)" },
-  { category: "partnerships", value: 10, amount: 5430, fill: "var(--color-partnerships)" },
-]
-
-const chartConfig = {
-  revenue: {
-    label: "Revenue",
-  },
-  amount: {
-    label: "Amount",
-  },
-  subscriptions: {
-    label: "Subscriptions",
-    color: "var(--chart-1)",
-  },
-  sales: {
-    label: "One-time Sales",
-    color: "var(--chart-2)",
-  },
-  services: {
-    label: "Services",
-    color: "var(--chart-3)",
-  },
-  partnerships: {
-    label: "Partnerships",
-    color: "var(--chart-4)",
-  },
+export interface KnowledgeSourceItem {
+  key: string
+  label: string
+  documents: number
+  share: number
+  color: string
 }
 
-export function RevenueBreakdown() {
-  const id = "revenue-breakdown"
-  const [activeCategory, setActiveCategory] = React.useState("sales")
+export function RevenueBreakdown({
+  title,
+  description,
+  items,
+  unit,
+}: {
+  title: string
+  description: string
+  items: KnowledgeSourceItem[]
+  unit: string
+}) {
+  const id = "knowledge-by-source"
+  const chartConfig = React.useMemo(() => {
+    const entries: Record<string, { label: string; color: string }> = {
+      documents: { label: "Documents", color: "var(--primary)" },
+    }
+    for (const item of items) {
+      entries[item.key] = { label: item.label, color: item.color }
+    }
+    return entries
+  }, [items])
+  const [activeCategory, setActiveCategory] = React.useState(items[0]?.key ?? "")
 
   const activeIndex = React.useMemo(
-    () => revenueData.findIndex((item) => item.category === activeCategory),
-    [activeCategory]
+    () => items.findIndex((item) => item.key === activeCategory),
+    [items, activeCategory]
   )
 
-  const categories = React.useMemo(() => revenueData.map((item) => item.category), [])
+  const categories = React.useMemo(() => items.map((item) => item.key), [items])
+  const activeItem = items[activeIndex]
+
+  const handleExport = () => {
+    downloadCsv(
+      "knowledge-by-source.csv",
+      toCsv(
+        ["source", "documents", "share"],
+        items.map((item) => [item.label, item.documents, item.share]),
+      ),
+    )
+  }
 
   return (
     <Card data-chart={id} className="flex flex-col cursor-pointer">
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 pb-2">
         <div>
-          <CardTitle>Revenue Breakdown</CardTitle>
-          <CardDescription>Revenue distribution by source</CardDescription>
+          <CardTitle>{title}</CardTitle>
+          <CardDescription>{description}</CardDescription>
         </div>
         <div className="flex items-center space-x-2">
           <Select value={activeCategory} onValueChange={setActiveCategory}>
@@ -95,7 +102,7 @@ export function RevenueBreakdown() {
               })}
             </SelectContent>
           </Select>
-          <Button variant="outline" className="cursor-pointer">
+          <Button variant="outline" className="cursor-pointer" onClick={handleExport}>
             Export
           </Button>
         </div>
@@ -114,9 +121,12 @@ export function RevenueBreakdown() {
                   content={<ChartTooltipContent hideLabel />}
                 />
                 <Pie
-                  data={revenueData}
-                  dataKey="amount"
-                  nameKey="category"
+                  data={items.map((item) => ({
+                    ...item,
+                    fill: `var(--color-${item.key})`,
+                  }))}
+                  dataKey="documents"
+                  nameKey="key"
                   innerRadius={60}
                   strokeWidth={5}
                   activeShape={({
@@ -148,14 +158,14 @@ export function RevenueBreakdown() {
                               y={viewBox.cy}
                               className="fill-foreground text-3xl font-bold"
                             >
-                              ${(revenueData[activeIndex].amount / 1000).toFixed(0)}K
+                              {activeItem ? activeItem.documents : 0}
                             </tspan>
                             <tspan
                               x={viewBox.cx}
                               y={(viewBox.cy || 0) + 24}
                               className="fill-muted-foreground"
                             >
-                              Revenue
+                              {unit}
                             </tspan>
                           </text>
                         )
@@ -168,30 +178,30 @@ export function RevenueBreakdown() {
           </div>
 
           <div className="flex flex-col justify-center space-y-4">
-            {revenueData.map((item, index) => {
-              const config = chartConfig[item.category as keyof typeof chartConfig]
+            {items.map((item, index) => {
+              const config = chartConfig[item.key]
               const isActive = index === activeIndex
 
               return (
                 <div
-                  key={item.category}
+                  key={item.key}
                   className={`flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer ${
                     isActive ? 'bg-muted' : 'hover:bg-muted/50'
                   }`}
-                  onClick={() => setActiveCategory(item.category)}
+                  onClick={() => setActiveCategory(item.key)}
                 >
                   <div className="flex items-center gap-3">
                     <span
                       className="flex h-3 w-3 shrink-0 rounded-full"
                       style={{
-                        backgroundColor: `var(--color-${item.category})`,
+                        backgroundColor: `var(--color-${item.key})`,
                       }}
                     />
                     <span className="font-medium">{config?.label}</span>
                   </div>
                   <div className="text-right">
-                    <div className="font-bold">${(item.amount / 1000).toFixed(1)}K</div>
-                    <div className="text-sm text-muted-foreground">{item.value}%</div>
+                    <div className="font-bold">{item.documents} {unit}</div>
+                    <div className="text-sm text-muted-foreground">{item.share}%</div>
                   </div>
                 </div>
               )

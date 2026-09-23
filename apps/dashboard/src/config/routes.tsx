@@ -65,7 +65,7 @@ export const routes: RouteConfig[] = [
     element: <Dashboard />
   },
   {
-    path: "/dashboard-2",
+    path: "/analytics",
     element: <Dashboard2 />
   },
 

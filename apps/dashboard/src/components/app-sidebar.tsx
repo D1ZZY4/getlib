@@ -48,8 +48,8 @@ const data = {
           icon: LayoutDashboard,
         },
         {
-          title: "Dashboard 2",
-          url: "/dashboard-2",
+          title: "Analytics",
+          url: "/analytics",
           icon: LayoutPanelLeft,
         },
       ],
