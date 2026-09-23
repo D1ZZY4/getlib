@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { BaseLayout } from "@/components/layouts/base-layout"
-import { StatCards } from "./components/stat-cards"
+import { StatCards, type LogTile } from "./components/stat-cards"
 import { DataTable } from "./components/data-table"
 
 import initialLogsData from "./data.json"
@@ -30,6 +30,48 @@ interface LogFormValues {
 
 export default function LogsPage() {
   const [entries, setEntries] = useState<LogEntry[]>(initialLogsData)
+
+  const tiles: LogTile[] = (() => {
+    const errors = entries.filter((entry) => entry.level === "error").length
+    const warnings = entries.filter((entry) => entry.level === "warn").length
+    const services = new Set(entries.map((entry) => entry.service)).size
+    return [
+      {
+        label: "Total Entries",
+        value: String(entries.length),
+        delta: `${services} services`,
+        trend: "up" as const,
+        footer: "Across all services",
+        subfooter: "API, worker, ingestion, MCP, database",
+      },
+      {
+        label: "Errors",
+        value: String(errors),
+        delta: errors > 0 ? "needs attention" : "none",
+        trend: errors > 0 ? ("down" as const) : ("up" as const),
+        footer: "Failed operations",
+        subfooter: "Rate limits and timeouts",
+      },
+      {
+        label: "Warnings",
+        value: String(warnings),
+        delta: "degraded signals",
+        trend: warnings > 0 ? ("down" as const) : ("up" as const),
+        footer: "Retries and slow queries",
+        subfooter: "Review before they escalate",
+      },
+      {
+        label: "Debug",
+        value: String(
+          entries.filter((entry) => entry.level === "debug").length,
+        ),
+        delta: "verbose",
+        trend: "up" as const,
+        footer: "Diagnostic traces",
+        subfooter: "Index scans and catalogs",
+      },
+    ]
+  })()
 
   const generateAvatar = (message: string) => {
     const words = message.split(" ")
@@ -87,13 +129,6 @@ export default function LogsPage() {
     )
   }
 
-  const stats = {
-    total: entries.length,
-    errors: entries.filter((entry) => entry.level === "error").length,
-    warnings: entries.filter((entry) => entry.level === "warn").length,
-    debug: entries.filter((entry) => entry.level === "debug").length,
-  }
-
   return (
     <BaseLayout
       title="Logs"
@@ -101,7 +136,7 @@ export default function LogsPage() {
     >
       <div className="flex flex-col gap-4">
         <div className="@container/main px-4 lg:px-6">
-          <StatCards stats={stats} />
+          <StatCards tiles={tiles} />
         </div>
 
         <div className="@container/main px-4 lg:px-6 mt-8 lg:mt-12">
