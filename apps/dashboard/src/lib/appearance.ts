@@ -98,14 +98,28 @@ export const DEFAULT_SNAPSHOT: AppearanceSnapshot = {
   },
 };
 
+const memoryFallback: Pick<Storage, "getItem" | "setItem"> = {
+  getItem: () => null,
+  setItem: () => undefined,
+} as Pick<Storage, "getItem" | "setItem">;
+
+function safeStorage(): Pick<Storage, "getItem" | "setItem"> | null {
+  try {
+    if (typeof localStorage === "undefined") return null;
+    return localStorage;
+  } catch {
+    return null;
+  }
+}
+
 export function loadAppearance(
-  storage: Pick<Storage, "getItem"> = localStorage,
+  storage: Pick<Storage, "getItem"> = safeStorage() ?? memoryFallback,
 ): Appearance {
   return loadSnapshot(storage);
 }
 
 export function loadSnapshot(
-  storage: Pick<Storage, "getItem"> = localStorage,
+  storage: Pick<Storage, "getItem"> = safeStorage() ?? memoryFallback,
 ): AppearanceSnapshot {
   try {
     const raw = storage.getItem(APPEARANCE_STORAGE_KEY);
@@ -124,28 +138,28 @@ export function loadSnapshot(
 
 export function saveAppearance(
   appearance: Appearance,
-  storage: Pick<Storage, "setItem"> = localStorage,
+  storage: Pick<Storage, "setItem"> = safeStorage() ?? memoryFallback,
 ): void {
   saveSnapshot({ ...DEFAULT_SNAPSHOT, ...appearance }, storage);
 }
 
 export function saveSnapshot(
   snapshot: AppearanceSnapshot,
-  storage: Pick<Storage, "setItem"> = localStorage,
+  storage: Pick<Storage, "setItem"> = safeStorage() ?? memoryFallback,
 ): void {
   storage.setItem(APPEARANCE_STORAGE_KEY, JSON.stringify(snapshot));
 }
 
 export function saveThemeCustom(
   themeCustom: AppearanceSnapshot["themeCustom"],
-  storage: Pick<Storage, "setItem" | "getItem"> = localStorage,
+  storage: Pick<Storage, "setItem" | "getItem"> = safeStorage() ?? memoryFallback,
 ): void {
   saveSnapshot({ ...loadSnapshot(storage), themeCustom }, storage);
 }
 
 export function saveLayout(
   layout: AppearanceSnapshot["layout"],
-  storage: Pick<Storage, "setItem" | "getItem"> = localStorage,
+  storage: Pick<Storage, "setItem" | "getItem"> = safeStorage() ?? memoryFallback,
 ): void {
   saveSnapshot({ ...loadSnapshot(storage), layout }, storage);
 }

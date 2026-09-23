@@ -39,13 +39,15 @@ export default function TaskPage() {
     setTasks(prev => [newTask, ...prev])
   }
 
-  // Calculate statistics
+  // Calculate statistics (guard division by zero for empty states)
   const stats = {
     total: tasks.length,
-    completed: tasks.filter(t => t.status === "completed").length,
-    inProgress: tasks.filter(t => t.status === "in progress").length,
-    pending: tasks.filter(t => t.status === "pending").length,
-  }
+    completed: tasks.filter((t) => t.status === "completed").length,
+    inProgress: tasks.filter((t) => t.status === "in progress").length,
+    pending: tasks.filter((t) => t.status === "pending").length,
+  };
+  const percent = (part: number): number =>
+    stats.total > 0 ? Math.round((part / stats.total) * 100) : 0;
 
   if (loading) {
     return (
@@ -84,7 +86,7 @@ export default function TaskPage() {
                     <span className="text-2xl font-bold">{stats.total}</span>
                     <span className="flex items-center gap-0.5 text-sm text-green-500">
                       <ArrowUp className="size-3.5" />
-                      {stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0}%
+                      {percent(stats.completed)}%
                     </span>
                   </div>
                 </div>
@@ -104,7 +106,7 @@ export default function TaskPage() {
                     <span className="text-2xl font-bold">{stats.completed}</span>
                     <span className="flex items-center gap-0.5 text-sm text-green-500">
                       <ArrowUp className="size-3.5" />
-                      {Math.round((stats.completed / stats.total) * 100)}%
+                      {percent(stats.completed)}%
                     </span>
                   </div>
                 </div>
@@ -124,7 +126,7 @@ export default function TaskPage() {
                     <span className="text-2xl font-bold">{stats.inProgress}</span>
                     <span className="flex items-center gap-0.5 text-sm text-green-500">
                       <ArrowUp className="size-3.5" />
-                      {Math.round((stats.inProgress / stats.total) * 100)}%
+                      {percent(stats.inProgress)}%
                     </span>
                   </div>
                 </div>
@@ -144,7 +146,7 @@ export default function TaskPage() {
                     <span className="text-2xl font-bold">{stats.pending}</span>
                     <span className="flex items-center gap-0.5 text-sm text-orange-500">
                       <ArrowUp className="size-3.5" />
-                      {Math.round((stats.pending / stats.total) * 100)}%
+                      {percent(stats.pending)}%
                     </span>
                   </div>
                 </div>

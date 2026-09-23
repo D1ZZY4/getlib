@@ -23,18 +23,20 @@ export default function Dashboard2() {
   const metrics = analyticsMetricsFixture.map((metric, index) => ({
     ...metric,
     icon: metricIcons[index % metricIcons.length] ?? BookOpen,
-  }))
+  }));
   const totalSearches = searchActivityFixture
     .reduce((sum, point) => sum + point.searches, 0)
-    .toLocaleString()
+    .toLocaleString();
+  const totalVolume = searchActivityFixture.reduce(
+    (sum, p) => sum + p.searches,
+    0,
+  );
   const withResults = searchActivityFixture.reduce(
     (sum, point) => sum + point.withResults,
     0,
-  )
-  const successRate = `${(
-    (withResults / searchActivityFixture.reduce((sum, p) => sum + p.searches, 0)) *
-    100
-  ).toFixed(1)}%`
+  );
+  const successRate =
+    totalVolume > 0 ? `${(((withResults / totalVolume) * 100).toFixed(1))}%` : "—";
 
   return (
     <BaseLayout>

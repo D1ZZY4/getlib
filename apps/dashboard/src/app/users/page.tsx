@@ -41,8 +41,10 @@ export default function UsersPage() {
   }
 
   const handleAddUser = (userData: UserFormValues) => {
+    const nextId =
+      users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
     const newUser: User = {
-      id: Math.max(...users.map(u => u.id)) + 1,
+      id: nextId,
       name: userData.name,
       email: userData.email,
       avatar: generateAvatar(userData.name),

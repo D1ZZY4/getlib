@@ -1,5 +1,7 @@
 "use client"
 
+import { Link } from "react-router-dom"
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -28,9 +30,9 @@ export function ForgotPasswordForm({
       </div>
       <div className="text-center text-sm">
         Remember your password?{" "}
-        <a href="/auth/sign-in" className="underline underline-offset-4">
+        <Link to="/auth/sign-in" className="underline underline-offset-4">
           Back to sign in
-        </a>
+        </Link>
       </div>
     </form>
   )

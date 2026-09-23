@@ -104,10 +104,11 @@ export async function apiFetch<T>(
   const baseUrl = resolveApiBaseUrl(options.baseUrl);
   const requestId = options.requestId ?? newRequestId();
   const fetchImpl = options.fetchImpl ?? fetch;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
 
   let response: Response;
   try {
-    response = await fetchImpl(`${baseUrl}${path}`, {
+    response = await fetchImpl(`${baseUrl}${normalizedPath}`, {
       headers: {
         Accept: "application/json",
         "X-Request-ID": requestId,

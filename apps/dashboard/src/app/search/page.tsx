@@ -14,19 +14,25 @@ import { LibraryResults } from "./components/library-results"
 import { SearchForm } from "./components/search-form"
 
 export default function SearchPage() {
-  const [draft, setDraft] = useState("")
-  const [submitted, setSubmitted] = useState("")
-  const [library, setLibrary] = useState("all")
-  const [version, setVersion] = useState("")
-  const [source, setSource] = useState("all")
-  const [limit, setLimit] = useState("10")
+  const [draft, setDraft] = useState("");
+  const [submitted, setSubmitted] = useState("");
+  const [library, setLibrary] = useState("all");
+  const [version, setVersion] = useState("");
+  const [source, setSource] = useState("all");
+  const [limit, setLimit] = useState("10");
+
+  const parsedLimit = Number.parseInt(limit, 10);
+  const safeLimit =
+    Number.isFinite(parsedLimit) && parsedLimit > 0
+      ? Math.min(parsedLimit, 50)
+      : 10;
 
   const search = useSearchQuery(submitted, {
     library,
     version,
     source,
-    limit: Number(limit),
-  })
+    limit: safeLimit,
+  });
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault()
