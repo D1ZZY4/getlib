@@ -1,75 +1,41 @@
-export function ThemePreview({ variant }: { variant: "light" | "dark" | "system" }) {
+// Pure visual swatch — no card frame here. The parent mode button
+// already provides the bordered/selectable card, so this renders only
+// the mini preview itself (fixes the old card-in-card look).
+export function ThemePreview({
+  variant,
+}: {
+  variant: "light" | "dark" | "system";
+}) {
   if (variant === "system") {
     return (
-      <div className="rounded-md border-2 border-muted p-4 hover:border-accent transition-colors">
-        <div className="flex space-x-2">
-          <div className="w-10 h-20 bg-white border rounded-md" />
-          <div className="w-10 h-20 bg-gray-900 border border-gray-700 rounded-md" />
-        </div>
-        <span className="text-sm font-medium">System</span>
+      <div className="flex items-start gap-1.5" aria-hidden="true">
+        <div className="w-9 h-14 bg-white border rounded" />
+        <div className="w-9 h-14 bg-gray-900 border border-gray-700 rounded" />
       </div>
-    )
+    );
   }
-  const dark = variant === "dark"
+  const dark = variant === "dark";
   return (
-    <div className="rounded-md border-2 border-muted p-4 hover:border-accent transition-colors">
-      <div className="space-y-2">
-        <div
-          className={
-            dark
-              ? "w-20 h-20 bg-gray-900 border border-gray-700 rounded-md p-3"
-              : "w-20 h-20 bg-white border rounded-md p-3"
-          }
-        >
-          <div className="space-y-2">
-            <div
-              className={
-                dark
-                  ? "h-2 bg-gray-600 rounded w-3/4"
-                  : "h-2 bg-gray-200 rounded w-3/4"
-              }
-            ></div>
-            <div
-              className={
-                dark
-                  ? "h-2 bg-gray-600 rounded w-1/2"
-                  : "h-2 bg-gray-200 rounded w-1/2"
-              }
-            ></div>
-            <div className="flex space-x-2">
-              <div
-                className={
-                  dark
-                    ? "h-2 w-2 bg-gray-500 rounded-full"
-                    : "h-2 w-2 bg-gray-300 rounded-full"
-                }
-              ></div>
-              <div
-                className={
-                  dark ? "h-2 bg-gray-600 rounded flex-1" : "h-2 bg-gray-200 rounded flex-1"
-                }
-              ></div>
-            </div>
-            <div className="flex space-x-2">
-              <div
-                className={
-                  dark
-                    ? "h-2 w-2 bg-gray-500 rounded-full"
-                    : "h-2 w-2 bg-gray-300 rounded-full"
-                }
-              ></div>
-              <div
-                className={
-                  dark ? "h-2 bg-gray-600 rounded flex-1" : "h-2 bg-gray-200 rounded flex-1"
-                }
-              ></div>
-            </div>
-          </div>
+    <div
+      aria-hidden="true"
+      className={
+        dark
+          ? "w-16 h-14 bg-gray-900 border border-gray-700 rounded p-2"
+          : "w-16 h-14 bg-white border rounded p-2"
+      }
+    >
+      <div className="space-y-1.5">
+        <div className={dark ? "h-1.5 bg-gray-600 rounded w-3/4" : "h-1.5 bg-gray-200 rounded w-3/4"} />
+        <div className={dark ? "h-1.5 bg-gray-600 rounded w-1/2" : "h-1.5 bg-gray-200 rounded w-1/2"} />
+        <div className="flex items-center gap-1.5">
+          <div className={dark ? "h-1.5 w-1.5 bg-gray-500 rounded-full" : "h-1.5 w-1.5 bg-gray-300 rounded-full"} />
+          <div className={dark ? "h-1.5 bg-gray-600 rounded flex-1" : "h-1.5 bg-gray-200 rounded flex-1"} />
         </div>
-        <span className="text-sm font-medium">
-          {dark ? "Dark" : "Light"}
-        </span>
+        <div className="flex items-center gap-1.5">
+          <div className={dark ? "h-1.5 w-1.5 bg-gray-500 rounded-full" : "h-1.5 w-1.5 bg-gray-300 rounded-full"} />
+          <div className={dark ? "h-1.5 bg-gray-600 rounded flex-1" : "h-1.5 bg-gray-200 rounded flex-1"} />
+        </div>
       </div>
     </div>
-  )
+  );
 }

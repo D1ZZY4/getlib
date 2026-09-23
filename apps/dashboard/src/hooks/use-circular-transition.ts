@@ -45,6 +45,20 @@ export function useCircularTransition(): CircularTransitionHook {
   }, [])
 
   const toggleTheme = useCallback((event: React.MouseEvent) => {
+    // Resolve "system" to the actual applied mode first, otherwise a
+    // system-following-dark UI would incorrectly jump to dark again.
+    const current = theme
+    const actual: "light" | "dark" =
+      current === "dark"
+        ? "dark"
+        : current === "light"
+          ? "light"
+          : typeof window !== "undefined" &&
+              typeof window.matchMedia === "function" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light"
+
     // Get precise click coordinates - use clientX/clientY directly like tweakcn
     const coords = {
       x: event.clientX,
@@ -52,7 +66,7 @@ export function useCircularTransition(): CircularTransitionHook {
     }
 
     startTransition(coords, () => {
-      setTheme(theme === "dark" ? "light" : "dark")
+      setTheme(actual === "dark" ? "light" : "dark")
     })
   }, [theme, setTheme, startTransition])
 

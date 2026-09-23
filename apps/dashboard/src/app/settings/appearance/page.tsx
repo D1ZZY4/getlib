@@ -29,7 +29,7 @@ import type { AppearanceFormValues, ThemeMode } from "@/lib/appearance"
 import { ThemeSection } from "./components/theme-section"
 
 export default function AppearanceSettings() {
-  const { setTheme } = useTheme()
+  const { theme: providerTheme, setTheme } = useTheme()
   const { config: sidebarConfig, updateConfig: updateSidebarConfig } =
     useSidebarConfig()
   const {
@@ -72,6 +72,21 @@ export default function AppearanceSettings() {
     resolver: zodResolver(appearanceFormSchema),
     defaultValues: loadAppearance(),
   })
+
+  // Provider theme is the live truth. If it changes from outside this
+  // page (e.g. the header sun/moon button), mirror it into the draft so
+  // the selected card highlight stays realtime and never drifts.
+  // Adjusted during render (not in an effect) and skipping the initial
+  // mount so a saved snapshot always wins on first paint.
+  const [prevProviderTheme, setPrevProviderTheme] = useState(providerTheme)
+  const [providerSynced, setProviderSynced] = useState(false)
+  if (providerTheme !== prevProviderTheme) {
+    setPrevProviderTheme(providerTheme)
+    if (providerSynced) {
+      setThemeMode(providerTheme)
+    }
+    setProviderSynced(true)
+  }
 
   // Re-apply the saved theme customization on load (theme engine itself
   // keeps everything in memory, so a reload would otherwise lose it).
@@ -129,8 +144,9 @@ export default function AppearanceSettings() {
   }
 
   function handleThemeModeChange(mode: ThemeMode) {
+    // Draft only — ThemeTab applies the live provider theme inside the
+    // circular transition, so this never double-sets or tears.
     setThemeMode(mode)
-    setTheme(mode)
   }
 
   function applySavedThemeCustom(

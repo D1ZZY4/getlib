@@ -10,12 +10,24 @@ export function useThemeManager() {
   const { theme, setTheme } = useTheme()
   const [brandColorsValues, setBrandColorsValues] = React.useState<Record<string, string>>({})
 
-  // Simple, reliable theme detection - just follow the theme provider
-  const isDarkMode = React.useMemo(() => {
-    if (theme === "dark") return true
-    if (theme === "light") return false
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-  }, [theme])
+  // Reactive dark-mode resolution: follows provider theme + OS changes.
+  // Initialized lazily from matchMedia so no setState-in-effect is needed;
+  // the effect below only subscribes. SSR-safe (defaults to light).
+  const [systemDark, setSystemDark] = React.useState(
+    () =>
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches,
+  )
+  React.useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return
+    const mql = window.matchMedia("(prefers-color-scheme: dark)")
+    const onChange = (event: MediaQueryListEvent) => setSystemDark(event.matches)
+    mql.addEventListener("change", onChange)
+    return () => mql.removeEventListener("change", onChange)
+  }, [])
+
+  const isDarkMode = theme === "dark" ? true : theme === "light" ? false : systemDark
 
   const resetTheme = React.useCallback(() => {
     // Comprehensive reset of ALL possible CSS variables that could be set by themes

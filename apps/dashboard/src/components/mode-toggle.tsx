@@ -1,53 +1,27 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { useTheme } from "@/hooks/use-theme"
-import { useCircularTransition } from "@/hooks/use-circular-transition"
-import "./theme-customizer/circular-transition.css"
+import { Button } from "@/components/ui/button";
+import { useThemeManager } from "@/hooks/use-theme-manager";
+import { useCircularTransition } from "@/hooks/use-circular-transition";
+import "./theme-customizer/circular-transition.css";
 
 interface ModeToggleProps {
-  variant?: "outline" | "ghost" | "default"
+  variant?: "outline" | "ghost" | "default";
 }
 
 export function ModeToggle({ variant = "outline" }: ModeToggleProps) {
-  const { theme } = useTheme()
-  const { toggleTheme } = useCircularTransition()
-
-  // Simple, reliable dark mode detection with re-sync
-  const [isDarkMode, setIsDarkMode] = React.useState(false)
-
-  React.useEffect(() => {
-    const updateMode = () => {
-      if (theme === "dark") {
-        setIsDarkMode(true)
-      } else if (theme === "light") {
-        setIsDarkMode(false)
-      } else {
-        setIsDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches)
-      }
-    }
-
-    updateMode()
-
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-    mediaQuery.addEventListener("change", updateMode)
-
-    return () => mediaQuery.removeEventListener("change", updateMode)
-  }, [theme])
-
-  const handleToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
-    toggleTheme(event)
-  }
+  // Single source of truth: provider theme via the shared manager.
+  // No local duplicate state, so this always matches the settings section.
+  const { isDarkMode } = useThemeManager();
+  const { toggleTheme } = useCircularTransition();
 
   return (
     <Button
       variant={variant}
       size="icon"
-      onClick={handleToggle}
+      onClick={toggleTheme}
       className="cursor-pointer mode-toggle-button relative overflow-hidden"
     >
       {/* Show the icon for the mode you can switch TO */}
@@ -60,5 +34,5 @@ export function ModeToggle({ variant = "outline" }: ModeToggleProps) {
         Switch to {isDarkMode ? "light" : "dark"} mode
       </span>
     </Button>
-  )
+  );
 }
