@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export function ForgotPasswordForm2({
+export function ForgotPasswordForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {

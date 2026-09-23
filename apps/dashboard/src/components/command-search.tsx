@@ -10,7 +10,6 @@ import {
   CheckSquare,
   MessageCircle,
   Calendar,
-  Shield,
   AlertTriangle,
   Settings,
   HelpCircle,
@@ -134,11 +133,6 @@ export function CommandSearch({ open, onOpenChange }: CommandSearchProps) {
     { title: "Tasks", url: "/tasks", group: "Apps", icon: CheckSquare },
     { title: "Chat", url: "/chat", group: "Apps", icon: MessageCircle },
     { title: "Calendar", url: "/calendar", group: "Apps", icon: Calendar },
-
-    // Auth Pages
-    { title: "Sign In", url: "/auth/sign-in", group: "Auth Pages", icon: Shield },
-    { title: "Sign Up", url: "/auth/sign-up", group: "Auth Pages", icon: Shield },
-    { title: "Forgot Password", url: "/auth/forgot-password", group: "Auth Pages", icon: Shield },
 
     // Errors
     { title: "Unauthorized", url: "/errors/unauthorized", group: "Errors", icon: AlertTriangle },

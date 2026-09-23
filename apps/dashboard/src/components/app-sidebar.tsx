@@ -7,7 +7,6 @@ import {
   CheckSquare,
   MessageCircle,
   Calendar,
-  Shield,
   AlertTriangle,
   Settings,
   HelpCircle,
@@ -80,25 +79,6 @@ const data = {
     {
       label: "Pages",
       items: [
-        {
-          title: "Auth Pages",
-          url: "#",
-          icon: Shield,
-          items: [
-            {
-              title: "Sign In",
-              url: "/auth/sign-in",
-            },
-            {
-              title: "Sign Up",
-              url: "/auth/sign-up",
-            },
-            {
-              title: "Forgot Password",
-              url: "/auth/forgot-password",
-            }
-          ],
-        },
         {
           title: "Errors",
           url: "#",
