@@ -46,13 +46,10 @@ While not required, attribution is appreciated:
 
 ## Commercial Support
 
-For extended licensing or commercial support:
-- **Email**: [licensing@shadcnstore.com](mailto:licensing@shadcnstore.com)
-- **Custom Licensing** - Tailored terms available
-- **White-Label Rights** - Remove attribution requirements
+For extended licensing questions, open a GitHub discussion.
 
 ---
 
-For the full license text, see [LICENSE.md](https://github.com/silicondeck/shadcn-dashboard-template/blob/main/LICENSE.md).
+For the full license text, see [LICENSE.md](https://github.com/D1ZZY4/getlib/blob/main/LICENSE.md).
 
-**Summary**: The MIT License provides maximum freedom for using, modifying, and distributing the Shadcn Dashboard + Landing Page Template. Use it however you need for personal or commercial projects, with no restrictions or ongoing obligations.
+**Summary**: The MIT License provides maximum freedom for using, modifying, and distributing the GetLib dashboard. Use it however you need for personal or commercial projects, with no restrictions or ongoing obligations.

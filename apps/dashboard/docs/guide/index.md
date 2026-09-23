@@ -1,30 +1,31 @@
 # Overview
 
-A modern, open-source admin dashboard & landing page template built with React + TypeScript, supporting both Vite and Next.js. Powered by shadcn/ui v3 and Tailwind CSS v4 with real-time theme customization.
+GetLib is a self-hosted, version-aware developer knowledge platform. The dashboard in `apps/dashboard` is a Vite plus React plus React Router single page app that lets developers explore libraries, documents, indexing jobs, and retrieval health with full provenance.
 
-Developed by [ShadcnStore](https://shadcnstore.com) to accelerate your development process with production-ready components and layouts.
+Every number and every result on screen must be traceable to a contract or to a fixture that stands in for a contract. The default data path is schema-conformant fixtures; the live Phase 3 Hono API is an opt-in switch, never a redesign.
 
 ## What's Included
 
-- **30+ Pre-built Pages** - Dashboard, landing page, authentication, and app interfaces
-- **Dual Framework Support** - Identical Vite and Next.js implementations  
-- **Live Theme Customizer** - Real-time editing with tweakcn integration
-- **Modern Tech Stack** - React 19, TypeScript, Tailwind CSS v4, shadcn/ui v3
+- **Knowledge surfaces** - Overview, Libraries (list, add, detail, edit), Search, Indexing
+- **Operations surfaces** - Analytics, Logs
+- **Workspace surfaces** - Tasks, Users
+- **Settings** - User, Account, Plans and Billing, Appearance, Notifications, Connections
+- **Shared table primitives** - Search, filters, column visibility, pagination in `src/components/data-table/`
+- **Theme system** - Real-time customizer with tweakcn and shadcn presets, persisted appearance snapshot
 
 ## Quick Start
 
-1. **[Install](/guide/installation)** - Choose Vite or Next.js and get running in 2 minutes
-2. **[Pick Framework](/guide/choosing-framework)** - Understand the differences
-3. **[Explore Features](/guide/features)** - See what's available
-4. **Start Building** - Jump into the [Vite](/vite/) guide
+1. **[Install](/guide/installation)** - Get running with Bun workspaces in 2 minutes
+2. **[Explore Features](/guide/features)** - See what's available
+3. **Start Building** - Jump into the [Vite](/vite/) guide
 
 ## Documentation
 
 ### Getting Started
 - **[Installation](/guide/installation)** - Setup instructions
-- **[Choosing Framework](/guide/choosing-framework)** - Vite vs Next.js
+- **[Choosing Framework](/guide/choosing-framework)** - Data source: fixtures vs live API
 
-### Learn More  
+### Learn More
 - **[Features](/guide/features)** - What's included overview
 - **[Tech Stack](/guide/tech-stack)** - Technologies used
 - **[Project Structure](/guide/project-structure)** - File organization
@@ -42,15 +43,15 @@ Developed by [ShadcnStore](https://shadcnstore.com) to accelerate your developme
 - **[Support](/guide/support)** - Get help
 - **[License](/guide/license)** - MIT license
 
-## Why This Template?
+## Conventions
 
-**Free & Open Source** - MIT licensed, use anywhere  
-**Production Ready** - Clean, scalable code  
-**Modern Stack** - Latest React, TypeScript, Tailwind CSS  
-**Great DX** - Fast development with excellent tooling
+**Free and open source** - MIT licensed, use anywhere.
+**Production Ready** - Clean, scalable TypeScript code.
+**Modern Stack** - React 19, TypeScript, Tailwind CSS v4.
+**Great DX** - Bun workspaces, Biome only (no ESLint or Prettier configs in this app), Vitest suites colocated under `tests/` folders.
 
 ---
 
 **Ready to start?** → **[Install the template](/guide/installation)** and begin building!
 
-_By **[ShadcnStore](https://shadcnstore.com)** - Premium UI components and templates._
+_This dashboard lives at [`apps/dashboard`](https://github.com/D1ZZY4/getlib) in the GetLib monorepo._

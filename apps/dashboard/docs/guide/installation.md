@@ -1,64 +1,71 @@
 # Installation
 
-Get the template running in under 2 minutes. Choose between Vite (SPA) or Next.js (SSR/SSG) based on your needs.
+Get the GetLib dashboard running in under 2 minutes from the monorepo root.
 
 ## Prerequisites
 
-- Bun 1.4+ (required — Bun workspaces with `bun.lock`; Node.js 20.19+ only if you run the tooling with Node.js)
+- Bun 1.4+ (required, this repo uses Bun workspaces with `bun.lock`)
 - Git for cloning
 
 ## Quick Setup
 
-### Vite Version (SPA)
-
 ```bash
-git clone https://github.com/silicondeck/shadcn-dashboard-landing-template.git
-cd shadcn-dashboard-landing-template/vite-version
+git clone https://github.com/D1ZZY4/getlib.git
+cd getlib
 bun install
-bun run dev
+bun run --cwd apps/dashboard dev
 ```
 
 Open `http://localhost:5173`
 
-### Next.js Version (SSR/SSG)
-
-```bash
-git clone https://github.com/silicondeck/shadcn-dashboard-landing-template.git
-cd shadcn-dashboard-landing-template/nextjs-version
-bun install
-bun run dev
-```
-
-Open `http://localhost:3000`
-
 ## Commands
+
+All commands run from the workspace root with Bun:
 
 **Development:**
 ```bash
-bun run dev          # Start development server
-bun run build        # Build for production
-bun run preview      # Preview build (Vite)
-bun run start        # Start production server (Next.js)
+bun run --cwd apps/dashboard dev          # Vite dev server
+bun run --cwd apps/dashboard build        # tsc -b then vite build
+bun run --cwd apps/dashboard preview      # Preview build
 ```
 
 **Code Quality:**
 ```bash
-bun run lint         # Check for issues
-bun run type-check   # TypeScript validation
+bun run --cwd apps/dashboard lint         # biome check . (must exit 0)
+bun run --cwd apps/dashboard lint:fix     # biome check --write .
+bun run --cwd apps/dashboard typecheck    # tsc -b
+bun run --cwd apps/dashboard test         # vitest run
 ```
+
+Tooling is Biome only, always tracking the latest release. There are no ESLint or Prettier configs in this app. Dashboard CSS is excluded from Biome by a scoped override because its parser does not cover Tailwind at rules.
+
+## Environment
+
+Copy the example env file to configure the client:
+
+```bash
+cp apps/dashboard/.env.example apps/dashboard/.env
+```
+
+Key variables (all `VITE_*` so Vite exposes them to the browser):
+
+- `VITE_API_BASE_URL` (default `http://localhost:3001/api/v1`)
+- `VITE_DATA_SOURCE` (`fixture` default, `api` opt-in for the live Phase 3 API)
+- `VITE_BASENAME` (subdirectory deployments)
+- `VITE_GTM_ID` (optional analytics)
+
+Never put server secrets such as `DATABASE_URL` into `VITE_*` variables because those ship to the browser bundle.
 
 ## Troubleshooting
 
 **Common Issues:**
 
-- **Node version**: Node.js 20.19+ is only required if you run the tooling with Node.js; the build and lint scripts run on Bun 1.4+
-- **Port in use**: Use `bun run dev --port 5174` (Vite) or `bun run dev -p 3001` (Next.js)
+- **Port in use**: Use `bun run --cwd apps/dashboard dev --port 5174`
 - **TypeScript errors**: Run `bun install` and restart your editor
 
-**Need help?** Check the [support guide](/guide/support) or join our [Discord](https://discord.com/invite/XEQhPc9a6p).
+**Need help?** Check the [support guide](/guide/support).
 
 ## Next Steps
 
-- **[Choose Framework](/guide/choosing-framework)** - Understand the differences
 - **[Explore Features](/guide/features)** - See what's included
 - **[Framework Guide](/vite/)** - Dive into the Vite guide

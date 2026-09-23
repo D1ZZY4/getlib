@@ -1,6 +1,6 @@
 # Vite Build & Deploy
 
-Learn how to build and deploy the Vite version of Shadcn Dashboard + Landing Page Template to production.
+Learn how to build and deploy the GetLib dashboard to production.
 
 ## Production Build
 
@@ -90,7 +90,7 @@ Vercel provides zero-configuration deployment for Vite applications:
 3. **Environment Variables:**
    ```bash
    # Add environment variables in Vercel dashboard
-   VITE_APP_NAME=ShadcnStore Admin
+   VITE_APP_NAME=GetLib Dashboard
    VITE_API_URL=https://api.yourdomain.com
    ```
 
@@ -121,7 +121,7 @@ bun run build
 dist
 
 # Environment variables
-VITE_APP_NAME=ShadcnStore Admin
+VITE_APP_NAME=GetLib Dashboard
 ```
 
 #### Netlify Configuration
@@ -173,17 +173,15 @@ jobs:
         
     - name: Install dependencies
       run: bun install
-      working-directory: ./vite-version
-      
+
     - name: Build
-      run: bun run build
-      working-directory: ./vite-version
-      
+      run: bun run --cwd apps/dashboard build
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./vite-version/dist
+        publish_dir: ./apps/dashboard/dist
 ```
 
 #### Base Path Configuration
@@ -324,12 +322,12 @@ Configure environment-specific variables:
 
 ```bash
 # .env.local (development)
-VITE_APP_NAME=ShadcnStore Admin (Dev)
+VITE_APP_NAME=GetLib Dashboard (Dev)
 VITE_API_URL=http://localhost:3001
 VITE_DEBUG=true
 
 # .env.production (production)
-VITE_APP_NAME=ShadcnStore Admin
+VITE_APP_NAME=GetLib Dashboard
 VITE_API_URL=https://api.yourdomain.com
 VITE_DEBUG=false
 ```

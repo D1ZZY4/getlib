@@ -1,6 +1,6 @@
 # Vite Quick Start
 
-Get up and running with the Vite version of Shadcn Dashboard + Landing Page Template in minutes.
+Get up and running with the GetLib dashboard in minutes.
 
 ## Prerequisites
 
@@ -16,23 +16,18 @@ Before getting started, ensure you have:
 
 ```bash
 # Clone the repository
-git clone https://github.com/silicondeck/shadcn-dashboard-landing-template.git
-cd shadcn-dashboard-landing-template
+git clone https://github.com/D1ZZY4/getlib.git
+cd getlib
 ```
 
-### Step 2: Navigate to Vite Version
+### Step 2: Install Dependencies
 
 ```bash
-# Navigate to Vite version
-cd vite-version
-```
-
-### Step 3: Install Dependencies
-
-```bash
-# Install dependencies
+# Install dependencies (Bun workspaces, from the repo root)
 bun install
 ```
+
+### Step 3: Start Development Server
 
 ### Step 4: Start Development Server
 
@@ -47,20 +42,20 @@ bun run dev
 
 After starting the development server, you should see:
 
-1. **Dashboard Interface** - Complete admin dashboard with sidebar navigation
-2. **Landing Page** - Marketing website template  
+1. **Dashboard Interface** - GetLib overview with sidebar navigation
+2. **Knowledge Surfaces** - Libraries, search, indexing, and logs
 3. **Theme Customizer** - Real-time theme editing panel
 4. **Hot Module Replacement** - Instant updates when you modify files
 
 ## Project Structure
 
 ```text
-vite-version/
+apps/dashboard/
 ├── src/
 │   ├── App.tsx                 # Main application component
 │   ├── main.tsx               # Application entry point
 │   ├── index.css              # Global styles
-│   ├── app/                   # Demo pages
+│   ├── app/                   # Feature pages by domain
 │   ├── components/            # UI components
 │   ├── hooks/                 # Custom hooks
 │   └── lib/                   # Utilities
@@ -73,31 +68,39 @@ vite-version/
 ## Available Scripts
 
 ```bash
-# Development
-bun run dev          # Start development server
-bun run build        # Build for production
-bun run preview      # Preview production build
-bun run lint         # Run ESLint
-bun run type-check   # TypeScript type checking
+# Development (from the repo root)
+bun run --cwd apps/dashboard dev          # Start development server
+bun run --cwd apps/dashboard build        # Build for production
+bun run --cwd apps/dashboard preview      # Preview production build
+bun run --cwd apps/dashboard lint         # Biome check
+bun run --cwd apps/dashboard typecheck    # TypeScript type checking
 ```
 
 ## First Steps
 
 ### 1. Explore the Dashboard
 
-Navigate to `http://localhost:5173` to see the main dashboard with:
-- Analytics charts and metrics
+Navigate to `http://localhost:5173` (redirects to `/overview`) to see:
+- Libraries, search, indexing, and logs surfaces
 - Data tables with sorting/filtering
 - Sidebar navigation
-- Theme customizer
+- Appearance settings with theme presets
 
-### 2. Check the Landing Page
+### 2. Check the Knowledge Surfaces
 
-Visit `http://localhost:5173/landing` to see the marketing template with:
-- Hero section
-- Features showcase
-- Pricing plans
-- Testimonials
+Visit the sidebar routes to see the GetLib surfaces:
+- `/libraries` - Registered libraries with indexing state
+- `/search` - Version-aware search with provenance
+- `/indexing` - Job board and table
+- `/logs` - System log stream
+
+### 3. Try Theme Customization
+
+Open `/settings/appearance` to:
+- Change mode, presets, and radius
+- Adjust layout variant and sidebar position
+- Import custom CSS themes
+- Persist the snapshot to localStorage
 
 ### 3. Try Theme Customization
 
@@ -109,11 +112,11 @@ Click the customizer icon (bottom-right) to:
 
 ### 4. Explore Page Templates
 
-Check out various page templates:
-- `http://localhost:5173/mail` - Email client interface
+Check out various pages:
 - `http://localhost:5173/tasks` - Task management
-- `http://localhost:5173/chat` - Chat application
-- `http://localhost:5173/calendar` - Calendar interface
+- `http://localhost:5173/users` - Users table
+- `http://localhost:5173/analytics` - Analytics
+- `http://localhost:5173/settings/appearance` - Appearance settings
 
 ## Common Issues
 

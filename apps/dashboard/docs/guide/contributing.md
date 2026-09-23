@@ -16,15 +16,14 @@ Help improve the Shadcn Dashboard template.
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/shadcn-dashboard-template.git
-cd shadcn-dashboard-template
+git clone https://github.com/YOUR_USERNAME/getlib.git
+cd getlib
 
-# Install dependencies for both versions
-cd vite-version && bun install
-cd ../nextjs-version && bun install
+# Install dependencies (Bun workspaces, from the repo root)
+bun install
 
-# Start development servers
-bun run dev  # In each version directory
+# Start the dashboard dev server
+bun run --cwd apps/dashboard dev
 ```
 
 ## Contribution Guidelines
@@ -104,31 +103,26 @@ Thank you for contributing! Every improvement helps the community.
 ```bash
 # Fork the repository on GitHub
 # Then clone your fork
-git clone https://github.com/YOUR_USERNAME/shadcn-dashboard-landing-template.git
-cd shadcn-dashboard-landing-template
+git clone https://github.com/YOUR_USERNAME/getlib.git
+cd getlib
 
 # Add upstream remote
-git remote add upstream https://github.com/silicondeck/shadcn-dashboard-landing-template.git
+git remote add upstream https://github.com/D1ZZY4/getlib.git
 ```
 
 **Install Dependencies**
 ```bash
-# Install dependencies for both versions
-cd vite-version && bun install
-cd ../nextjs-version && bun install
-cd ../docs && bun install
+# Install dependencies (Bun workspaces, from the repo root)
+bun install
 ```
 
 **Start Development**
 ```bash
-# Vite version
-cd vite-version && bun run dev
-
-# Next.js version
-cd nextjs-version && bun run dev
+# Dashboard
+bun run --cwd apps/dashboard dev
 
 # Documentation
-cd docs && bun run dev
+cd apps/dashboard/docs && bun run dev
 ```
 
 ## Development Workflow
@@ -249,13 +243,8 @@ import { useState } from 'react'  // Will break in Next.js without "use client"
 
 **Build Testing**
 ```bash
-# Test Vite build
-cd vite-version
-bun run build && bun run preview
-
-# Test Next.js build
-cd nextjs-version
-bun run build && bun run start
+# Test dashboard build
+bun run --cwd apps/dashboard build && bun run --cwd apps/dashboard preview
 ```
 
 **Browser Testing**
@@ -483,9 +472,8 @@ All contributors are recognized in:
 - [shadcn/ui](https://ui.shadcn.com/) - Component library
 
 ### Community
-- [GitHub Repository](https://github.com/silicondeck/shadcn-dashboard-landing-template)
-- [Discord Server](https://discord.com/invite/XEQhPc9a6p)
-- [ShadcnStore](https://shadcnstore.com) - Premium components and templates
+- [GitHub Repository](https://github.com/D1ZZY4/getlib)
+- [GitHub Discussions](https://github.com/D1ZZY4/getlib/discussions)
 
 ## Getting Help
 
@@ -494,15 +482,12 @@ All contributors are recognized in:
 **Technical Help**
 - Check existing documentation
 - Search GitHub issues and discussions
-- Ask questions in Discord
 - Create detailed issue reports
 
 **Contribution Questions**
-- Join Discord #contributors channel
 - Comment on relevant GitHub issues
-- Email [contribute@shadcnstore.com](mailto:contribute@shadcnstore.com)
 - Tag maintainers in discussions
 
 ---
 
-Thank you for contributing to the Shadcn Dashboard + Landing Page Template! Your contributions help make this project better for everyone.
+Thank you for contributing to GetLib! Your contributions help make this project better for everyone.

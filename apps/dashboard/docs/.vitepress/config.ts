@@ -1,9 +1,9 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  title: "Shadcn Dashboard & Landing",
+  title: "GetLib Dashboard",
   description:
-    "Open-source admin dashboard & landing page template built with React, TypeScript, shadcn/ui v3, and Tailwind CSS v4. Developed by ShadcnStore.",
+    "GetLib developer knowledge platform dashboard: version-aware libraries, search with provenance, indexing jobs, and retrieval health. Built with React, TypeScript, shadcn/ui, and Tailwind CSS v4.",
 
   // Theme configuration
   themeConfig: {
@@ -13,7 +13,6 @@ export default defineConfig({
     nav: [
       { text: "Guide", link: "/guide/" },
       { text: "Vite Version", link: "/vite/" },
-      { text: "Next.js Version", link: "/nextjs/" },
       { text: "Components", link: "/components/" },
       { text: "Theme Customizer", link: "/theme-customizer/" },
     ],
@@ -63,20 +62,6 @@ export default defineConfig({
         },
       ],
 
-      // Next.js version sidebar
-      "/nextjs/": [
-        {
-          text: "Next.js Version",
-          items: [
-            { text: "Overview", link: "/nextjs/" },
-            { text: "Quick Start", link: "/nextjs/quick-start" },
-            { text: "Development", link: "/nextjs/development" },
-            { text: "Build & Deploy", link: "/nextjs/build-deploy" },
-            { text: "Troubleshooting", link: "/nextjs/troubleshooting" },
-          ],
-        },
-      ],
-
       // Components sidebar
       "/components/": [
         {
@@ -115,14 +100,14 @@ export default defineConfig({
     socialLinks: [
       {
         icon: "github",
-        link: "https://github.com/silicondeck/shadcn-dashboard-landing-template",
+        link: "https://github.com/D1ZZY4/getlib",
       },
     ],
 
     // Footer
     footer: {
-      message: "Released under the MIT License. Developed by ShadcnStore.",
-      copyright: "Copyright © 2024-present ShadcnStore",
+      message: "Released under the MIT License.",
+      copyright: "Copyright © 2026-present GetLib",
     },
 
     // Search
@@ -133,7 +118,7 @@ export default defineConfig({
     // Edit link
     editLink: {
       pattern:
-        "https://github.com/silicondeck/shadcn-dashboard-landing-template/edit/main/docs/:path",
+        "https://github.com/D1ZZY4/getlib/edit/main/apps/dashboard/docs/:path",
       text: "Edit this page on GitHub",
     },
   },
@@ -160,17 +145,16 @@ export default defineConfig({
       {
         property: "og:title",
         content:
-          "Shadcn Dashboard + Landing Page Template | React & Next.js Starter Template",
+          "GetLib Dashboard | Version-aware developer knowledge platform",
       },
     ],
-    ["meta", { property: "og:site_name", content: "ShadcnStore" }],
+    ["meta", { property: "og:site_name", content: "GetLib" }],
     ["meta", { property: "og:image", content: "/og-image.png" }],
     [
       "meta",
       {
         property: "og:url",
-        content:
-          "https://shadcnstore.com/templates/dashboard/shadcn-dashboard-landing-template",
+        content: "https://github.com/D1ZZY4/getlib",
       },
     ],
   ],

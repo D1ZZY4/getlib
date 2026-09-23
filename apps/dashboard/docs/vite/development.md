@@ -1,6 +1,6 @@
 # Vite Development Workflow
 
-Learn how to develop effectively with the Vite version of Shadcn Dashboard + Landing Page Template.
+Learn how to develop effectively with the GetLib dashboard.
 
 ## Development Environment
 

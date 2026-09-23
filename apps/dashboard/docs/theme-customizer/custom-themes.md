@@ -1,6 +1,6 @@
 # Custom Themes
 
-Learn how to create, manage, and share custom themes for your dashboard and landing page.
+Learn how to create, manage, and share custom themes for your dashboard.
 
 ## Creating Custom Themes
 

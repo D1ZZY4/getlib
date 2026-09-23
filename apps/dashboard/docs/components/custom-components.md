@@ -1,6 +1,6 @@
 # Custom Components
 
-The template includes several custom components built specifically for the dashboard and landing page. These components extend shadcn/ui with additional functionality and styling.
+The GetLib dashboard includes several custom components built on shadcn/ui with additional functionality and styling.
 
 ## Layout Components
 
@@ -251,7 +251,7 @@ const user = {
 
 ### Pricing Plans
 
-Pricing table component for landing pages:
+Pricing table component (also reused on the billing settings page):
 
 ```typescript
 import { PricingPlans } from '@/components/pricing-plans'

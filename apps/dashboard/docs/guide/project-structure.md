@@ -1,49 +1,53 @@
 # Project Structure
 
-File organization and architecture overview.
+File organization for `apps/dashboard` in the GetLib monorepo.
 
-## Dual-Version Architecture
-
-The template provides identical implementations for both frameworks:
+## Monorepo Layout
 
 ```text
-shadcn-dashboard-landing-template/
-├── vite-version/           # Vite + React Router
-├── nextjs-version/         # Next.js + App Router
-└── docs/                   # Documentation
+getlib/
+├── apps/dashboard/         # This Vite + React dashboard (GetLib knowledge UI)
+├── apps/mcp/               # MCP surface
+├── packages/               # Shared config, database, schemas, types
+└── docs/                   # (Template docs live under apps/dashboard/docs)
 ```
 
-**Why Two Versions?**
-- **Vite**: Fast SPA development, client-side routing
-- **Next.js**: SEO optimization, SSR/SSG capabilities
-- **Identical Features**: Same UI components and functionality
-
-## Directory Structure
+## Dashboard Directory Structure
 
 ```text
-src/
-├── app/                    # Demo pages
-│   ├── page.tsx           # Landing page
-│   ├── dashboard/         # Dashboard pages
-│   ├── (auth)/           # Authentication pages
-│   ├── mail/             # Email interface
-│   ├── tasks/            # Task management
-│   └── settings/         # Settings pages
-├── components/           # UI components
-│   ├── ui/              # shadcn/ui components
-│   ├── layouts/         # Layout components
-│   └── theme-customizer/ # Theme system
-├── hooks/               # React hooks
-├── lib/                 # Utilities
-├── types/               # TypeScript definitions
-└── config/              # Configuration files
+apps/dashboard/src/
+├── main.tsx               # Entry point, mounts App
+├── App.tsx                # Provider order: Theme, SidebarConfig, Query, Router
+├── config/routes.tsx      # Lazy route table (single place for paths)
+├── app/                   # Feature pages by domain
+│   ├── overview/          # GetLib overview (health, activity, recents)
+│   ├── analytics/         # Search/indexing analytics
+│   ├── libraries/         # List, add, detail, edit + components/
+│   ├── search/            # Query form, library + knowledge results
+│   ├── indexing/          # Job board, table, inspector
+│   ├── logs/              # Log stream table + inspector
+│   ├── tasks/             # Task tracker
+│   ├── users/             # Users table
+│   ├── auth/              # Sign in/up, forgot password
+│   ├── errors/            # 401/403/404/500/maintenance
+│   └── settings/          # user, account, billing, appearance, notifications, connections
+├── components/            # data-table primitives, layouts, theme-customizer, ui/
+├── hooks/                 # Server state (use-overview, use-search) + UI hooks
+├── lib/                   # api-client, data-source, query-client, appearance, download, format
+├── fixtures/              # Zod-validated corpus + per-module tests
+├── contexts/              # theme-context, sidebar-context, sidebar-state
+├── types/                 # theme + theme-customizer types
+├── utils/                 # analytics, tweakcn/shadcn preset parts
+└── config/                # routes, theme-data, theme-customizer-constants
 ```
 
 ## Key Conventions
 
 **File Naming**
-- `page.tsx` - Route endpoints (Next.js App Router style)
-- `layout.tsx` - Shared layouts
+- `page.tsx` - Route endpoints, one per route
+- `components/*.tsx` - Section components (never loose next to `page.tsx`)
+- `tests/*.test.tsx` - Every test lives in a `tests/` subfolder of its feature
+- `*-columns.tsx` - Table column definitions
 - `PascalCase.tsx` - Component files
 - `kebab-case.ts` - Utility files
 
@@ -51,21 +55,13 @@ src/
 - `@/components` - UI components
 - `@/lib` - Utilities and configs
 - `@/hooks` - Custom hooks
-- `@/types` - Type definitions
 
-**Framework Differences**
-- **Vite**: `App.tsx` with React Router setup
-- **Next.js**: File-based routing with App Router
-- **Shared**: All UI components and styling
+**Settings Convention**
+`page.tsx` plus `components/*.tsx` (plus `data/*.json` when needed), as in `settings/billing`.
 
 ## Data Organization
 
-Demo data is co-located with pages:
-```text
-dashboard/
-├── page.tsx
-└── data.json
-```
+Fixture data is co-located with features (`src/fixtures/`, plus `data/*.json` beside pages that need them). Every fixture parses against `@getlib/schemas` (or local zod) at load time so drift fails fast in tests.
 
 ---
 

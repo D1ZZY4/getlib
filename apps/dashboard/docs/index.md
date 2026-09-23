@@ -1,8 +1,8 @@
 ---
 layout: home
 hero:
-  name: "Shadcn Dashboard + Landing Page Template"
-  tagline: "Beautiful admin dashboard & landing page template built with shadcn/ui v3 and Tailwind CSS v4."
+  name: "GetLib Dashboard"
+  tagline: "Version-aware developer knowledge platform: libraries, search with provenance, indexing jobs, and retrieval health."
   image:
     src: /hero.png
     alt: Dashboard Preview
@@ -17,41 +17,41 @@ hero:
       link: /components/
 
 features:
-  - icon: 🖥️
-    title: Admin Dashboard
-    details: Modern, feature-rich dashboard with 30+ pages including mail, tasks, chat, calendar apps and authentication flows
-  - icon: 🌐
-    title: Landing Page
-    details: Beautiful marketing landing page with hero, features, pricing, testimonials and complete business sections
-  - icon: ⚡
-    title: Dual Framework
-    details: Choose between Vite for lightning-fast development or Next.js 15 for production-ready SSR/SSG capabilities
-  - icon: 🎨
-    title: Live Theme Customizer
-    details: Real-time theme editing with tweakcn integration. Customize colors, layouts, and components instantly
+  - icon: 📚
+    title: Knowledge Libraries
+    details: Registered libraries with versions, sources, freshness, and indexing state
+  - icon: 🔍
+    title: Search with Provenance
+    details: Every result carries library, version, source, and freshness
+  - icon: ⚙️
+    title: Indexing Pipeline
+    details: Job queue with retries, progress, board and table views
+  - icon: 📊
+    title: Analytics & Logs
+    details: Search volume, source distribution, and system log stream
   - icon: 📱
     title: Responsive Design
-    details: Mobile-first design with container queries that works seamlessly across all devices and screen sizes
+    details: Mobile-first design with container queries across all devices
   - icon: 🚀
     title: Production Ready
-    details: Clean, optimized TypeScript code with shadcn/ui v3, Tailwind CSS v4, and modern development tools
+    details: Clean TypeScript code with shadcn/ui, Tailwind CSS v4, and modern tooling
 ---
 
 ## 🌟 Live Demos
 
 <div class="demo-links">
   <div class="demo-card">
-    <div class="demo-icon">🖥️</div>
-    <h3>Dashboard Demo</h3>
-    <p>Complete admin dashboard with mail, tasks, chat, calendar apps and 30+ pages including authentication and settings</p>
-    <a href="https://shadcnstore.com/templates/dashboard/shadcn-dashboard-landing-template" target="_blank" class="demo-button">View Dashboard</a>
+    <div class="demo-icon">📚</div>
+    <h3>Libraries</h3>
+    <p>Registered libraries with versions, indexing state, and freshness</p>
+    <a href="/guide/" class="demo-button">Explore Guide</a>
   </div>
-  
+
   <div class="demo-card">
-    <div class="demo-icon">🌐</div>
-    <h3>Landing Page Demo</h3>
-    <p>Beautiful marketing landing page with hero, features, pricing, testimonials and complete business sections</p>
-    <a href="https://shadcnstore.com/templates/landing/shadcn-dashboard-landing-template" target="_blank" class="demo-button">View Landing Page</a>
+    <div class="demo-icon">🔍</div>
+    <h3>Search</h3>
+    <p>Version-aware knowledge search where every result carries provenance</p>
+    <a href="/components/data-tables" class="demo-button">View Tables</a>
   </div>
 </div>
 

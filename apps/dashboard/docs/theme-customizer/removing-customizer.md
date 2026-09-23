@@ -1,13 +1,12 @@
 
 # Removing the Theme Customizer
 
-If you want a simpler template or don't need live theme editing, you can safely remove the theme customizer. Follow these steps for both Vite and Next.js versions:
+If you want a simpler dashboard or don't need live theme editing, you can safely remove the theme customizer. Follow these steps:
 
 ## 1. Remove the Customizer UI
 
-- Delete or comment out the `<ThemeCustomizer />` component from your layout/header/sidebar files.
-- Vite: `vite-version/src/components/layouts/base-layout.tsx`, `vite-version/src/components/site-header.tsx`
-- Next.js: `nextjs-version/src/components/layouts/base-layout.tsx`, `nextjs-version/src/components/site-header.tsx`
+- Delete or comment out the theme customizer usage from your layout/header/sidebar files.
+- Dashboard: `apps/dashboard/src/components/layouts/base-layout.tsx`, `apps/dashboard/src/components/site-header.tsx`
 
 ## 2. Remove Customizer Files
 
@@ -167,18 +166,15 @@ After removing the theme customizer, verify everything works:
 ### 1. Build Test
 
 ```bash
-# Test build in both versions
-cd vite-version && bun run build
-cd nextjs-version && bun run build
+# Test dashboard build
+bun run --cwd apps/dashboard build
 ```
 
 ### 2. Runtime Test
 
 ```bash
 # Start development server
-cd vite-version && bun run dev
-# or
-cd nextjs-version && bun run dev
+bun run --cwd apps/dashboard dev
 ```
 
 ### 3. Check for Errors

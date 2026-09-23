@@ -1,6 +1,6 @@
 # Component Library
 
-The Shadcn Dashboard + Landing Page Template includes a comprehensive component library built on **shadcn/ui v3** with **Radix UI primitives** and **Tailwind CSS v4**. This section covers all available components, their usage patterns, and customization options.
+The GetLib dashboard includes a comprehensive component library built on **shadcn/ui v3** with **Radix UI primitives** and **Tailwind CSS v4**. This section covers all available components, their usage patterns, and customization options.
 
 ## Overview
 

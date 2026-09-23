@@ -1,6 +1,6 @@
 # Vite Troubleshooting
 
-Common issues and solutions when working with the Vite version of Shadcn Dashboard + Landing Page Template.
+Common issues and solutions when working with the GetLib dashboard.
 
 ## Development Issues
 

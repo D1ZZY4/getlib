@@ -1,7 +1,7 @@
 
 # Theme Customizer
 
-The Shadcn Dashboard & Landing template includes a powerful, real-time theme customizer built with [tweakcn](https://github.com/silicondeck/tweakcn). It lets you preview and adjust colors, dark/light mode, and UI variables instantly—across both Vite and Next.js versions.
+The GetLib dashboard includes a powerful, real-time theme customizer built with [tweakcn](https://github.com/silicondeck/tweakcn). It lets you preview and adjust colors, dark/light mode, and UI variables instantly.
 
 ## Key Features
 
@@ -13,15 +13,13 @@ The Shadcn Dashboard & Landing template includes a powerful, real-time theme cus
 
 ## How It Works
 
-- The customizer is available from the dashboard sidebar and landing page header.
+- The customizer is available from the dashboard sidebar and header.
 - It uses Zustand for state, tweakcn for UI, and updates Tailwind CSS variables on the fly.
 - All theme changes are local (no backend required).
 
-## Usage in Vite & Next.js
+## Usage in the Dashboard
 
-- **Vite**: See `vite-version/src/components/theme-customizer/` and `vite-version/src/hooks/use-theme-manager.ts`.
-- **Next.js**: See `nextjs-version/src/components/theme-customizer/` and `nextjs-version/src/hooks/use-theme-manager.ts`.
-- Both versions use the same API and UI, with only minor differences in font loading and SSR handling.
+- See `apps/dashboard/src/components/theme-customizer/` and `apps/dashboard/src/hooks/use-theme-manager.ts`.
 
 ## Quick Start
 

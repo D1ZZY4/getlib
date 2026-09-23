@@ -1,27 +1,27 @@
-# Shadcn Dashboard + Landing Page Template Documentation
+# GetLib Dashboard Documentation
 
-This directory contains the complete documentation for the Shadcn Dashboard + Landing Page Template, built with VitePress for optimal performance and user experience.
+This directory contains the documentation for the GetLib knowledge platform dashboard, built with VitePress.
+
+GetLib is a self-hosted, version-aware developer knowledge platform. The dashboard lets developers explore libraries, documents, indexing jobs, and retrieval health with full provenance. The default data path is schema-conformant fixtures; the live Phase 3 Hono API is an opt-in switch.
 
 ## 📚 Documentation Structure
 
-The documentation is organized into framework-specific sections to provide targeted guidance:
+The documentation is organized into sections:
 
 ### 🏁 Getting Started
 - **[Overview](./index.md)** - Project introduction and features
 - **[Installation Guide](./guide/installation.md)** - Complete setup instructions
-- **[Framework Comparison](./guide/choosing-framework.md)** - Vite vs Next.js decision guide
 
 ### 🔧 Framework-Specific Guides
 - **[Vite Version](./vite/)** - React + Vite + React Router DOM
 
 ### 🎨 Component System
-- **[Component Library](./components/)** - shadcn/ui v3 integration
+- **[Component Library](./components/)** - shadcn/ui integration
 - **[Theme Customizer](./theme-customizer/)** - Real-time theme editing
 
 ### 🚀 Advanced Topics
 - **[Build & Deploy](./vite/build-deploy.md)** - Production deployment guides
 - **[Theme System](./guide/theme-system.md)** - Styling and customization
-- **[Choosing Framework](./guide/choosing-framework.md)** - Framework comparison and migration guidance
 
 ## 🛠️ Development
 

@@ -1,6 +1,6 @@
 # Vite Version Guide
 
-The Vite version of the Shadcn Dashboard + Landing Page Template provides a lightning-fast development experience with React + TypeScript, React Router DOM, and modern build tooling. This guide covers everything you need to know about working with the Vite implementation.
+The GetLib dashboard (Vite + React) provides a lightning-fast development experience with React + TypeScript, React Router DOM, and modern build tooling. This guide covers everything you need to know about working with the Vite implementation.
 
 ## Overview
 
@@ -40,34 +40,37 @@ The Vite version is optimized for:
 ## Project Structure
 
 ```
-vite-version/
+apps/dashboard/
 ├── src/
-│   ├── App.tsx                 # Main application component
+│   ├── App.tsx                # Main application component
 │   ├── main.tsx               # Application entry point
 │   ├── index.css              # Global styles and Tailwind imports
-│   ├── app/                   # Demo pages organized by feature
-│   │   ├── (dashboard)/       # Dashboard pages group
-│   │   ├── (auth)/           # Authentication pages
-│   │   ├── landing/          # Landing page
-│   │   ├── mail/             # Email application
-│   │   ├── tasks/            # Task management
-│   │   ├── chat/             # Chat application
-│   │   ├── calendar/         # Calendar application
-│   │   ├── settings/         # Settings pages
-│   │   └── errors/           # Error pages
-│   ├── components/           # Reusable components
-│   │   ├── ui/               # shadcn/ui components
-│   │   ├── layouts/          # Layout components
-│   │   ├── router/           # Router utilities
-│   │   └── theme-customizer/ # Theme customization
-│   ├── hooks/                # Custom React hooks
-│   ├── lib/                  # Utilities and configurations
-│   ├── types/                # TypeScript type definitions
-│   └── utils/                # Helper functions
-├── public/                   # Static assets
+│   ├── app/                   # Feature pages by domain
+│   │   ├── overview/          # GetLib overview
+│   │   ├── analytics/         # Analytics page
+│   │   ├── libraries/         # Libraries, add, detail, edit
+│   │   ├── search/            # Search with provenance
+│   │   ├── indexing/          # Job board and table
+│   │   ├── logs/              # Log stream
+│   │   ├── tasks/             # Task management
+│   │   ├── users/             # Users table
+│   │   ├── settings/          # Settings pages
+│   │   ├── auth/              # Authentication pages
+│   │   └── errors/            # Error pages
+│   ├── components/            # Reusable components
+│   │   ├── data-table/        # Shared table primitives
+│   │   ├── ui/                # shadcn/ui components
+│   │   ├── layouts/           # Layout components
+│   │   ├── router/            # Router utilities
+│   │   └── theme-customizer/  # Theme customization
+│   ├── hooks/                 # Server-state + UI hooks
+│   ├── lib/                   # api-client, query-client, appearance, fixtures helpers
+│   ├── fixtures/              # Zod-validated corpus
+│   ├── types/                 # TypeScript type definitions
+│   └── utils/                 # Helper functions
+├── public/                    # Static assets
 ├── index.html               # HTML template
 ├── vite.config.ts           # Vite configuration
-├── tailwind.config.ts       # Tailwind CSS configuration
 ├── tsconfig.json            # TypeScript configuration
 └── components.json          # shadcn/ui configuration
 ```
@@ -272,7 +275,7 @@ In `index.html`:
       rel="stylesheet"
     />
     
-    <title>Shadcn Dashboard + Landing Page Template</title>
+    <title>GetLib dashboard</title>
   </head>
   <body class="font-sans antialiased">
     <div id="root"></div>

@@ -30,23 +30,17 @@ Get help with the Shadcn Dashboard template.
 ## Community Support
 
 ### GitHub
-- **[Issues](https://github.com/silicondeck/shadcn-dashboard-template/issues)** - Bug reports
-- **[Discussions](https://github.com/silicondeck/shadcn-dashboard-template/discussions)** - Questions
-- **[Wiki](https://github.com/silicondeck/shadcn-dashboard-template/wiki)** - Guides
+- **[Issues](https://github.com/D1ZZY4/getlib/issues)** - Bug reports
+- **[Discussions](https://github.com/D1ZZY4/getlib/discussions)** - Questions
+- **[Wiki](https://github.com/D1ZZY4/getlib/wiki)** - Guides
 
-### Discord
-Join our community for real-time help:
-- [Discord Server](https://discord.com/invite/XEQhPc9a6p) (if available)
-
-### Social Media
-- **Twitter**: [@ShadcnStore](https://twitter.com/shadcnstore)
-- **LinkedIn**: [SiliconDeck](https://linkedin.com/company/silicondeck)
+### Community Channels
+- **[GitHub Issues](https://github.com/D1ZZY4/getlib/issues)** - Bug reports
+- **[GitHub Discussions](https://github.com/D1ZZY4/getlib/discussions)** - Questions and ideas
 
 ## Commercial Support
 
-For priority support and custom development:
-- **Email**: [support@shadcnstore.com](mailto:support@shadcnstore.com)
-- **Custom Development** - Tailored solutions
+This project currently has no commercial support channel. For bugs and feature requests, please use GitHub issues.
 - **Priority Bug Fixes** - Fast-track issue resolution
 - **Training & Consultation** - Team onboarding
 
@@ -62,7 +56,7 @@ When reporting bugs, include:
 ## Feature Requests
 
 Suggest new features via:
-- [GitHub Discussions](https://github.com/silicondeck/shadcn-dashboard-template/discussions)
+- [GitHub Discussions](https://github.com/D1ZZY4/getlib/discussions)
 - Community voting on priorities
 - Detailed use case descriptions
 
@@ -171,74 +165,29 @@ A:
 
 ## Professional Support
 
-### ShadcnStore Premium Support
-
-For enterprise customers and complex implementations:
-
-**Premium Support Includes:**
-- Priority email support
-- Video consultation sessions
-- Custom component development
-- Advanced integration assistance
-- Performance optimization help
-
-**Contact Options:**
-- Email: [support@shadcnstore.com](mailto:support@shadcnstore.com)
-- Enterprise: [enterprise@shadcnstore.com](mailto:enterprise@shadcnstore.com)
-
-### Consulting Services
-
-**Available Services:**
-- Custom dashboard development
-- Component library creation
-- Performance optimization
-- Migration assistance
-- Training and workshops
-
-**Get a Quote:**
-Contact us at [consulting@shadcnstore.com](mailto:consulting@shadcnstore.com) with your project requirements.
+There is currently no premium support or consulting offering for GetLib. For enterprise needs, please open a GitHub discussion describing your requirements.
 
 ## Learning Resources
 
-### Video Tutorials
+### Guides in This Site
 
-**YouTube Channel**
-Subscribe to our channel for video tutorials:
-- Setup and installation guides
-- Component customization tutorials
-- Advanced theming techniques
-- Real-world implementation examples
+- Setup and installation: [Installation](/guide/installation)
+- Component customization: [Components](/components/)
+- Advanced theming: [Theme Customizer](/theme-customizer/)
+- Real-world surfaces: [Features](/guide/features)
 
-[ShadcnStore YouTube](https://youtube.com/@shadcnstore)
+### Example Surfaces
 
-### Blog Articles
-
-**Technical Blog**
-Read in-depth articles about:
-- Dashboard design patterns
-- React component best practices
-- Performance optimization techniques
-- Modern UI/UX trends
-
-[ShadcnStore Blog](https://shadcnstore.com/blog)
-
-### Example Projects
-
-**Demo Applications**
-Explore real-world implementations:
-- E-commerce dashboards
-- SaaS application interfaces
-- Content management systems
-- Analytics dashboards
-
-[View Examples](https://shadcnstore.com/examples)
+Explore the implemented surfaces in the dashboard:
+- Knowledge libraries and search with provenance
+- Indexing pipeline and system logs
+- Analytics and settings
 
 ## Contributing to Support
 
 ### Help the Community
 
 **Share Knowledge**
-- Answer questions in Discord
 - Contribute to GitHub discussions
 - Write tutorials and guides
 - Share your implementations
@@ -252,47 +201,26 @@ Explore real-world implementations:
 ### Become a Community Moderator
 
 Help us maintain a helpful and welcoming community:
-- Moderate Discord channels
 - Review and answer questions
 - Help newcomers get started
 - Organize community events
 
-Contact [community@shadcnstore.com](mailto:community@shadcnstore.com) if interested.
+Open a GitHub discussion if interested.
 
 ## Contact Information
 
 ### Direct Contact
 
-**General Inquiries**
-[hello@shadcnstore.com](mailto:hello@shadcnstore.com)
+For all inquiries, including security issues, please use GitHub:
 
-**Technical Support**
-[support@shadcnstore.com](mailto:support@shadcnstore.com)
-
-**Business Inquiries**
-[business@shadcnstore.com](mailto:business@shadcnstore.com)
-
-**Security Issues**
-[security@shadcnstore.com](mailto:security@shadcnstore.com)
-
-### Social Media
-
-**Stay Connected**
-- Twitter: [@shadcnstore](https://twitter.com/shadcnstore)
-- LinkedIn: [ShadcnStore](https://linkedin.com/company/shadcnstore)
-- GitHub: [silicondeck](https://github.com/silicondeck)
+- **[GitHub Issues](https://github.com/D1ZZY4/getlib/issues)** - Bugs and security reports
+- **[GitHub Discussions](https://github.com/D1ZZY4/getlib/discussions)** - Questions and ideas
+- **GitHub**: [D1ZZY4](https://github.com/D1ZZY4)
 
 ### Response Times
 
 **Community Support**
-- Discord: Usually within hours
 - GitHub: 1-3 business days
-- Email: 2-5 business days
-
-**Premium Support**
-- Email: Within 24 hours
-- Video calls: Within 48 hours
-- Enterprise: Same business day
 
 ## Feedback
 
@@ -301,12 +229,11 @@ Contact [community@shadcnstore.com](mailto:community@shadcnstore.com) if interes
 **Documentation Feedback**
 Found something unclear or missing? Let us know:
 - Create GitHub issues for documentation problems
-- Suggest improvements in Discord
-- Email feedback to [docs@shadcnstore.com](mailto:docs@shadcnstore.com)
+- Suggest improvements in discussions
 
 **Product Feedback**
-Help us make the template better:
-- Rate the template on GitHub
+Help us make the dashboard better:
+- Star the repo on GitHub
 - Share success stories
 - Suggest new features
 - Report usability issues
@@ -341,4 +268,4 @@ Share your project in Discord or tag us on social media!
 
 ---
 
-**Need help?** Don't hesitate to reach out. Our community and team are here to help you succeed with the Shadcn Dashboard + Landing Page Template!
+**Need help?** Don't hesitate to reach out. Our community and team are here to help you succeed with the GetLib dashboard!
