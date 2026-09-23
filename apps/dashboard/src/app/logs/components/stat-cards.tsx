@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { AlertTriangle, Bug, CircleAlert, ScrollText, type LucideIcon } from "lucide-react"
+import {AlertTriangle, Bug, CircleAlert, ScrollText, type LucideIcon} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { cn } from '@/lib/utils'
+
 
 export interface LogStats {
   total: number
@@ -54,10 +55,11 @@ export function StatCards({ stats }: { stats: LogStats }) {
       footer: 'Diagnostic traces',
     },
   ]
+
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {tiles.map((tile) => (
-        <Card key={tile.title} className='border'>
+      {tiles.map((tile, index) => (
+        <Card key={index} className='border'>
           <CardContent className='space-y-4'>
             <div className='flex items-center justify-between'>
               <tile.icon className='text-muted-foreground size-6' />

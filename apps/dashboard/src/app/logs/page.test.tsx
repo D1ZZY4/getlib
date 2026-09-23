@@ -30,7 +30,7 @@ describe("Logs page", () => {
   it("filters by level through the table toolbar", async () => {
     const user = userEvent.setup();
     renderPage();
-    await user.click(screen.getByRole("combobox", { name: "Filter by level" }));
+    await user.click(screen.getByRole("combobox", { name: "Level" }));
     await user.click(screen.getByRole("option", { name: "Error" }));
     expect(screen.getByText("2 of 12 entries")).toBeInTheDocument();
     expect(
@@ -51,17 +51,16 @@ describe("Logs page", () => {
       screen.getByRole("textbox", { name: "Search logs" }),
       "zzz-no-match",
     );
-    expect(screen.getByText("No log entries match")).toBeInTheDocument();
+    expect(screen.getByText("No log entries match.")).toBeInTheDocument();
   });
 
-  it("filters by service through the table toolbar", async () => {
+  it("filters by service and pages the table", async () => {
     const user = userEvent.setup();
     renderPage();
-    await user.click(
-      screen.getByRole("combobox", { name: "Filter by service" }),
-    );
+    await user.click(screen.getByRole("combobox", { name: "Service" }));
     const listbox = await screen.findByRole("listbox");
     await user.click(within(listbox).getByRole("option", { name: "mcp" }));
     expect(screen.getByText("2 of 12 entries")).toBeInTheDocument();
+    expect(screen.getByText("Page")).toBeInTheDocument();
   });
 });
